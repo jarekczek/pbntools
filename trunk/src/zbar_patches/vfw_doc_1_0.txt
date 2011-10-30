@@ -1,0 +1,29 @@
+diff --git a/doc/ref/zbarcam.xml b/doc/ref/zbarcam.xml
+--- a/doc/ref/zbarcam.xml
++++ b/doc/ref/zbarcam.xml
+@@ -127,6 +127,25 @@
+         </listitem>
+       </varlistentry>
+ 
++      <varlistentry>
++        <term><option>--no-probe</option></term>
++        <listitem>
++          <simpara>VfW (Video for Windows) only flag.
++          Instead of probing all known formats,
++          the current format is used. Speeds up processor startup.
++          </simpara>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>--vfw-dlg-all, --vfw-dlg-source, --vfw-dlg-format, --vfw-dlg-display</option></term>
++        <listitem>
++          <simpara>Enable VfW dialogs, providing graphical interface
++          for camera configuration.
++          </simpara>
++        </listitem>
++      </varlistentry>
++        
+     </variablelist>
+   </refsection>
+ 

@@ -1,0 +1,35 @@
+diff --git a/zbar/video/vfw.c b/zbar/video/vfw.c
+--- a/zbar/video/vfw.c
++++ b/zbar/video/vfw.c
+@@ -356,11 +356,29 @@
+ 
+ static int vfw_cleanup (zbar_video_t *vdo)
+ {
++    BOOL callback_error_ok, driver_disc_ok;
+     /* close open device */
+     video_state_t *state = vdo->state;
+     /* NB this has to go here so the thread can pump messages during cleanup */
+-    capDriverDisconnect(state->hwnd);
+-    DestroyWindow(state->hwnd);
++
++    // when we get here video_lock is active
++    // it disables message loop of the vfw_capture_thread
++    // so we must release it for a moment
++    // FIXME trylock would be good to confirm lock state
++    _zbar_mutex_unlock(&vdo->qlock);
++    zprintf(8, "releasing callbacks and video capture driver...\n");
++    while (!capSetCallbackOnVideoStream(state->hwnd, NULL))
++        Sleep(50);
++    callback_error_ok = capSetCallbackOnError(state->hwnd, NULL);
++    driver_disc_ok = capDriverDisconnect(state->hwnd);
++    // DestroyWindow cannot be used to destroy other thread's window
++    // default window proc would do it on our behalf on WM_CLOSE
++    zprintf(6, "resources released: callbacks: %s, driver: %s)\n",
++              callback_error_ok ? "ok" : "not ok",
++              driver_disc_ok ? "ok" : "not ok");
++    SendMessage(state->hwnd, WM_CLOSE, 0, 0);
++    _zbar_mutex_lock(&vdo->qlock);
++
+     state->hwnd = NULL;
+     _zbar_thread_stop(&state->thread, &vdo->qlock);
+ 
