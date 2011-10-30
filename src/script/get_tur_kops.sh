@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "sciezki:$PATH"
-
 function trapTerm() {
   # kill wget if we get killed
   # java uses TERM for Process.destroy()
