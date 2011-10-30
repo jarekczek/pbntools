@@ -329,7 +329,7 @@ public class Rozdanie {
   public void rozdaj() {
     String sZbarcam = PbnTools.m_sBinDir + f.sDirSep + "zbarcam";
     String sOpts = PbnTools.m_props.getProperty("zbarcamOpts");
-    sOpts = "-q --nodisplay -Spcard.enable " + sOpts;
+    sOpts = "-q --nodisplay --no-probe -Spcard.enable " + sOpts;
     if (PbnTools.bLinux) {
       RunProcess.runCmd(null, sZbarcam + " " + sOpts, new FiltrTekstuRozd());
       }
