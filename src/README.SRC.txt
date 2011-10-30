@@ -4,6 +4,11 @@ Official language for source variables, comments and stuff is English.
 Due to historical reasons some of them are still in Polish, but all new code
 should use English.
 
+Hungarian notation should be used. Simple type variables prefixed by
+their type letter (e.g. n for integer, s for string). 
+Object variables do not require this prefix. Additionally
+member variables are prefixed with m_, e.g. m_sPath.
+
 Usually following tab settings are adviced: :tabSize=2:noTabs=true:
 
 In some old files there may be found incorrect indentation like:
