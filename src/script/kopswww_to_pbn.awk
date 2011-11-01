@@ -41,8 +41,10 @@ sRegRozdawal {
     if (match(s, "<")) nPoz2 = RSTART
     if (nPoz1 && nPoz2) {
       if (sKolor=="S") sSide += 1
-      asKarty[sSide,sKolor] = substr(s, nPoz1, nPoz2-nPoz1)
-      #print sSide, sKolor, asKarty[sSide,sKolor]
+      sKarty = substr(s, nPoz1, nPoz2-nPoz1)
+      gsub("10", "T", sKarty)
+      asKarty[sSide,sKolor] = sKarty
+      # print sSide, sKolor, asKarty[sSide,sKolor]
       }
     s = substr(s, nPoz2)
     }
