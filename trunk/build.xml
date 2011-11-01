@@ -5,6 +5,7 @@
 <!-- //{{{ global initialization -->
 <property file="local.properties" />
 <property environment="env" />
+<!-- PbnTools.properties contains: wersja, wersja_podkr -->
 <property file="${basedir}/src/jc/pbntools/PbnTools.properties"/>
 
 <!--these properties will be often overriden through local.properties file-->
@@ -382,6 +383,10 @@
 </target>
 
 <target name="doc">
+  <echo output="doc/autoDefs.tex">
+    \newcommand{\version}{${wersja}}
+    \newcommand{\versionUnd}[1]{${wersja_podkr_latex}#1}
+  </echo>
   <antcall target="doc-for-suffix"><param name="suffix" value="pl"/></antcall>
   <antcall target="doc-for-suffix"><param name="suffix" value="en"/></antcall>
 </target>
@@ -395,12 +400,15 @@
 
 <target name="doc-for-suffix-2" unless="docUpToDate">
   <fail message="suffix not set"><condition><not><isset property="suffix"/></not></condition></fail>
+  <copy todir="${tmp}" file="doc/autoDefs.tex" />
   <exec executable="latex" failonerror="true">
     <arg line="-output-format=pdf -output-directory=${tmp} doc/help_${suffix}.tex"/>
   </exec>
   <property name="latex2htmlOpts" value="-dir ${tmp} -split 0 -nonavigation -address &quot;&quot; -noinfo -show_section_numbers" />
-  <copy todir="${basedir}/doc"><fileset dir="${tmp}" includes="help_${suffix}.aux"/></copy>
-  <exec executable="latex2html" failonerror="true"><arg line="${latex2htmlOpts} -html_version 4.0,latin2,unicode doc/help_${suffix}.tex"/></exec>
+  <copy todir="${basedir}/doc"><fileset dir="${tmp}" includes="help_${suffix}.aux autoDefs.aux"/></copy>
+  <exec executable="latex2html" failonerror="true" dir="doc" >
+    <arg line="${latex2htmlOpts} -html_version 4.0,latin2,unicode help_${suffix}.tex"/>
+  </exec>
 
   <!-- there's a latex error in http:// parsing, slashes are gone, correcting with sed -->
   <exec executable="sed" >
