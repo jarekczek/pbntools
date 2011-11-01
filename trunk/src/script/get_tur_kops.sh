@@ -124,7 +124,9 @@ echo '<a href="'${sNazwaTur}'_wyn.pbn">pbn</a>' >> $sOutDir/index.html
 
 if [[ $bDownLoad > 0 ]]; then
 #  while [[ a ]]; do a=1; done
-  "$wget" -P $sOutDir --page-requisites --no-directories --wait=1 --level=1 --recursive --convert-links $link 2>&1 &
+  cmd="$wget -P $sOutDir --page-requisites --no-directories --wait=1 -e robots=off --level=1 --recursive --convert-links $link 2>&1 &"
+  echo $cmd
+  eval $cmd
   wgetPid=$!
   wait % ||
   { err=$?; echo "error code: $err"; exit $?; }
