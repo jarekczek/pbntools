@@ -439,6 +439,13 @@
 <!--    <java classpath="${compDir}" classname="jc.pbntools.DlgPbn" ><arg value="/jarek/www/jarek/brydz/test/KM0420_wyn.pbn"/> </java>-->
 </target>
 
+<target name="test-www-linux">
+  <delete quiet="true"><fileset dir="${tmp}" includes="PbnTools_*_linux*.zip*" /></delete>
+  <exec executable="wget" dir="${tmp}"><arg line="http://jarek.katowice.pl/jcwww/pbntools/PbnTools_${wersja_podkr}_linux.zip"/></exec>
+  <exec executable="7z" dir="${tmp}"><arg line="x PbnTools_${wersja_podkr}_linux.zip -opbntools-www"/></exec>
+  <exec executable="${tmp}/pbntools-www/pbntools"/>
+</target>
+
 <!-- //}}} -->
 
 </project>
