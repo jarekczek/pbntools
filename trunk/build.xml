@@ -394,13 +394,15 @@
 <target name="doc-for-suffix">
   <echo>doc ${suffix}</echo>
   <fail message="suffix not set"><condition><not><isset property="suffix"/></not></condition></fail>
-  <uptodate property="docUpToDate" srcfile="doc/help_${suffix}.tex" targetfile="doc/help_${suffix}.html" />
+  <uptodate property="docUpToDate" targetfile="doc/help_${suffix}.html" >
+    <srcfiles dir="doc" includes="help_${suffix}.tex help_common.tex" />
+  </uptodate>
   <antcall target="doc-for-suffix-2" />
 </target>
 
 <target name="doc-for-suffix-2" unless="docUpToDate">
   <fail message="suffix not set"><condition><not><isset property="suffix"/></not></condition></fail>
-  <copy todir="${tmp}" file="doc/autoDefs.tex" />
+  <copy todir="${tmp}"><fileset dir="doc" includes="autoDefs.tex help_common.tex" /></copy>
   <exec executable="latex" failonerror="true">
     <arg line="-output-format=pdf -output-directory=${tmp} doc/help_${suffix}.tex"/>
   </exec>
