@@ -323,6 +323,7 @@
                                     PbnTools_${ftpVersion}_src.zip" />
     <fileset dir="${basedir}/lib/zbar/" includes="*.tgz" />
   </ftp>
+  <echo>upload files to sourceforge manually</echo>
 </target>
 <!-- //}}} -->
 
