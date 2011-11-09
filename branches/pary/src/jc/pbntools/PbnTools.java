@@ -78,8 +78,12 @@ public class PbnTools {
       String sBash = sMsysBin + m_sSlash + "bash";
       rv = RunProcess.runCmd((JDialog)m_dlgMain, sBash, asArgs, m_sScriptDir, asPaths);
       }
-    }
+  }
   
+  static void pobierzPary(String sLink) {
+    javax.swing.JOptionPane.showMessageDialog(null, "Pary!");
+  }
+    
   static void pobierzBbo(String sLink) {
     if (sLink==null) { sLink = "owm"; }
     //RunProcess.runCmd((JDialog)m_dlgMain, "sh" + (bLinux ? "" : " --login") + " "+m_sCurDir+m_sSlash+"get_tur_bbo.sh " + sLink);

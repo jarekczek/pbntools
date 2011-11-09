@@ -121,7 +121,7 @@ public class DlgPobierzKops extends javax.swing.JDialog {
     private void pbOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbOkActionPerformed
       // TODO add your handling code here:
       m_sLink = ebLink.getText();
-      if (m_sLink.isEmpty()) { javax.swing.JOptionPane.showMessageDialog(null, "Link pusty"); return; }
+      if (m_sLink.isEmpty()) { javax.swing.JOptionPane.showMessageDialog(null, PbnTools.m_res.getString("error.emptyLink")); return; }
       PbnTools.m_props.setProperty("pobierzKops.link", ebLink.getText());
       rv = 2;
       dispose();
