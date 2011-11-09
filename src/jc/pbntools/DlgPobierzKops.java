@@ -66,7 +66,7 @@ public class DlgPobierzKops extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pobierz Kops");
 
-        jLabel1.setText("<html>Link do turnieju (oznaczony na PZBS jako <i>Wyniki</i>):");
+        jLabel1.setText(PbnTools.m_res.getString("kops.link"));
         ebLink.setText(PbnTools.m_props.getProperty("pobierzKops.link"));
         ebLink.selectAll();
 
