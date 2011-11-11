@@ -9,6 +9,7 @@
 <property file="${basedir}/src/jc/pbntools/PbnTools.properties"/>
 
 <!--these properties will be often overriden through local.properties file-->
+<!--but remember to use double backslashes under windows-->
 
 <condition property="bshJar" value="/usr/lib/jvm/bsf.jar:/usr/lib/jvm/commons-logging-1.1.1.jar:/q/instal/lang/java/bsh-2.0b4.jar" else="C:\lang\java\bsh-1.3.0.jar:C:\lang\java\bsf-2.4.0\lib\bsf.jar:C:\lang\java\commons-logging-1.1.1\commons-logging-1.1.1.jar"><os family="unix"/></condition>
 <condition property="tmp" value="/tmp" else="${env.TEMP}"><os family="unix"/></condition>
