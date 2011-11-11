@@ -21,6 +21,9 @@ package jc;
 
 import java.awt.Dialog;
 import java.awt.Window;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener; 
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -34,6 +37,11 @@ import jc.MyAction;
 
 public class OutputWindow extends JDialog {
   
+  protected JTextArea m_ebOut;
+  protected StringBuffer m_sb;
+  protected OutputWindowThread m_thr;
+  protected boolean m_bClosed;
+  
   protected ResourceBundle m_res;
 
   /** Default constructor is disabled. Use <code>create</code>
@@ -45,6 +53,9 @@ public class OutputWindow extends JDialog {
   {
     super(parent, false);
     m_res = res;
+    m_sb = new StringBuffer();
+    m_bClosed = false;
+    addWindowListener(new WindowListener());
 
     // standard dialog startup code
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -55,13 +66,19 @@ public class OutputWindow extends JDialog {
     
     JButton pbClose = new JButton();
     pbClose.setAction(new CloseAction("close"));
+    
+    m_ebOut = new javax.swing.JTextArea();
+    m_ebOut.setColumns(80);
+    m_ebOut.setRows(25);
 
     lay.setVerticalGroup(
       lay.createSequentialGroup()
+        .addComponent(m_ebOut)
         .addComponent(pbClose)
     );
     lay.setHorizontalGroup(
-      lay.createSequentialGroup()
+      lay.createParallelGroup()
+        .addComponent(m_ebOut)
         .addComponent(pbClose)
     );
     
@@ -76,11 +93,51 @@ public class OutputWindow extends JDialog {
     return ow;
   }
 
+  /** Show window and return to caller (not blocking) */
+  public void showWindow()
+  {
+    m_thr = new OutputWindowThread();
+    m_thr.start();
+  }
+  
+  /** Dispose dialog */
+  public void close()
+  {
+    dispose();
+  }
+  
+  /** Adds a line of text */
+  public void addLine(String s)
+  {
+    m_sb.append(s);
+    m_sb.append('\n');
+    m_ebOut.setText(new String(m_sb));
+    m_ebOut.setCaretPosition(m_sb.length());
+  }
+  
   class CloseAction extends MyAction {
     CloseAction(String s) { super(s); }
     public void actionPerformed(java.awt.event.ActionEvent e) {
       dispose();
     }
   }
+ 
+  protected class WindowListener extends WindowAdapter
+  {
+    public void windowStateChanged(WindowEvent e)
+    {
+      f.out(e.toString());
+    }
+  }
   
+  protected class OutputWindowThread extends Thread 
+  {
+    public void run()
+    {
+      setName("output window");
+      f.out("thread started");
+      OutputWindow.this.setVisible(true);
+      f.out("thread finishing");
+    }
+  }
 }

@@ -85,7 +85,13 @@ public class PbnTools {
   static void pobierzPary(String sLink) {
     // javax.swing.JOptionPane.showMessageDialog(null, "Pary!");
     OutputWindow ow = OutputWindow.create(m_dlgMain, PbnTools.m_res);
-    ow.setVisible(true);
+    ow.showWindow();
+    for (int i=1; i<=50; i++) { ow.addLine(""+i); }
+    javax.swing.JOptionPane.showMessageDialog(null, "ready!");
+    f.out("will close");
+    ow.close();
+
+    // ow.setVisible(true);
   }
     
   static void pobierzBbo(String sLink) {
