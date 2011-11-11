@@ -92,7 +92,11 @@ public class PbnTools {
       for (String sSuf : asSuff) {
         String sRes = "res/pik_nieb_zol_"+sSuf+".png";
         InputStream is = PbnTools.class.getResourceAsStream(sRes);
-        ai.add(javax.imageio.ImageIO.read(is));
+        if (is == null) {
+          f.err("Brak pliku "+sRes);
+        } else {
+          ai.add(javax.imageio.ImageIO.read(is));
+        }
       }
     } catch (java.io.IOException e) {
       e.printStackTrace();
