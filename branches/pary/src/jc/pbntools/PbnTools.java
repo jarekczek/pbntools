@@ -23,6 +23,8 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import jc.f;
+import jc.OutputWindow;
+import jc.pbntools.*;
 
 public class PbnTools {
   static String m_sCurDir;
@@ -81,7 +83,9 @@ public class PbnTools {
   }
   
   static void pobierzPary(String sLink) {
-    javax.swing.JOptionPane.showMessageDialog(null, "Pary!");
+    // javax.swing.JOptionPane.showMessageDialog(null, "Pary!");
+    OutputWindow ow = OutputWindow.create(m_dlgMain, PbnTools.m_res);
+    ow.setVisible(true);
   }
     
   static void pobierzBbo(String sLink) {
