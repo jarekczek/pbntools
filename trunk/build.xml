@@ -22,7 +22,7 @@
 <fileset id="fs.src" dir="${basedir}" 
          includes="src/**/*.java build.xml doc/*.tex src/**/*.sh test/*.sh src/pbntools
                    src/README.SRC.txt src/script/*.awk src/**/*.properties
-                   src/zbar_patches/*"
+                   src/zbar_patches/* res/*"
          excludes="*.marks"/>
 
 <zipfileset id="fs.release.common.1" dir="${basedir}/doc" includes="help_*.html zbarcam.html" />
