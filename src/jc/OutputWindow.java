@@ -38,24 +38,25 @@ import jc.MyAction;
 public class OutputWindow extends JDialog {
   
   protected JTextArea m_ebOut;
+  protected CloseAction m_closeAction;
+  protected StopAction m_stopAction;
   protected StringBuffer m_sb;
-  protected OutputWindowThread m_thr;
-  protected boolean m_bClosed;
+  protected Client m_cli;
+  protected Thread m_thr;
+  protected boolean m_bStop;
   
   protected ResourceBundle m_res;
 
-  /** Default constructor is disabled. Use <code>create</code>
-      method to instantiate the object. 
-    */
-  private OutputWindow() {}
-  
-  protected OutputWindow(Dialog parent, ResourceBundle res)
+  public OutputWindow(Dialog parent, Client cli, ResourceBundle res)
   {
     super(parent, false);
     m_res = res;
     m_sb = new StringBuffer();
-    m_bClosed = false;
-    addWindowListener(new WindowListener());
+    m_bStop = false;
+    m_cli = cli;
+    m_cli.setOutputWindow(this);
+    m_thr = new Thread(m_cli);
+    m_thr.setName("OutputWindow-client");
 
     // standard dialog startup code
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -65,45 +66,41 @@ public class OutputWindow extends JDialog {
     setLayout(lay);
     
     JButton pbClose = new JButton();
-    pbClose.setAction(new CloseAction("close"));
+    m_closeAction = new CloseAction("close"); 
+    pbClose.setAction(m_closeAction);
+    m_closeAction.setEnabled(false);
+    
+    JButton pbStop = new JButton();
+    m_stopAction = new StopAction("stop"); 
+    pbStop.setAction(m_stopAction);
+    m_stopAction.setEnabled(true);
     
     m_ebOut = new javax.swing.JTextArea();
     m_ebOut.setColumns(80);
     m_ebOut.setRows(25);
+    JScrollPane scrollPane = new javax.swing.JScrollPane();
+    scrollPane.setViewportView(m_ebOut);
 
     lay.setVerticalGroup(
       lay.createSequentialGroup()
-        .addComponent(m_ebOut)
-        .addComponent(pbClose)
+        .addComponent(scrollPane)
+        .addGroup(lay.createParallelGroup()
+          .addComponent(pbClose)
+          .addComponent(pbStop)
+        )
     );
     lay.setHorizontalGroup(
-      lay.createParallelGroup()
-        .addComponent(m_ebOut)
-        .addComponent(pbClose)
+      lay.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+        .addComponent(scrollPane)
+        .addGroup(lay.createSequentialGroup()
+          .addComponent(pbStop)
+          .addComponent(pbClose)
+        )
     );
     
     
     pack();
-  }
-  
-  /** Create a new <code>OutputWindow</code> instance. */
-  public static OutputWindow create(Dialog parent, ResourceBundle res)
-  {
-    OutputWindow ow = new OutputWindow(parent, res);
-    return ow;
-  }
-
-  /** Show window and return to caller (not blocking) */
-  public void showWindow()
-  {
-    m_thr = new OutputWindowThread();
     m_thr.start();
-  }
-  
-  /** Dispose dialog */
-  public void close()
-  {
-    dispose();
   }
   
   /** Adds a line of text */
@@ -115,6 +112,8 @@ public class OutputWindow extends JDialog {
     m_ebOut.setCaretPosition(m_sb.length());
   }
   
+  public boolean isStopped() { return m_bStop; }
+  
   class CloseAction extends MyAction {
     CloseAction(String s) { super(s); }
     public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -122,22 +121,22 @@ public class OutputWindow extends JDialog {
     }
   }
  
-  protected class WindowListener extends WindowAdapter
-  {
-    public void windowStateChanged(WindowEvent e)
-    {
-      f.out(e.toString());
+  class StopAction extends MyAction {
+    StopAction(String s) { super(s); }
+    public void actionPerformed(java.awt.event.ActionEvent e) {
+      m_bStop = true;
+      setEnabled(false);
     }
   }
-  
-  protected class OutputWindowThread extends Thread 
+ 
+  public static abstract class Client implements Runnable
   {
-    public void run()
-    {
-      setName("output window");
-      f.out("thread started");
-      OutputWindow.this.setVisible(true);
-      f.out("thread finishing");
-    }
+    public void setOutputWindow(OutputWindow ow) {};
+  }
+  
+  public void threadFinished()
+  {
+    m_closeAction.setEnabled(true);
+    m_stopAction.setEnabled(false);
   }
 }
