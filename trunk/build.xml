@@ -240,9 +240,16 @@
   <antcall target="zip-windows" />
 </target>
 
+<target name="checkFile">
+  <!--params needed: dir, lib-->
+  <property name="missingLibMsg" value="not in ${dir} directory. This file can be found in installed pbntools directory." />
+  <fail message="${lib} ${missingLibMsg}"><condition><not><available file="${dir}/${lib}" /></not></condition></fail>
+</target>
+
 <target name="checkLib">
-  <property name="missingLibMsg" value="not in lib directory. This file can be found in installed pbntools directory." />
-  <fail message="${lib} ${missingLibMsg}"><condition><not><available file="lib/${lib}" /></not></condition></fail>
+  <antcall target="checkFile">
+    <param name="dir" value="lib" />
+  </antcall>
 </target>
 
 <target name="release-noInc" depends="dontIncBuildnumer, release" />
@@ -252,6 +259,13 @@
   <antcall target="checkLib"><param name="lib" value="jlayer_LICENSE.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="jlayer_README.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="zbarcam" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="zbarcam.exe" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="zbar_LICENSE.txt" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="wget_COPYING.txt" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="msys" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="wget" /></antcall>
+  <antcall target="checkFile"><param name="lib" value="zbarcam.html" />
+                              <param name="dir" value="doc" /></antcall>
   <copy todir="${basedir}/work/release"><fileset dir="${basedir}/lib" includes="*.jar *.txt" /></copy>
   <copy todir="${basedir}/work/release"><fileset dir="${basedir}/doc" includes="*.html" /></copy>
   <copy todir="${basedir}/work/release/script"><fileset dir="${basedir}/src/script" /></copy>
