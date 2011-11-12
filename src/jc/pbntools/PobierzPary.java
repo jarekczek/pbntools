@@ -21,6 +21,10 @@ package jc.pbntools;
 
 import jc.f;
 import jc.OutputWindow;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class PobierzPary extends OutputWindow.Client
 {
@@ -42,11 +46,31 @@ public class PobierzPary extends OutputWindow.Client
   public void run()
   {
     m_ow.setTitle(f.extractTextAndMnem("pobierzPary")[0]);
-    for (int i=1; i<=30; i++) {
-      m_ow.addLine("hello " + i);
-      if (m_ow.isStopped()) { break; }
-      try {Thread.sleep(100);} catch(Exception e) {}
+    try {
+      Document doc;
+      try {
+        doc = Jsoup.connect(m_sLink).get();
+      }
+      catch (java.lang.IllegalArgumentException eUrl) {
+        m_ow.addLine(String.format(PbnTools.m_res.getString("error.invalidUrl"),
+                     m_sLink));
+        throw eUrl;
+      }
+      Elements tds = doc.select("td");
+      
+      for (Element td : tds) {
+        String tdText = td.text();
+        m_ow.addLine(tdText);
+      }
+  
+      for (int i=1; i<=3; i++) {
+        m_ow.addLine("hello " + i);
+        if (m_ow.isStopped()) { break; }
+        try {Thread.sleep(100);} catch(Exception e) {}
+      }
     }
+    catch (java.io.IOException e) { e.printStackTrace(); }
+    catch (Throwable e) { e.printStackTrace(); }
     m_ow.threadFinished();
   }
 }
