@@ -19,12 +19,14 @@
    *****************************************************************************
 */
 
+package jc;
+
 /** <code>JCException</code> class is used to easily find all exceptions
  *  that originate from my own code.
  */
 
 public class JCException extends Exception
 {
-  
+  public JCException(Throwable t) { super(t); }
 }
 
