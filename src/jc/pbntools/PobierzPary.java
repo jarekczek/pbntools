@@ -19,10 +19,10 @@
 
 package jc.pbntools;
 
-import java.net.URL;
-
 import jc.f;
+import jc.JCException;
 import jc.OutputWindow;
+import jc.SoupProxy;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -48,32 +48,17 @@ public class PobierzPary extends OutputWindow.Client
   /** verify whether link points to a valid data in this format */
   boolean verify() throws VerifyFailedException
   {
-    URL url;
-    try {
-      url = new URL(m_sLink);
-    }
-    catch (java.net.MalformedURLException eUrl) {
-      m_ow.addLine(String.format(PbnTools.m_res.getString("error.invalidUrl"),
-                   m_sLink));
-      throw new VerifyFailedException();
-    }
-    m_ow.addLine(url.toString());
-
     Document doc;
     try {
-      doc = Jsoup.connect(m_sLink).get();
+      doc = SoupProxy.getDocument(m_sLink);
     }
-    catch (java.lang.IllegalArgumentException eArg) {
-      m_ow.addLine(eArg.toString());
-      throw new VerifyFailedException();
-    }
-    catch (java.io.IOException eIO) {
-      m_ow.addLine(eIO.toString());
-      throw new VerifyFailedException();
+    catch (JCException e) {
+      throw new VerifyFailedException(e);
     }
     Elements tds = doc.select("td");
     
-    m_ow.addLine(doc.html());
+    m_ow.addLine(PbnTools.m_res.getString("msg.documentLoaded"));
+    // m_ow.addLine(doc.html());
     for (Element td : tds) {
       String tdText = td.text();
       // m_ow.addLine(tdText);
@@ -91,16 +76,26 @@ public class PobierzPary extends OutputWindow.Client
   public void run()
   {
     m_ow.setTitle(f.extractTextAndMnem("pobierzPary")[0]);
+    m_ow.addLine(String.format(PbnTools.m_res.getString("msg.connecting"),
+                        m_sLink));
     try {
       verify();
     }
     catch (VerifyFailedException e) { }
-    catch (Throwable e) { e.printStackTrace(); }
+    catch (Throwable e) {
+      e.printStackTrace();
+      m_ow.addLine(e.toString() + ": " + e.getMessage());
+    }
     m_ow.threadFinished();
   }
   
-  class VerifyFailedException extends Exception
+  class VerifyFailedException extends JCException
   {
+    VerifyFailedException(Throwable t)
+    {
+      super(t);
+      m_ow.addLine(t.getMessage());
+    }
   }
   
 }

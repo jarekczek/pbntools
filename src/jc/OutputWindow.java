@@ -103,13 +103,26 @@ public class OutputWindow extends JDialog {
     m_thr.start();
   }
   
+  /** updates output window with current m_sb content */
+  protected void update()
+  {
+    m_ebOut.setText(new String(m_sb));
+    m_ebOut.setCaretPosition(m_sb.length());
+  }
+
   /** Adds a line of text */
   public void addLine(String s)
   {
     m_sb.append(s);
     m_sb.append('\n');
-    m_ebOut.setText(new String(m_sb));
-    m_ebOut.setCaretPosition(m_sb.length());
+    update();
+  }
+  
+  /** Adds text without new line */
+  public void addText(String s)
+  {
+    m_sb.append(s);
+    update();
   }
   
   public boolean isStopped() { return m_bStop; }
