@@ -19,6 +19,8 @@
 
 package jc.pbntools;
 
+import java.net.URL;
+
 import jc.f;
 import jc.OutputWindow;
 import org.jsoup.Jsoup;
@@ -43,34 +45,62 @@ public class PobierzPary extends OutputWindow.Client
     m_ow = ow;
   }
   
+  /** verify whether link points to a valid data in this format */
+  boolean verify() throws VerifyFailedException
+  {
+    URL url;
+    try {
+      url = new URL(m_sLink);
+    }
+    catch (java.net.MalformedURLException eUrl) {
+      m_ow.addLine(String.format(PbnTools.m_res.getString("error.invalidUrl"),
+                   m_sLink));
+      throw new VerifyFailedException();
+    }
+    m_ow.addLine(url.toString());
+
+    Document doc;
+    try {
+      doc = Jsoup.connect(m_sLink).get();
+    }
+    catch (java.lang.IllegalArgumentException eArg) {
+      m_ow.addLine(eArg.toString());
+      throw new VerifyFailedException();
+    }
+    catch (java.io.IOException eIO) {
+      m_ow.addLine(eIO.toString());
+      throw new VerifyFailedException();
+    }
+    Elements tds = doc.select("td");
+    
+    m_ow.addLine(doc.html());
+    for (Element td : tds) {
+      String tdText = td.text();
+      // m_ow.addLine(tdText);
+    }
+
+    for (int i=1; i<=3; i++) {
+      m_ow.addLine("hello " + i);
+      if (m_ow.isStopped()) { break; }
+      try {Thread.sleep(100);} catch(Exception e) {}
+    }
+    return true;
+  }
+  
+  /** thread's main method */ 
   public void run()
   {
     m_ow.setTitle(f.extractTextAndMnem("pobierzPary")[0]);
     try {
-      Document doc;
-      try {
-        doc = Jsoup.connect(m_sLink).get();
-      }
-      catch (java.lang.IllegalArgumentException eUrl) {
-        m_ow.addLine(String.format(PbnTools.m_res.getString("error.invalidUrl"),
-                     m_sLink));
-        throw eUrl;
-      }
-      Elements tds = doc.select("td");
-      
-      for (Element td : tds) {
-        String tdText = td.text();
-        m_ow.addLine(tdText);
-      }
-  
-      for (int i=1; i<=3; i++) {
-        m_ow.addLine("hello " + i);
-        if (m_ow.isStopped()) { break; }
-        try {Thread.sleep(100);} catch(Exception e) {}
-      }
+      verify();
     }
-    catch (java.io.IOException e) { e.printStackTrace(); }
+    catch (VerifyFailedException e) { }
     catch (Throwable e) { e.printStackTrace(); }
     m_ow.threadFinished();
   }
+  
+  class VerifyFailedException extends Exception
+  {
+  }
+  
 }
