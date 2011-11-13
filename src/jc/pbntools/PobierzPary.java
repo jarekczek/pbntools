@@ -76,7 +76,7 @@ public class PobierzPary extends OutputWindow.Client
   public void run()
   {
     m_ow.setTitle(f.extractTextAndMnem("pobierzPary")[0]);
-    m_ow.addLine(String.format(PbnTools.m_res.getString("msg.connecting"),
+    m_ow.addLine(String.format(PbnTools.m_res.getString("tourDown.msg.fetching"),
                         m_sLink));
     try {
       verify();
