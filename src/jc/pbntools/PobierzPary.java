@@ -1,5 +1,7 @@
 /* *****************************************************************************
 
+    jedit options: :folding=explicit:tabSize=2:noTabs=true:
+
     Copyright (C) 2011 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
@@ -34,18 +36,18 @@ public class PobierzPary extends OutputWindow.Client
   protected String m_sLink;
   protected OutputWindow m_ow;
   
-  PobierzPary(String sLink)
+  PobierzPary(String sLink) //{{{
   {
     m_sLink = sLink;
     m_ow = null;
-  }
+  } //}}}
   
   public void setOutputWindow(OutputWindow ow)
   {
     m_ow = ow;
   }
   
-  /** verify whether link points to a valid data in this format */
+  /** verify whether link points to a valid data in this format */ //{{{
   boolean verify() throws VerifyFailedException
   {
     Document doc;
@@ -70,9 +72,9 @@ public class PobierzPary extends OutputWindow.Client
       try {Thread.sleep(100);} catch(Exception e) {}
     }
     return true;
-  }
+  } //}}}
   
-  /** thread's main method */ 
+  /** thread's main method */ //{{{
   public void run()
   {
     m_ow.setTitle(f.extractTextAndMnem("pobierzPary")[0]);
@@ -87,7 +89,7 @@ public class PobierzPary extends OutputWindow.Client
       m_ow.addLine(e.toString() + ": " + e.getMessage());
     }
     m_ow.threadFinished();
-  }
+  } //}}}
   
   class VerifyFailedException extends JCException
   {
