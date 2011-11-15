@@ -19,12 +19,15 @@
    *****************************************************************************
 */
 
-package jc.pbntools;
+package jc.pbntools.download;
+
+import java.net.URL;
 
 import jc.f;
 import jc.JCException;
 import jc.OutputWindow;
 import jc.SoupProxy;
+import jc.pbntools.PbnTools;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -33,34 +36,33 @@ import org.jsoup.select.Elements;
 public class ParyTourDownloader extends HtmlTourDownloader
 {
 
-  ParyTourDownloader(String sLink) //{{{
-  {
-    m_sLink = sLink;
-    m_ow = null;
-  } //}}}
-  
   public void setOutputWindow(OutputWindow ow)
   {
     m_ow = ow;
   }
   
-  /** verify whether link points to a valid data in this format */ //{{{
+  /** Verifies whether link points to a valid data in this format.
+    * Sets m_sTitle and m_sDirName members
+    */ //{{{
   public boolean verify() throws VerifyFailedException
   {
     Document doc;
+    URL url;
     try {
-      doc = SoupProxy.getDocument(m_sLink);
+      SoupProxy proxy = new SoupProxy();
+      doc = proxy.getDocument(m_sLink);
+      url = proxy.getUrl();
     }
     catch (JCException e) {
       throw new VerifyFailedException(e);
     }
-    Elements tds = doc.select("td");
+    Elements tds = doc.head().select("meta[name=GENERATOR]");
     
     m_ow.addLine(PbnTools.m_res.getString("msg.documentLoaded"));
     // m_ow.addLine(doc.html());
     for (Element td : tds) {
-      String tdText = td.text();
-      // m_ow.addLine(tdText);
+      String tdText = td.attr("name") + ":" + td.attr("content");
+      m_ow.addLine(tdText);
     }
 
     for (int i=1; i<=3; i++) {

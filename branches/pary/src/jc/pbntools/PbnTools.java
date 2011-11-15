@@ -25,6 +25,7 @@ import javax.swing.*;
 import jc.f;
 import jc.OutputWindow;
 import jc.pbntools.*;
+import jc.pbntools.download.*;
 
 public class PbnTools {
   static String m_sCurDir;
@@ -83,7 +84,7 @@ public class PbnTools {
   }
   
   static void pobierzPary(String sLink) {
-    OutputWindow ow =  new OutputWindow(m_dlgMain, new PobierzPary(sLink), m_res);
+    OutputWindow ow =  new OutputWindow(m_dlgMain, new TourDownloaderThread(sLink, new ParyTourDownloader()), m_res);
     ow.setVisible(true);
   }
     
