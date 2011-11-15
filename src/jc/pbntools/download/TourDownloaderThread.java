@@ -19,12 +19,13 @@
    *****************************************************************************
 */
 
-package jc.pbntools;
+package jc.pbntools.download;
 
 import jc.f;
 import jc.JCException;
 import jc.OutputWindow;
 import jc.SoupProxy;
+import jc.pbntools.PbnTools;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -37,16 +38,18 @@ public class TourDownloaderThread extends OutputWindow.Client
   protected OutputWindow m_ow;
   protected HtmlTourDownloader m_dloader;
   
-  TourDownloaderThread(String sLink, HtmlTourDownloader dloader) //{{{
+  public TourDownloaderThread(String sLink, HtmlTourDownloader dloader) //{{{
   {
     m_sLink = sLink;
     m_dloader = dloader;
+    m_dloader.setLink(m_sLink);
     m_ow = null;
   } //}}}
   
   public void setOutputWindow(OutputWindow ow)
   {
     m_ow = ow;
+    m_dloader.setOutputWindow(m_ow);
   }
   
   /** thread's main method */ //{{{

@@ -26,10 +26,16 @@ import jc.OutputWindow;
 abstract public class HtmlTourDownloader
 {
   protected String m_sLink;
+  public String m_sTitle;
+  public String m_sDirName;
   protected OutputWindow m_ow;
   
   /** set the window to which output messages will be directed */
   abstract public void setOutputWindow(OutputWindow ow);
+  
+  public void setLink(String sLink) {
+    m_sLink = sLink;
+  }
   
   /** verify whether link points to a valid data in this format */ //{{{
   abstract public boolean verify() throws VerifyFailedException;
