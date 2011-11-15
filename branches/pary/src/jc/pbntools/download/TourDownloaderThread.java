@@ -30,15 +30,17 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class PobierzPary extends OutputWindow.Client
+public class TourDownloaderThread extends OutputWindow.Client
 {
 
   protected String m_sLink;
   protected OutputWindow m_ow;
+  protected HtmlTourDownloader m_dloader;
   
-  PobierzPary(String sLink) //{{{
+  TourDownloaderThread(String sLink, HtmlTourDownloader dloader) //{{{
   {
     m_sLink = sLink;
+    m_dloader = dloader;
     m_ow = null;
   } //}}}
   
@@ -47,33 +49,6 @@ public class PobierzPary extends OutputWindow.Client
     m_ow = ow;
   }
   
-  /** verify whether link points to a valid data in this format */ //{{{
-  boolean verify() throws VerifyFailedException
-  {
-    Document doc;
-    try {
-      doc = SoupProxy.getDocument(m_sLink);
-    }
-    catch (JCException e) {
-      throw new VerifyFailedException(e);
-    }
-    Elements tds = doc.select("td");
-    
-    m_ow.addLine(PbnTools.m_res.getString("msg.documentLoaded"));
-    // m_ow.addLine(doc.html());
-    for (Element td : tds) {
-      String tdText = td.text();
-      // m_ow.addLine(tdText);
-    }
-
-    for (int i=1; i<=3; i++) {
-      m_ow.addLine("hello " + i);
-      if (m_ow.isStopped()) { break; }
-      try {Thread.sleep(100);} catch(Exception e) {}
-    }
-    return true;
-  } //}}}
-  
   /** thread's main method */ //{{{
   public void run()
   {
@@ -81,23 +56,14 @@ public class PobierzPary extends OutputWindow.Client
     m_ow.addLine(String.format(PbnTools.m_res.getString("tourDown.msg.fetching"),
                         m_sLink));
     try {
-      verify();
+      m_dloader.verify();
     }
-    catch (VerifyFailedException e) { }
+    catch (HtmlTourDownloader.VerifyFailedException e) { }
     catch (Throwable e) {
       e.printStackTrace();
       m_ow.addLine(e.toString() + ": " + e.getMessage());
     }
     m_ow.threadFinished();
   } //}}}
-  
-  class VerifyFailedException extends JCException
-  {
-    VerifyFailedException(Throwable t)
-    {
-      super(t);
-      m_ow.addLine(t.getMessage());
-    }
-  }
   
 }
