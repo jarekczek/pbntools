@@ -65,6 +65,8 @@ public class ParyTourDownloader extends HtmlTourDownloader
       m_ow.addLine(tdText);
     }
 
+    if (!checkGenerator(doc, "JFR 2005", false)) { return false; }
+    
     for (int i=1; i<=3; i++) {
       m_ow.addLine("hello " + i);
       if (m_ow.isStopped()) { break; }

@@ -20,8 +20,13 @@
 */
 
 package jc.pbntools.download;
+
 import jc.JCException;
 import jc.OutputWindow;
+import jc.pbntools.PbnTools;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 abstract public class HtmlTourDownloader
 {
@@ -37,16 +42,47 @@ abstract public class HtmlTourDownloader
     m_sLink = sLink;
   }
   
-  /** verify whether link points to a valid data in this format */ //{{{
+  boolean checkGenerator(Document doc, String sExpValue, boolean bSilent) {
+    Elements elems = doc.head().select("meta[name=GENERATOR]");
+    if (elems.size()==0) {
+      if (!bSilent) {
+        m_ow.addLine(PbnTools.getStr("error.tagNotFound", "<meta name=\"GENERATOR\""));
+        return false;
+      }
+    }
+    if (elems.size()>1) {
+      if (!bSilent) {
+        m_ow.addLine(PbnTools.getStr("error.onlyOneTagAllowed", "<meta name=\"GENERATOR\""));
+        return false;
+      }
+    }
+    String sFound = elems.get(0).attr("content");
+    if (sFound.isEmpty()) {
+      if (!bSilent) {
+        m_ow.addLine(PbnTools.getStr("error.tagNotFound", "<meta name=\"GENERATOR\" content="));
+        return false;
+      }
+    }
+    if (!sFound.equals(sExpValue)) {
+      if (!bSilent) {
+        m_ow.addLine(PbnTools.getStr("error.invalidTagValue", "<meta name=\"GENERATOR\" content=",
+                                     sExpValue, sFound));
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  /** verify whether link points to a valid data in this format */
   abstract public boolean verify() throws VerifyFailedException;
   
-  public class VerifyFailedException extends JCException
+  public class VerifyFailedException extends JCException //{{{
   {
     VerifyFailedException(Throwable t)
     {
       super(t);
       m_ow.addLine(t.getMessage());
     }
-  }
+  } //}}}
 
 }
