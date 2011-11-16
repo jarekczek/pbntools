@@ -58,6 +58,16 @@ public class PbnTools {
     //    JOptionPane.showMessageDialog(null, m_res.getString("test") + System.getProperties().getProperty("jarek.wersja"));
     }
 
+  public static String getStr(String sPropName)
+  {
+    return m_res.getString(sPropName);
+  }
+    
+  public static String getStr(String sPropName, Object... ao)
+  {
+    return java.text.MessageFormat.format(m_res.getString(sPropName), ao);
+  }
+    
   static void pobierzKops(String sLink) {
     int rv;
     String sWorkDir = PbnTools.m_props.getProperty("workDir");
