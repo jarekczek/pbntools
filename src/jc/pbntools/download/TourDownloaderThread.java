@@ -59,7 +59,8 @@ public class TourDownloaderThread extends OutputWindow.Client
     m_ow.addLine(String.format(PbnTools.m_res.getString("tourDown.msg.fetching"),
                         m_sLink));
     try {
-      m_dloader.verify();
+      m_dloader.verify(false);
+      m_dloader.fullDownload();
     }
     catch (HtmlTourDownloader.VerifyFailedException e) { }
     catch (Throwable e) {

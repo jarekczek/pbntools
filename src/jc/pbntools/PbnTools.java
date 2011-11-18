@@ -67,14 +67,21 @@ public class PbnTools {
   {
     return java.text.MessageFormat.format(m_res.getString(sPropName), ao);
   }
-    
-  static void pobierzKops(String sLink) {
-    int rv;
+
+  public static String getWorkDir()
+  {
     String sWorkDir = PbnTools.m_props.getProperty("workDir");
     if (sWorkDir==null || sWorkDir.length()==0) {
       f.msg(PbnTools.m_res.getString("error.noWorkDir"));
-      return;
+      return null;
     }
+    return sWorkDir;
+  }
+  
+  static void pobierzKops(String sLink) {
+    int rv;
+    String sWorkDir = getWorkDir();
+    if (sWorkDir==null) { return; }
     // msys needs converting all path separators from \ to /
     String sScript = (m_sScriptDir + m_sSlash + "get_tur_kops.sh").replaceAll("\\\\", "/");
     String asArgs[] = { "-c",
@@ -94,6 +101,7 @@ public class PbnTools {
   }
   
   static void pobierzPary(String sLink) {
+    if (getWorkDir()==null) { return; }
     OutputWindow ow =  new OutputWindow(m_dlgMain, new TourDownloaderThread(sLink, new ParyTourDownloader()), m_res);
     ow.setVisible(true);
   }

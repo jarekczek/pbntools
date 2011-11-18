@@ -44,7 +44,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
   /** Verifies whether link points to a valid data in this format.
     * Sets m_sTitle and m_sDirName members
     */ //{{{
-  public boolean verify() throws VerifyFailedException
+  public boolean verify(boolean bSilent) throws VerifyFailedException
   {
     Document doc;
     try {
@@ -65,15 +65,20 @@ public class ParyTourDownloader extends HtmlTourDownloader
       m_ow.addLine(tdText);
     }
 
-    if (!checkGenerator(doc, "JFR 2005", false)) { return false; }
+    if (!checkGenerator(doc, "JFR 2005", bSilent)) { return false; }
     getTitleAndDir();
-    
-    for (int i=1; i<=3; i++) {
-      m_ow.addLine("hello " + i);
-      if (m_ow.isStopped()) { break; }
-      try {Thread.sleep(100);} catch(Exception e) {}
-    }
+    if (!bSilent) { m_ow.addLine(PbnTools.getStr("msg.tourFound", m_sTitle)); }
     return true;
   } //}}}
-    
+
+  public boolean fullDownload()
+  {
+    if (!isDownloaded()) {
+      m_ow.addLine(PbnTools.getStr("tourDown.msg.willWget", m_sLocalDir));
+    } else {
+      m_ow.addLine(PbnTools.getStr("tourDown.msg.alreadyWgetted", m_sLocalDir));
+    }
+    return true;
+  }
+  
 }
