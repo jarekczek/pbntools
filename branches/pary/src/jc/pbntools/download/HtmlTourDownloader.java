@@ -21,6 +21,7 @@
 
 package jc.pbntools.download;
 
+import java.io.File;
 import java.net.URL;
 
 import jc.JCException;
@@ -36,6 +37,7 @@ abstract public class HtmlTourDownloader
   protected URL m_url;
   public String m_sTitle;
   public String m_sDirName;
+  public String m_sLocalDir;
   protected OutputWindow m_ow;
   protected Document m_doc;
   
@@ -95,8 +97,22 @@ abstract public class HtmlTourDownloader
     
   }
   
+  /** Checks whether the tournament is already downloaded. Sets the member
+    * <code>m_sLocalDir</code> */
+  protected boolean isDownloaded()
+  {
+    File fWork = new File(PbnTools.getWorkDir());
+    File fDir = new File(fWork, m_sDirName);
+    m_sLocalDir = fDir.getAbsolutePath();
+    try { m_sLocalDir = fDir.getCanonicalPath(); }
+    catch (Exception e) {}
+    return fDir.exists();
+  }
+  
   /** verify whether link points to a valid data in this format */
-  abstract public boolean verify() throws VerifyFailedException;
+  abstract public boolean verify(boolean bSilent) throws VerifyFailedException;
+  
+  abstract public boolean fullDownload();
   
   public class VerifyFailedException extends JCException //{{{
   {
@@ -107,4 +123,5 @@ abstract public class HtmlTourDownloader
     }
   } //}}}
 
+  
 }

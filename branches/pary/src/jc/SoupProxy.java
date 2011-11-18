@@ -82,9 +82,14 @@ public class SoupProxy
   public Document getDocument(String sUrl)
     throws SoupProxy.Exception
   {
+    Document doc;
     // check cache
-    Document doc = cacheGet(sUrl);
-    if (doc != null) { return doc; }
+    CacheElement elem = cacheGetElem(sUrl);
+    if (elem != null) {
+      m_url = elem.url;
+      doc = elem.doc;
+      return doc;
+    }
     
     try {
       m_url = new URL(sUrl);
@@ -98,7 +103,7 @@ public class SoupProxy
     } else {
       doc = getDocumentFromHttp(m_url);
     }
-    if (doc != null) { cachePut(sUrl, doc); }
+    if (doc != null) { cachePut(sUrl, m_url, doc); }
     return doc;
   }
   
@@ -112,10 +117,12 @@ public class SoupProxy
   {
     String sUrl;
     Document doc;
+    URL url;
     
-    public CacheElement(String sUrl, Document doc) {
+    public CacheElement(String sUrl, URL url, Document doc) {
       this.sUrl = sUrl;
       this.doc = doc;
+      this.url = url;
     }
   }
 
@@ -135,7 +142,7 @@ public class SoupProxy
     return elem==null ? null : elem.doc;
   }
   
-  protected static void cachePut(String sUrl, Document doc)
+  protected static void cachePut(String sUrl, URL url, Document doc)
   {
     // remove from cache if already in, to make it go to the end of the list
     CacheElement elem = cacheGetElem(sUrl);
@@ -149,7 +156,7 @@ public class SoupProxy
     }
     
     if (elem == null) {
-      elem = new CacheElement(sUrl, doc);
+      elem = new CacheElement(sUrl, url, doc);
     }
     m_cache.add(elem); 
   }
