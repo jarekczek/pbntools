@@ -83,19 +83,19 @@
 <!-- //}}} -->
 
 <!-- //{{{ run targets -->
-<target name="run" depends="comp,jar">
+<target name="run-prereq" depends="comp,jar">
   <copy todir="${runDir}">
     <fileset dir="${basedir}/lib" includes="*.jar" />
     <fileset dir="${basedir}/work/release" includes="PbnTools.jar" />
   </copy>  
-  <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=xx" /> </java>
-  <!--<java classpath="${compDir}" fork="true" classname="jc.pbntools.RunProcess" />-->
 </target>
 
-<target name="run-PL" depends="comp,jar">
-  <java jar="work/release/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=pl" /> </java>
-<!--    <java classpath="${compDir}" fork="true" classname="PbnTools" />-->
-<!--    <java classpath="${compDir}" fork="true" classname="jarekczek.pbn.Rozdaj" />-->
+<target name="run" depends="run-prereq">
+  <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=xx" /> </java>
+</target>
+
+<target name="run-PL" depends="run-prereq">
+  <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=pl" /> </java>
 </target>
 
 <target name="run-from-linux-release" depends="set-filenames">
