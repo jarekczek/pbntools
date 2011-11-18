@@ -38,11 +38,22 @@ public class SoupProxy
   protected static LinkedList<CacheElement> m_cache;
   protected final static int m_nCacheSize = 10;
   
+  protected URL m_url;
+  
   static {
     m_cache = new LinkedList<CacheElement>();
   }
 
-  public static Document getDocumentFromFile(String sFile)
+  public SoupProxy()
+  {
+    m_url = null;
+  }
+  
+  public URL getUrl() {
+    return m_url;
+  }
+  
+  public Document getDocumentFromFile(String sFile)
     throws SoupProxy.Exception
   {
     Document doc;
@@ -55,7 +66,7 @@ public class SoupProxy
     return doc;
   }
 
-  public static Document getDocumentFromHttp(URL url)
+  public Document getDocumentFromHttp(URL url)
     throws SoupProxy.Exception
   {
     Document doc = null;
@@ -68,25 +79,24 @@ public class SoupProxy
     return doc;
   }
 
-  public static Document getDocument(String sUrl)
+  public Document getDocument(String sUrl)
     throws SoupProxy.Exception
   {
     // check cache
     Document doc = cacheGet(sUrl);
     if (doc != null) { return doc; }
     
-    URL url;
     try {
-      url = new URL(sUrl);
+      m_url = new URL(sUrl);
     }
     catch (java.net.MalformedURLException eUrl) {
       throw new SoupProxy.Exception(eUrl);
     }
 
-    if (url.getProtocol().equals("file")) {
-      doc = getDocumentFromFile(url.getFile());
+    if (m_url.getProtocol().equals("file")) {
+      doc = getDocumentFromFile(m_url.getFile());
     } else {
-      doc = getDocumentFromHttp(url);
+      doc = getDocumentFromHttp(m_url);
     }
     if (doc != null) { cachePut(sUrl, doc); }
     return doc;

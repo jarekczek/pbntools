@@ -21,6 +21,8 @@
 
 package jc.pbntools.download;
 
+import java.net.URL;
+
 import jc.JCException;
 import jc.OutputWindow;
 import jc.pbntools.PbnTools;
@@ -31,9 +33,11 @@ import org.jsoup.select.Elements;
 abstract public class HtmlTourDownloader
 {
   protected String m_sLink;
+  protected URL m_url;
   public String m_sTitle;
   public String m_sDirName;
   protected OutputWindow m_ow;
+  protected Document m_doc;
   
   /** set the window to which output messages will be directed */
   abstract public void setOutputWindow(OutputWindow ow);
@@ -71,6 +75,24 @@ abstract public class HtmlTourDownloader
       }
     }
     return true;
+  }
+  
+  /** Gather title and dirname in a standard way. To be called from subclass. */
+  protected void getTitleAndDir()
+  {
+    m_sTitle=""; m_sDirName="";
+    Elements elems = m_doc.head().select("title");
+    if (elems.size()>0) { m_sTitle = elems.get(0).text(); }
+    m_ow.addLine(m_sTitle);
+    String sPath = m_url.getPath();
+    String sLast = sPath.replaceFirst("^.*/", "");
+    if (sLast.indexOf('.')>=0) {
+      m_sDirName = sPath.replaceFirst("^.*/([^/]+)/[^/]*$", "$1");
+    } else {
+      m_sDirName = sLast;
+    }
+    m_ow.addLine(m_sDirName);
+    
   }
   
   /** verify whether link points to a valid data in this format */

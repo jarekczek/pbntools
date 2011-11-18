@@ -47,11 +47,11 @@ public class ParyTourDownloader extends HtmlTourDownloader
   public boolean verify() throws VerifyFailedException
   {
     Document doc;
-    URL url;
     try {
       SoupProxy proxy = new SoupProxy();
       doc = proxy.getDocument(m_sLink);
-      url = proxy.getUrl();
+      m_doc = doc;
+      m_url = proxy.getUrl();
     }
     catch (JCException e) {
       throw new VerifyFailedException(e);
@@ -66,6 +66,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
     }
 
     if (!checkGenerator(doc, "JFR 2005", false)) { return false; }
+    getTitleAndDir();
     
     for (int i=1; i<=3; i++) {
       m_ow.addLine("hello " + i);
