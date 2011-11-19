@@ -34,7 +34,8 @@ import org.jsoup.select.Elements;
 abstract public class HtmlTourDownloader
 {
   protected String m_sLink;
-  protected URL m_url;
+  protected URL m_remoteUrl;
+  protected URL m_localUrl;
   public String m_sTitle;
   public String m_sDirName;
   public String m_sLocalDir;
@@ -47,22 +48,29 @@ abstract public class HtmlTourDownloader
   public void setLink(String sLink) {
     m_sLink = sLink;
   }
-  
-  boolean checkGenerator(Document doc, String sExpValue, boolean bSilent) {
-    Elements elems = doc.head().select("meta[name=GENERATOR]");
+
+  /** select <code>sTag</code> but require exactly one match */
+  protected Element getOneTag(Element parent, String sTag, boolean bSilent) {
+    Elements elems = parent.select(sTag);
     if (elems.size()==0) {
       if (!bSilent) {
-        m_ow.addLine(PbnTools.getStr("error.tagNotFound", "<meta name=\"GENERATOR\""));
-        return false;
+        m_ow.addLine(PbnTools.getStr("error.tagNotFound", sTag));
+        return null;
       }
     }
     if (elems.size()>1) {
       if (!bSilent) {
-        m_ow.addLine(PbnTools.getStr("error.onlyOneTagAllowed", "<meta name=\"GENERATOR\""));
-        return false;
+        m_ow.addLine(PbnTools.getStr("error.onlyOneTagAllowed", sTag));
+        return null;
       }
     }
-    String sFound = elems.get(0).attr("content");
+    return elems.get(0);
+  }
+  
+  protected boolean checkGenerator(Document doc, String sExpValue, boolean bSilent) {
+    Element elem = getOneTag(doc.head(), "meta[name=GENERATOR]", bSilent);
+    if (elem==null) { return false; }
+    String sFound = elem.attr("content");
     if (sFound.isEmpty()) {
       if (!bSilent) {
         m_ow.addLine(PbnTools.getStr("error.tagNotFound", "<meta name=\"GENERATOR\" content="));
@@ -79,6 +87,20 @@ abstract public class HtmlTourDownloader
     return true;
   }
   
+  /** check whether only one given tag exists and matches <code>sTextReg</code> */ 
+  protected boolean checkTagText(Element parent, String sTag, String sTextReg, boolean bSilent)
+  {
+    Element elem = getOneTag(parent, sTag, bSilent); 
+    if (elem == null) { return false; }
+    String sText = elem.text();
+    sText = sText.replace('\u00a0', ' ');
+    if (!sText.matches(sTextReg)) {
+      m_ow.addLine(PbnTools.getStr("error.invalidTagValue", sTag, sTextReg, elem.text()));
+      return false;
+    }
+    return true;
+  }
+  
   /** Gather title and dirname in a standard way. To be called from subclass. */
   protected void getTitleAndDir()
   {
@@ -86,7 +108,7 @@ abstract public class HtmlTourDownloader
     Elements elems = m_doc.head().select("title");
     if (elems.size()>0) { m_sTitle = elems.get(0).text(); }
     m_ow.addLine(m_sTitle);
-    String sPath = m_url.getPath();
+    String sPath = m_remoteUrl.getPath();
     String sLast = sPath.replaceFirst("^.*/", "");
     if (sLast.indexOf('.')>=0) {
       m_sDirName = sPath.replaceFirst("^.*/([^/]+)/[^/]*$", "$1");
@@ -112,11 +134,43 @@ abstract public class HtmlTourDownloader
   /** verify whether link points to a valid data in this format */
   abstract public boolean verify(boolean bSilent) throws VerifyFailedException;
   
-  abstract public boolean fullDownload();
+  public boolean fullDownload() throws DownloadFailedException
+  {
+    if (false && m_remoteUrl.getProtocol().equals("file")) {
+      m_ow.addLine(PbnTools.getStr("tourDown.msg.localLink", m_sLocalDir));
+      m_localUrl = m_remoteUrl;
+    } else {
+      if (!isDownloaded()) {
+        m_ow.addLine(PbnTools.getStr("tourDown.msg.willWget", m_sLocalDir));
+      } else {
+        m_ow.addLine(PbnTools.getStr("tourDown.msg.alreadyWgetted", m_sLocalDir));
+      }
+
+      // constructing local url
+      String sFileName = m_remoteUrl.toString().replaceFirst("^.*/", "");
+      if (sFileName.indexOf('.')<0) { sFileName = "index.html"; }
+      try {
+        m_localUrl = new File(new File(m_sLocalDir, "html"), sFileName).toURI().toURL();
+      } catch (Exception e) { throw new DownloadFailedException(e); }
+      m_ow.addLine("local url: " + m_localUrl);
+    }
+    return true;
+  }
   
   public class VerifyFailedException extends JCException //{{{
   {
+    VerifyFailedException(String sMessage) { super(sMessage); }
+    
     VerifyFailedException(Throwable t)
+    {
+      super(t);
+      m_ow.addLine(t.getMessage());
+    }
+  } //}}}
+
+  public class DownloadFailedException extends JCException //{{{
+  {
+    DownloadFailedException(Throwable t)
     {
       super(t);
       m_ow.addLine(t.getMessage());
