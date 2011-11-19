@@ -28,5 +28,6 @@ package jc;
 public class JCException extends Exception
 {
   public JCException(Throwable t) { super(t); }
+  public JCException(String sMessage) { super(sMessage); }
 }
 

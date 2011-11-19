@@ -51,34 +51,20 @@ public class ParyTourDownloader extends HtmlTourDownloader
       SoupProxy proxy = new SoupProxy();
       doc = proxy.getDocument(m_sLink);
       m_doc = doc;
-      m_url = proxy.getUrl();
+      m_remoteUrl = proxy.getUrl();
     }
     catch (JCException e) {
       throw new VerifyFailedException(e);
     }
-    Elements tds = doc.head().select("meta[name=GENERATOR]");
-    
     m_ow.addLine(PbnTools.m_res.getString("msg.documentLoaded"));
-    // m_ow.addLine(doc.html());
-    for (Element td : tds) {
-      String tdText = td.attr("name") + ":" + td.attr("content");
-      m_ow.addLine(tdText);
-    }
 
-    if (!checkGenerator(doc, "JFR 2005", bSilent)) { return false; }
+    if (!checkGenerator(doc, "JFR 2005", bSilent)) { throw new VerifyFailedException("generator"); }
+    if (!checkTagText(doc.body(), "p.f", "^\\sPary\\..*$", bSilent)) {
+      throw new VerifyFailedException("p.f");
+    }
     getTitleAndDir();
     if (!bSilent) { m_ow.addLine(PbnTools.getStr("msg.tourFound", m_sTitle)); }
     return true;
   } //}}}
 
-  public boolean fullDownload()
-  {
-    if (!isDownloaded()) {
-      m_ow.addLine(PbnTools.getStr("tourDown.msg.willWget", m_sLocalDir));
-    } else {
-      m_ow.addLine(PbnTools.getStr("tourDown.msg.alreadyWgetted", m_sLocalDir));
-    }
-    return true;
-  }
-  
 }
