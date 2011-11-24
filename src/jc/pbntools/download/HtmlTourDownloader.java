@@ -131,28 +131,56 @@ abstract public class HtmlTourDownloader
     return fDir.exists();
   }
   
-  /** verify whether link points to a valid data in this format */
-  abstract public boolean verify(boolean bSilent) throws VerifyFailedException;
+  /** Changes the link if user did not provide direct link to expected page.
+    * As a default does nothing.
+    * @return <code>true</code> if redirection occured 
+    */
+  public boolean redirect() throws VerifyFailedException
+  {
+    return false;
+  }
+
+  /** Verifies link without doing redirection  
+    * @see verify(boolean) */  
+  abstract protected boolean verifyDirect(boolean bSilent) throws VerifyFailedException;
+
+  /** Verify whether link points to a valid data in this format */
+  public boolean verify(boolean bSilent) throws VerifyFailedException
+  {
+    if (!verifyDirect(bSilent)) { return false; }
+    if (redirect())
+      { return verifyDirect(bSilent); }
+    else
+      { return true; }
+  }
   
+  abstract protected void wget();
+  
+  /** performs 2 operations: downloading (if required) from internet and
+    * converting (locally) to pbns */
   public boolean fullDownload() throws DownloadFailedException
   {
-    if (false && m_remoteUrl.getProtocol().equals("file")) {
+    if (m_remoteUrl.getProtocol().equals("file")) {
       m_ow.addLine(PbnTools.getStr("tourDown.msg.localLink", m_sLocalDir));
       m_localUrl = m_remoteUrl;
     } else {
-      if (!isDownloaded()) {
-        m_ow.addLine(PbnTools.getStr("tourDown.msg.willWget", m_sLocalDir));
-      } else {
-        m_ow.addLine(PbnTools.getStr("tourDown.msg.alreadyWgetted", m_sLocalDir));
-      }
+      boolean bDownloaded = isDownloaded();
 
-      // constructing local url
+      // constructing local url after isDownloaded set m_sLocalDir
       String sFileName = m_remoteUrl.toString().replaceFirst("^.*/", "");
       if (sFileName.indexOf('.')<0) { sFileName = "index.html"; }
       try {
         m_localUrl = new File(new File(m_sLocalDir, "html"), sFileName).toURI().toURL();
       } catch (Exception e) { throw new DownloadFailedException(e); }
       m_ow.addLine("local url: " + m_localUrl);
+      
+      if (bDownloaded) {
+        m_ow.addLine(PbnTools.getStr("tourDown.msg.willWget", m_sLocalDir));
+        wget();
+      } else {
+        m_ow.addLine(PbnTools.getStr("tourDown.msg.alreadyWgetted", m_sLocalDir));
+      }
+
     }
     return true;
   }
