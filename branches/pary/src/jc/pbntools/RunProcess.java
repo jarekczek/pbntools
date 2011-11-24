@@ -282,19 +282,22 @@ public class RunProcess {
     return rp.m_rv;
     }
 
-  static int runCmd(JDialog dlgMain, String sCmd, String asArgs[], String sDir)
+  public static int runCmd(JDialog dlgMain, String sCmd, String asArgs[], String sDir)
     { return runCmd(dlgMain, sCmd, asArgs, null, sDir, new String[0]); }
-  static int runCmd(JDialog dlgMain, String sCmd, String asArgs[], String sDir, String asPaths[])
+  public static int runCmd(JDialog dlgMain, String sCmd, String asArgs[], String sDir, String asPaths[])
     { return runCmd(dlgMain, sCmd, asArgs, null, sDir, asPaths); }
-  static int runCmd(JDialog dlgMain, String sCmd, String asArgs[], FiltrTekstu filtr)
+  public static int runCmd(JDialog dlgMain, String sCmd, String asArgs[], FiltrTekstu filtr)
     { return runCmd(dlgMain, sCmd, asArgs, filtr, null, new String[0]); }
-  static int runCmd(JDialog dlgMain, String sCmd, FiltrTekstu filtr) {
+  public static int runCmd(JDialog dlgMain, String sCmd, FiltrTekstu filtr) {
     String asCmdArray[] = sCmd.split(" ");
     String asArgs[] = Arrays.copyOfRange(asCmdArray, 1, asCmdArray.length);
     return runCmd(dlgMain, asCmdArray[0], asArgs, filtr, null, new String[0]);
   }
-  static int runCmd(JDialog dlgMain, String sCmd, String asArgs[])
-    { return runCmd(dlgMain, sCmd, null, null, null, new String[0]); }
+  public static int runCmd(JDialog dlgMain, String sCmd, String asArgs[])
+    { return runCmd(dlgMain, sCmd, asArgs, null, null, new String[0]); }
+  public static int runCmd(JDialog dlgMain, String sCmd) {
+    return runCmd(dlgMain, sCmd, (FiltrTekstu)null);
+  }
 
   static void printStream(InputStream is, PrintStream ps) {
     int ch;
