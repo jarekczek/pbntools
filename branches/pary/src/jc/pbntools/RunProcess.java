@@ -242,7 +242,7 @@ public class RunProcess {
   FiltrTekstu m_filtr;
   File m_dir;
 
-  RunProcess(JDialog dlgMain, String sCmd, String asArgs[], String sDir) {
+  public RunProcess(JDialog dlgMain, String sCmd, String asArgs[], String sDir) {
     m_dlgProc = null;
     m_dlgMain = dlgMain;
     m_rv = -1;
@@ -270,16 +270,27 @@ public class RunProcess {
     // to jest modalne wywolanie, tu zawisniemy az uzytkownik zamknie dialog
     m_dlgProc.setVisible(true);
     }
-    
-  static int runCmd(JDialog dlgMain, String sCmd, String asArgs[],
-                    FiltrTekstu filtr, String sDir, String asPaths[]) {
-    RunProcess rp = new RunProcess(dlgMain, sCmd, asArgs, sDir);
+  
+  /** This version of <code>runCmd</code> gives better control over
+    * process startup parameters, which may be set by caller after creating
+    * {@link RunProcess} object.
+    * @see #RunProcess
+    */
+//    * (JDialog, String, String, String)
+  public static int runCmd(RunProcess rp)
+  {
     rp.m_bDestroy = false;
-    rp.m_filtr = filtr;
-    rp.m_asPaths = asPaths;
     rp.runProcessDialog();
     rp.m_bDestroy = true;
     return rp.m_rv;
+  }
+
+  static int runCmd(JDialog dlgMain, String sCmd, String asArgs[],
+                    FiltrTekstu filtr, String sDir, String asPaths[]) {
+    RunProcess rp = new RunProcess(dlgMain, sCmd, asArgs, sDir);
+    rp.m_filtr = filtr;
+    rp.m_asPaths = asPaths;
+    return runCmd(rp);
     }
 
   public static int runCmd(JDialog dlgMain, String sCmd, String asArgs[], String sDir)
