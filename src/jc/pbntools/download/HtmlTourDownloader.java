@@ -131,28 +131,8 @@ abstract public class HtmlTourDownloader
     return fDir.exists();
   }
   
-  /** Changes the link if user did not provide direct link to expected page.
-    * As a default does nothing.
-    * @return <code>true</code> if redirection occured 
-    */
-  public boolean redirect() throws VerifyFailedException
-  {
-    return false;
-  }
-
-  /** Verifies link without doing redirection  
-    * @see verify(boolean) */  
-  abstract protected boolean verifyDirect(boolean bSilent) throws VerifyFailedException;
-
   /** Verify whether link points to a valid data in this format */
-  public boolean verify(boolean bSilent) throws VerifyFailedException
-  {
-    if (!verifyDirect(bSilent)) { return false; }
-    if (redirect())
-      { return verifyDirect(bSilent); }
-    else
-      { return true; }
-  }
+  abstract protected boolean verify(boolean bSilent) throws VerifyFailedException;
   
   abstract protected void wget();
   

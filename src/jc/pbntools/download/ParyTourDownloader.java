@@ -46,7 +46,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
   }
 
   /** Redirect to url without W- */
-  public boolean redirect() throws VerifyFailedException
+  protected boolean redirect() throws VerifyFailedException
   {
     if (m_sLink.matches("^.*/W-[^/]*$")) {
       m_sLink = m_sLink.replaceFirst("/W-([^/]*)$", "/$1");
@@ -60,7 +60,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
   /** Verifies whether link points to a valid data in this format.
     * Sets m_sTitle and m_sDirName members
     */ //{{{
-  public boolean verifyDirect(boolean bSilent) throws VerifyFailedException
+  protected boolean verifyDirect(boolean bSilent) throws VerifyFailedException
   {
     Document doc;
     try {
@@ -87,6 +87,16 @@ public class ParyTourDownloader extends HtmlTourDownloader
     return true;
   } //}}}
   
+  public boolean verify(boolean bSilent) throws VerifyFailedException
+  {
+    boolean bRedirected = true;
+    while (bRedirected) {
+      if (!verifyDirect(bSilent)) { return false; }
+      bRedirected = redirect();
+    }
+    return true;
+  }
+
   protected void wget()
   {
     String sArgs = "-p -k -nH -nd -r -l 2 -w 2 --random-wait -e robots=off -N";

@@ -42,7 +42,6 @@ public class TourDownloaderThread extends OutputWindow.Client
   {
     m_sLink = sLink;
     m_dloader = dloader;
-    m_dloader.setLink(m_sLink);
     m_ow = null;
   } //}}}
   
@@ -56,10 +55,16 @@ public class TourDownloaderThread extends OutputWindow.Client
   public void run()
   {
     m_ow.setTitle(f.extractTextAndMnem("pobierzPary")[0]);
+    if (!m_sLink.matches("^[a-zA-Z]+:.*$")) {
+      // if no protocol at the beginning of link, treat it as a file
+      m_sLink = "file://" + m_sLink;
+      m_ow.addLine(PbnTools.getStr("tourDown.msg.protocolSetToFile"));
+    }
+    m_dloader.setLink(m_sLink);
     m_ow.addLine(String.format(PbnTools.m_res.getString("tourDown.msg.fetching"),
                         m_sLink));
     try {
-      m_dloader.verify(false);
+              m_dloader.verify(false);
       m_dloader.fullDownload();
     }
     catch (HtmlTourDownloader.VerifyFailedException e) {  }
