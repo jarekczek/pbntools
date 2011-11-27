@@ -24,6 +24,7 @@ import java.util.*;
 import javax.swing.*;
 import jc.f;
 import jc.outputwindow.DialogOutputWindow;
+import jc.outputwindow.StandardOutputWindow;
 import jc.pbntools.*;
 import jc.pbntools.download.*;
 
@@ -38,6 +39,7 @@ public class PbnTools {
   static Properties m_props;
   static boolean m_bPropsRead;
   public static boolean m_bVerbose;
+  static boolean m_bRunMainDialog;
   
   static {
     try { m_sCurDir = f.basePath(Class.forName("jc.pbntools.PbnTools")); }
@@ -100,10 +102,15 @@ public class PbnTools {
       }
   }
   
-  static void pobierzPary(String sLink) {
+  static void pobierzPary(String sLink, boolean bGui) {
     if (getWorkDir()==null) { return; }
-    DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, new TourDownloaderThread(sLink, new ParyTourDownloader()), m_res);
-    ow.setVisible(true);
+    TourDownloaderThread thr = new TourDownloaderThread(sLink, new ParyTourDownloader());
+    if (bGui) {
+      DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, thr, m_res);
+      ow.setVisible(true);
+    } else {
+      StandardOutputWindow ow =  new StandardOutputWindow(thr, m_res);
+    }
   }
     
   static void pobierzBbo(String sLink) {
@@ -136,6 +143,7 @@ public class PbnTools {
   
     
   static void parseCommandLine(String args[]) {
+    m_bRunMainDialog = true;
     for (int i=0; i<args.length; i++) {
       if (args[i].equals("--verbose")) {
         m_bVerbose = true;
@@ -144,32 +152,34 @@ public class PbnTools {
         printUsage();
         System.exit(0);
       }
+      if (args[i].equals("-dt")) {
+        m_bRunMainDialog = false;
+        ++i;
+        if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
+        pobierzPary(args[i], false);
+      }
     }
   }
     
-    
+  /** Return values:
+    * <dl>
+    * <dt>1 - wrong command line arguments</dt>
+    * </dl>
+    */
   public static void main(String args[]) {
-    parseCommandLine(args);
     String sPropsFile = System.getProperty("user.home") + System.getProperty("file.separator") + "PbnTools.props";
     try { m_props.load(new FileReader(sPropsFile)); m_bPropsRead = true; }
     catch (java.io.FileNotFoundException e) { m_bPropsRead = true; }
     catch (IOException e) { System.out.println(m_res.getString("props.load.error") + ": " + e.toString()); } 
     
-    //try { Runtime.getRuntime().exec("cmd.exe /C start cmd.exe /C \"echo hi && pause\""); }
-    //catch (Exception e) { System.err.println(e.toString()); }
-    // String asPaths[] = { m_sCurDir + m_sSlash + "bin" + m_sSlash + "msys" + m_sSlash + "bin",
-                           // m_sCurDir + m_sSlash + "bin" + m_sSlash + "wget" };
-    // String asArgs[] = { "-c", "ls" };                  
-    // RunProcess.runCmd(null, "bash", asArgs, m_sScriptDir, asPaths);
+    parseCommandLine(args);
 
-    
-    m_dlgMain = new DlgPbnToolsMain(null, true);
-    m_dlgMain.setModalityType(java.awt.Dialog.ModalityType.DOCUMENT_MODAL);
-    m_dlgMain.setVisible(true);
+    if (m_bRunMainDialog) {
+      m_dlgMain = new DlgPbnToolsMain(null, true);
+      m_dlgMain.setModalityType(java.awt.Dialog.ModalityType.DOCUMENT_MODAL);
+      m_dlgMain.setVisible(true);
+    }
 
-
-
-    
     try { if (m_bPropsRead) { m_props.store(new FileWriter(sPropsFile), null); } }
     catch (IOException e) { System.out.println(m_res.getString("props.save.error") + ": " + e.toString()); } 
     System.out.println("koniec");

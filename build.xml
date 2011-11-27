@@ -98,6 +98,12 @@
   <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=pl" /> </java>
 </target>
 
+<target name="run-test" depends="run-prereq">
+  <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=xx" />
+    <arg line="-dt /jarek/lang/java/pbntools/test/1/W-wb110602.html" />
+  </java>
+</target>
+
 <target name="run-from-linux-release" depends="set-filenames">
   <property name="lang" value="xx" />
   <delete quiet="true" dir="${tmp}/pbntools" />
