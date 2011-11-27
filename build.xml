@@ -99,8 +99,9 @@
 </target>
 
 <target name="run-test" depends="run-prereq">
+  <!--specify testArgs in local.properties file-->
   <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=xx" />
-    <arg line="-dt /jarek/lang/java/pbntools/test/1/W-wb110602.html" />
+    <arg line="${testArgs}" />
   </java>
 </target>
 

@@ -19,9 +19,11 @@
 
 package jc.outputwindow;
 
-import java.io.*;
-import java.util.*;
+import java.io.InputStream;
+import java.lang.ProcessBuilder;
+import java.util.ResourceBundle;
 import jc.f;
+import jc.JCException;
 
 /** General purpose window which serves as output for longer processes.
     <code>OutputWindow</code> object is created through a static method
@@ -70,4 +72,61 @@ public abstract class OutputWindow {
   
   /** Override if can set title */
   public void setTitle(String sTitle) {}
+
+  /** A class to enable running of external processes and having their output
+  * in our window. Instantiate using {@link #create}. */
+  public class Process {
+    
+    protected Process() {}
+    
+    public boolean stillRunning(java.lang.Process p) {
+      try {
+        p.exitValue();
+        return false;
+      }
+      catch (java.lang.IllegalThreadStateException e) {
+        return true;
+      }
+    }
+    
+    protected void printStream(InputStream is) {
+      try {
+        while (is.available() > 0) {
+          byte[] buf = new byte[is.available()];
+          is.read(buf);
+          addText(new String(buf));
+        }
+      }
+      catch (java.io.IOException e) { }
+    }
+    
+    public int exec(String as[]) throws JCException {
+      ProcessBuilder pb = new ProcessBuilder(as);
+      pb.redirectErrorStream(true);
+      java.lang.Process p = null;
+      InputStream is = null;
+      try {
+        p = pb.start();
+        is = p.getInputStream();
+        while (stillRunning(p) && !m_bStop) {
+          printStream(is);
+        }
+      }
+      catch (java.io.IOException eio) {
+        throw new JCException(eio);
+      }
+      if (m_bStop) {
+        p.destroy();
+        printStream(is);
+        return 128;
+      }
+      printStream(is);
+      return p.exitValue();
+    }
+  }
+
+  public Process createProcess() {
+    return new Process();
+  }
+    
 }
