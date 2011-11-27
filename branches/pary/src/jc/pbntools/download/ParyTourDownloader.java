@@ -97,11 +97,16 @@ public class ParyTourDownloader extends HtmlTourDownloader
     return true;
   }
 
-  protected void wget()
+  protected void wget() throws DownloadFailedException
   {
-    String sArgs = "-p -k -nH -nd -r -l 2 -w 2 --random-wait -e robots=off -N";
-    ArrayList<String> args = new ArrayList<String>(Arrays.asList(sArgs.split(" ")));
-    RunProcess.runCmd(null, "wget", args.toArray(new String[0]));
+    String sCmdLine = "wget -p -k -nH -nd -r -l 2 -w 2 --random-wait -e robots=off -N";
+    ArrayList<String> asCmdLine = new ArrayList<String>(Arrays.asList(sCmdLine.split(" ")));
+    OutputWindow.Process p = m_ow.createProcess();
+    try {
+      p.exec(asCmdLine.toArray(new String[0]));
+    } catch (JCException e) {
+      throw new DownloadFailedException(e);
+    }
     // msys needs converting all path separators from \ to /
     /*
     String sScript = (m_sScriptDir + m_sSlash + "get_tur_kops.sh").replaceAll("\\\\", "/");

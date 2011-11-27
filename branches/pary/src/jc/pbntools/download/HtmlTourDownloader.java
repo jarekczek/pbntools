@@ -134,7 +134,7 @@ abstract public class HtmlTourDownloader
   /** Verify whether link points to a valid data in this format */
   abstract protected boolean verify(boolean bSilent) throws VerifyFailedException;
   
-  abstract protected void wget();
+  abstract protected void wget() throws DownloadFailedException;
   
   /** performs 2 operations: downloading (if required) from internet and
     * converting (locally) to pbns */
@@ -154,7 +154,7 @@ abstract public class HtmlTourDownloader
       } catch (Exception e) { throw new DownloadFailedException(e); }
       m_ow.addLine("local url: " + m_localUrl);
       
-      if (bDownloaded) {
+      if (!bDownloaded) {
         m_ow.addLine(PbnTools.getStr("tourDown.msg.willWget", m_sLocalDir));
         wget();
       } else {

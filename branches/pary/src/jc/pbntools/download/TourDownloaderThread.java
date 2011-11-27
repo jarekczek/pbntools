@@ -64,10 +64,11 @@ public class TourDownloaderThread extends OutputWindow.Client
     m_ow.addLine(String.format(PbnTools.m_res.getString("tourDown.msg.fetching"),
                         m_sLink));
     try {
-              m_dloader.verify(false);
+      m_dloader.verify(false);
       m_dloader.fullDownload();
     }
     catch (HtmlTourDownloader.VerifyFailedException e) {  }
+    catch (HtmlTourDownloader.DownloadFailedException e) {  }
     catch (Throwable e) {
       e.printStackTrace();
       m_ow.addLine(e.toString() + ": " + e.getMessage());

@@ -164,6 +164,7 @@ public class PbnTools {
   /** Return values:
     * <dl>
     * <dt>1 - wrong command line arguments</dt>
+    * <dt>128 - interrupted by user</dt>
     * </dl>
     */
   public static void main(String args[]) {
