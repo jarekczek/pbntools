@@ -17,7 +17,7 @@
    *****************************************************************************
 */
 
-package jc;
+package jc.outputwindow;
 
 import java.awt.Dialog;
 import java.awt.Window;
@@ -30,40 +30,26 @@ import javax.swing.*;
 import jc.f;
 import jc.MyAction;
 
-/** General purpose window which serves as output for longer processes.
-    <code>OutputWindow</code> object is created through a static method
-    <code>create()</code>.
-  */
+/** Subclass of {@link OutputWindow} using JDialog as the output */
 
-public class OutputWindow extends JDialog {
+public class DialogOutputWindow extends OutputWindow {
   
+  protected JDialog m_dlg;
   protected JTextArea m_ebOut;
   protected CloseAction m_closeAction;
   protected StopAction m_stopAction;
-  protected StringBuffer m_sb;
-  protected Client m_cli;
-  protected Thread m_thr;
-  protected boolean m_bStop;
   
-  protected ResourceBundle m_res;
-
-  public OutputWindow(Dialog parent, Client cli, ResourceBundle res)
+  public DialogOutputWindow(Dialog parent, Client cli, ResourceBundle res)
   {
-    super(parent, false);
-    m_res = res;
-    m_sb = new StringBuffer();
-    m_bStop = false;
-    m_cli = cli;
-    m_cli.setOutputWindow(this);
-    m_thr = new Thread(m_cli);
-    m_thr.setName("OutputWindow-client");
+    super(cli, res);
+    m_dlg = new JDialog(parent, false);
 
     // standard dialog startup code
-    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    GroupLayout lay = new GroupLayout(getContentPane());
+    m_dlg.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    GroupLayout lay = new GroupLayout(m_dlg.getContentPane());
     lay.setAutoCreateGaps(true);
     lay.setAutoCreateContainerGaps(true);
-    setLayout(lay);
+    m_dlg.setLayout(lay);
     
     JButton pbClose = new JButton();
     m_closeAction = new CloseAction("close"); 
@@ -99,9 +85,11 @@ public class OutputWindow extends JDialog {
     );
     
     
-    pack();
+    m_dlg.pack();
     m_thr.start();
   }
+  
+  public void setVisible(boolean bVisible) { m_dlg.setVisible(bVisible); }
   
   /** updates output window with current m_sb content */
   protected void update()
@@ -125,12 +113,10 @@ public class OutputWindow extends JDialog {
     update();
   }
   
-  public boolean isStopped() { return m_bStop; }
-  
   class CloseAction extends MyAction {
     CloseAction(String s) { super(s); }
     public void actionPerformed(java.awt.event.ActionEvent e) {
-      dispose();
+      m_dlg.dispose();
     }
   }
  
@@ -142,14 +128,10 @@ public class OutputWindow extends JDialog {
     }
   }
  
-  public static abstract class Client implements Runnable
-  {
-    public void setOutputWindow(OutputWindow ow) {};
-  }
-  
   public void threadFinished()
   {
     m_closeAction.setEnabled(true);
     m_stopAction.setEnabled(false);
   }
 }
+

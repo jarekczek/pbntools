@@ -28,7 +28,7 @@ import javax.swing.JDialog;
 
 import jc.f;
 import jc.JCException;
-import jc.OutputWindow;
+import jc.outputwindow.OutputWindow;
 import jc.SoupProxy;
 import jc.pbntools.PbnTools;
 import jc.pbntools.RunProcess;
@@ -101,7 +101,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
   {
     String sArgs = "-p -k -nH -nd -r -l 2 -w 2 --random-wait -e robots=off -N";
     ArrayList<String> args = new ArrayList<String>(Arrays.asList(sArgs.split(" ")));
-    RunProcess.runCmd((JDialog)m_ow, "wget", args.toArray(new String[0]));
+    RunProcess.runCmd(null, "wget", args.toArray(new String[0]));
     // msys needs converting all path separators from \ to /
     /*
     String sScript = (m_sScriptDir + m_sSlash + "get_tur_kops.sh").replaceAll("\\\\", "/");

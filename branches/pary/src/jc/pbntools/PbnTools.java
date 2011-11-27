@@ -23,7 +23,7 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import jc.f;
-import jc.OutputWindow;
+import jc.outputwindow.DialogOutputWindow;
 import jc.pbntools.*;
 import jc.pbntools.download.*;
 
@@ -102,7 +102,7 @@ public class PbnTools {
   
   static void pobierzPary(String sLink) {
     if (getWorkDir()==null) { return; }
-    OutputWindow ow =  new OutputWindow(m_dlgMain, new TourDownloaderThread(sLink, new ParyTourDownloader()), m_res);
+    DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, new TourDownloaderThread(sLink, new ParyTourDownloader()), m_res);
     ow.setVisible(true);
   }
     

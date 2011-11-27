@@ -25,7 +25,7 @@ import java.io.File;
 import java.net.URL;
 
 import jc.JCException;
-import jc.OutputWindow;
+import jc.outputwindow.OutputWindow;
 import jc.pbntools.PbnTools;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Document;
