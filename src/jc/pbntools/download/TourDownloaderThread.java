@@ -23,7 +23,7 @@ package jc.pbntools.download;
 
 import jc.f;
 import jc.JCException;
-import jc.OutputWindow;
+import jc.outputwindow.OutputWindow;
 import jc.SoupProxy;
 import jc.pbntools.PbnTools;
 import org.jsoup.Jsoup;
