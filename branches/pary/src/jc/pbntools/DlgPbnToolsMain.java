@@ -196,7 +196,7 @@ public class DlgPbnToolsMain extends javax.swing.JDialog {
       DlgPobierzPary d = new DlgPobierzPary(null,true);
       d.setVisible(true);
       if (d.rv==2) {
-        PbnTools.pobierzPary(d.m_sLink);
+        PbnTools.pobierzPary(d.m_sLink, true);
         }
     }//GEN-LAST:event_pbPobierzParyActionPerformed
 

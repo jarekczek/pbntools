@@ -1,2 +1,3 @@
 - jsoup is needed, so: license file, about box, help, source to download
+- usage note
 
