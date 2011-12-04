@@ -57,8 +57,77 @@ public class ParyTourDownloader extends HtmlTourDownloader
       return false;
   }
 
+  /** Gets link for a deal with a given number */
+  protected String getLinkForDeal(int iDeal) {
+    return m_sLink.replaceFirst("/[^/]+$", "/" + m_sDirName.toLowerCase() 
+      + String.format("%03d.html", iDeal));
+  }
+  
+  /** @param doc Document after redirection, containing 2 frames.
+    *  */
+  protected void getNumberOfDeals(Document doc, boolean bSilent) throws VerifyFailedException {
+    String sFrameTag = "frameset > frame[name=lewa]";
+    String sExpectedSrc = m_sDirName.toLowerCase() + "001.html";
+    Element frame = getOneTag(doc, sFrameTag, false);
+    if (frame == null) {
+      throw new VerifyFailedException(PbnTools.getStr("error.getNumberOfDeals"), !bSilent);
+    }
+    String sFoundSrc = frame.attr("src");
+    if (!sFoundSrc.equals(sExpectedSrc)) {
+      throw new VerifyFailedException(PbnTools.getStr("error.invalidTagValue",
+                  sFrameTag, sExpectedSrc, sFoundSrc), true);
+    }
+    
+    // download page with the first deal
+    String sLink1 = getLinkForDeal(1);
+    m_ow.addLine(sLink1);
+    Document doc1 = null;
+    try {
+      SoupProxy proxy = new SoupProxy();
+      doc1 = proxy.getDocument(sLink1);
+    }
+    catch (JCException e) { throw new VerifyFailedException(e); }
+    
+    // look for a link to the last one
+    if (doc1.body() == null) {
+      throw new VerifyFailedException(PbnTools.getStr("error.noBody"), !bSilent);
+    }
+    Element elemLast = getOneTag(doc1.body(), "a[title=ostatnie]", false);
+    if (elemLast == null) {
+      throw new VerifyFailedException(PbnTools.getStr("error.getNumberOfDeals"), !bSilent);
+    }
+    
+    // parse the link to get the deal number
+    String sLast = elemLast.attr("href");
+    String sNoLast = sLast.replaceFirst("^" + m_sDirName.toLowerCase() + "([0-9]{3})\\.html", "$1");
+    m_cDeals = 0;
+    try {
+      m_cDeals = Integer.parseInt(sNoLast);
+    } catch (java.lang.NumberFormatException e) {} 
+    if (m_cDeals == 0) {
+      throw new VerifyFailedException(PbnTools.getStr("tourDown.error.parseNumber", sLast), !bSilent);
+    }
+    
+    throw new VerifyFailedException("ok, stop now, " + m_cDeals, !bSilent);
+    
+    /*if (elems.size()==0) {
+      if (!bSilent) {
+        m_ow.addLine(PbnTools.getStr("error.tagNotFound", sTag));
+        return null;
+      }
+    }
+    if (elems.size()>1) {
+      if (!bSilent) {
+        m_ow.addLine(PbnTools.getStr("error.onlyOneTagAllowed", sTag));
+        return null;
+      }
+    }
+    return elems.get(0); */
+    
+  }
+
   /** Verifies whether link points to a valid data in this format.
-    * Sets m_sTitle and m_sDirName members
+    * Sets m_sTitle and m_sDirName members. Leaves m_doc filled.
     */ //{{{
   protected boolean verifyDirect(boolean bSilent) throws VerifyFailedException
   {
@@ -82,8 +151,6 @@ public class ParyTourDownloader extends HtmlTourDownloader
         throw new VerifyFailedException("p.f");
       }
     }
-    getTitleAndDir();
-    if (!bSilent) { m_ow.addLine(PbnTools.getStr("msg.tourFound", m_sTitle)); }
     return true;
   } //}}}
   
@@ -94,13 +161,19 @@ public class ParyTourDownloader extends HtmlTourDownloader
       if (!verifyDirect(bSilent)) { return false; }
       bRedirected = redirect();
     }
+    getTitleAndDir();
+    getNumberOfDeals(m_doc, bSilent);
+    if (!bSilent) { m_ow.addLine(PbnTools.getStr("msg.tourFound", m_sTitle)); }
     return true;
   }
 
   protected void wget() throws DownloadFailedException
   {
-    String sCmdLine = "wget -p -k -nH -nd -r -l 2 -w 2 --random-wait -e robots=off -N";
+    String sCmdLine = "wget -p -k -nH -nd -nc -w 2 --random-wait -e robots=off";
     ArrayList<String> asCmdLine = new ArrayList<String>(Arrays.asList(sCmdLine.split(" ")));
+    asCmdLine.add("--directory-prefix=" + m_sLocalDir);
+    asCmdLine.add(m_sLink);
+    
     OutputWindow.Process p = m_ow.createProcess();
     try {
       p.exec(asCmdLine.toArray(new String[0]));
