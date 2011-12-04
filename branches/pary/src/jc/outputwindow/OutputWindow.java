@@ -77,6 +77,8 @@ public abstract class OutputWindow {
   * in our window. Instantiate using {@link #create}. */
   public class Process {
     
+    public boolean m_bShowCommand = true;
+    
     protected Process() {}
     
     public boolean stillRunning(java.lang.Process p) {
@@ -101,6 +103,7 @@ public abstract class OutputWindow {
     }
     
     public int exec(String as[]) throws JCException {
+      if (m_bShowCommand) { addLine(f.toSpacedString(as)); }
       ProcessBuilder pb = new ProcessBuilder(as);
       pb.redirectErrorStream(true);
       java.lang.Process p = null;

@@ -41,9 +41,20 @@ abstract public class HtmlTourDownloader
   public String m_sLocalDir;
   protected OutputWindow m_ow;
   protected Document m_doc;
+  public int m_cDeals;
   
   /** set the window to which output messages will be directed */
   abstract public void setOutputWindow(OutputWindow ow);
+  
+  /** Not called from anywhere yet. Default constructor is sufficient. */
+  protected void clear() {
+    m_sLink = "";
+    m_remoteUrl = null; m_localUrl = null;
+    m_sTitle = ""; m_sDirName = ""; m_sLocalDir = "";
+    m_ow = null;
+    m_doc = null;
+    m_cDeals = 0;
+  }
   
   public void setLink(String sLink) {
     m_sLink = sLink;
@@ -167,6 +178,11 @@ abstract public class HtmlTourDownloader
   
   public class VerifyFailedException extends JCException //{{{
   {
+    VerifyFailedException(String sMessage, boolean bPrint) {
+      super(sMessage);
+      if (bPrint) { m_ow.addLine(sMessage); }
+    }
+    
     VerifyFailedException(String sMessage) { super(sMessage); }
     
     VerifyFailedException(Throwable t)
