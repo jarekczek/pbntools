@@ -21,6 +21,9 @@
 
 package jc.pbntools.download;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,23 +110,6 @@ public class ParyTourDownloader extends HtmlTourDownloader
     if (m_cDeals == 0) {
       throw new VerifyFailedException(PbnTools.getStr("tourDown.error.parseNumber", sLast), !bSilent);
     }
-    
-    throw new VerifyFailedException("ok, stop now, " + m_cDeals, !bSilent);
-    
-    /*if (elems.size()==0) {
-      if (!bSilent) {
-        m_ow.addLine(PbnTools.getStr("error.tagNotFound", sTag));
-        return null;
-      }
-    }
-    if (elems.size()>1) {
-      if (!bSilent) {
-        m_ow.addLine(PbnTools.getStr("error.onlyOneTagAllowed", sTag));
-        return null;
-      }
-    }
-    return elems.get(0); */
-    
   }
 
   /** Verifies whether link points to a valid data in this format.
@@ -163,16 +149,39 @@ public class ParyTourDownloader extends HtmlTourDownloader
     }
     getTitleAndDir();
     getNumberOfDeals(m_doc, bSilent);
-    if (!bSilent) { m_ow.addLine(PbnTools.getStr("msg.tourFound", m_sTitle)); }
+    if (!bSilent) { m_ow.addLine(PbnTools.getStr("msg.tourFound", m_sTitle, m_cDeals)); }
+
     return true;
   }
 
+  protected String createIndexFile() throws DownloadFailedException
+  {
+    int iDeal;
+    String sLinksFile = new File(m_sLocalDir, "links.txt").getAbsolutePath();
+    m_ow.addLine(PbnTools.getStr("tourDown.msg.creatingIndex", sLinksFile));
+    try {
+      if (!(new File(m_sLocalDir).mkdir())) {
+        throw new DownloadFailedException(PbnTools.getStr("error.unableToCreateDir", m_sLocalDir), true);
+      }
+      BufferedWriter fw = new BufferedWriter(new FileWriter(sLinksFile));
+      for (iDeal=1; iDeal<=m_cDeals; iDeal++) {
+        fw.write(getLinkForDeal(iDeal));
+        fw.newLine();
+      }
+      fw.close();
+    }
+    catch (java.io.IOException ioe) { throw new DownloadFailedException(ioe); }
+    return sLinksFile;
+  }
+  
   protected void wget() throws DownloadFailedException
   {
-    String sCmdLine = "wget -p -k -nH -nd -nc -w 2 --random-wait -e robots=off";
+    String sLinksFile = createIndexFile();
+      
+    String sCmdLine = "wget -p -k -nH -nd -nc -w 0 --random-wait -e robots=off";
     ArrayList<String> asCmdLine = new ArrayList<String>(Arrays.asList(sCmdLine.split(" ")));
     asCmdLine.add("--directory-prefix=" + m_sLocalDir);
-    asCmdLine.add(m_sLink);
+    asCmdLine.add("--input-file=" + sLinksFile);
     
     OutputWindow.Process p = m_ow.createProcess();
     try {
@@ -180,24 +189,6 @@ public class ParyTourDownloader extends HtmlTourDownloader
     } catch (JCException e) {
       throw new DownloadFailedException(e);
     }
-    // msys needs converting all path separators from \ to /
-    /*
-    String sScript = (m_sScriptDir + m_sSlash + "get_tur_kops.sh").replaceAll("\\\\", "/");
-    String asArgs[] = { "-c",
-                        sScript
-                        + " -d \"" + sWorkDir.replaceAll("\\\\", "/") + "\" "
-                        + sLink };
-    if (bLinux) {
-      rv = RunProcess.runCmd((JDialog)m_dlgMain, "bash", asArgs, m_sScriptDir);
-      }
-    else {
-      String sMsysBin = m_sCurDir + m_sSlash + "bin" + m_sSlash + "msys" + m_sSlash + "bin";
-      String asPaths[] = { sMsysBin,
-                           m_sCurDir + m_sSlash + "bin" + m_sSlash + "wget" };
-      String sBash = sMsysBin + m_sSlash + "bash";
-      rv = RunProcess.runCmd((JDialog)m_dlgMain, sBash, asArgs, m_sScriptDir, asPaths);
-      }
-      */
   }
 
 

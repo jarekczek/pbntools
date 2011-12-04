@@ -194,6 +194,13 @@ abstract public class HtmlTourDownloader
 
   public class DownloadFailedException extends JCException //{{{
   {
+    DownloadFailedException(String sMessage, boolean bPrint) {
+      super(sMessage);
+      if (bPrint) { m_ow.addLine(sMessage); }
+    }
+    
+    DownloadFailedException(String sMessage) { super(sMessage); }
+    
     DownloadFailedException(Throwable t)
     {
       super(t);
