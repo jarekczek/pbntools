@@ -189,6 +189,11 @@ public class ParyTourDownloader extends HtmlTourDownloader
     } catch (JCException e) {
       throw new DownloadFailedException(e);
     }
+    
+    for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
+      ajaxFile(getLinkForDeal(iDeal), true);
+      break;
+    }
   }
 
 

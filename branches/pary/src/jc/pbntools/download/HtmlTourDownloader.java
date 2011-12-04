@@ -23,10 +23,13 @@ package jc.pbntools.download;
 
 import java.io.File;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jc.JCException;
 import jc.outputwindow.OutputWindow;
 import jc.pbntools.PbnTools;
+import jc.SoupProxy;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -174,6 +177,60 @@ abstract public class HtmlTourDownloader
 
     }
     return true;
+  }
+
+  /** Changes the html contents of <code>elem</code> with the contents downloaded
+    * from <code>sRemoteLink</code>
+    * @param doc Whole document to write, containing elem
+    * @param sOutputFile Filename to write the complete html document to
+    */
+  protected void replaceHtmlAndWrite(Document doc, Element elem, String sRemoteLink, String sOutputFile) {
+    
+  }
+  
+  /** Changes the local file in m_sLocalDir resembling <code>sRemoteLink</code>.
+    * Dynamic content, loaded by browser in <code>onload</code> handler,
+    * is pulled from server and inserted into local file
+    * @param bWarn Whether to warn when no ajax command found
+    */
+  protected void ajaxFile(String sRemoteLink, boolean bWarn) throws DownloadFailedException
+  {
+    String sRemoteFile = sRemoteLink.replaceFirst("^.*/([^/]+)$", "$1");
+    String sLocalFile = m_sLocalDir + "/" + sRemoteFile;
+
+    Document docLocal = null;
+    try {
+      SoupProxy proxy = new SoupProxy();
+      docLocal = proxy.getDocumentFromFile(sLocalFile);
+    }
+    catch (JCException e) { throw new DownloadFailedException(e); }
+    
+    if (docLocal.body() == null) {
+      throw new DownloadFailedException(PbnTools.getStr("error.noBody"), true);
+    }
+    
+    // determining name of the file with missing content
+    String sAjaxCmd = docLocal.body().attr("onload");
+    if (sAjaxCmd.isEmpty()) {
+      // nothing to do, no onload handler
+      if (bWarn) { m_ow.addLine(PbnTools.getStr("tourDown.msg.noOnLoad", sLocalFile)); }
+      return;
+    }
+    Matcher m = Pattern.compile("^initAjax\\('([^']+)','([^']+)'.*$").matcher(sAjaxCmd);
+    if (!m.matches()) {
+      if (bWarn) { m_ow.addLine(PbnTools.getStr("tourDown.msg.noInitAjax", sLocalFile)); }
+      return;
+    }
+    String sContentFile = m.group(1);
+    
+    // replacing the body of m.group(2) element
+    Element elemToReplace = getOneTag(docLocal.body(), "div#" + m.group(2), false);
+    if (elemToReplace == null) {
+      throw new DownloadFailedException(PbnTools.getStr("tourDown.error.ajaxFailed", sLocalFile), true);
+    }
+    
+    String sRemoteContentLink = sRemoteLink.replaceFirst("/([^/]+)$", "/" + sRemoteFile); 
+    replaceHtmlAndWrite(docLocal, elemToReplace, sRemoteContentLink, sLocalFile); 
   }
   
   public class VerifyFailedException extends JCException //{{{
