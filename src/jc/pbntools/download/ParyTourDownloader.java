@@ -137,6 +137,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
         throw new VerifyFailedException("p.f");
       }
     }
+
     return true;
   } //}}}
   
@@ -165,8 +166,17 @@ public class ParyTourDownloader extends HtmlTourDownloader
       }
       BufferedWriter fw = new BufferedWriter(new FileWriter(sLinksFile));
       for (iDeal=1; iDeal<=m_cDeals; iDeal++) {
-        fw.write(getLinkForDeal(iDeal));
+        String sDealLink = getLinkForDeal(iDeal); 
+        fw.write(sDealLink);
         fw.newLine();
+        String sDealLinkTxt = sDealLink.replace(".html", ".txt");
+        if (!sDealLinkTxt.endsWith(".txt")) {
+          throw new DownloadFailedException(
+            PbnTools.getStr("tourDown.error.convertExt", sDealLink, "html", "txt"),
+            true);
+        }
+        // fw.write(sDealLinkTxt);
+        // fw.newLine();
       }
       fw.close();
     }
@@ -178,7 +188,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
   {
     String sLinksFile = createIndexFile();
       
-    String sCmdLine = "wget -p -k -nH -nd -nc -w 0 --random-wait -e robots=off";
+    String sCmdLine = "wget -p -k -nH -nd -nc -w 0 --random-wait -E -e robots=off";
     ArrayList<String> asCmdLine = new ArrayList<String>(Arrays.asList(sCmdLine.split(" ")));
     asCmdLine.add("--directory-prefix=" + m_sLocalDir);
     asCmdLine.add("--input-file=" + sLinksFile);
@@ -192,7 +202,6 @@ public class ParyTourDownloader extends HtmlTourDownloader
     
     for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
       ajaxFile(getLinkForDeal(iDeal), true);
-      break;
     }
   }
 

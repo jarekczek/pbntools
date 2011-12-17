@@ -22,7 +22,14 @@
 package jc.pbntools.download;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -184,7 +191,26 @@ abstract public class HtmlTourDownloader
     * @param doc Whole document to write, containing elem
     * @param sOutputFile Filename to write the complete html document to
     */
-  protected void replaceHtmlAndWrite(Document doc, Element elem, String sRemoteLink, String sOutputFile) {
+  protected void replaceHtmlAndWrite(Document doc, Element elem, String sRemoteLink, String sOutputFile)
+    throws DownloadFailedException
+  {
+    try {
+      URL url = new URL(sRemoteLink);
+      InputStream is = url.openStream();
+      // http://stackoverflow.com/questions/309424/in-java-how-do-i-read-convert-an-inputstream-to-a-string#5445161
+      // thanks to Pavel Repin from stackoverflow for the trick:
+      String sNewCont = new Scanner(is).useDelimiter("\\A").next();
+      sNewCont = sNewCont.replaceAll("\"images/", "\"");
+      elem.html(sNewCont);
+      Writer w = new OutputStreamWriter(new FileOutputStream(sOutputFile), doc.outputSettings().charset());
+      w.write(doc.html());
+      w.close();
+    }
+    catch (MalformedURLException mue) {
+      throw new DownloadFailedException(mue); 
+    } catch (IOException ioe) {
+      throw new DownloadFailedException(ioe); 
+    }
     
   }
   
@@ -229,7 +255,7 @@ abstract public class HtmlTourDownloader
       throw new DownloadFailedException(PbnTools.getStr("tourDown.error.ajaxFailed", sLocalFile), true);
     }
     
-    String sRemoteContentLink = sRemoteLink.replaceFirst("/([^/]+)$", "/" + sRemoteFile); 
+    String sRemoteContentLink = sRemoteLink.replaceFirst("/([^/]+)$", "/" + sContentFile); 
     replaceHtmlAndWrite(docLocal, elemToReplace, sRemoteContentLink, sLocalFile); 
   }
   
