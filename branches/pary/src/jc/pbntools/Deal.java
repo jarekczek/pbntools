@@ -88,7 +88,7 @@ class Karta {
   public String toString() { return "" + znakKolor(getKolor()) + znakWysok(getWysok()); }
   }
 
-public class Rozdanie {
+public class Deal {
   int m_nDealer; // 0-3, -1=brak,blad
   String m_sVulner;
   int m_nNr;
@@ -104,7 +104,7 @@ public class Rozdanie {
 
   static String m_asOsoby[] = {"N", "E", "S", "W"};
 
-  Rozdanie() {
+  Deal() {
     m_anKarty = new int[Karta.MAX_KOD+1];
     zeruj();
     }
