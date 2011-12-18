@@ -210,13 +210,14 @@ public class ParyTourDownloader extends HtmlTourDownloader
   protected Deal[] readDealsFromDir(String sDir)
     throws DownloadFailedException
   {
-    m_ow.addLine("reading htmls");
-    return null;
-  }
-
-  protected void saveDealsAsPbn(Deal[] aDeal, String sDir)
-    throws DownloadFailedException
-  {
+    ArrayList<Deal> deals = new ArrayList<Deal>();
+    for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
+      Deal d = new Deal();
+      d.setIdentField("Event", m_sTitle);
+      d.m_nNr = iDeal;
+      deals.add(d);
+    }
+    return deals.toArray(new Deal[0]);
   }
 
 }
