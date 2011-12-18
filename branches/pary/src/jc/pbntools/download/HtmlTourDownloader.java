@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 
 import jc.JCException;
 import jc.outputwindow.OutputWindow;
+import jc.pbntools.Deal;
 import jc.pbntools.PbnTools;
 import jc.SoupProxy;
 import org.jsoup.nodes.Element;
@@ -157,6 +158,12 @@ abstract public class HtmlTourDownloader
   
   abstract protected void wget() throws DownloadFailedException;
   
+  abstract protected Deal[] readDealsFromDir(String sDir)
+    throws DownloadFailedException;
+
+  abstract protected void saveDealsAsPbn(Deal[] aDeal, String sDir)
+    throws DownloadFailedException;
+
   /** performs 2 operations: downloading (if required) from internet and
     * converting (locally) to pbns */
   public boolean fullDownload() throws DownloadFailedException
@@ -182,6 +189,8 @@ abstract public class HtmlTourDownloader
         m_ow.addLine(PbnTools.getStr("tourDown.msg.alreadyWgetted", m_sLocalDir));
       }
 
+      Deal[] aDeal = readDealsFromDir(m_sLocalDir);
+      saveDealsAsPbn(aDeal, m_sLocalDir);
     }
     return true;
   }

@@ -30,12 +30,21 @@ public class PbnFile  {
   ArrayList<Deal> m_ar;
   Set<Integer> m_setBoardNrs;
   String m_sPlik;
-  
+
   PbnFile() {
     m_ar = new ArrayList<Deal>();
     m_setBoardNrs = new HashSet<Integer>();
     m_sPlik = "";
-    }
+  }
+
+  public void addDeal(Deal d) {
+    m_ar.add(d);
+    m_setBoardNrs.add(d.m_nNr);
+  }
+
+  public Deal[] getDeals() {
+    return m_ar.toArray(new Deal[0]);
+  }
 
   public int wczytaj(String sPlik) {
     m_sPlik = sPlik;
@@ -90,11 +99,11 @@ public class PbnFile  {
       for (i=0; i<m_ar.size(); i++) {
         Deal r = m_ar.get(i);
         bw.write("<tr>"); bw.newLine();
-        bw.write(sTdStart + r.m_nNr + "</td>"); 
-        bw.write(sTdStart + Deal.znakOsoby(r.m_nDealer) + "</td>"); 
-        bw.write(sTdStart + r.m_sVulner + "</td>"); 
-        bw.write(sTdStart + "&nbsp;" + "</td>"); 
-        bw.write(sTdStart + "&nbsp;" + "</td>"); 
+        bw.write(sTdStart + r.m_nNr + "</td>");
+        bw.write(sTdStart + Deal.znakOsoby(r.m_nDealer) + "</td>");
+        bw.write(sTdStart + r.m_sVulner + "</td>");
+        bw.write(sTdStart + "&nbsp;" + "</td>");
+        bw.write(sTdStart + "&nbsp;" + "</td>");
         bw.write("</tr>"); bw.newLine();
         }
       bw.write("</table>"); bw.newLine();

@@ -20,6 +20,7 @@
 package jc.pbntools;
 
 import java.io.*;
+import java.io.Writer;
 import java.util.regex.*;
 import java.util.*;
 import jc.f;
@@ -99,11 +100,28 @@ public class Deal {
   boolean m_bEmpty;
   boolean m_bOk;
   int m_anKarty[];
+  protected HashMap<String, String> m_mIdentFields;
   
   static final String m_asPossVulner[] = { "None", "NS", "EW", "Both" };
+  
+  // {{{ PBN standard definitions
+  public final static String sLf = "\n\r";
+  public static final String m_sIdentFields[] = { "Event", "Site", "Date",
+    "Board", "West", "North", "East", "South", "Dealer", "Vulnerable",
+    "Deal", "Scoring", "Declarer", "Contract", "Result" };
+  // }}}
+  /** <code>m_sIdentFields</code> inserted into map: uppercased -> normalized */
+  private static HashMap<String, String> m_mIdentFieldNames;
 
   static String m_asOsoby[] = {"N", "E", "S", "W"};
 
+  static {
+    m_mIdentFieldNames = new HashMap<String, String>();
+    for (String s : m_sIdentFields) {
+      m_mIdentFieldNames.put(s.toUpperCase(), s);
+    }
+  }
+  
   Deal() {
     m_anKarty = new int[Karta.MAX_KOD+1];
     zeruj();
@@ -119,6 +137,7 @@ public class Deal {
     m_bEmpty = true;
     m_bOk = false;
     Arrays.fill(m_anKarty, -1);
+    m_mIdentFields = new HashMap<String, String>();
     }
 
   static char znakOsoby(int nOsoba) { return nOsoba>=0 && nOsoba<=3 ? m_asOsoby[nOsoba].charAt(0) : '?'; }
@@ -129,6 +148,14 @@ public class Deal {
     }
   static int osoba(String sOsoba) { return (sOsoba.length()!=1) ? -1 : osoba(sOsoba.charAt(0)); }
   static int nastOsoba(int nOsoba) { return nOsoba<0 ? nOsoba : ((nOsoba+1)%4); }
+
+  public void setIdentField(String sField, String sValue) {
+    String sFieldNorm = m_mIdentFieldNames.get(sValue);
+    if (sFieldNorm == null) {
+      throw new RuntimeException("Invalid identification field name: " + sField);
+    }
+    m_mIdentFields.put(sFieldNorm, sValue);
+  }
   
   public boolean czyOk() {
     m_sErrors = "";
@@ -332,11 +359,21 @@ public class Deal {
     sOpts = "-q --nodisplay --no-probe -Spcard.enable " + sOpts;
     if (PbnTools.bLinux) {
       RunProcess.runCmd(null, sZbarcam + " " + sOpts, new FiltrTekstuRozd());
-      }
+    }
     else {
       RunProcess.runCmd(null, sZbarcam + " " + sOpts, new FiltrTekstuRozd());
+    }
+  }
+  
+  public void savePbn(Writer w) throws java.io.IOException {
+    for (String sField : m_sIdentFields) {
+      String sValue = m_mIdentFields.get(sField);
+      if (sValue != null) {
+        w.write("[" + sField + " \"" + sValue + "\"]" + sLf);
       }
     }
+    w.write(sLf);
+  }
   
   public static void main(String args[]) {
 //    DlgRozdaj d = new DlgRozdaj(null, true);
