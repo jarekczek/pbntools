@@ -33,6 +33,8 @@ import jc.f;
 import jc.JCException;
 import jc.outputwindow.OutputWindow;
 import jc.SoupProxy;
+import jc.pbntools.Deal;
+import jc.pbntools.PbnFile;
 import jc.pbntools.PbnTools;
 import jc.pbntools.RunProcess;
 import org.jsoup.Jsoup;
@@ -205,5 +207,16 @@ public class ParyTourDownloader extends HtmlTourDownloader
     }
   }
 
+  protected Deal[] readDealsFromDir(String sDir)
+    throws DownloadFailedException
+  {
+    m_ow.addLine("reading htmls");
+    return null;
+  }
+
+  protected void saveDealsAsPbn(Deal[] aDeal, String sDir)
+    throws DownloadFailedException
+  {
+  }
 
 }
