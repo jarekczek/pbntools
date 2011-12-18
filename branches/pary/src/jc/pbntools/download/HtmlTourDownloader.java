@@ -21,8 +21,10 @@
 
 package jc.pbntools.download;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -36,6 +38,7 @@ import java.util.regex.Pattern;
 import jc.JCException;
 import jc.outputwindow.OutputWindow;
 import jc.pbntools.Deal;
+import jc.pbntools.PbnFile;
 import jc.pbntools.PbnTools;
 import jc.SoupProxy;
 import org.jsoup.nodes.Element;
@@ -161,8 +164,19 @@ abstract public class HtmlTourDownloader
   abstract protected Deal[] readDealsFromDir(String sDir)
     throws DownloadFailedException;
 
-  abstract protected void saveDealsAsPbn(Deal[] aDeal, String sDir)
-    throws DownloadFailedException;
+  protected void saveDealsAsPbn(Deal[] aDeal, String sDir)
+    throws DownloadFailedException
+  {
+    try {
+      File file = new File(sDir, m_sDirName.toLowerCase() + ".pbn");
+      PbnFile pbnFile = new PbnFile();
+      pbnFile.addDeals(aDeal);
+      pbnFile.save(file.getAbsolutePath());
+    }
+    catch (IOException ioe) {
+      throw new DownloadFailedException(ioe);
+    }
+  }
 
   /** performs 2 operations: downloading (if required) from internet and
     * converting (locally) to pbns */

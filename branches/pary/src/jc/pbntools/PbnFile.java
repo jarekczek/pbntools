@@ -31,7 +31,7 @@ public class PbnFile  {
   Set<Integer> m_setBoardNrs;
   String m_sPlik;
 
-  PbnFile() {
+  public PbnFile() {
     m_ar = new ArrayList<Deal>();
     m_setBoardNrs = new HashSet<Integer>();
     m_sPlik = "";
@@ -40,6 +40,13 @@ public class PbnFile  {
   public void addDeal(Deal d) {
     m_ar.add(d);
     m_setBoardNrs.add(d.m_nNr);
+  }
+
+  public void addDeals(Deal[] deals) {
+    for (Deal d : deals) {
+      m_ar.add(d);
+      m_setBoardNrs.add(d.m_nNr);
+    }
   }
 
   public Deal[] getDeals() {
@@ -72,6 +79,15 @@ public class PbnFile  {
     return 0;
     }
 
+  public void save(String sFile) throws IOException {
+    BufferedWriter bw = new BufferedWriter(
+      new OutputStreamWriter(new FileOutputStream(sFile), "ISO-8859-1"));
+    for (Deal d : m_ar) {
+      d.savePbn(bw);
+    }
+    bw.close();
+  }
+    
   public void arkusz() {
     String sPlikOut = "";
     String sTdStart = "<td>";

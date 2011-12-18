@@ -90,11 +90,11 @@ class Karta {
   }
 
 public class Deal {
-  int m_nDealer; // 0-3, -1=brak,blad
-  String m_sVulner;
-  int m_nNr;
-  String m_sDeal;
-  Reka m_aRece[];
+  public int m_nDealer; // 0-3, -1=brak,blad
+  public String m_sVulner;
+  public int m_nNr;
+  public String m_sDeal;
+  public Reka m_aRece[];
   String m_sErrors;
   boolean m_bEof;
   boolean m_bEmpty;
@@ -105,7 +105,7 @@ public class Deal {
   static final String m_asPossVulner[] = { "None", "NS", "EW", "Both" };
   
   // {{{ PBN standard definitions
-  public final static String sLf = "\n\r";
+  public final static String sLf = "\r\n";
   public static final String m_sIdentFields[] = { "Event", "Site", "Date",
     "Board", "West", "North", "East", "South", "Dealer", "Vulnerable",
     "Deal", "Scoring", "Declarer", "Contract", "Result" };
@@ -122,7 +122,7 @@ public class Deal {
     }
   }
   
-  Deal() {
+  public Deal() {
     m_anKarty = new int[Karta.MAX_KOD+1];
     zeruj();
     }
@@ -150,7 +150,7 @@ public class Deal {
   static int nastOsoba(int nOsoba) { return nOsoba<0 ? nOsoba : ((nOsoba+1)%4); }
 
   public void setIdentField(String sField, String sValue) {
-    String sFieldNorm = m_mIdentFieldNames.get(sValue);
+    String sFieldNorm = m_mIdentFieldNames.get(sField.toUpperCase());
     if (sFieldNorm == null) {
       throw new RuntimeException("Invalid identification field name: " + sField);
     }
