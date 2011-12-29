@@ -46,6 +46,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 abstract public class HtmlTourDownloader
+  implements DealReader
 {
   protected String m_sLink;
   protected URL m_remoteUrl;
@@ -162,6 +163,9 @@ abstract public class HtmlTourDownloader
   abstract protected void wget() throws DownloadFailedException;
   
   abstract protected Deal[] readDealsFromDir(String sDir)
+    throws DownloadFailedException;
+
+  abstract public Deal readDeal(String sUrl)
     throws DownloadFailedException;
 
   protected void saveDealsAsPbn(Deal[] aDeal, String sDir)

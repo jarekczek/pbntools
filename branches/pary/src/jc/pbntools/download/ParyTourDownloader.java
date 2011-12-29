@@ -212,12 +212,49 @@ public class ParyTourDownloader extends HtmlTourDownloader
   {
     ArrayList<Deal> deals = new ArrayList<Deal>();
     for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
-      Deal d = new Deal();
-      d.setIdentField("Event", m_sTitle);
-      d.m_nNr = iDeal;
-      deals.add(d);
+      Deal d = readDeal(getLinkForDeal(iDeal));
+      if (d != null) {
+        d.setIdentField("Event", m_sTitle);
+        d.m_nNr = iDeal;
+        deals.add(d);
+      }
     }
     return deals.toArray(new Deal[0]);
   }
 
+  public Deal readDeal(String sUrl)
+    throws DownloadFailedException
+  {
+    Document doc;
+    Deal deal = new Deal();
+    try {
+      SoupProxy proxy = new SoupProxy();
+      doc = proxy.getDocument(sUrl);
+    }
+    catch (JCException e) {
+      throw new DownloadFailedException(e);
+    }
+
+    // locate tbody with deal definition without results
+    Element dealElem = null;
+    for (Element elemH4 : doc.select("h4")) {
+      Elements parents = elemH4.parents();
+      if (parents.size() >= 2) {
+        dealElem = parents.get(2);
+        break;
+      }
+    }
+    if (dealElem == null) throw new DownloadFailedException(
+            PbnTools.getStr("error.elementNotFound", "deal table"), true); 
+    // java.lang.System.out.println("1:" + dealElem.html());
+    extractHands(deal, dealElem);
+    return null;
+  }
+  
+  /** @param dealElem tbody with deal definition without results */
+  protected void extractHands(Deal deal, Element dealElem)
+    throws DownloadFailedException
+  {
+    throw new DownloadFailedException("dosc", true);
+  }
 }
