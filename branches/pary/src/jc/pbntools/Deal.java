@@ -90,7 +90,8 @@ class Karta {
   }
 
 public class Deal {
-  public int m_nDealer; // 0-3, -1=brak,blad
+  /** 0 for N, 1 for E, ..., 3 for W; -1 for absent, error */
+  public int m_nDealer;
   public String m_sVulner;
   public int m_nNr;
   public String m_sDeal;
@@ -113,7 +114,7 @@ public class Deal {
   /** <code>m_sIdentFields</code> inserted into map: uppercased -> normalized */
   private static HashMap<String, String> m_mIdentFieldNames;
 
-  static String m_asOsoby[] = {"N", "E", "S", "W"};
+  static String m_asPersons[] = {"N", "E", "S", "W"};
 
   static {
     m_mIdentFieldNames = new HashMap<String, String>();
@@ -140,14 +141,16 @@ public class Deal {
     m_mIdentFields = new HashMap<String, String>();
     }
 
-  static char znakOsoby(int nOsoba) { return nOsoba>=0 && nOsoba<=3 ? m_asOsoby[nOsoba].charAt(0) : '?'; }
-  String dealerToString(int nDealer) { return nDealer<0 ? "?" : m_asOsoby[nDealer]; }
-  static int osoba(char ch) {
-    for (int i=0; i<m_asOsoby.length; i++) { if (m_asOsoby[i].charAt(0)==ch) { return i; } }
+  static char personChar(int nPerson) { return nPerson>=0 && nPerson<=3 ? m_asPersons[nPerson].charAt(0) : '?'; }
+  String dealerToString(int nDealer) { return nDealer<0 ? "?" : m_asPersons[nDealer]; }
+  static int person(char ch) {
+    for (int i=0; i<m_asPersons.length; i++) { if (m_asPersons[i].charAt(0)==ch) { return i; } }
     return -1;
     }
-  static int osoba(String sOsoba) { return (sOsoba.length()!=1) ? -1 : osoba(sOsoba.charAt(0)); }
-  static int nastOsoba(int nOsoba) { return nOsoba<0 ? nOsoba : ((nOsoba+1)%4); }
+  /** Returns person number.
+    * @param sPerson Must be of length 1. */
+  public static int person(String sPerson) { return (sPerson.length()!=1) ? -1 : person(sPerson.charAt(0)); }
+  static int nextPerson(int nPerson) { return nPerson<0 ? nPerson : ((nPerson+1)%4); }
 
   public void setIdentField(String sField, String sValue) {
     String sFieldNorm = m_mIdentFieldNames.get(sField.toUpperCase());
@@ -156,6 +159,9 @@ public class Deal {
     }
     m_mIdentFields.put(sFieldNorm, sValue);
   }
+  
+  public void setNumber(int nNr) { m_nNr = nNr; }
+  public void setDealer(int nDealer) { m_nDealer = nDealer; }
   
   public boolean czyOk() {
     m_sErrors = "";
@@ -178,7 +184,7 @@ public class Deal {
     }
 
   private boolean wczytajTagDeal(String sDeal) {
-    int nOsoba, nKolor;
+    int nPerson, nKolor;
     int nPoz;
     int cKarty, cOsoby;
     Karta k;
@@ -188,7 +194,7 @@ public class Deal {
     cKarty = 0;
     //System.err.println("len="+sDeal.length()+" _"+sDeal+"_"); 
     try {
-      nOsoba = osoba(sDeal.charAt(nPoz = 0));
+      nPerson = person(sDeal.charAt(nPoz = 0));
       cOsoby += 1;
       nKolor = 1;
       k = new Karta();
@@ -200,7 +206,7 @@ public class Deal {
           nKolor = Karta.nastKolor(nKolor);
           }
         else if (ch==' ') {
-          nOsoba = nastOsoba(nOsoba);
+          nPerson = nextPerson(nPerson);
           nKolor = 1;
           cOsoby += 1;
           }
@@ -217,9 +223,9 @@ public class Deal {
           
           k.set(nKolor, Karta.wysok(ch));
           if (!k.czyOk()) { System.err.println("B³¹d sk³adni pliku PBN. B³êdna wysokoœæ karty: "+ch);return false; }
-          if (m_anKarty[k.getKod()] != -1) { System.err.println("B³¹d sk³adni pliku PBN. Karta "+k.toString()+" ("+k.getKod()+") zosta³a rozdana 2 razy. Poprzednio do "+m_anKarty[k.getKod()]+" a teraz do "+nOsoba); return false; }
-          m_anKarty[k.getKod()] = nOsoba;
-          //System.err.println("Karta "+k.toString()+" ("+k.getKod()+") idzie do "+znakOsoby(nOsoba));
+          if (m_anKarty[k.getKod()] != -1) { System.err.println("B³¹d sk³adni pliku PBN. Karta "+k.toString()+" ("+k.getKod()+") zosta³a rozdana 2 razy. Poprzednio do "+m_anKarty[k.getKod()]+" a teraz do "+nPerson); return false; }
+          m_anKarty[k.getKod()] = nPerson;
+          //System.err.println("Karta "+k.toString()+" ("+k.getKod()+") idzie do "+znakOsoby(nPerson));
           cKarty += 1;
           }
         }
@@ -250,7 +256,7 @@ public class Deal {
         }
       if ((m=patDealer.matcher(sLinia)).matches()) {
         String sDealer = m.group(1);
-        m_nDealer = osoba(sDealer);
+        m_nDealer = person(sDealer);
         }
       if ((m=patVulner.matcher(sLinia)).matches()) { m_sVulner = m.group(1); }
       if ((m=patDeal.matcher(sLinia)).matches()) { m_sDeal = m.group(1); }
@@ -293,9 +299,9 @@ public class Deal {
       catch (javazoom.jl.decoder.JavaLayerException e) { e.printStackTrace(); }
       }
 
-    private void grajDzwiek(int nOsoba) {
-      if (nOsoba<0 || nOsoba>3) { return; }
-      grajDzwiek("" + (nOsoba+1));
+    private void grajDzwiek(int nPerson) {
+      if (nPerson<0 || nPerson>3) { return; }
+      grajDzwiek("" + (nPerson+1));
       }
 
     void filtruj(StringBuffer sb) {
@@ -321,10 +327,10 @@ public class Deal {
                   System.out.println("Nieznana karta "+sKarta);
                   }
                 else {
-                  int nOsoba = m_anKarty[nKodKarty];
-                  //System.out.println(sKarta + " -> " + nOsoba);
-                  sb.replace(nPoz+KLUCZ_LEN, nPoz+KLUCZ_LEN+2, "*"+znakOsoby(nOsoba));
-                  grajDzwiek(nOsoba);
+                  int nPerson = m_anKarty[nKodKarty];
+                  //System.out.println(sKarta + " -> " + nPerson);
+                  sb.replace(nPoz+KLUCZ_LEN, nPoz+KLUCZ_LEN+2, "*"+personChar(nPerson));
+                  grajDzwiek(nPerson);
                   }
                 }
               }
@@ -366,6 +372,8 @@ public class Deal {
   }
   
   public void savePbn(Writer w) throws java.io.IOException {
+    if (m_nNr > 0) { setIdentField("Board", "" + m_nNr); }
+    if (m_nDealer >= 0) { setIdentField("Dealer", "" + personChar(m_nDealer)); }
     for (String sField : m_sIdentFields) {
       String sValue = m_mIdentFields.get(sField);
       if (sValue != null) {

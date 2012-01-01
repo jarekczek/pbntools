@@ -212,20 +212,22 @@ public class ParyTourDownloader extends HtmlTourDownloader
   {
     ArrayList<Deal> deals = new ArrayList<Deal>();
     for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
-      Deal d = readDeal(getLinkForDeal(iDeal));
+      Deal d = readDeal(getLinkForDeal(iDeal), false);
       if (d != null) {
         d.setIdentField("Event", m_sTitle);
-        d.m_nNr = iDeal;
         deals.add(d);
       }
     }
     return deals.toArray(new Deal[0]);
   }
 
-  public Deal readDeal(String sUrl)
+  public Deal readDeal(String sUrl, boolean bSilent)
     throws DownloadFailedException
   {
     Document doc;
+    m_sCurFile = sUrl;
+    m_bSilent = bSilent;
+    
     Deal deal = new Deal();
     try {
       SoupProxy proxy = new SoupProxy();
@@ -244,17 +246,38 @@ public class ParyTourDownloader extends HtmlTourDownloader
         break;
       }
     }
-    if (dealElem == null) throw new DownloadFailedException(
-            PbnTools.getStr("error.elementNotFound", "deal table"), true); 
+    if (dealElem == null) { throwElemNotFound("deal table"); } 
     // java.lang.System.out.println("1:" + dealElem.html());
     extractHands(deal, dealElem);
-    return null;
+    return deal;
   }
   
   /** @param dealElem tbody with deal definition without results */
   protected void extractHands(Deal deal, Element dealElem)
     throws DownloadFailedException
   {
-    throw new DownloadFailedException("dosc", true);
+    Elements elems = dealElem.select("tr");
+    // first 4 rows describe the deal
+    for (int iRow=0; iRow<=3; iRow++) {
+      if (iRow > elems.size()) { throwElemNotFound("row no " + iRow); }
+      switch (iRow) {
+        
+      case 0:
+        // text "ROZDANIE xx"
+        String sRozdanie = elems.get(iRow).text();
+        sRozdanie = sRozdanie.replace("ROZDANIE ", "");
+        try {
+          deal.setNumber(Integer.parseInt(sRozdanie));
+        } catch (NumberFormatException nfe) {
+          throwElemNotFound("rozdanie");
+        }
+        break;
+        
+      case 1:
+        // first character of this row denotes dealer
+        deal.setDealer(Deal.person(elems.get(iRow).text().substring(0,1)));
+      }
+    }
+    //throw new DownloadFailedException("dosc", true);
   }
 }
