@@ -116,7 +116,7 @@ public class PbnFile  {
         Deal r = m_ar.get(i);
         bw.write("<tr>"); bw.newLine();
         bw.write(sTdStart + r.m_nNr + "</td>");
-        bw.write(sTdStart + Deal.znakOsoby(r.m_nDealer) + "</td>");
+        bw.write(sTdStart + Deal.personChar(r.m_nDealer) + "</td>");
         bw.write(sTdStart + r.m_sVulner + "</td>");
         bw.write(sTdStart + "&nbsp;" + "</td>");
         bw.write(sTdStart + "&nbsp;" + "</td>");

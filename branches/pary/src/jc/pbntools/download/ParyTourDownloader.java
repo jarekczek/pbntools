@@ -275,9 +275,26 @@ public class ParyTourDownloader extends HtmlTourDownloader
         
       case 1:
         // first character of this row denotes dealer
-        deal.setDealer(Deal.person(elems.get(iRow).text().substring(0,1)));
+        String sText = elems.get(iRow).text();
+        deal.setDealer(Deal.person(sText.substring(0,1)));
+        
+        // second word - vulnerability
+        String sVulner = sText.replaceFirst("^. (\\S+) .*", "$1");
+        sVulner = sVulner.replace("obie", "all");
+        sVulner = sVulner.replace("nikt", "none");
+        deal.setVulner(sVulner);
+        
+        setCards(Deal.N, getOneTag(elems.get(iRow), ".w", false));
       }
     }
     //throw new DownloadFailedException("dosc", true);
   }
+
+  /** Deals cards presented by html <code>hand</code> to <code>nPerson</code> */
+  protected void setCards(int nPerson, Element hand)
+    throws DownloadFailedException
+  {
+    m_ow.addLine(hand.text());
+  }
+
 }
