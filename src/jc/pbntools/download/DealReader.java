@@ -25,6 +25,6 @@ import jc.pbntools.Deal;
 
 public interface DealReader
 {
-  public Deal readDeal(String sUrl)
+  public Deal readDeal(String sUrl, boolean bSilent)
     throws HtmlTourDownloader.DownloadFailedException;
 }

@@ -57,6 +57,10 @@ abstract public class HtmlTourDownloader
   protected OutputWindow m_ow;
   protected Document m_doc;
   public int m_cDeals;
+  /** Current file, to show in error messages */
+  protected String m_sCurFile;
+  /** Whether to show error messages. */ 
+  protected boolean m_bSilent;
   
   /** set the window to which output messages will be directed */
   abstract public void setOutputWindow(OutputWindow ow);
@@ -69,6 +73,8 @@ abstract public class HtmlTourDownloader
     m_ow = null;
     m_doc = null;
     m_cDeals = 0;
+    m_sCurFile = "";
+    m_bSilent = false;
   }
   
   public void setLink(String sLink) {
@@ -165,7 +171,7 @@ abstract public class HtmlTourDownloader
   abstract protected Deal[] readDealsFromDir(String sDir)
     throws DownloadFailedException;
 
-  abstract public Deal readDeal(String sUrl)
+  abstract public Deal readDeal(String sUrl, boolean bSilent)
     throws DownloadFailedException;
 
   protected void saveDealsAsPbn(Deal[] aDeal, String sDir)
@@ -206,10 +212,11 @@ abstract public class HtmlTourDownloader
       } else {
         m_ow.addLine(PbnTools.getStr("tourDown.msg.alreadyWgetted", m_sLocalDir));
       }
-
-      Deal[] aDeal = readDealsFromDir(m_sLocalDir);
-      saveDealsAsPbn(aDeal, m_sLocalDir);
     }
+
+    Deal[] aDeal = readDealsFromDir(m_sLocalDir);
+    saveDealsAsPbn(aDeal, m_sLocalDir);
+
     return true;
   }
 
@@ -318,5 +325,13 @@ abstract public class HtmlTourDownloader
     }
   } //}}}
 
+  /** A helper function to make error messages code shorter. */
+  void throwElemNotFound(String sElem)
+    throws DownloadFailedException
+  {
+    throw new DownloadFailedException(
+      PbnTools.getStr("error.elementNotFound", sElem, m_sCurFile),
+      !m_bSilent);
+  }
   
 }
