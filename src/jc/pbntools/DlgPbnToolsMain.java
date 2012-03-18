@@ -22,13 +22,13 @@ import java.io.*;
 import java.util.*;
 import jc.f;
 
-public class DlgPbnToolsMain extends javax.swing.JDialog {
+public class DlgPbnToolsMain extends javax.swing.JFrame {
 
     ResourceBundle m_res;
 
     /** Creates new form DlgPbnToolsMain */
-    public DlgPbnToolsMain(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public DlgPbnToolsMain() {
+        super();
         m_res = jc.pbntools.PbnTools.m_res;
         initComponents();
     }
@@ -222,7 +222,7 @@ public class DlgPbnToolsMain extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DlgPbnToolsMain dialog = new DlgPbnToolsMain(new javax.swing.JFrame(), true);
+                DlgPbnToolsMain dialog = new DlgPbnToolsMain();
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);

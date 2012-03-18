@@ -19,9 +19,11 @@
 
 package jc.pbntools;
 
+import java.awt.Window;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 import jc.f;
 import jc.outputwindow.DialogOutputWindow;
 import jc.outputwindow.StandardOutputWindow;
@@ -91,14 +93,14 @@ public class PbnTools {
                         + " -d \"" + sWorkDir.replaceAll("\\\\", "/") + "\" "
                         + sLink };
     if (bLinux) {
-      rv = RunProcess.runCmd((JDialog)m_dlgMain, "bash", asArgs, m_sScriptDir);
+      rv = RunProcess.runCmd(m_dlgMain, "bash", asArgs, m_sScriptDir);
       }
     else {
       String sMsysBin = m_sCurDir + m_sSlash + "bin" + m_sSlash + "msys" + m_sSlash + "bin";
       String asPaths[] = { sMsysBin,
                            m_sCurDir + m_sSlash + "bin" + m_sSlash + "wget" };
       String sBash = sMsysBin + m_sSlash + "bash";
-      rv = RunProcess.runCmd((JDialog)m_dlgMain, sBash, asArgs, m_sScriptDir, asPaths);
+      rv = RunProcess.runCmd(m_dlgMain, sBash, asArgs, m_sScriptDir, asPaths);
       }
   }
   
@@ -167,7 +169,9 @@ public class PbnTools {
     * <dt>128 - interrupted by user</dt>
     * </dl>
     */
-  public static void main(String args[]) {
+  public static void main(String args[]) throws InterruptedException,
+                                         InvocationTargetException
+  {
     String sPropsFile = System.getProperty("user.home") + System.getProperty("file.separator") + "PbnTools.props";
     try { m_props.load(new FileReader(sPropsFile)); m_bPropsRead = true; }
     catch (java.io.FileNotFoundException e) { m_bPropsRead = true; }
@@ -176,9 +180,10 @@ public class PbnTools {
     parseCommandLine(args);
 
     if (m_bRunMainDialog) {
-      m_dlgMain = new DlgPbnToolsMain(null, true);
-      m_dlgMain.setModalityType(java.awt.Dialog.ModalityType.DOCUMENT_MODAL);
-      m_dlgMain.setVisible(true);
+      SwingUtilities.invokeAndWait(new Runnable() { public void run() {
+        m_dlgMain = new DlgPbnToolsMain();
+        m_dlgMain.setVisible(true);
+      }});
     }
 
     try { if (m_bPropsRead) { m_props.store(new FileWriter(sPropsFile), null); } }
