@@ -78,7 +78,12 @@
            <!-- classpathref="ivy.jar.path"/> -->
   <ivy:retrieve inline="true" organisation="org.jsoup"
                 module="jsoup" type="jar" revision="1.6.1"
-                pattern="${basedir}/lib/[artifact]-[revision]-.[ext]" />
+                pattern="${basedir}/lib/[artifact]-[revision].[ext]" />
+  <!-- only 1.0 on maven, we may consider switching to 1.0 
+  <ivy:retrieve inline="true" organisation="de.huxhorn.sulky"
+                module="de.huxhorn.sulky.3rdparty.jlayer" type="jar"
+                revision="1.0"
+                pattern="${basedir}/lib/[artifact]-[revision].[ext]" /> -->
 </target>
  
 <target name="jar" depends="comp">
