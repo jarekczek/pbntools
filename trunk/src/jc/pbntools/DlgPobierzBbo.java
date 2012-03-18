@@ -153,7 +153,7 @@ public class DlgPobierzBbo extends javax.swing.JDialog {
         }
         if (rbLink.isSelected()) {
           m_sLink = ebLink.getText();
-          if (m_sLink.isEmpty()) { javax.swing.JOptionPane.showMessageDialog(null, "Link pusty"); return; }
+          if (m_sLink.isEmpty()) { javax.swing.JOptionPane.showMessageDialog(null, PbnTools.m_res.getString("error.emptyLink")); return; }
         }
         else {
           m_sLink = null;

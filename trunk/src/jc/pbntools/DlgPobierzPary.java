@@ -20,6 +20,7 @@
 package jc.pbntools;
 
 import jc.f;
+import javax.swing.JRootPane;
 
 /*
  * To change this template, choose Tools | Templates
@@ -27,7 +28,7 @@ import jc.f;
  */
 
 /*
- * DlgPobierzKops.java
+ * DlgPobierzPary.java
  *
  * Created on 2010-02-23, 08:47:17
  */
@@ -36,12 +37,12 @@ import jc.f;
  *
  * @author Jarek
  */
-public class DlgPobierzKops extends javax.swing.JDialog {
+public class DlgPobierzPary extends javax.swing.JDialog {
   int rv;
   String m_sLink;
 
-    /** Creates new form DlgPobierzKops */
-    public DlgPobierzKops(java.awt.Frame parent, boolean modal) {
+    /** Creates new form DlgPobierzPary */
+    public DlgPobierzPary(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         rv = 0;
         initComponents();
@@ -64,10 +65,10 @@ public class DlgPobierzKops extends javax.swing.JDialog {
         pbAnuluj = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Pobierz Kops");
+        setTitle("Pobierz Pary");
 
-        jLabel1.setText(PbnTools.m_res.getString("kops.link"));
-        ebLink.setText(PbnTools.m_props.getProperty("pobierzKops.link"));
+        jLabel1.setText("<html>Link do turnieju (oznaczony na PZBS jako <i>Wyniki</i>):");
+        ebLink.setText(PbnTools.m_props.getProperty("pobierzPary.link"));
         ebLink.selectAll();
 
         f.setTextAndMnem(pbOk, "download");
@@ -76,6 +77,7 @@ public class DlgPobierzKops extends javax.swing.JDialog {
                 pbOkActionPerformed(evt);
             }
         });
+        getRootPane().setDefaultButton(pbOk);
 
         f.setTextAndMnem(pbAnuluj, "cancel");
         pbAnuluj.addActionListener(new java.awt.event.ActionListener() {
@@ -122,7 +124,7 @@ public class DlgPobierzKops extends javax.swing.JDialog {
       // TODO add your handling code here:
       m_sLink = ebLink.getText();
       if (m_sLink.isEmpty()) { javax.swing.JOptionPane.showMessageDialog(null, PbnTools.m_res.getString("error.emptyLink")); return; }
-      PbnTools.m_props.setProperty("pobierzKops.link", ebLink.getText());
+      PbnTools.m_props.setProperty("pobierzPary.link", ebLink.getText());
       rv = 2;
       dispose();
     }//GEN-LAST:event_pbOkActionPerformed
@@ -139,7 +141,7 @@ public class DlgPobierzKops extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DlgPobierzKops dialog = new DlgPobierzKops(new javax.swing.JFrame(), true);
+                DlgPobierzPary dialog = new DlgPobierzPary(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);

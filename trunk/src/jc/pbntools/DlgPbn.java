@@ -40,10 +40,10 @@ import jc.f;
 public class DlgPbn extends javax.swing.JDialog
                     implements javax.swing.event.ListSelectionListener {
 
-    PlikPbn m_plik;
+    PbnFile m_plik;
 
     /** Creates new form DlgPbn */
-    public DlgPbn(java.awt.Frame parent, boolean modal, PlikPbn plik) {
+    public DlgPbn(java.awt.Frame parent, boolean modal, PbnFile plik) {
         super(parent, modal);
         m_plik = plik;
         initComponents();
@@ -197,7 +197,7 @@ public class DlgPbn extends javax.swing.JDialog
 
     private void pbRozdajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbRozdajActionPerformed
         // TODO add your handling code here:
-      Rozdanie r = (Rozdanie) jList1.getSelectedValue();
+      Deal r = (Deal) jList1.getSelectedValue();
       if (r!=null) {
         r.rozdaj();
         }
@@ -212,14 +212,14 @@ public class DlgPbn extends javax.swing.JDialog
     * @param args the command line arguments
     */
     public static void main(String args[]) {
-                PlikPbn plik = new PlikPbn();
+                PbnFile plik = new PbnFile();
                 plik.wczytaj(args[0]+"");
                 DlgPbn dialog = new DlgPbn(new javax.swing.JFrame(), true, plik);
                 dialog.setVisible(true);
     }
     
     public void valueChanged(javax.swing.event.ListSelectionEvent e) {
-      Rozdanie r = (Rozdanie) jList1.getSelectedValue();
+      Deal r = (Deal) jList1.getSelectedValue();
       pbRozdaj.setEnabled(r != null);
     }
 
