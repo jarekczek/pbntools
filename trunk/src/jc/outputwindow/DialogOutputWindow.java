@@ -39,10 +39,10 @@ public class DialogOutputWindow extends OutputWindow {
   protected CloseAction m_closeAction;
   protected StopAction m_stopAction;
   
-  public DialogOutputWindow(Dialog parent, Client cli, ResourceBundle res)
+  public DialogOutputWindow(Window parent, Client cli, ResourceBundle res)
   {
     super(cli, res);
-    m_dlg = new JDialog(parent, false);
+    m_dlg = new JDialog(parent, Dialog.ModalityType.MODELESS);
 
     // standard dialog startup code
     m_dlg.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

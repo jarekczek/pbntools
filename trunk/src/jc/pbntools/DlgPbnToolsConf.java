@@ -37,7 +37,7 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
   protected JTextField m_ebWorkDir;
   protected JTextField m_ebZbarcamOpts;
 
-  public DlgPbnToolsConf(java.awt.Dialog parent, boolean modal) {
+  public DlgPbnToolsConf(javax.swing.JFrame parent, boolean modal) {
     super(parent, PbnTools.m_res.getString("configDlg.title"), modal);
     m_res = PbnTools.m_res;
     initComponents();

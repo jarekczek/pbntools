@@ -19,9 +19,10 @@
 
 package jc.pbntools;
 
+import java.awt.Window;
 import java.io.*;
 import java.util.*;
-import javax.swing.*;
+// import javax.swing.;
 import jc.f;
 
 
@@ -232,7 +233,7 @@ public class RunProcess {
     }
 
   DlgProcess m_dlgProc;
-  JDialog m_dlgMain;
+  Window m_dlgMain;
   String m_sCmd;
   String m_asArgs[];
   String m_asPaths[];
@@ -242,7 +243,7 @@ public class RunProcess {
   FiltrTekstu m_filtr;
   File m_dir;
 
-  public RunProcess(JDialog dlgMain, String sCmd, String asArgs[], String sDir) {
+  public RunProcess(Window dlgMain, String sCmd, String asArgs[], String sDir) {
     m_dlgProc = null;
     m_dlgMain = dlgMain;
     m_rv = -1;
@@ -276,7 +277,6 @@ public class RunProcess {
     * {@link RunProcess} object.
     * @see #RunProcess
     */
-//    * (JDialog, String, String, String)
   public static int runCmd(RunProcess rp)
   {
     rp.m_bDestroy = false;
@@ -285,7 +285,7 @@ public class RunProcess {
     return rp.m_rv;
   }
 
-  static int runCmd(JDialog dlgMain, String sCmd, String asArgs[],
+  static int runCmd(Window dlgMain, String sCmd, String asArgs[],
                     FiltrTekstu filtr, String sDir, String asPaths[]) {
     RunProcess rp = new RunProcess(dlgMain, sCmd, asArgs, sDir);
     rp.m_filtr = filtr;
@@ -293,20 +293,20 @@ public class RunProcess {
     return runCmd(rp);
     }
 
-  public static int runCmd(JDialog dlgMain, String sCmd, String asArgs[], String sDir)
+  public static int runCmd(Window dlgMain, String sCmd, String asArgs[], String sDir)
     { return runCmd(dlgMain, sCmd, asArgs, null, sDir, new String[0]); }
-  public static int runCmd(JDialog dlgMain, String sCmd, String asArgs[], String sDir, String asPaths[])
+  public static int runCmd(Window dlgMain, String sCmd, String asArgs[], String sDir, String asPaths[])
     { return runCmd(dlgMain, sCmd, asArgs, null, sDir, asPaths); }
-  public static int runCmd(JDialog dlgMain, String sCmd, String asArgs[], FiltrTekstu filtr)
+  public static int runCmd(Window dlgMain, String sCmd, String asArgs[], FiltrTekstu filtr)
     { return runCmd(dlgMain, sCmd, asArgs, filtr, null, new String[0]); }
-  public static int runCmd(JDialog dlgMain, String sCmd, FiltrTekstu filtr) {
+  public static int runCmd(Window dlgMain, String sCmd, FiltrTekstu filtr) {
     String asCmdArray[] = sCmd.split(" ");
     String asArgs[] = Arrays.copyOfRange(asCmdArray, 1, asCmdArray.length);
     return runCmd(dlgMain, asCmdArray[0], asArgs, filtr, null, new String[0]);
   }
-  public static int runCmd(JDialog dlgMain, String sCmd, String asArgs[])
+  public static int runCmd(Window dlgMain, String sCmd, String asArgs[])
     { return runCmd(dlgMain, sCmd, asArgs, null, null, new String[0]); }
-  public static int runCmd(JDialog dlgMain, String sCmd) {
+  public static int runCmd(Window dlgMain, String sCmd) {
     return runCmd(dlgMain, sCmd, (FiltrTekstu)null);
   }
 

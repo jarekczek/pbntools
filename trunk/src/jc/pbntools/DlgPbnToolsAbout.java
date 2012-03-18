@@ -37,7 +37,7 @@ package jc.pbntools;
 public class DlgPbnToolsAbout extends javax.swing.JDialog {
 
     /** Creates new form DlgPbnToolsAbout */
-    public DlgPbnToolsAbout(java.awt.Dialog parent, boolean modal) {
+    public DlgPbnToolsAbout(javax.swing.JFrame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
