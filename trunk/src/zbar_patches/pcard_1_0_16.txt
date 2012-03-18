@@ -970,7 +970,7 @@ diff -r fe4c21fc8ec3 zbar/img_scanner.c
                 sym->type == ZBAR_DATABAR_EXP ||
 -               sym->type == ZBAR_CODABAR)
 +               sym->type == ZBAR_CODABAR ||
-+               sym->type == ZBAR_PCARD) {
++               sym->type == ZBAR_PCARD)
              {
  	        if((sym->type == ZBAR_CODABAR || filter) && sym->quality < 4) {
                      if(iscn->enable_cache) {
