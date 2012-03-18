@@ -15,6 +15,7 @@
 <condition property="tmp" value="/tmp" else="${env.TEMP}"><os family="unix"/></condition>
 <property name="runDir" value="${tmp}" />
 <property name="sed" value="sed" />
+<property name="svn" value="svn" />
 <property name="launch4jJar" location="/usr/local/lib/launch4j/launch4j.jar" />
 
 <property name="compDir" location="${basedir}/work/comp" />
@@ -127,7 +128,8 @@
 <!-- //}}} -->
 
 <!-- //{{{ helper targets -->
-<target name="set-filenames">
+<target name="set-filenames" depends="set-svn-rev" >
+  <property name="build.number" value="${svn.rev}" />
   <property file="build.number" />
   <property name="destSrcDir" value="release" />
   <property name="fnReleaseZipLinux" value="${basedir}/release/PbnTools_${wersja_podkr}_r${build.number}_linux.zip" />
@@ -143,13 +145,33 @@
 <target name="incBuildnumber" unless="buildnumberIncreased" >
   <property name="buildnumberIncreased" value="true" />
   <antcall target="incBuildnumberHelper" />
-  <property file="build.number" />
+  <!-- since we use svn.rev as a build number, this must be prefixed -->
+  <property file="build.number" prefix="ant" />
 </target>
 
 <target name="dontIncBuildnumer">
   <!--prevent increasing build number-->
   <property name="buildnumberIncreased" value="true" />
 </target>
+
+<target name="set-svn-rev" > <!-- {{{ -->
+  <exec executable="${svn}" outputproperty="svn.info">
+    <arg line="info" />
+  </exec>
+  <script manager="bsf" language="beanshell" classpath="${bshJar}"><![CDATA[
+    import java.util.regex.*;
+    import org.apache.tools.ant.BuildException;
+    sSvnInfo = project.getProperty("svn.info");
+    Pattern p = Pattern.compile("Revision: ([0-9]+)");
+    Matcher m = p.matcher(sSvnInfo);
+    if (m.find()) {
+      project.setProperty("svn.rev", m.group(1));
+    } else {
+      throw new BuildException("Could not find the revision " +
+                               "number in svn info.");
+    }
+  ]]></script>
+</target> <!-- }}} -->
 
 <!-- //}}} -->
 
@@ -464,8 +486,7 @@
   ]]></script>
 </target>
 
-<target name="test" depends="jar">
-  <echo>hello</echo>
+<target name="test" depends="">
 </target>
 
 <target name="test-rozdaj" depends="comp">
