@@ -60,6 +60,9 @@
 
 <target name="comp" depends="">
   <native2ascii encoding="windows-1250" dest="${basedir}/work/comp/jc" src="${basedir}/src/jc" includes="**/*.properties" />
+  <copy todir="${basedir}/work/comp/jc/pbntools/res">
+    <fileset dir="${basedir}/res" includes="*" />
+  </copy>
   <javac verbose="no" classpath="${basedir}/src;${basedir}/lib/jl1.0.1.jar;
                                  ${basedir}/lib/jsoup-1.6.1.jar" srcdir="${basedir}/src" destdir="${compDir}"
          includes="**/*.java" excludes="**/pbn_nb/**/*"
