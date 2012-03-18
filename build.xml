@@ -1,4 +1,5 @@
-<project name="PbnTools" default="zip-src" >
+<project name="PbnTools" default="zip-src"
+  xmlns:ivy="antlib:org.apache.ivy.ant" >
 
 <!-- jedit properties: :folding=explicit:noTabs=true:indentSize=2: -->
 
@@ -71,6 +72,15 @@
          encoding="windows-1250" includeantruntime="false" />
 </target>
 
+<target name="download-deps">
+  <taskdef resource="org/apache/ivy/ant/antlib.xml"
+           uri="antlib:org.apache.ivy.ant" /> 
+           <!-- classpathref="ivy.jar.path"/> -->
+  <ivy:retrieve inline="true" organisation="org.jsoup"
+                module="jsoup" type="jar" revision="1.6.1"
+                pattern="${basedir}/lib/[artifact]-[revision]-.[ext]" />
+</target>
+ 
 <target name="jar" depends="comp">
   <delete><fileset dir="${compDir}" includes="*.properties"/></delete>
   <jar destfile="${basedir}/work/release/PbnTools.jar" basedir="${basedir}/work/comp" >
