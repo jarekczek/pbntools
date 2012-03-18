@@ -216,8 +216,8 @@
 <target name="zbar-download-orig" unless="no.zbar.download.orig" >
   <property name="zbarDir" location="${basedir}/lib/zbar" />
   <property name="zbarOrigDir" location="${zbarDir}/src_orig" />
-  <property name="zbarRev" value="" />
-  <property name="zbarRev" value="-r 959d159c84a4" />
+  <!-- current patch set prepared 2012-03-18, for rev fe4c21fc8ec3 -->
+  <property name="zbarRev" value="-r fe4c21fc8ec3" />
   <property name="zbarRev" value="-r 0.10" />
   <delete quiet="true" dir="${zbarDir}" />
   <mkdir dir="${zbarOrigDir}" />
@@ -229,7 +229,7 @@
 
 <target name="zbar-download" depends="zbar-download-orig" >
   <property name="patchOpts" value="-p1 -F0" />
-  <exec executable="patch" input="${basedir}/src/zbar_patches/pcard_1_0_15.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
+  <exec executable="patch" input="${basedir}/src/zbar_patches/pcard_1_0_16.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
   <exec executable="patch" input="${basedir}/src/zbar_patches/test_decode_pcard_1_0_7.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
   <exec executable="patch" input="${basedir}/src/zbar_patches/vfw_cleanup_1_0.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
   <exec executable="patch" input="${basedir}/src/zbar_patches/vfw_doc_1_0.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
