@@ -1,0 +1,999 @@
+diff -r fe4c21fc8ec3 README
+--- a/README	Sun Mar 11 14:31:23 2012 -0700
++++ b/README	Sun Mar 18 16:26:59 2012 +0100
+@@ -4,7 +4,7 @@
+ ZBar Bar Code Reader is an open source software suite for reading bar
+ codes from various sources, such as video streams, image files and raw
+ intensity sensors. It supports EAN-13/UPC-A, UPC-E, EAN-8, Code 128,
+-Code 39, Codabar, Interleaved 2 of 5 and QR Code.  Included with the
++Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard.  Included with the
+ library are basic applications for decoding captured bar code images and
+ using a video device (eg, webcam) as a bar code scanner.  For application
+ developers, language bindings are included for C, C++, Python and Perl
+diff -r fe4c21fc8ec3 README.windows
+--- a/README.windows	Sun Mar 11 14:31:23 2012 -0700
++++ b/README.windows	Sun Mar 18 16:26:59 2012 +0100
+@@ -4,7 +4,7 @@
+ ZBar Bar Code Reader is an open source software suite for reading bar codes
+ from various sources, such as video streams, image files and raw intensity
+ sensors. It supports EAN-13/UPC-A, UPC-E, EAN-8, Code 128, Code 93, Code 39,
+-Codabar, Interleaved 2 of 5 and QR Code.  Included with the library are basic
++Codabar, Interleaved 2 of 5 and QR Code and PCard.  Included with the library are basic
+ applications for decoding captured bar code images and using a video device
+ (eg, webcam) as a bar code scanner.  For application developers, language
+ bindings are included for C, C++, Python and Perl as well as GUI widgets for
+diff -r fe4c21fc8ec3 configure.ac
+--- a/configure.ac	Sun Mar 11 14:31:23 2012 -0700
++++ b/configure.ac	Sun Mar 18 16:26:59 2012 +0100
+@@ -107,9 +107,9 @@
+ 
+ AC_ARG_ENABLE([codes],
+   [AS_HELP_STRING([--enable-codes=SYMS],
+-    [select symbologies to compile [default=ean,databar,code128,code93,code39,codabar,i25,qrcode]])],
++    [select symbologies to compile [default=ean,databar,code128,code93,code39,codabar,i25,qrcode,pcard]])],
+   [],
+-  [enable_codes="ean,databar,code128,code93,code39,codabar,i25,qrcode"])
++  [enable_codes="ean,databar,code128,code93,code39,codabar,i25,qrcode,pcard"])
+ 
+ AC_DEFUN([ZBAR_CHK_CODE], [
+   AC_MSG_CHECKING([whether to build $2])
+@@ -135,6 +135,7 @@
+ ZBAR_CHK_CODE([i25], [Interleaved 2 of 5 symbology])
+ ZBAR_CHK_CODE([qrcode], [QR Code])
+ ZBAR_CHK_CODE([pdf417], [PDF417 symbology])
++ZBAR_CHK_CODE([pcard], [playing cards symbology])
+ 
+ dnl libraries
+ 
+diff -r fe4c21fc8ec3 doc/Makefile.am.inc
+--- a/doc/Makefile.am.inc	Sun Mar 11 14:31:23 2012 -0700
++++ b/doc/Makefile.am.inc	Sun Mar 18 16:26:59 2012 +0100
+@@ -1,6 +1,7 @@
+ # documentation sources
+ DOCSOURCES = doc/manual.xml doc/version.xml doc/reldate.xml \
+-    doc/ref/zbarimg.xml doc/ref/zbarcam.xml doc/ref/commonoptions.xml
++    doc/ref/zbarimg.xml doc/ref/zbarcam.xml doc/ref/commonoptions.xml \
++    doc/ref/commonnotes.xml
+ 
+ MAINTAINERCLEANFILES += doc/man/man.stamp doc/version.xml doc/reldate.xml
+ 
+diff -r fe4c21fc8ec3 doc/manual.xml
+--- a/doc/manual.xml	Sun Mar 11 14:31:23 2012 -0700
++++ b/doc/manual.xml	Sun Mar 18 16:26:59 2012 +0100
+@@ -7,6 +7,7 @@
+   <!ENTITY date SYSTEM "reldate.xml">
+ 
+   <!ENTITY refcommonoptions SYSTEM "ref/commonoptions.xml">
++  <!ENTITY refcommonnotes SYSTEM "ref/commonnotes.xml">
+   <!ENTITY refzbarimg SYSTEM "ref/zbarimg.xml">
+   <!ENTITY refzbarcam SYSTEM "ref/zbarcam.xml">
+ ]>
+diff -r fe4c21fc8ec3 doc/ref/commonnotes.xml
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/doc/ref/commonnotes.xml	Sun Mar 18 16:26:59 2012 +0100
+@@ -0,0 +1,19 @@
++  <refsection>
++    <title>Notes on specific symbologies</title>
++    <variablelist>
++      <varlistentry><term>PCard</term>
++      <listitem>
++      <simpara>PCard refers to barcoded playing cards, type WIN. Every card
++has 2 barcodes: one at the top and one at the bottom of a card, the bottom
++positioned upside-down. To avoid confusion zbar assumes that symbols are
++presented in standard orientation, where the top of a card is at the top of
++a picture. Only the upper barcode should be presented to the scanner,
++because the other barcode (being upside-down) may denote a different card.
++If for example the whole card 2 of spades is shown, the scanner would
++report 2 cards: S5 and S2, because the S5 barcode read upside-down
++denotes S2.</simpara>
++      </listitem>
++      </varlistentry>
++    </variablelist>
++  </refsection>
++
+diff -r fe4c21fc8ec3 doc/ref/commonoptions.xml
+--- a/doc/ref/commonoptions.xml	Sun Mar 11 14:31:23 2012 -0700
++++ b/doc/ref/commonoptions.xml	Sun Mar 18 16:26:59 2012 +0100
+@@ -49,7 +49,8 @@
+       <option>isbn13</option>, <option>isbn10</option>,
+       <option>i25</option>, <option>codabar</option>, <option>code39</option>,
+       <option>code93</option>, <option>code128</option>,
+-      <option>qrcode</option> or the special value <option>*</option>.
++      <option>qrcode</option>, <option>pcard</option>
++      or the special value <option>*</option>.
+       If <replaceable class="parameter">symbology</replaceable> is
+       omitted or <option>*</option>, the <replaceable
+       class="parameter">config</replaceable> will be set for all
+@@ -88,7 +89,8 @@
+             check digit.  It also not apply for cases where the check
+             digit is disabled (see <option>add-check</option>).  Check
+             digits are currently not implemented for
+-            <option>i25</option> or <option>code39</option></simpara>
++            <option>i25</option> or <option>code39</option>.  
++            <option>pcard</option> has no checking at all.</simpara>
+         </listitem>
+       </varlistentry>
+ 
+diff -r fe4c21fc8ec3 doc/ref/zbarcam.xml
+--- a/doc/ref/zbarcam.xml	Sun Mar 11 14:31:23 2012 -0700
++++ b/doc/ref/zbarcam.xml	Sun Mar 18 16:26:59 2012 +0100
+@@ -61,7 +61,8 @@
+ 
+     <para>The underlying library currently supports EAN-13 (including
+     UPC and ISBN subsets), EAN-8, DataBar, DataBar Expanded, Code 128,
+-    Code 93, Code 39, Codabar, Interleaved 2 of 5 and QR Code symbologies.
++    Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard
++    symbologies.
+     The specific type of each detected symbol is printed with the decoded
+     data.</para>
+ 
+@@ -191,6 +192,8 @@
+     </variablelist>
+   </refsection>
+ 
++  &refcommonnotes;
++
+   <refsection>
+     <title>See Also</title>
+     <para><xref linkend="zbarimg"/></para>
+diff -r fe4c21fc8ec3 doc/ref/zbarimg.xml
+--- a/doc/ref/zbarimg.xml	Sun Mar 11 14:31:23 2012 -0700
++++ b/doc/ref/zbarimg.xml	Sun Mar 18 16:26:59 2012 +0100
+@@ -60,7 +60,8 @@
+ 
+     <para>The underlying library currently supports EAN-13 (including
+     UPC and ISBN subsets), EAN-8, DataBar, DataBar Expanded, Code 128,
+-    Code 93, Code 39, Codabar, Interleaved 2 of 5 and QR Code symbologies.
++    Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard
++    symbologies.
+     The specific type of each detected symbol is printed with the decoded
+     data.</para>
+ 
+@@ -216,6 +217,8 @@
+     </variablelist>
+   </refsection>
+ 
++  &refcommonnotes;
++
+   <refsection>
+     <title>See Also</title>
+     <para><xref linkend="zbarcam"/></para>
+diff -r fe4c21fc8ec3 include/zbar.h
+--- a/include/zbar.h	Sun Mar 11 14:31:23 2012 -0700
++++ b/include/zbar.h	Sun Mar 18 16:26:59 2012 +0100
+@@ -101,6 +101,7 @@
+     ZBAR_CODABAR     =     38,  /**< Codabar. @since 0.11 */
+     ZBAR_CODE39      =     39,  /**< Code 39. @since 0.4 */
+     ZBAR_PDF417      =     57,  /**< PDF417. @since 0.6 */
++    ZBAR_PCARD       =     58,  /**< PCard. @since 0.11 */
+     ZBAR_QRCODE      =     64,  /**< QR Code. @since 0.10 */
+     ZBAR_CODE93      =     93,  /**< Code 93. @since 0.11 */
+     ZBAR_CODE128     =    128,  /**< Code 128 */
+diff -r fe4c21fc8ec3 iphone/README
+--- a/iphone/README	Sun Mar 11 14:31:23 2012 -0700
++++ b/iphone/README	Sun Mar 18 16:26:59 2012 +0100
+@@ -4,7 +4,7 @@
+ ZBar Bar Code Reader is an open source software suite for reading bar
+ codes from various sources, such as video streams, image files and raw
+ intensity sensors. It supports EAN-13/UPC-A, UPC-E, EAN-8, DataBar,
+-Code 128, Code 93, Code 39, Codabar, Interleaved 2 of 5 and QR Code.
++Code 128, Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard.
+ These are the Objective C wrappers and integrated widget for developing
+ with the library on the iPhone platform.
+ 
+diff -r fe4c21fc8ec3 iphone/doc/ZBarSymbol.rst
+--- a/iphone/doc/ZBarSymbol.rst	Sun Mar 11 14:31:23 2012 -0700
++++ b/iphone/doc/ZBarSymbol.rst	Sun Mar 18 16:26:59 2012 +0100
+@@ -144,6 +144,9 @@
+    ZBAR_CODE128
+       Code 128
+ 
++   ZBAR_PCARD
++      PCard
++
+ .. type:: zbar_orientation_t
+ 
+    The coarse orientation of a symbol.
+diff -r fe4c21fc8ec3 iphone/include/config.h
+--- a/iphone/include/config.h	Sun Mar 11 14:31:23 2012 -0700
++++ b/iphone/include/config.h	Sun Mar 18 16:26:59 2012 +0100
+@@ -24,6 +24,9 @@
+ /* whether to build support for PDF417 symbology */
+ #undef ENABLE_PDF417
+ 
++/* whether to build support for PCARD symbology */
++#define ENABLE_PCARD
++
+ /* whether to build support for QR Code */
+ #define ENABLE_QRCODE 1
+ 
+diff -r fe4c21fc8ec3 java/net/sourceforge/zbar/Symbol.java
+--- a/java/net/sourceforge/zbar/Symbol.java	Sun Mar 11 14:31:23 2012 -0700
++++ b/java/net/sourceforge/zbar/Symbol.java	Sun Mar 18 16:26:59 2012 +0100
+@@ -65,6 +65,8 @@
+     public static final int CODE93 = 93;
+     /** Code 128. */
+     public static final int CODE128 = 128;
++    /** PCard. */
++    public static final int PCARD = 58;
+ 
+     /** C pointer to a zbar_symbol_t. */
+     private long peer;
+diff -r fe4c21fc8ec3 perl/README
+--- a/perl/README	Sun Mar 11 14:31:23 2012 -0700
++++ b/perl/README	Sun Mar 18 16:26:59 2012 +0100
+@@ -4,8 +4,8 @@
+ ZBar Bar Code Reader is an open source software suite for reading bar
+ codes from various sources, such as video streams, image files and raw
+ intensity sensors. It supports EAN-13/UPC-A, UPC-E, EAN-8, Code 128,
+-Code 93, Code 39, Codabar, Interleaved 2 of 5 and QR Code.  These are
+-the Perl bindings for the library.
++Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard.
++These are the Perl bindings for the library.
+ 
+ Check the ZBar project home page for the latest release, mailing
+ lists, etc.
+diff -r fe4c21fc8ec3 perl/ZBar.pm
+--- a/perl/ZBar.pm	Sun Mar 11 14:31:23 2012 -0700
++++ b/perl/ZBar.pm	Sun Mar 18 16:26:59 2012 +0100
+@@ -87,7 +87,7 @@
+ The ZBar Bar Code Reader is a library for scanning and decoding bar
+ codes from various sources such as video streams, image files or raw
+ intensity sensors.  It supports EAN-13/UPC-A, UPC-E, EAN-8, Code 128,
+-Code 93, Code 39, Codabar, Interleaved 2 of 5 and QR Code.
++Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard.
+ 
+ These are the bindings for interacting directly with the library from
+ Perl.
+diff -r fe4c21fc8ec3 perl/ZBar.xs
+--- a/perl/ZBar.xs	Sun Mar 11 14:31:23 2012 -0700
++++ b/perl/ZBar.xs	Sun Mar 18 16:26:59 2012 +0100
+@@ -345,6 +345,7 @@
+         CONSTANT(symbol_type, , QRCODE, zbar_get_symbol_name(ZBAR_QRCODE));
+         CONSTANT(symbol_type, , CODE93, zbar_get_symbol_name(ZBAR_CODE93));
+         CONSTANT(symbol_type, , CODE128, zbar_get_symbol_name(ZBAR_CODE128));
++        CONSTANT(symbol_type, , PCARD, zbar_get_symbol_name(ZBAR_PCARD));
+     }
+ 
+ void
+diff -r fe4c21fc8ec3 perl/ZBar/Symbol.pod
+--- a/perl/ZBar/Symbol.pod	Sun Mar 11 14:31:23 2012 -0700
++++ b/perl/ZBar/Symbol.pod	Sun Mar 18 16:26:59 2012 +0100
+@@ -138,6 +138,8 @@
+ 
+ =item PDF417
+ 
++=item PCARD
++
+ =back
+ 
+ =head1 SEE ALSO
+diff -r fe4c21fc8ec3 python/README
+--- a/python/README	Sun Mar 11 14:31:23 2012 -0700
++++ b/python/README	Sun Mar 18 16:26:59 2012 +0100
+@@ -5,7 +5,7 @@
+ ZBar Bar Code Reader is an open source software suite for reading bar
+ codes from various sources, such as video streams, image files and raw
+ intensity sensors. It supports EAN-13/UPC-A, UPC-E, EAN-8, Code 128,
+-Code 93, Code 39, Codabar, Interleaved 2 of 5 and QR Code.  These are
++Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard.  These are
+ the Python bindings for the library.
+ 
+ Check the ZBar project home page for the latest release, mailing
+diff -r fe4c21fc8ec3 python/zbarmodule.c
+--- a/python/zbarmodule.c	Sun Mar 11 14:31:23 2012 -0700
++++ b/python/zbarmodule.c	Sun Mar 18 16:26:59 2012 +0100
+@@ -58,6 +58,7 @@
+     { "CODABAR",        ZBAR_CODABAR },
+     { "CODE39",         ZBAR_CODE39 },
+     { "PDF417",         ZBAR_PDF417 },
++    { "PCARD",          ZBAR_PCARD },
+     { "QRCODE",         ZBAR_QRCODE },
+     { "CODE93",         ZBAR_CODE93 },
+     { "CODE128",        ZBAR_CODE128 },
+diff -r fe4c21fc8ec3 test/barcodetest.py
+--- a/test/barcodetest.py	Sun Mar 11 14:31:23 2012 -0700
++++ b/test/barcodetest.py	Sun Mar 18 16:26:59 2012 +0100
+@@ -14,7 +14,7 @@
+ # program to run - None means we still need to search for it
+ zbarimg = None
+ # arguments to said program
+-zbarimg_args = [ '-q', '--xml' ]
++zbarimg_args = [ '-q', '--xml', '-Spcard.enable' ]
+ 
+ 
+ # namespace support
+diff -r fe4c21fc8ec3 zbar/Makefile.am.inc
+--- a/zbar/Makefile.am.inc	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbar/Makefile.am.inc	Sun Mar 18 16:26:59 2012 +0100
+@@ -41,6 +41,9 @@
+ zbar_libzbar_la_SOURCES += zbar/decoder/pdf417.h zbar/decoder/pdf417.c \
+     zbar/decoder/pdf417_hash.h
+ endif
++if ENABLE_PCARD
++zbar_libzbar_la_SOURCES += zbar/decoder/pcard.h zbar/decoder/pcard.c
++endif
+ if ENABLE_QRCODE
+ zbar_libzbar_la_SOURCES += zbar/qrcode.h \
+     zbar/decoder/qr_finder.h zbar/decoder/qr_finder.c \
+diff -r fe4c21fc8ec3 zbar/config.c
+--- a/zbar/config.c	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbar/config.c	Sun Mar 18 16:26:59 2012 +0100
+@@ -82,6 +82,8 @@
+             *sym = ZBAR_DATABAR_EXP;
+         else if(!strncmp(cfgstr, "codabar", len))
+             *sym = ZBAR_CODABAR;
++        else if(!strncmp(cfgstr, "pcard", len))
++            *sym = ZBAR_PCARD;
+         else if(len < 6)
+             return(1);
+         else if(!strncmp(cfgstr, "code93", len))
+diff -r fe4c21fc8ec3 zbar/decoder.c
+--- a/zbar/decoder.c	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbar/decoder.c	Sun Mar 18 16:26:59 2012 +0100
+@@ -91,6 +91,11 @@
+ #ifdef ENABLE_QRCODE
+     dcode->qrf.config = 1 << ZBAR_CFG_ENABLE;
+ #endif
++#ifdef ENABLE_PCARD
++    dcode->pcard.config = 0;
++    dcode->pcard.silent_zone_ratio = 5;
++    dcode->pcard.max_perc_err = 18;
++#endif
+ 
+     zbar_decoder_reset(dcode);
+     return(dcode);
+@@ -137,6 +142,9 @@
+ #ifdef ENABLE_QRCODE
+     qr_finder_reset(&dcode->qrf);
+ #endif
++#ifdef ENABLE_PCARD
++    pcard_reset(&dcode->pcard);
++#endif
+ }
+ 
+ void zbar_decoder_new_scan (zbar_decoder_t *dcode)
+@@ -173,6 +181,9 @@
+ #ifdef ENABLE_QRCODE
+     qr_finder_reset(&dcode->qrf);
+ #endif
++#ifdef ENABLE_PCARD
++    pcard_new_scan(&dcode->pcard);
++#endif
+ }
+ 
+ 
+@@ -285,6 +296,11 @@
+        (tmp = _zbar_decode_pdf417(dcode)) > ZBAR_PARTIAL)
+         sym = tmp;
+ #endif
++#ifdef ENABLE_PCARD
++    if(TEST_CFG(dcode->pcard.config, ZBAR_CFG_ENABLE) &&
++       (tmp = _zbar_decode_pcard(dcode)) > ZBAR_PARTIAL)
++        sym = tmp;
++#endif
+ 
+     dcode->idx++;
+     dcode->type = sym;
+@@ -382,6 +398,12 @@
+         break;
+ #endif
+ 
++#ifdef ENABLE_PCARD
++    case ZBAR_PCARD:
++        config = &dcode->pcard.config;
++        break;
++#endif
++
+ #ifdef ENABLE_QRCODE
+     case ZBAR_QRCODE:
+         config = &dcode->qrf.config;
+@@ -471,6 +493,11 @@
+         CFG(dcode->pdf417, cfg) = val;
+         break;
+ #endif
++#ifdef ENABLE_PCARD
++    case ZBAR_PCARD:
++        CFG(dcode->pcard, cfg) = val;
++        break;
++#endif
+ 
+     default:
+         return(1);
+@@ -489,7 +516,7 @@
+             ZBAR_UPCA, ZBAR_UPCE, ZBAR_ISBN10, ZBAR_ISBN13,
+             ZBAR_I25, ZBAR_DATABAR, ZBAR_DATABAR_EXP, ZBAR_CODABAR,
+ 	    ZBAR_CODE39, ZBAR_CODE93, ZBAR_CODE128, ZBAR_QRCODE, 
+-	    ZBAR_PDF417, 0
++	    ZBAR_PDF417, ZBAR_PCARD, 0
+         };
+         const zbar_symbol_type_t *symp;
+         for(symp = all; *symp; symp++)
+diff -r fe4c21fc8ec3 zbar/decoder.h
+--- a/zbar/decoder.h	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbar/decoder.h	Sun Mar 18 16:26:59 2012 +0100
+@@ -60,6 +60,9 @@
+ #ifdef ENABLE_QRCODE
+ # include "decoder/qr_finder.h"
+ #endif
++#ifdef ENABLE_PCARD
++# include "decoder/pcard.h"
++#endif
+ 
+ /* size of bar width history (implementation assumes power of two) */
+ #ifndef DECODE_WINDOW
+@@ -132,6 +135,9 @@
+ #ifdef ENABLE_QRCODE
+     qr_finder_t qrf;                    /* QR Code finder state */
+ #endif
++#ifdef ENABLE_PCARD
++    pcard_decoder_t pcard;              /* playing cards decode state */
++#endif
+ };
+ 
+ /* return current element color */
+diff -r fe4c21fc8ec3 zbar/decoder/pcard.c
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/zbar/decoder/pcard.c	Sun Mar 18 16:26:59 2012 +0100
+@@ -0,0 +1,281 @@
++/*------------------------------------------------------------------------
++ *  Copyright 2011 (c) Jarek Czekalski <jarekczek@poczta.onet.pl>
++ *
++ *  This file is part of the ZBar Bar Code Reader.
++ *
++ *  The ZBar Bar Code Reader is free software; you can redistribute it
++ *  and/or modify it under the terms of the GNU Lesser Public License as
++ *  published by the Free Software Foundation; either version 2.1 of
++ *  the License, or (at your option) any later version.
++ *
++ *  The ZBar Bar Code Reader is distributed in the hope that it will be
++ *  useful, but WITHOUT ANY WARRANTY; without even the implied warranty
++ *  of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU Lesser Public License for more details.
++ *
++ *  You should have received a copy of the GNU Lesser Public License
++ *  along with the ZBar Bar Code Reader; if not, write to the Free
++ *  Software Foundation, Inc., 51 Franklin St, Fifth Floor,
++ *  Boston, MA  02110-1301  USA
++ *
++ *  http://sourceforge.net/projects/zbar
++ *------------------------------------------------------------------------*/
++
++/** @page pcard PCard - playing card symbology description
++ * @par
++ * Barcoded playing cards are used in dealing machines. The barcode standard is not publicly documented.
++ * At present there are 2 different standards of barcoded cards called DOS and WIN. DOS is the older one
++ * which consisted of 3 black bars of different widths. It's been replaced by the newer WIN, which is implemented in PCard.
++ * The WIN standard can be recognized by thin black border bars around the symbol which are
++ * absent in the DOS standard.
++ *
++ * @section pcard_std PCard standard characteristics
++ * @par
++ * The barcode symbols recognized here are of constant width. The number of bars differs, but the total width of the symbol remains constant.
++ * Each symbol is surrounded by border bars. Between the border bars there is a place for 9 bars of constant width.
++ * Let's call this width a <i>unit width</i>. The width of the border bars is less than the unit width by about 20%.
++ * @par
++ * 9 bars make 9 bits which gives the possibility of 2^9 = 512 combinations. From this only 53 are used (52 cards plus a joker code).
++ * The constant PCARD_BIT_COUNT equals to 11 which is 9 bits plus 2 bits for obligatory zeros (white stripes) next to the border bars.
++ * @par
++ * The least number of visible bars is found on the card 5 of clubs, which can be coded as 001100110, where 0 represents white bars
++ * and 1 black ones. So in reality on this card there are 4 black bars visible. 2 borders and 2 inside black bars. The inside bars
++ * have a width of 2 bits.
++ * Another characteristic example is the card king of diamonds. It has the maximal possible number of bars. The binary code for this
++ * card is 101010101.
++ * @par
++ * Unfortunately the symbols are orientated. That means there are cards that have mirror codes. The example of that are 2 and 5 of spades
++ * which are coded as 00101100100 and 00100110100 respectively. That breaks the rule of zbar which usually reads barcodes in four
++ * possible orientations: up, right, down and left. I decided to choose only one orientation (up) to avoid problems of mistaking
++ * 2 and 5 of spades. The checking is done in symbol_handler(). It is after the symbol was detected, because there is no way to tell the orientation of the scanner before.
++ * If the symbol was scanned in a different orientation, it is omitted.
++ * @par
++ * The algorithm works as follows:
++ * <ol>
++ * <li>Detects the left border as a black bar after a white bar, where the white bar is much wider (pcard_decoder_s::silent_zone_ratio)</li>
++ * <li>Detects the right border in a similar manner and analyzes the inside part of the potential symbol. That is done by pcard_decode_inside()</li>
++ * <li>Calculates the <i>unit_width</i></li>
++ * <li>Tries to calulate the width of consecutive bars using the unit_width. The maximal accepted error in comparison is specified in
++ * pcard_decoder_s::max_perc_err, initialized in zbar_decoder_create() to 18. I'd like to hear suggestions on this number. If it's less than 15
++ * hardly any codes are read. Theoretical maximum is 50. For camera images values from 15 to 30 show differences in number of codes read.
++ * On zbarcam the value seems to have little effect.</li>
++ * <li>Binary code is compared to 53 known card codes. If it matches, the symbol is returned.</li>
++ * </ol>
++ * @par
++ * The PCard symbology has no checking mechanisms. When the dealing machine reads a card it knows exactly where the code is, so there's
++ * little probability of a mistake. We are in worse situation, as we try to locate the symbol anywhere on the picture.
++ * It turned out that zbar was able to detect pcard symbols in surprising places with no barcodes at all.
++ * To distinguish the real symbol from some random spots I decided to use the <i>uncertainty</i> feature. The uncertainty for PCard is set to 6 in zbar_image_scanner_create().
++ * This works in zbarcam. For discarding noise in zbarimg the minimal quality filter in zbar_scan_image() is used.
++ * @section pcard_output Output format
++ * @par
++ * The output of zbar when it recognizes PCard follows the following template: <em>PCard:XY</em>. <em>XY</em> denotes the card read,
++ * where <em>X</em> is the color and <em>Y</em> is the rank of the card.
++ * Colors are represented by letters S, H, D, C, respectively: spades, hearts, diamonds, clubs. Rank is one of A, K, Q, J, T, 9, 8, ..., 3, 2.
++ * For example C5 denotes the card 5 of clubs. There is a special XY combination for a joker: **. 52 colored cards plus a joker make 53 possibilities.
++ */
++
++#include <config.h>
++#include <zbar.h>
++#include <string.h>
++#include <assert.h>
++
++#ifdef DEBUG_PCARD
++# define DEBUG_LEVEL (DEBUG_PCARD)
++#endif
++#include "../debug.h"
++#include "../decoder.h"
++#include "pcard_defs.h"
++
++const char *card_colors = "CDHS";
++
++///\brief check whether x is equal x0 with a tolerance of toler % relative to x0
++static inline int is_almost_equal (int x, int x0, int toler)
++{
++    return (100*x < (100+toler)*x0) && (100*x > (100-toler)*x0);
++}
++
++///\brief find integer code for this bit_code
++static int get_int_code(int bit_code) {
++    // do binary search on pcard_symbol_defs to find an element with
++    // matching bit_code; pcard_symbol_defs are sorted by bit_code
++    int idx = 0;
++    int mask = 32;
++    assert(2*mask >= PCARD_CODE_COUNT);
++    while (mask) {
++        if ((idx | mask) < PCARD_CODE_COUNT &&
++            bit_code >= pcard_symbol_defs[idx | mask].bit_code)
++            idx |= mask;
++        mask >>= 1;
++    }
++    assert(idx>=0 && idx<PCARD_CODE_COUNT);
++    return pcard_symbol_defs[idx].bit_code == bit_code ?
++        pcard_symbol_defs[idx].int_code : 0;
++}
++
++///\brief get string representation of this int_code - 2 characters
++static void get_string_code(int int_code, unsigned char *buffer) {
++    assert(int_code>0 && int_code<=0x03FF);
++    assert( (int_code%0x0100 >='2' && int_code%0x0100 <= 'T')
++            || int_code%0x0100 == '*' );
++    if (int_code%0x0100 == '*')
++        buffer[0]='*';
++    else
++        buffer[0] = card_colors[int_code / 0x0100];
++    buffer[1] = (char)(int_code % 0x0100);
++    buffer[2] = 0;
++}
++
++///\brief try to decode a symbol after quite zones are located
++zbar_symbol_type_t pcard_decode_inside (zbar_decoder_t *dcode, int bar_count)
++{
++    int total_width_ins;
++    int bit_code; // card value coded by sequence of bits
++    int int_code; // card value as an index in pcard_symbol_defs
++    int i, cur_bit;
++    int ok;
++    double w_unit;
++    
++    // we have found both left and right silent zones
++    // current position is on the right white margin, get_color()==ZBAR_SPACE
++    
++    // definitely too few bars - very borders make 4, and at least 2 black bars inside with 3 whites
++    if (bar_count<7)
++        return(ZBAR_NONE);
++    
++    // let's calculate total_width without black borders
++    total_width_ins = dcode->pcard.total_width;
++    total_width_ins -= get_width(dcode, bar_count-1);
++    total_width_ins -= get_width(dcode, 1);
++    w_unit = total_width_ins * 1.0 / PCARD_BIT_COUNT;
++    
++    // border blacks should be 0.8 of unit
++    if (!is_almost_equal(10*get_width(dcode, bar_count-1), 8*w_unit, dcode->pcard.max_perc_err) ||
++        !is_almost_equal(10*get_width(dcode, 1), 8*w_unit, dcode->pcard.max_perc_err)) {
++        //printf("dcode->idx (%d) black boreders outside the limit (%d,%d != %.1f)\n",
++        //  bar_count/2, get_width(dcode, bar_count-1), get_width(dcode, 1), 0.8*w_unit);
++        return (ZBAR_NONE);
++    }
++    
++    ok = 1;
++    cur_bit = 0;
++    bit_code = 0;
++    for (i=bar_count-2; i>=2; i--) {
++        int is_black = i%2;
++        int w = get_width(dcode, i);
++        int val = (w / w_unit) + 0.5;
++        int perc_err = ( val==0 ? 100 : 100 * abs(w - val*w_unit) / (val*w_unit) );
++        if (perc_err > dcode->pcard.max_perc_err) {
++            //dbprintf(1, "percent error too big: %d val:%d w:%d w_unit:%g perc_err:%d\n", i, val, w, w_unit, perc_err);
++            ok = 0;
++            break;
++        }
++        if (cur_bit + val > PCARD_BIT_COUNT) {
++            //dbprintf(1, "too many bits\n");
++            ok = 0;
++            break;
++        }
++        while (val>0) {
++            bit_code <<= 1;
++            bit_code |= is_black;
++            cur_bit++;
++            val--;
++        }
++        //printf("%d val:%d w:%d w_unit:%g perc_err:%d\n", i, val, w, w_unit, perc_err);
++    }
++    // now we should have collected exactly PCARD_BIT_COUNT bits, otherwise it's not a proper symbol
++    if (ok && cur_bit!=PCARD_BIT_COUNT) {
++        //printf("wrong number of bits: %d\n", cur_bit);
++        ok = 0;
++    }
++    
++    // bit_code has always 2 outmost bits equal to 0 - cut them
++    bit_code >>= 1;
++    int_code = get_int_code(bit_code);
++    // this bit sequence may be not known - 
++    // comment this line to see a decimal value as output
++    if (!int_code)
++        ok = 0; 
++    
++    if (!ok)
++        return ZBAR_NONE;
++
++    if(acquire_lock(dcode, ZBAR_PCARD)==0) {
++        assert(bit_code>=0 && bit_code<1024);
++        if (int_code) {
++            get_string_code(int_code, dcode->buf);
++        } else {
++            for (i=0; i<PCARD_BIT_COUNT-2; i++) {
++                dcode->buf[i] = ( (bit_code & (1<<i)) ? '1' : '0' );
++            }
++            dcode->buf[PCARD_BIT_COUNT] = 0;
++            sprintf((void*)dcode->buf, "%d", bit_code);
++        }
++        //sprintf((void*)dcode->buf, "%d %d %d", bar_count, total_width_ins, dcode->pcard.total_width);
++        //sprintf((void*)dcode->buf + PCARD_BIT_COUNT-2, "=%d %d", bit_code, bar_count);
++        dcode->buflen = strlen((void*)dcode->buf);
++        dcode->direction = 1;
++        dcode->modifiers = 0;
++
++        //printf("we got symbol %s (", dcode->buf);
++        //for (i=0; i<=bar_count; i++) { printf("%d ", get_width(dcode,i)); }
++        //printf("\n");
++
++        return ZBAR_PCARD;
++    }
++    else {
++        dbprintf(1, " [locked %d]", dcode->lock);
++        return ZBAR_PARTIAL;
++    }
++}
++
++
++zbar_symbol_type_t _zbar_decode_pcard (zbar_decoder_t *dcode)
++{
++    int bar_count;
++
++    zbar_symbol_type_t sym = ZBAR_NONE;
++    
++    assert(PCARD_BIT_COUNT+4 < DECODE_WINDOW);
++
++    if (get_color(dcode)==ZBAR_BAR) {
++        // white is always first, so there' always white before black
++        if (get_width(dcode,1)==0 || get_width(dcode,0) * dcode->pcard.silent_zone_ratio < get_width(dcode,1)) {
++            // we got a black after big white
++            dcode->pcard.idx_start = dcode->idx-1;
++            dcode->pcard.total_width = get_width(dcode,0);            
++            dcode->pcard.bar_count = 1;
++            sym = ZBAR_PARTIAL;
++        }
++    }  
++
++    if (dcode->pcard.idx_start>=0 && sym==ZBAR_NONE) {
++        // checking if sym==ZBAR_NONE not to get here right after detecting the left border
++        // we are inside the code, waiting for the right silent zone
++        bar_count = ( dcode->pcard.bar_count += 1);
++        assert(bar_count>0);
++        if (bar_count > 15) {
++            // we can't get so many bars
++            // max is (big white)+(left black)+(6 whites)+(5 blacks)+(right black)+(big white) = 15
++            //dbprintf(1, "dcode->idx (%d) too many bars %d\n", dcode->idx, bar_count);
++            dcode->pcard.idx_start = -1;
++        }
++        else if (get_color(dcode)==ZBAR_SPACE &&
++                 (get_width(dcode,0)==0 || get_width(dcode,1) * dcode->pcard.silent_zone_ratio < get_width(dcode,0))) {
++            // we have another big white - it may be a closing one
++            sym = pcard_decode_inside(dcode, bar_count);
++            
++            // doesn't matter whether we found the right symbol or not - let's prepare for the next sym
++            dcode->pcard.idx_start = -1;
++            
++        }
++        
++        if (dcode->pcard.idx_start >= 0) {
++          // we're still inside
++          dcode->pcard.total_width += get_width(dcode,0);
++        }
++        
++    }
++    
++    return(sym);
++}
+diff -r fe4c21fc8ec3 zbar/decoder/pcard.h
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/zbar/decoder/pcard.h	Sun Mar 18 16:26:59 2012 +0100
+@@ -0,0 +1,57 @@
++/*------------------------------------------------------------------------
++ *  Copyright 2011 (c) Jarek Czekalski <jarekczek@poczta.onet.pl>
++ *
++ *  This file is part of the ZBar Bar Code Reader.
++ *
++ *  The ZBar Bar Code Reader is free software; you can redistribute it
++ *  and/or modify it under the terms of the GNU Lesser Public License as
++ *  published by the Free Software Foundation; either version 2.1 of
++ *  the License, or (at your option) any later version.
++ *
++ *  The ZBar Bar Code Reader is distributed in the hope that it will be
++ *  useful, but WITHOUT ANY WARRANTY; without even the implied warranty
++ *  of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU Lesser Public License for more details.
++ *
++ *  You should have received a copy of the GNU Lesser Public License
++ *  along with the ZBar Bar Code Reader; if not, write to the Free
++ *  Software Foundation, Inc., 51 Franklin St, Fifth Floor,
++ *  Boston, MA  02110-1301  USA
++ *
++ *  http://sourceforge.net/projects/zbar
++ *------------------------------------------------------------------------*/
++ 
++#ifndef _PCARD_H_
++#define _PCARD_H_
++
++/* PCard specific decode state */
++typedef struct pcard_decoder_s {
++    unsigned silent_zone_ratio; ///< how many times greater should be white space before the first black bar
++    int max_perc_err;           ///< maximal error in bar width [%]
++    int idx_start;              ///< index of left quiet zone, -1 if not detected
++    int total_width;            ///< total width of a symbol
++    int bar_count;
++
++    unsigned config;
++    int configs[NUM_CFGS];      /* int valued configurations */
++} pcard_decoder_t;
++
++/* reset PCard pass specific state */
++static inline void pcard_new_scan (pcard_decoder_t *pcard)
++{
++    pcard->idx_start = -1;
++    pcard->bar_count = 0;
++}
++
++/* reset all PCard state */
++static inline void pcard_reset (pcard_decoder_t *pcard)
++{
++    pcard_new_scan(pcard);
++}
++
++/* decode PCard symbols */
++zbar_symbol_type_t _zbar_decode_pcard(zbar_decoder_t *dcode);
++
++void pcard_init();
++
++#endif
+diff -r fe4c21fc8ec3 zbar/decoder/pcard_defs.h
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/zbar/decoder/pcard_defs.h	Sun Mar 18 16:26:59 2012 +0100
+@@ -0,0 +1,158 @@
++/*------------------------------------------------------------------------
++ *  Copyright 2011 (c) Jarek Czekalski <jarekczek@poczta.onet.pl>
++ *
++ *  This file is part of the ZBar Bar Code Reader.
++ *
++ *  The ZBar Bar Code Reader is free software; you can redistribute it
++ *  and/or modify it under the terms of the GNU Lesser Public License as
++ *  published by the Free Software Foundation; either version 2.1 of
++ *  the License, or (at your option) any later version.
++ *
++ *  The ZBar Bar Code Reader is distributed in the hope that it will be
++ *  useful, but WITHOUT ANY WARRANTY; without even the implied warranty
++ *  of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU Lesser Public License for more details.
++ *
++ *  You should have received a copy of the GNU Lesser Public License
++ *  along with the ZBar Bar Code Reader; if not, write to the Free
++ *  Software Foundation, Inc., 51 Franklin St, Fifth Floor,
++ *  Boston, MA  02110-1301  USA
++ *
++ *  http://sourceforge.net/projects/zbar
++ *------------------------------------------------------------------------*/
++ 
++#ifndef _PCARD_DEFS_H_
++#define _PCARD_DEFS_H_
++
++#define PCARD_BIT_COUNT 11
++#define PCARD_CODE_COUNT 53
++
++typedef struct pcard_symbol_def_s {
++    short int int_code;
++    short int bit_code;
++} pcard_symbol_def_t;
++pcard_symbol_def_t pcard_symbol_defs[PCARD_CODE_COUNT] = {
++    /* this list must be sorted by bit_code to enable binary search */
++    { 0x0200 + '6', 101 }, /* H6 */
++    { 0x0000 + '5', 102 }, /* C5 */
++    { 0x0100 + '8', 105 }, /* D8 */
++    { 0x0000 + '*', 106 }, /* joker */
++    { 0x0200 + '2', 109 }, /* H2 */
++    { 0x0200 + '3', 141 }, /* H3 */
++    { 0x0200 + 'A', 146 }, /* HA */
++    { 0x0100 + '2', 147 }, /* D2 */
++    { 0x0100 + 'T', 149 }, /* DT */
++    { 0x0300 + '4', 150 }, /* S4 */
++    { 0x0100 + '4', 153 }, /* D4 */
++    { 0x0300 + '5', 154 }, /* S5 */
++    { 0x0200 + '4', 165 }, /* H4 */
++    { 0x0000 + '3', 166 }, /* C3 */
++    { 0x0100 + '6', 169 }, /* D6 */
++    { 0x0300 + '9', 170 }, /* S9 */
++    { 0x0200 + 'T', 173 }, /* HT */
++    { 0x0300 + '2', 178 }, /* S2 */
++    { 0x0000 + '8', 179 }, /* C8 */
++    { 0x0300 + '7', 202 }, /* S7 */
++    { 0x0200 + '9', 205 }, /* H9 */
++    { 0x0000 + 'A', 210 }, /* CA */
++    { 0x0000 + '7', 211 }, /* C7 */
++    { 0x0100 + 'Q', 213 }, /* DQ */
++    { 0x0300 + 'J', 214 }, /* SJ */
++    { 0x0000 + 'K', 217 }, /* CK */
++    { 0x0200 + '5', 293 }, /* H5 */
++    { 0x0000 + '2', 294 }, /* C2 */
++    { 0x0100 + '7', 297 }, /* D7 */
++    { 0x0300 + 'K', 298 }, /* SK */
++    { 0x0200 + 'J', 301 }, /* HJ */
++    { 0x0300 + '3', 306 }, /* S3 */
++    { 0x0000 + '9', 307 }, /* C9 */
++    { 0x0300 + '8', 330 }, /* S8 */
++    { 0x0200 + 'Q', 333 }, /* HQ */
++    { 0x0300 + 'A', 338 }, /* SA */
++    { 0x0100 + '3', 339 }, /* D3 */
++    { 0x0100 + 'K', 341 }, /* DK */
++    { 0x0000 + '4', 342 }, /* C4 */
++    { 0x0100 + '5', 345 }, /* D5 */
++    { 0x0000 + 'J', 355 }, /* CJ */
++    { 0x0200 + '7', 357 }, /* H7 */
++    { 0x0000 + 'Q', 358 }, /* CQ */
++    { 0x0100 + '9', 361 }, /* D9 */
++    { 0x0300 + 'Q', 362 }, /* SQ */
++    { 0x0200 + 'K', 365 }, /* HK */
++    { 0x0200 + '8', 397 }, /* H8 */
++    { 0x0100 + 'A', 402 }, /* DA */
++    { 0x0000 + '6', 403 }, /* C6 */
++    { 0x0100 + 'J', 405 }, /* DJ */
++    { 0x0300 + 'T', 406 }, /* ST */
++    { 0x0000 + 'T', 409 }, /* CT */
++    { 0x0300 + '6', 410 }  /* S6 */
++};
++
++// folowing array and macro are used only in test_decode as an alternative way
++// of decoding bit codes
++typedef char *pcard_codes_array_t[1 << (PCARD_BIT_COUNT-2)];
++#define macro_fill_array_codes(codes) \
++    { \
++    memset(codes, 0, sizeof(codes)); \
++    /* spades */ \
++    codes[338]="SA"; \
++    codes[298]="SK"; \
++    codes[362]="SQ"; \
++    codes[214]="SJ"; \
++    codes[406]="ST"; \
++    codes[170]="S9"; \
++    codes[330]="S8"; \
++    codes[202]="S7"; \
++    codes[410]="S6"; \
++    codes[154]="S5"; \
++    codes[150]="S4"; \
++    codes[306]="S3"; \
++    codes[178]="S2"; \
++    /* hearts */ \
++    codes[146]="HA"; \
++    codes[365]="HK"; \
++    codes[333]="HQ"; \
++    codes[301]="HJ"; \
++    codes[173]="HT"; \
++    codes[205]="H9"; \
++    codes[397]="H8"; \
++    codes[357]="H7"; \
++    codes[101]="H6"; \
++    codes[293]="H5"; \
++    codes[165]="H4"; \
++    codes[109]="H2"; \
++    codes[141]="H3"; \
++    /* diamonds */ \
++    codes[402]="DA"; \
++    codes[341]="DK"; \
++    codes[213]="DQ"; \
++    codes[405]="DJ"; \
++    codes[149]="DT"; \
++    codes[361]="D9"; \
++    codes[105]="D8"; \
++    codes[297]="D7"; \
++    codes[169]="D6"; \
++    codes[345]="D5"; \
++    codes[153]="D4"; \
++    codes[339]="D3"; \
++    codes[147]="D2"; \
++    /* clubs */ \
++    codes[210]="CA"; \
++    codes[217]="CK"; \
++    codes[358]="CQ"; \
++    codes[355]="CJ"; \
++    codes[409]="CT"; \
++    codes[307]="C9"; \
++    codes[179]="C8"; \
++    codes[211]="C7"; \
++    codes[403]="C6"; \
++    codes[102]="C5"; \
++    codes[342]="C4"; \
++    codes[166]="C3"; \
++    codes[294]="C2"; \
++ \
++    codes[106]="**"; /* joker */ \
++    }
++
++
++#endif
+diff -r fe4c21fc8ec3 zbar/img_scanner.c
+--- a/zbar/img_scanner.c	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbar/img_scanner.c	Sun Mar 18 16:26:59 2012 +0100
+@@ -463,7 +463,11 @@
+     if(dir)
+         sym->orient = (iscn->dy != 0) + ((iscn->du ^ dir) & 2);
+ 
+-    _zbar_image_scanner_add_sym(iscn, sym);
++    // PCARD symbols must be read from left to right,
++    // because S5 right to left is S2 left to right
++    // user must present the card to the scanner with the correct orientation
++    if ( ! (sym->type==ZBAR_PCARD && sym->orient!=ZBAR_ORIENT_UP) )
++        _zbar_image_scanner_add_sym(iscn, sym);
+ }
+ 
+ zbar_image_scanner_t *zbar_image_scanner_create ()
+@@ -493,6 +497,7 @@
+     zbar_image_scanner_set_config(iscn, ZBAR_CODE128, ZBAR_CFG_UNCERTAINTY, 0);
+     zbar_image_scanner_set_config(iscn, ZBAR_CODE93, ZBAR_CFG_UNCERTAINTY, 0);
+     zbar_image_scanner_set_config(iscn, ZBAR_CODE39, ZBAR_CFG_UNCERTAINTY, 0);
++    zbar_image_scanner_set_config(iscn, ZBAR_PCARD, ZBAR_CFG_UNCERTAINTY, 6);
+     zbar_image_scanner_set_config(iscn, ZBAR_CODABAR, ZBAR_CFG_UNCERTAINTY, 1);
+     zbar_image_scanner_set_config(iscn, ZBAR_COMPOSITE, ZBAR_CFG_UNCERTAINTY, 0);
+     return(iscn);
+@@ -819,7 +824,8 @@
+                (sym->type < ZBAR_COMPOSITE && sym->type > ZBAR_PARTIAL) ||
+                sym->type == ZBAR_DATABAR ||
+                sym->type == ZBAR_DATABAR_EXP ||
+-               sym->type == ZBAR_CODABAR)
++               sym->type == ZBAR_CODABAR ||
++               sym->type == ZBAR_PCARD) {
+             {
+ 	        if((sym->type == ZBAR_CODABAR || filter) && sym->quality < 4) {
+                     if(iscn->enable_cache) {
+diff -r fe4c21fc8ec3 zbar/symbol.c
+--- a/zbar/symbol.c	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbar/symbol.c	Sun Mar 18 16:26:59 2012 +0100
+@@ -49,6 +49,7 @@
+     case ZBAR_CODE93: return("CODE-93");
+     case ZBAR_CODE128: return("CODE-128");
+     case ZBAR_PDF417: return("PDF417");
++    case ZBAR_PCARD: return("PCard");
+     case ZBAR_QRCODE: return("QR-Code");
+     default: return("UNKNOWN");
+     }
+diff -r fe4c21fc8ec3 zbarimg/zbarimg.c
+--- a/zbarimg/zbarimg.c	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbarimg/zbarimg.c	Sun Mar 18 16:26:59 2012 +0100
+@@ -92,7 +92,7 @@
+     "  currently supported symbologies are:\n"
+     "      EAN/UPC (EAN-13, EAN-8, EAN-2, EAN-5, UPC-A, UPC-E,\n"
+     "      ISBN-10, ISBN-13), Code 128, Code 93, Code 39, Codabar,\n"
+-    "      DataBar, DataBar Expanded, and Interleaved 2 of 5\n"
++    "      DataBar, DataBar Expanded, Interleaved 2 of 5 and PCard\n"
+     "    - is the barcode large enough in the image?\n"
+     "    - is the barcode mostly in focus?\n"
+     "    - is there sufficient contrast/illumination?\n"
