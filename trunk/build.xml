@@ -15,6 +15,7 @@
 <condition property="bshJar" value="/usr/lib/jvm/bsf.jar:/usr/lib/jvm/commons-logging-1.1.1.jar:/q/instal/lang/java/bsh-2.0b4.jar" else="C:\lang\java\bsh-1.3.0.jar:C:\lang\java\bsf-2.4.0\lib\bsf.jar:C:\lang\java\commons-logging-1.1.1\commons-logging-1.1.1.jar"><os family="unix"/></condition>
 <condition property="tmp" value="/tmp" else="${env.TEMP}"><os family="unix"/></condition>
 <property name="runDir" value="${tmp}" />
+<property name="hg" value="hg" />
 <property name="sed" value="sed" />
 <property name="svn" value="svn" />
 <property name="launch4jJar" location="/usr/local/lib/launch4j/launch4j.jar" />
@@ -212,18 +213,21 @@
   <delete quiet="true" dir="${zbarTmp}" />
 </target>
 
-<target name="zbar-download">
+<target name="zbar-download-orig" unless="no.zbar.download.orig" >
   <property name="zbarDir" location="${basedir}/lib/zbar" />
   <property name="zbarOrigDir" location="${zbarDir}/src_orig" />
   <property name="zbarRev" value="" />
+  <property name="zbarRev" value="-r 959d159c84a4" />
   <property name="zbarRev" value="-r 0.10" />
   <delete quiet="true" dir="${zbarDir}" />
   <mkdir dir="${zbarOrigDir}" />
-  <exec executable="hg" failonerror="true"><arg line="clone ${zbarRev} http://zbar.hg.sourceforge.net:8000/hgroot/zbar/zbar ${zbarOrigDir}"/></exec>
+  <exec executable="${hg}" failonerror="true"><arg line="clone ${zbarRev} http://zbar.hg.sourceforge.net:8000/hgroot/zbar/zbar ${zbarOrigDir}"/></exec>
   <tar destfile="${zbarDir}/zbar_src_orig.tgz" compression="gzip" defaultexcludes="no" >
     <fileset dir="${zbarOrigDir}" />
   </tar>
+</target>
 
+<target name="zbar-download" depends="zbar-download-orig" >
   <property name="patchOpts" value="-p1 -F0" />
   <exec executable="patch" input="${basedir}/src/zbar_patches/pcard_1_0_15.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
   <exec executable="patch" input="${basedir}/src/zbar_patches/test_decode_pcard_1_0_7.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
