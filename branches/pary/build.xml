@@ -45,7 +45,6 @@
 <target name="clean">
   <delete quiet="true" dir="${basedir}/work/comp" />
   <mkdir dir="${basedir}/work/comp" />
-  <copy todir="${basedir}/work/comp/jc/pbntools/res"><fileset dir="${basedir}/res" includes="*" /></copy>
   <delete quiet="true" dir="${basedir}/work/prever" />
   <mkdir dir="${basedir}/work/prever" />
   <delete quiet="true" dir="${basedir}/work/release" />
@@ -60,7 +59,6 @@
 </target>
 
 <target name="comp" depends="">
-  <!--<copy todir="${basedir}/pbn"><fileset dir="${nbDir1}/pbn" includes="*.java"/></copy>-->
   <native2ascii encoding="windows-1250" dest="${basedir}/work/comp/jc" src="${basedir}/src/jc" includes="**/*.properties" />
   <javac verbose="no" classpath="${basedir}/src;${basedir}/lib/jl1.0.1.jar;
                                  ${basedir}/lib/jsoup-1.6.1.jar" srcdir="${basedir}/src" destdir="${compDir}"
