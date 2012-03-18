@@ -26,6 +26,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.*;
 import jc.f;
+import jc.MyAction;
 
 /**
  *
@@ -119,14 +120,6 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
     return true;
   }
   
-  abstract class MyAction extends AbstractAction {
-    MyAction() { super(); }
-    public MyAction(String sProp) {
-      super();
-      f.setTextAndMnem(this, sProp);
-    }
-  }
-    
   class CancelAction extends MyAction {
     CancelAction(String s) { super(s); }
     public void actionPerformed(ActionEvent e) {

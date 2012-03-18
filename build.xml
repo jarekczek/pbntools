@@ -13,6 +13,7 @@
 
 <condition property="bshJar" value="/usr/lib/jvm/bsf.jar:/usr/lib/jvm/commons-logging-1.1.1.jar:/q/instal/lang/java/bsh-2.0b4.jar" else="C:\lang\java\bsh-1.3.0.jar:C:\lang\java\bsf-2.4.0\lib\bsf.jar:C:\lang\java\commons-logging-1.1.1\commons-logging-1.1.1.jar"><os family="unix"/></condition>
 <condition property="tmp" value="/tmp" else="${env.TEMP}"><os family="unix"/></condition>
+<property name="runDir" value="${tmp}" />
 <property name="sed" value="sed" />
 <property name="launch4jJar" location="/usr/local/lib/launch4j/launch4j.jar" />
 
@@ -59,8 +60,8 @@
 
 <target name="comp" depends="">
   <native2ascii encoding="windows-1250" dest="${basedir}/work/comp/jc" src="${basedir}/src/jc" includes="**/*.properties" />
-  <copy todir="${basedir}/work/comp/jc/pbntools/res"><fileset dir="${basedir}/res" includes="*" /></copy>
-  <javac verbose="no" classpath="${basedir}/src;${basedir}/lib/jl1.0.1.jar" srcdir="${basedir}/src" destdir="${compDir}"
+  <javac verbose="no" classpath="${basedir}/src;${basedir}/lib/jl1.0.1.jar;
+                                 ${basedir}/lib/jsoup-1.6.1.jar" srcdir="${basedir}/src" destdir="${compDir}"
          includes="**/*.java" excludes="**/pbn_nb/**/*"
          debug="true" debuglevel="lines,vars,source"
          encoding="windows-1250" includeantruntime="false" />
@@ -73,22 +74,33 @@
     <manifest>
       <attribute name="Manifest-Version" value="1.0" />
       <attribute name="Main-Class" value="jc.pbntools.PbnTools" />
-      <attribute name="Class-Path" value="jl1.0.1.jar" />
+      <attribute name="Class-Path" value="jl1.0.1.jar jsoup-1.6.1.jar" />
     </manifest>
   </jar>
 </target>
 <!-- //}}} -->
 
 <!-- //{{{ run targets -->
-<target name="run" depends="comp,jar">
-  <java jar="work/release/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=xx" /> </java>
-  <!--<java classpath="${compDir}" fork="true" classname="jc.pbntools.RunProcess" />-->
+<target name="run-prereq" depends="comp,jar">
+  <copy todir="${runDir}">
+    <fileset dir="${basedir}/lib" includes="*.jar" />
+    <fileset dir="${basedir}/work/release" includes="PbnTools.jar" />
+  </copy>  
 </target>
 
-<target name="run-PL" depends="comp,jar">
-  <java jar="work/release/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=pl" /> </java>
-<!--    <java classpath="${compDir}" fork="true" classname="PbnTools" />-->
-<!--    <java classpath="${compDir}" fork="true" classname="jarekczek.pbn.Rozdaj" />-->
+<target name="run" depends="run-prereq">
+  <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=xx" /> </java>
+</target>
+
+<target name="run-PL" depends="run-prereq">
+  <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=pl" /> </java>
+</target>
+
+<target name="run-test" depends="run-prereq">
+  <!--specify testArgs in local.properties file-->
+  <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=xx" />
+    <arg line="${testArgs}" />
+  </java>
 </target>
 
 <target name="run-from-linux-release" depends="set-filenames">

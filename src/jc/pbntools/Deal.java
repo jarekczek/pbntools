@@ -20,6 +20,7 @@
 package jc.pbntools;
 
 import java.io.*;
+import java.io.Writer;
 import java.util.regex.*;
 import java.util.*;
 import jc.f;
@@ -28,84 +29,48 @@ import javazoom.jl.player.Player;
 
 class Reka {
   }
-  
-class Karta {
-  static final int PIK = 1;
-  static final int KIER = 2;
-  static final int KARO = 3;
-  static final int TREFL = 4;
-  static final String m_asKolAng[] = { "S", "H", "D", "C" };
-  static final char m_achWysok[] = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
-  private int m_nKod;  // 16*kolor(1-4) + wysokosc karty(2-14); czyli od 18 (S2) do 78 (CA)
-  static final int MAX_KOD = 78;
 
-  Karta() { zeruj(); }
-  
-  static int wysok(char ch) {
-    if (ch>='2' && ch <='9') {
-      return (ch-'2')+2;
-      }
-    else if (ch=='T') { return 10; }
-    else if (ch=='J') { return 11; }
-    else if (ch=='Q') { return 12; }
-    else if (ch=='K') { return 13; }
-    else if (ch=='A') { return 14; }
-    else return 0;
-    }
-  static char znakWysok(int nWys) { return nWys>=2 && nWys<=14 ? m_achWysok[nWys-2] : '?'; }
-  static char znakKolor(int nKolor) { return nKolor>=1 && nKolor<=4 ? m_asKolAng[nKolor-1].charAt(0) : '?'; }
-
-  static int kolor(char ch) {
-    int i;
-    for (i=0; i<m_asKolAng.length; i++) { if (m_asKolAng[i].charAt(0) == ch) { return i+1; } }
-    return 0;
-    }
-  static int nastKolor(int nKolor) { return (nKolor<=0) ? 0 : (nKolor%4)+1; }
-  
-  static int kod(int nKolor, int nWys) { return (nKolor>=1 && nKolor<=4 && nWys>=2 && nWys<=14) ? 16*nKolor+nWys : 0; }
-
-  void zeruj() { m_nKod = 0; }
-  int getKod() { return m_nKod; }
-  int getKolor() { return m_nKod<=0 ? 0 : m_nKod/16; }
-  int getWysok() { return m_nKod<=0 ? 0 : m_nKod%16; }
-  void setKod(int nKod) { m_nKod = nKod; }
-  void set(int nKolor, int nWys) { m_nKod = kod(nKolor, nWys); }
-  boolean czyOk() { return m_nKod>0 && m_nKod<=MAX_KOD; }
-  
-  static int kod(String sKarta) {
-    if (sKarta.length()!=2) { return 0; }
-    return kod(kolor(sKarta.charAt(0)), wysok(sKarta.charAt(1)));
-    }
-  
-  boolean setKolor(char chKolor) {
-    int nKolor;
-    m_nKod = m_nKod % 16;
-    nKolor = kolor(chKolor);
-    if (nKolor>0) { m_nKod += nKolor * 16; return true; }
-    else { return false; }
-    }
-
-  public String toString() { return "" + znakKolor(getKolor()) + znakWysok(getWysok()); }
-  }
-
-public class Rozdanie {
-  int m_nDealer; // 0-3, -1=brak,blad
-  String m_sVulner;
-  int m_nNr;
-  String m_sDeal;
-  Reka m_aRece[];
+public class Deal {
+  public static final int N = 0;
+  public static final int E = 1;
+  public static final int S = 2;
+  public static final int W = 3;
+  /** 0 for N, 1 for E, ..., 3 for W; -1 for absent, error */
+  public int m_nDealer;
+  /** Default value: <code>"?"</code> */
+  public String m_sVulner;
+  public int m_nNr;
+  public String m_sDeal;
+  public Reka m_aRece[];
   String m_sErrors;
   boolean m_bEof;
   boolean m_bEmpty;
   boolean m_bOk;
   int m_anKarty[];
+  protected HashMap<String, String> m_mIdentFields;
   
-  static final String m_asPossVulner[] = { "None", "NS", "EW", "Both" };
+  static final String m_asPossVulner[] = { "None", "NS", "EW", "All" };
+  
+  // {{{ PBN standard definitions
+  public final static String sLf = "\r\n";
+  public static final String m_sIdentFields[] = { "Event", "Site", "Date",
+    "Board", "West", "North", "East", "South", "Dealer", "Vulnerable",
+    "Deal", "Scoring", "Declarer", "Contract", "Result" };
+  // }}}
+  /** <code>m_sIdentFields</code> inserted into map: uppercased -> normalized */
+  private static HashMap<String, String> m_mIdentFieldNames;
 
-  static String m_asOsoby[] = {"N", "E", "S", "W"};
+  static String m_asPersons[] = {"N", "E", "S", "W"};
 
-  Rozdanie() {
-    m_anKarty = new int[Karta.MAX_KOD+1];
+  static {
+    m_mIdentFieldNames = new HashMap<String, String>();
+    for (String s : m_sIdentFields) {
+      m_mIdentFieldNames.put(s.toUpperCase(), s);
+    }
+  }
+  
+  public Deal() {
+    m_anKarty = new int[Card.MAX_KOD+1];
     zeruj();
     }
 
@@ -119,16 +84,41 @@ public class Rozdanie {
     m_bEmpty = true;
     m_bOk = false;
     Arrays.fill(m_anKarty, -1);
+    m_mIdentFields = new HashMap<String, String>();
     }
 
-  static char znakOsoby(int nOsoba) { return nOsoba>=0 && nOsoba<=3 ? m_asOsoby[nOsoba].charAt(0) : '?'; }
-  String dealerToString(int nDealer) { return nDealer<0 ? "?" : m_asOsoby[nDealer]; }
-  static int osoba(char ch) {
-    for (int i=0; i<m_asOsoby.length; i++) { if (m_asOsoby[i].charAt(0)==ch) { return i; } }
+  static char personChar(int nPerson) { return nPerson>=0 && nPerson<=3 ? m_asPersons[nPerson].charAt(0) : '?'; }
+  String dealerToString(int nDealer) { return nDealer<0 ? "?" : m_asPersons[nDealer]; }
+  static int person(char ch) {
+    for (int i=0; i<m_asPersons.length; i++) { if (m_asPersons[i].charAt(0)==ch) { return i; } }
     return -1;
     }
-  static int osoba(String sOsoba) { return (sOsoba.length()!=1) ? -1 : osoba(sOsoba.charAt(0)); }
-  static int nastOsoba(int nOsoba) { return nOsoba<0 ? nOsoba : ((nOsoba+1)%4); }
+  /** Returns person number.
+    * @param sPerson Must be of length 1. */
+  public static int person(String sPerson) { return (sPerson.length()!=1) ? -1 : person(sPerson.charAt(0)); }
+  static int nextPerson(int nPerson) { return nPerson<0 ? nPerson : ((nPerson+1)%4); }
+
+  public void setIdentField(String sField, String sValue) {
+    String sFieldNorm = m_mIdentFieldNames.get(sField.toUpperCase());
+    if (sFieldNorm == null) {
+      throw new RuntimeException("Invalid identification field name: " + sField);
+    }
+    m_mIdentFields.put(sFieldNorm, sValue);
+  }
+  
+  public void setNumber(int nNr) { m_nNr = nNr; }
+  public void setDealer(int nDealer) { m_nDealer = nDealer; }
+
+  public void setVulner(String sVulner) {
+    m_sVulner = "?";
+    for (String sValid : m_asPossVulner) {
+      if (sValid.equalsIgnoreCase(sVulner)) { m_sVulner = sValid; }
+    }
+  }
+  
+  public void setCard(Card c, int nPerson) {
+    m_anKarty[c.getCode()] = nPerson;
+  }
   
   public boolean czyOk() {
     m_sErrors = "";
@@ -138,7 +128,7 @@ public class Rozdanie {
     // vulnerability
     if (m_sVulner.equals("Love")) { m_sVulner = "None"; }
     if (m_sVulner.equals("-")) { m_sVulner = "None"; }
-    if (m_sVulner.equals("All")) { m_sVulner = "Both"; }
+    if (m_sVulner.equals("Both")) { m_sVulner = "All"; }
     if (m_sVulner.equals("?")) { m_sErrors += String.format("Brak za³o¿eñ. "); }
     else if (!f.stringIn(m_sVulner, m_asPossVulner)) { m_sErrors += String.format("Nieprawid³owe za³o¿enia: "+m_sVulner+". "); }
     
@@ -151,29 +141,29 @@ public class Rozdanie {
     }
 
   private boolean wczytajTagDeal(String sDeal) {
-    int nOsoba, nKolor;
+    int nPerson, nKolor;
     int nPoz;
     int cKarty, cOsoby;
-    Karta k;
+    Card k;
     
     m_sDeal = sDeal;
     cOsoby = 0;
     cKarty = 0;
     //System.err.println("len="+sDeal.length()+" _"+sDeal+"_"); 
     try {
-      nOsoba = osoba(sDeal.charAt(nPoz = 0));
+      nPerson = person(sDeal.charAt(nPoz = 0));
       cOsoby += 1;
       nKolor = 1;
-      k = new Karta();
+      k = new Card();
       if (sDeal.charAt(nPoz+=1) != ':') { System.err.println("B³¹d sk³adni pliku PBN. W tagu deal na pozycji 2 powinien byæ znak :"); return false; }
       while (cKarty<52) {
         char ch = sDeal.charAt(nPoz+=1);
         //System.err.println(""+ch+" m_anKarty[28]="+m_anKarty[28]);
         if (ch=='.') {
-          nKolor = Karta.nastKolor(nKolor);
+          nKolor = Card.nastKolor(nKolor);
           }
         else if (ch==' ') {
-          nOsoba = nastOsoba(nOsoba);
+          nPerson = nextPerson(nPerson);
           nKolor = 1;
           cOsoby += 1;
           }
@@ -188,11 +178,11 @@ public class Rozdanie {
             if (sDeal.charAt(nPoz+=1) == '0') { ch = 'T'; }
             }
           
-          k.set(nKolor, Karta.wysok(ch));
+          k.set(nKolor, Card.rank(ch));
           if (!k.czyOk()) { System.err.println("B³¹d sk³adni pliku PBN. B³êdna wysokoœæ karty: "+ch);return false; }
-          if (m_anKarty[k.getKod()] != -1) { System.err.println("B³¹d sk³adni pliku PBN. Karta "+k.toString()+" ("+k.getKod()+") zosta³a rozdana 2 razy. Poprzednio do "+m_anKarty[k.getKod()]+" a teraz do "+nOsoba); return false; }
-          m_anKarty[k.getKod()] = nOsoba;
-          //System.err.println("Karta "+k.toString()+" ("+k.getKod()+") idzie do "+znakOsoby(nOsoba));
+          if (m_anKarty[k.getCode()] != -1) { System.err.println("B³¹d sk³adni pliku PBN. Karta "+k.toString()+" ("+k.getCode()+") zosta³a rozdana 2 razy. Poprzednio do "+m_anKarty[k.getCode()]+" a teraz do "+nPerson); return false; }
+          m_anKarty[k.getCode()] = nPerson;
+          //System.err.println("Karta "+k.toString()+" ("+k.getCode()+") idzie do "+znakOsoby(nPerson));
           cKarty += 1;
           }
         }
@@ -223,7 +213,7 @@ public class Rozdanie {
         }
       if ((m=patDealer.matcher(sLinia)).matches()) {
         String sDealer = m.group(1);
-        m_nDealer = osoba(sDealer);
+        m_nDealer = person(sDealer);
         }
       if ((m=patVulner.matcher(sLinia)).matches()) { m_sVulner = m.group(1); }
       if ((m=patDeal.matcher(sLinia)).matches()) { m_sDeal = m.group(1); }
@@ -266,9 +256,9 @@ public class Rozdanie {
       catch (javazoom.jl.decoder.JavaLayerException e) { e.printStackTrace(); }
       }
 
-    private void grajDzwiek(int nOsoba) {
-      if (nOsoba<0 || nOsoba>3) { return; }
-      grajDzwiek("" + (nOsoba+1));
+    private void grajDzwiek(int nPerson) {
+      if (nPerson<0 || nPerson>3) { return; }
+      grajDzwiek("" + (nPerson+1));
       }
 
     void filtruj(StringBuffer sb) {
@@ -284,20 +274,20 @@ public class Rozdanie {
             // trzeba sprawdzic poprzedni znak, bo nas interesuje tylko KLUCZ na poczatku linii lub pliku
             // pozostale trafienia pomijamy
             if (nPoz+KLUCZ_LEN+2 < sb.length()) {
-              String sKarta = sb.substring(nPoz+KLUCZ_LEN, nPoz+KLUCZ_LEN+2);
-              if (sKarta.equals("**")) {
+              String sCard = sb.substring(nPoz+KLUCZ_LEN, nPoz+KLUCZ_LEN+2);
+              if (sCard.equals("**")) {
                 grajDzwiek("joker");
                 }
               else {
-                int nKodKarty = Karta.kod(sKarta);
+                int nKodKarty = Card.kod(sCard);
                 if (nKodKarty==0) {
-                  System.out.println("Nieznana karta "+sKarta);
+                  System.out.println("Nieznana karta "+sCard);
                   }
                 else {
-                  int nOsoba = m_anKarty[nKodKarty];
-                  //System.out.println(sKarta + " -> " + nOsoba);
-                  sb.replace(nPoz+KLUCZ_LEN, nPoz+KLUCZ_LEN+2, "*"+znakOsoby(nOsoba));
-                  grajDzwiek(nOsoba);
+                  int nPerson = m_anKarty[nKodKarty];
+                  //System.out.println(sKarta + " -> " + nPerson);
+                  sb.replace(nPoz+KLUCZ_LEN, nPoz+KLUCZ_LEN+2, "*"+personChar(nPerson));
+                  grajDzwiek(nPerson);
                   }
                 }
               }
@@ -332,11 +322,26 @@ public class Rozdanie {
     sOpts = "-q --nodisplay --no-probe -Spcard.enable " + sOpts;
     if (PbnTools.bLinux) {
       RunProcess.runCmd(null, sZbarcam + " " + sOpts, new FiltrTekstuRozd());
-      }
+    }
     else {
       RunProcess.runCmd(null, sZbarcam + " " + sOpts, new FiltrTekstuRozd());
+    }
+  }
+  
+  public void savePbn(Writer w) throws java.io.IOException {
+    if (m_nNr > 0) { setIdentField("Board", "" + m_nNr); }
+    if (m_nDealer >= 0) { setIdentField("Dealer", "" + personChar(m_nDealer)); }
+    if (m_sVulner!=null && !m_sVulner.equals("?")) {
+      setIdentField("Vulnerable", m_sVulner);
+    }
+    for (String sField : m_sIdentFields) {
+      String sValue = m_mIdentFields.get(sField);
+      if (sValue != null) {
+        w.write("[" + sField + " \"" + sValue + "\"]" + sLf);
       }
     }
+    w.write(sLf);
+  }
   
   public static void main(String args[]) {
 //    DlgRozdaj d = new DlgRozdaj(null, true);

@@ -136,7 +136,7 @@ public class DlgPbnOpen extends javax.swing.JDialog {
 
     private void pbOtworzActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbOtworzActionPerformed
          String sPlik = ebPlik.getText();
-         PlikPbn plik = new PlikPbn();
+         PbnFile plik = new PbnFile();
          int rv2 = plik.wczytaj(sPlik);
          if (rv2==-1) { JOptionPane.showMessageDialog(null, "Plik "+sPlik+" nie zosta³ znaleziony"); }
          else if (rv2!=0) { JOptionPane.showMessageDialog(null, "Podczas odczytywania pliku "+sPlik+" wyst¹pi³ b³¹d"); }

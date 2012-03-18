@@ -25,26 +25,42 @@ import javax.swing.*;
 import jc.pbntools.*;
 import jc.f;
 
-public class PlikPbn  {
+public class PbnFile  {
 
-  ArrayList<Rozdanie> m_ar;
+  ArrayList<Deal> m_ar;
   Set<Integer> m_setBoardNrs;
   String m_sPlik;
-  
-  PlikPbn() {
-    m_ar = new ArrayList<Rozdanie>();
+
+  public PbnFile() {
+    m_ar = new ArrayList<Deal>();
     m_setBoardNrs = new HashSet<Integer>();
     m_sPlik = "";
+  }
+
+  public void addDeal(Deal d) {
+    m_ar.add(d);
+    m_setBoardNrs.add(d.m_nNr);
+  }
+
+  public void addDeals(Deal[] deals) {
+    for (Deal d : deals) {
+      m_ar.add(d);
+      m_setBoardNrs.add(d.m_nNr);
     }
+  }
+
+  public Deal[] getDeals() {
+    return m_ar.toArray(new Deal[0]);
+  }
 
   public int wczytaj(String sPlik) {
     m_sPlik = sPlik;
     File plik = new File(sPlik);
     try {
       BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(plik)));
-      Rozdanie r;
+      Deal r;
       do {
-        r = new Rozdanie();
+        r = new Deal();
         if (!r.wczytaj(br) && !r.m_bEmpty) {
           f temp;
           System.err.print(PbnTools.m_res.getString("pbnFile.errorReadingDeal")+" "+r.m_nNr+": " + r.m_sErrors + f.sLf); //System.getProperty("line.separator")
@@ -63,6 +79,15 @@ public class PlikPbn  {
     return 0;
     }
 
+  public void save(String sFile) throws IOException {
+    BufferedWriter bw = new BufferedWriter(
+      new OutputStreamWriter(new FileOutputStream(sFile), "ISO-8859-1"));
+    for (Deal d : m_ar) {
+      d.savePbn(bw);
+    }
+    bw.close();
+  }
+    
   public void arkusz() {
     String sPlikOut = "";
     String sTdStart = "<td>";
@@ -88,13 +113,13 @@ public class PlikPbn  {
       bw.write(sTdStart+"Wynik EW</td>");
       bw.write("</tr>"); bw.newLine();
       for (i=0; i<m_ar.size(); i++) {
-        Rozdanie r = m_ar.get(i);
+        Deal r = m_ar.get(i);
         bw.write("<tr>"); bw.newLine();
-        bw.write(sTdStart + r.m_nNr + "</td>"); 
-        bw.write(sTdStart + Rozdanie.znakOsoby(r.m_nDealer) + "</td>"); 
-        bw.write(sTdStart + r.m_sVulner + "</td>"); 
-        bw.write(sTdStart + "&nbsp;" + "</td>"); 
-        bw.write(sTdStart + "&nbsp;" + "</td>"); 
+        bw.write(sTdStart + r.m_nNr + "</td>");
+        bw.write(sTdStart + Deal.personChar(r.m_nDealer) + "</td>");
+        bw.write(sTdStart + r.m_sVulner + "</td>");
+        bw.write(sTdStart + "&nbsp;" + "</td>");
+        bw.write(sTdStart + "&nbsp;" + "</td>");
         bw.write("</tr>"); bw.newLine();
         }
       bw.write("</table>"); bw.newLine();
@@ -111,7 +136,7 @@ public class PlikPbn  {
     }
 
   public static void main(String args[]) {
-    PlikPbn p = new PlikPbn();
+    PbnFile p = new PbnFile();
     p.wczytaj(args[0]);
     p.m_ar.get(0).rozdaj();
     System.out.println("koniec");
