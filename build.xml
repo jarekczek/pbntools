@@ -272,6 +272,8 @@
   <antcall target="checkLib"><param name="lib" value="jl1.0.1.jar" /></antcall>
   <antcall target="checkLib"><param name="lib" value="jlayer_LICENSE.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="jlayer_README.txt" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="jsoup-1.6.1.jar" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="jsoup_LICENSE.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="zbarcam" /></antcall>
   <antcall target="checkLib"><param name="lib" value="zbarcam.exe" /></antcall>
   <antcall target="checkLib"><param name="lib" value="zbar_LICENSE.txt" /></antcall>
