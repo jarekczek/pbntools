@@ -1,43 +1,44 @@
-diff --git a/README b/README
---- a/README
-+++ b/README
+diff -r fe4c21fc8ec3 README
+--- a/README	Sun Mar 11 14:31:23 2012 -0700
++++ b/README	Sun Mar 18 19:07:21 2012 +0100
 @@ -4,7 +4,7 @@
  ZBar Bar Code Reader is an open source software suite for reading bar
  codes from various sources, such as video streams, image files and raw
  intensity sensors. It supports EAN-13/UPC-A, UPC-E, EAN-8, Code 128,
--Code 39, Interleaved 2 of 5 and QR Code.  Included with the library
-+Code 39, Interleaved 2 of 5, QR Code and PCard.  Included with the library
- are basic applications for decoding captured bar code images and using
- a video device (eg, webcam) as a bar code scanner.  For application
+-Code 39, Codabar, Interleaved 2 of 5 and QR Code.  Included with the
++Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard.  Included with the
+ library are basic applications for decoding captured bar code images and
+ using a video device (eg, webcam) as a bar code scanner.  For application
  developers, language bindings are included for C, C++, Python and Perl
-diff --git a/README.windows b/README.windows
---- a/README.windows
-+++ b/README.windows
-@@ -4,7 +4,7 @@
+diff -r fe4c21fc8ec3 README.windows
+--- a/README.windows	Sun Mar 11 14:31:23 2012 -0700
++++ b/README.windows	Sun Mar 18 19:07:21 2012 +0100
+@@ -4,7 +4,8 @@
  ZBar Bar Code Reader is an open source software suite for reading bar codes
  from various sources, such as video streams, image files and raw intensity
  sensors. It supports EAN-13/UPC-A, UPC-E, EAN-8, Code 128, Code 93, Code 39,
--Interleaved 2 of 5 and QR Code.  Included with the library are basic
-+Interleaved 2 of 5, QR Code and PCard.  Included with the library are basic
+-Codabar, Interleaved 2 of 5 and QR Code.  Included with the library are basic
++Codabar, Interleaved 2 of 5, QR Code and PCard.
++Included with the library are basic
  applications for decoding captured bar code images and using a video device
  (eg, webcam) as a bar code scanner.  For application developers, language
  bindings are included for C, C++, Python and Perl as well as GUI widgets for
-diff --git a/configure.ac b/configure.ac
---- a/configure.ac
-+++ b/configure.ac
+diff -r fe4c21fc8ec3 configure.ac
+--- a/configure.ac	Sun Mar 11 14:31:23 2012 -0700
++++ b/configure.ac	Sun Mar 18 19:07:21 2012 +0100
 @@ -107,9 +107,9 @@
  
  AC_ARG_ENABLE([codes],
    [AS_HELP_STRING([--enable-codes=SYMS],
--    [select symbologies to compile [default=ean,databar,code128,code93,code39,i25,qrcode]])],
-+    [select symbologies to compile [default=ean,databar,code128,code93,code39,i25,qrcode,pcard]])],
+-    [select symbologies to compile [default=ean,databar,code128,code93,code39,codabar,i25,qrcode]])],
++    [select symbologies to compile [default=ean,databar,code128,code93,code39,codabar,i25,qrcode,pcard]])],
    [],
--  [enable_codes="ean,databar,code128,code93,code39,i25,qrcode"])
-+  [enable_codes="ean,databar,code128,code93,code39,i25,qrcode,pcard"])
+-  [enable_codes="ean,databar,code128,code93,code39,codabar,i25,qrcode"])
++  [enable_codes="ean,databar,code128,code93,code39,codabar,i25,qrcode,pcard"])
  
  AC_DEFUN([ZBAR_CHK_CODE], [
    AC_MSG_CHECKING([whether to build $2])
-@@ -134,6 +134,7 @@
+@@ -135,6 +135,7 @@
  ZBAR_CHK_CODE([i25], [Interleaved 2 of 5 symbology])
  ZBAR_CHK_CODE([qrcode], [QR Code])
  ZBAR_CHK_CODE([pdf417], [PDF417 symbology])
@@ -45,9 +46,9 @@ diff --git a/configure.ac b/configure.ac
  
  dnl libraries
  
-diff --git a/doc/Makefile.am.inc b/doc/Makefile.am.inc
---- a/doc/Makefile.am.inc
-+++ b/doc/Makefile.am.inc
+diff -r fe4c21fc8ec3 doc/Makefile.am.inc
+--- a/doc/Makefile.am.inc	Sun Mar 11 14:31:23 2012 -0700
++++ b/doc/Makefile.am.inc	Sun Mar 18 19:07:21 2012 +0100
 @@ -1,6 +1,7 @@
  # documentation sources
  DOCSOURCES = doc/manual.xml doc/version.xml doc/reldate.xml \
@@ -57,9 +58,9 @@ diff --git a/doc/Makefile.am.inc b/doc/Makefile.am.inc
  
  MAINTAINERCLEANFILES += doc/man/man.stamp doc/version.xml doc/reldate.xml
  
-diff --git a/doc/manual.xml b/doc/manual.xml
---- a/doc/manual.xml
-+++ b/doc/manual.xml
+diff -r fe4c21fc8ec3 doc/manual.xml
+--- a/doc/manual.xml	Sun Mar 11 14:31:23 2012 -0700
++++ b/doc/manual.xml	Sun Mar 18 19:07:21 2012 +0100
 @@ -7,6 +7,7 @@
    <!ENTITY date SYSTEM "reldate.xml">
  
@@ -68,10 +69,9 @@ diff --git a/doc/manual.xml b/doc/manual.xml
    <!ENTITY refzbarimg SYSTEM "ref/zbarimg.xml">
    <!ENTITY refzbarcam SYSTEM "ref/zbarcam.xml">
  ]>
-diff --git a/doc/ref/commonnotes.xml b/doc/ref/commonnotes.xml
-new file mode 100644
---- /dev/null
-+++ b/doc/ref/commonnotes.xml
+diff -r fe4c21fc8ec3 doc/ref/commonnotes.xml
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/doc/ref/commonnotes.xml	Sun Mar 18 19:07:21 2012 +0100
 @@ -0,0 +1,19 @@
 +  <refsection>
 +    <title>Notes on specific symbologies</title>
@@ -92,19 +92,20 @@ new file mode 100644
 +    </variablelist>
 +  </refsection>
 +
-diff --git a/doc/ref/commonoptions.xml b/doc/ref/commonoptions.xml
---- a/doc/ref/commonoptions.xml
-+++ b/doc/ref/commonoptions.xml
-@@ -48,7 +48,7 @@
-       <option>upca</option>, <option>upce</option>,
+diff -r fe4c21fc8ec3 doc/ref/commonoptions.xml
+--- a/doc/ref/commonoptions.xml	Sun Mar 11 14:31:23 2012 -0700
++++ b/doc/ref/commonoptions.xml	Sun Mar 18 19:07:21 2012 +0100
+@@ -49,7 +49,8 @@
        <option>isbn13</option>, <option>isbn10</option>,
-       <option>i25</option>, <option>code39</option>, <option>code93</option>,
--      <option>code128</option>, <option>qrcode</option>
-+      <option>code128</option>, <option>qrcode</option>, <option>pcard</option>
-       or the special value <option>*</option>.
+       <option>i25</option>, <option>codabar</option>, <option>code39</option>,
+       <option>code93</option>, <option>code128</option>,
+-      <option>qrcode</option> or the special value <option>*</option>.
++      <option>qrcode</option>, <option>pcard</option>
++      or the special value <option>*</option>.
        If <replaceable class="parameter">symbology</replaceable> is
        omitted or <option>*</option>, the <replaceable
-@@ -88,7 +88,8 @@
+       class="parameter">config</replaceable> will be set for all
+@@ -88,7 +89,8 @@
              check digit.  It also not apply for cases where the check
              digit is disabled (see <option>add-check</option>).  Check
              digits are currently not implemented for
@@ -114,21 +115,20 @@ diff --git a/doc/ref/commonoptions.xml b/doc/ref/commonoptions.xml
          </listitem>
        </varlistentry>
  
-diff --git a/doc/ref/zbarcam.xml b/doc/ref/zbarcam.xml
---- a/doc/ref/zbarcam.xml
-+++ b/doc/ref/zbarcam.xml
-@@ -61,8 +61,8 @@
+diff -r fe4c21fc8ec3 doc/ref/zbarcam.xml
+--- a/doc/ref/zbarcam.xml	Sun Mar 11 14:31:23 2012 -0700
++++ b/doc/ref/zbarcam.xml	Sun Mar 18 19:07:21 2012 +0100
+@@ -61,7 +61,8 @@
  
      <para>The underlying library currently supports EAN-13 (including
      UPC and ISBN subsets), EAN-8, DataBar, DataBar Expanded, Code 128,
--    Code 93, Code 39, Interleaved 2 of 5 and QR Code symbologies.  The
--    specific type of each detected symbol is printed with the decoded
-+    Code 93, Code 39, Interleaved 2 of 5, QR Code and PCard symbologies.
-+    The specific type of each detected symbol is printed with the decoded
+-    Code 93, Code 39, Codabar, Interleaved 2 of 5 and QR Code symbologies.
++    Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard
++    symbologies.
+     The specific type of each detected symbol is printed with the decoded
      data.</para>
  
-   </refsection>
-@@ -191,6 +191,8 @@
+@@ -191,6 +192,8 @@
      </variablelist>
    </refsection>
  
@@ -137,21 +137,20 @@ diff --git a/doc/ref/zbarcam.xml b/doc/ref/zbarcam.xml
    <refsection>
      <title>See Also</title>
      <para><xref linkend="zbarimg"/></para>
-diff --git a/doc/ref/zbarimg.xml b/doc/ref/zbarimg.xml
---- a/doc/ref/zbarimg.xml
-+++ b/doc/ref/zbarimg.xml
-@@ -60,8 +60,8 @@
+diff -r fe4c21fc8ec3 doc/ref/zbarimg.xml
+--- a/doc/ref/zbarimg.xml	Sun Mar 11 14:31:23 2012 -0700
++++ b/doc/ref/zbarimg.xml	Sun Mar 18 19:07:21 2012 +0100
+@@ -60,7 +60,8 @@
  
      <para>The underlying library currently supports EAN-13 (including
      UPC and ISBN subsets), EAN-8, DataBar, DataBar Expanded, Code 128,
--    Code 93, Code 39, Interleaved 2 of 5 and QR Code symbologies.  The
--    specific type of each detected symbol is printed with the decoded
-+    Code 93, Code 39, Interleaved 2 of 5, QR Code and PCard symbologies.
-+    The specific type of each detected symbol is printed with the decoded
+-    Code 93, Code 39, Codabar, Interleaved 2 of 5 and QR Code symbologies.
++    Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard
++    symbologies.
+     The specific type of each detected symbol is printed with the decoded
      data.</para>
  
-     <para>Note that "<filename><replaceable>image</replaceable></filename>"
-@@ -216,6 +216,8 @@
+@@ -216,6 +217,8 @@
      </variablelist>
    </refsection>
  
@@ -160,37 +159,33 @@ diff --git a/doc/ref/zbarimg.xml b/doc/ref/zbarimg.xml
    <refsection>
      <title>See Also</title>
      <para><xref linkend="zbarcam"/></para>
-diff --git a/include/zbar.h b/include/zbar.h
---- a/include/zbar.h
-+++ b/include/zbar.h
-@@ -100,6 +100,7 @@
-     ZBAR_DATABAR_EXP =     35,  /**< GS1 DataBar Expanded. @since 0.11 */
+diff -r fe4c21fc8ec3 include/zbar.h
+--- a/include/zbar.h	Sun Mar 11 14:31:23 2012 -0700
++++ b/include/zbar.h	Sun Mar 18 19:07:21 2012 +0100
+@@ -101,6 +101,7 @@
+     ZBAR_CODABAR     =     38,  /**< Codabar. @since 0.11 */
      ZBAR_CODE39      =     39,  /**< Code 39. @since 0.4 */
      ZBAR_PDF417      =     57,  /**< PDF417. @since 0.6 */
 +    ZBAR_PCARD       =     58,  /**< PCard. @since 0.11 */
      ZBAR_QRCODE      =     64,  /**< QR Code. @since 0.10 */
      ZBAR_CODE93      =     93,  /**< Code 93. @since 0.11 */
      ZBAR_CODE128     =    128,  /**< Code 128 */
-diff --git a/iphone/README b/iphone/README
---- a/iphone/README
-+++ b/iphone/README
-@@ -4,9 +4,9 @@
+diff -r fe4c21fc8ec3 iphone/README
+--- a/iphone/README	Sun Mar 11 14:31:23 2012 -0700
++++ b/iphone/README	Sun Mar 18 19:07:21 2012 +0100
+@@ -4,7 +4,7 @@
  ZBar Bar Code Reader is an open source software suite for reading bar
  codes from various sources, such as video streams, image files and raw
  intensity sensors. It supports EAN-13/UPC-A, UPC-E, EAN-8, DataBar,
--Code 128, Code 93, Code 39, Interleaved 2 of 5 and QR Code.  These are
--the Objective C wrappers and integrated widget for developing with the
--library on the iPhone platform.
-+Code 128, Code 93, Code 39, Interleaved 2 of 5, QR Code and PCard.
-+These are the Objective C wrappers and integrated widget for developing
-+with the library on the iPhone platform.
+-Code 128, Code 93, Code 39, Codabar, Interleaved 2 of 5 and QR Code.
++Code 128, Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard.
+ These are the Objective C wrappers and integrated widget for developing
+ with the library on the iPhone platform.
  
- Check the ZBar project home page for the latest release, forums, etc.
- 
-diff --git a/iphone/doc/ZBarSymbol.rst b/iphone/doc/ZBarSymbol.rst
---- a/iphone/doc/ZBarSymbol.rst
-+++ b/iphone/doc/ZBarSymbol.rst
-@@ -141,6 +141,9 @@
+diff -r fe4c21fc8ec3 iphone/doc/ZBarSymbol.rst
+--- a/iphone/doc/ZBarSymbol.rst	Sun Mar 11 14:31:23 2012 -0700
++++ b/iphone/doc/ZBarSymbol.rst	Sun Mar 18 19:07:21 2012 +0100
+@@ -144,6 +144,9 @@
     ZBAR_CODE128
        Code 128
  
@@ -200,10 +195,10 @@ diff --git a/iphone/doc/ZBarSymbol.rst b/iphone/doc/ZBarSymbol.rst
  .. type:: zbar_orientation_t
  
     The coarse orientation of a symbol.
-diff --git a/iphone/include/config.h b/iphone/include/config.h
---- a/iphone/include/config.h
-+++ b/iphone/include/config.h
-@@ -21,6 +21,9 @@
+diff -r fe4c21fc8ec3 iphone/include/config.h
+--- a/iphone/include/config.h	Sun Mar 11 14:31:23 2012 -0700
++++ b/iphone/include/config.h	Sun Mar 18 19:07:21 2012 +0100
+@@ -24,6 +24,9 @@
  /* whether to build support for PDF417 symbology */
  #undef ENABLE_PDF417
  
@@ -213,11 +208,11 @@ diff --git a/iphone/include/config.h b/iphone/include/config.h
  /* whether to build support for QR Code */
  #define ENABLE_QRCODE 1
  
-diff --git a/java/net/sourceforge/zbar/Symbol.java b/java/net/sourceforge/zbar/Symbol.java
---- a/java/net/sourceforge/zbar/Symbol.java
-+++ b/java/net/sourceforge/zbar/Symbol.java
-@@ -63,6 +63,8 @@
-     public static final int QRCODE = 64;
+diff -r fe4c21fc8ec3 java/net/sourceforge/zbar/Symbol.java
+--- a/java/net/sourceforge/zbar/Symbol.java	Sun Mar 11 14:31:23 2012 -0700
++++ b/java/net/sourceforge/zbar/Symbol.java	Sun Mar 18 19:07:21 2012 +0100
+@@ -65,6 +65,8 @@
+     public static final int CODE93 = 93;
      /** Code 128. */
      public static final int CODE128 = 128;
 +    /** PCard. */
@@ -225,36 +220,36 @@ diff --git a/java/net/sourceforge/zbar/Symbol.java b/java/net/sourceforge/zbar/S
  
      /** C pointer to a zbar_symbol_t. */
      private long peer;
-diff --git a/perl/README b/perl/README
---- a/perl/README
-+++ b/perl/README
-@@ -4,7 +4,7 @@
+diff -r fe4c21fc8ec3 perl/README
+--- a/perl/README	Sun Mar 11 14:31:23 2012 -0700
++++ b/perl/README	Sun Mar 18 19:07:21 2012 +0100
+@@ -4,8 +4,8 @@
  ZBar Bar Code Reader is an open source software suite for reading bar
  codes from various sources, such as video streams, image files and raw
  intensity sensors. It supports EAN-13/UPC-A, UPC-E, EAN-8, Code 128,
--Code 93, Code 39, Interleaved 2 of 5 and QR Code.  These are the Perl
-+Code 93, Code 39, Interleaved 2 of 5, QR Code and PCard.  These are the Perl
- bindings for the library.
+-Code 93, Code 39, Codabar, Interleaved 2 of 5 and QR Code.  These are
+-the Perl bindings for the library.
++Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard.
++These are the Perl bindings for the library.
  
  Check the ZBar project home page for the latest release, mailing
-diff --git a/perl/ZBar.pm b/perl/ZBar.pm
---- a/perl/ZBar.pm
-+++ b/perl/ZBar.pm
-@@ -86,8 +86,8 @@
- 
+ lists, etc.
+diff -r fe4c21fc8ec3 perl/ZBar.pm
+--- a/perl/ZBar.pm	Sun Mar 11 14:31:23 2012 -0700
++++ b/perl/ZBar.pm	Sun Mar 18 19:07:21 2012 +0100
+@@ -87,7 +87,7 @@
  The ZBar Bar Code Reader is a library for scanning and decoding bar
  codes from various sources such as video streams, image files or raw
--intensity sensors.  It supports EAN, UPC, Code 128, Code 39 and
--Interleaved 2 of 5.
-+intensity sensors.  It supports EAN, UPC, Code 128, Code 39,
-+Interleaved 2 of 5 and PCard.
+ intensity sensors.  It supports EAN-13/UPC-A, UPC-E, EAN-8, Code 128,
+-Code 93, Code 39, Codabar, Interleaved 2 of 5 and QR Code.
++Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard.
  
  These are the bindings for interacting directly with the library from
  Perl.
-diff --git a/perl/ZBar.xs b/perl/ZBar.xs
---- a/perl/ZBar.xs
-+++ b/perl/ZBar.xs
-@@ -344,6 +344,7 @@
+diff -r fe4c21fc8ec3 perl/ZBar.xs
+--- a/perl/ZBar.xs	Sun Mar 11 14:31:23 2012 -0700
++++ b/perl/ZBar.xs	Sun Mar 18 19:07:21 2012 +0100
+@@ -345,6 +345,7 @@
          CONSTANT(symbol_type, , QRCODE, zbar_get_symbol_name(ZBAR_QRCODE));
          CONSTANT(symbol_type, , CODE93, zbar_get_symbol_name(ZBAR_CODE93));
          CONSTANT(symbol_type, , CODE128, zbar_get_symbol_name(ZBAR_CODE128));
@@ -262,10 +257,10 @@ diff --git a/perl/ZBar.xs b/perl/ZBar.xs
      }
  
  void
-diff --git a/perl/ZBar/Symbol.pod b/perl/ZBar/Symbol.pod
---- a/perl/ZBar/Symbol.pod
-+++ b/perl/ZBar/Symbol.pod
-@@ -136,6 +136,8 @@
+diff -r fe4c21fc8ec3 perl/ZBar/Symbol.pod
+--- a/perl/ZBar/Symbol.pod	Sun Mar 11 14:31:23 2012 -0700
++++ b/perl/ZBar/Symbol.pod	Sun Mar 18 19:07:21 2012 +0100
+@@ -138,6 +138,8 @@
  
  =item PDF417
  
@@ -274,32 +269,32 @@ diff --git a/perl/ZBar/Symbol.pod b/perl/ZBar/Symbol.pod
  =back
  
  =head1 SEE ALSO
-diff --git a/python/README b/python/README
---- a/python/README
-+++ b/python/README
+diff -r fe4c21fc8ec3 python/README
+--- a/python/README	Sun Mar 11 14:31:23 2012 -0700
++++ b/python/README	Sun Mar 18 19:07:21 2012 +0100
 @@ -5,7 +5,7 @@
  ZBar Bar Code Reader is an open source software suite for reading bar
  codes from various sources, such as video streams, image files and raw
  intensity sensors. It supports EAN-13/UPC-A, UPC-E, EAN-8, Code 128,
--Code 93, Code 39, Interleaved 2 of 5 and QR Code.  These are the
-+Code 93, Code 39, Interleaved 2 of 5, QR Code and PCard.  These are the
- Python bindings for the library.
+-Code 93, Code 39, Codabar, Interleaved 2 of 5 and QR Code.  These are
++Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and PCard.  These are
+ the Python bindings for the library.
  
  Check the ZBar project home page for the latest release, mailing
-diff --git a/python/zbarmodule.c b/python/zbarmodule.c
---- a/python/zbarmodule.c
-+++ b/python/zbarmodule.c
-@@ -57,6 +57,7 @@
-     { "I25",            ZBAR_I25 },
+diff -r fe4c21fc8ec3 python/zbarmodule.c
+--- a/python/zbarmodule.c	Sun Mar 11 14:31:23 2012 -0700
++++ b/python/zbarmodule.c	Sun Mar 18 19:07:21 2012 +0100
+@@ -58,6 +58,7 @@
+     { "CODABAR",        ZBAR_CODABAR },
      { "CODE39",         ZBAR_CODE39 },
      { "PDF417",         ZBAR_PDF417 },
 +    { "PCARD",          ZBAR_PCARD },
      { "QRCODE",         ZBAR_QRCODE },
      { "CODE93",         ZBAR_CODE93 },
      { "CODE128",        ZBAR_CODE128 },
-diff --git a/test/barcodetest.py b/test/barcodetest.py
---- a/test/barcodetest.py
-+++ b/test/barcodetest.py
+diff -r fe4c21fc8ec3 test/barcodetest.py
+--- a/test/barcodetest.py	Sun Mar 11 14:31:23 2012 -0700
++++ b/test/barcodetest.py	Sun Mar 18 19:07:21 2012 +0100
 @@ -14,7 +14,7 @@
  # program to run - None means we still need to search for it
  zbarimg = None
@@ -309,10 +304,10 @@ diff --git a/test/barcodetest.py b/test/barcodetest.py
  
  
  # namespace support
-diff --git a/zbar/Makefile.am.inc b/zbar/Makefile.am.inc
---- a/zbar/Makefile.am.inc
-+++ b/zbar/Makefile.am.inc
-@@ -38,6 +38,9 @@
+diff -r fe4c21fc8ec3 zbar/Makefile.am.inc
+--- a/zbar/Makefile.am.inc	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbar/Makefile.am.inc	Sun Mar 18 19:07:21 2012 +0100
+@@ -41,6 +41,9 @@
  zbar_libzbar_la_SOURCES += zbar/decoder/pdf417.h zbar/decoder/pdf417.c \
      zbar/decoder/pdf417_hash.h
  endif
@@ -322,22 +317,22 @@ diff --git a/zbar/Makefile.am.inc b/zbar/Makefile.am.inc
  if ENABLE_QRCODE
  zbar_libzbar_la_SOURCES += zbar/qrcode.h \
      zbar/decoder/qr_finder.h zbar/decoder/qr_finder.c \
-diff --git a/zbar/config.c b/zbar/config.c
---- a/zbar/config.c
-+++ b/zbar/config.c
-@@ -80,6 +80,8 @@
-             *sym = ZBAR_ISBN10;
-         else if(!strncmp(cfgstr, "db-exp", len))
+diff -r fe4c21fc8ec3 zbar/config.c
+--- a/zbar/config.c	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbar/config.c	Sun Mar 18 19:07:21 2012 +0100
+@@ -82,6 +82,8 @@
              *sym = ZBAR_DATABAR_EXP;
+         else if(!strncmp(cfgstr, "codabar", len))
+             *sym = ZBAR_CODABAR;
 +        else if(!strncmp(cfgstr, "pcard", len))
 +            *sym = ZBAR_PCARD;
          else if(len < 6)
              return(1);
          else if(!strncmp(cfgstr, "code93", len))
-diff --git a/zbar/decoder.c b/zbar/decoder.c
---- a/zbar/decoder.c
-+++ b/zbar/decoder.c
-@@ -87,6 +87,11 @@
+diff -r fe4c21fc8ec3 zbar/decoder.c
+--- a/zbar/decoder.c	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbar/decoder.c	Sun Mar 18 19:07:21 2012 +0100
+@@ -91,6 +91,11 @@
  #ifdef ENABLE_QRCODE
      dcode->qrf.config = 1 << ZBAR_CFG_ENABLE;
  #endif
@@ -349,7 +344,7 @@ diff --git a/zbar/decoder.c b/zbar/decoder.c
  
      zbar_decoder_reset(dcode);
      return(dcode);
-@@ -130,6 +135,9 @@
+@@ -137,6 +142,9 @@
  #ifdef ENABLE_QRCODE
      qr_finder_reset(&dcode->qrf);
  #endif
@@ -359,7 +354,7 @@ diff --git a/zbar/decoder.c b/zbar/decoder.c
  }
  
  void zbar_decoder_new_scan (zbar_decoder_t *dcode)
-@@ -163,6 +171,9 @@
+@@ -173,6 +181,9 @@
  #ifdef ENABLE_QRCODE
      qr_finder_reset(&dcode->qrf);
  #endif
@@ -369,7 +364,7 @@ diff --git a/zbar/decoder.c b/zbar/decoder.c
  }
  
  
-@@ -270,6 +281,11 @@
+@@ -285,6 +296,11 @@
         (tmp = _zbar_decode_pdf417(dcode)) > ZBAR_PARTIAL)
          sym = tmp;
  #endif
@@ -381,7 +376,7 @@ diff --git a/zbar/decoder.c b/zbar/decoder.c
  
      dcode->idx++;
      dcode->type = sym;
-@@ -361,6 +377,12 @@
+@@ -382,6 +398,12 @@
          break;
  #endif
  
@@ -394,7 +389,7 @@ diff --git a/zbar/decoder.c b/zbar/decoder.c
  #ifdef ENABLE_QRCODE
      case ZBAR_QRCODE:
          config = &dcode->qrf.config;
-@@ -445,6 +467,11 @@
+@@ -471,6 +493,11 @@
          CFG(dcode->pdf417, cfg) = val;
          break;
  #endif
@@ -406,19 +401,19 @@ diff --git a/zbar/decoder.c b/zbar/decoder.c
  
      default:
          return(1);
-@@ -463,7 +490,7 @@
+@@ -489,7 +516,7 @@
              ZBAR_UPCA, ZBAR_UPCE, ZBAR_ISBN10, ZBAR_ISBN13,
-             ZBAR_I25, ZBAR_DATABAR, ZBAR_DATABAR_EXP,
+             ZBAR_I25, ZBAR_DATABAR, ZBAR_DATABAR_EXP, ZBAR_CODABAR,
  	    ZBAR_CODE39, ZBAR_CODE93, ZBAR_CODE128, ZBAR_QRCODE, 
 -	    ZBAR_PDF417, 0
 +	    ZBAR_PDF417, ZBAR_PCARD, 0
          };
          const zbar_symbol_type_t *symp;
          for(symp = all; *symp; symp++)
-diff --git a/zbar/decoder.h b/zbar/decoder.h
---- a/zbar/decoder.h
-+++ b/zbar/decoder.h
-@@ -54,6 +54,9 @@
+diff -r fe4c21fc8ec3 zbar/decoder.h
+--- a/zbar/decoder.h	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbar/decoder.h	Sun Mar 18 19:07:21 2012 +0100
+@@ -60,6 +60,9 @@
  #ifdef ENABLE_QRCODE
  # include "decoder/qr_finder.h"
  #endif
@@ -428,7 +423,7 @@ diff --git a/zbar/decoder.h b/zbar/decoder.h
  
  /* size of bar width history (implementation assumes power of two) */
  #ifndef DECODE_WINDOW
-@@ -123,6 +126,9 @@
+@@ -132,6 +135,9 @@
  #ifdef ENABLE_QRCODE
      qr_finder_t qrf;                    /* QR Code finder state */
  #endif
@@ -438,10 +433,9 @@ diff --git a/zbar/decoder.h b/zbar/decoder.h
  };
  
  /* return current element color */
-diff --git a/zbar/decoder/pcard.c b/zbar/decoder/pcard.c
-new file mode 100644
---- /dev/null
-+++ b/zbar/decoder/pcard.c
+diff -r fe4c21fc8ec3 zbar/decoder/pcard.c
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/zbar/decoder/pcard.c	Sun Mar 18 19:07:21 2012 +0100
 @@ -0,0 +1,281 @@
 +/*------------------------------------------------------------------------
 + *  Copyright 2011 (c) Jarek Czekalski <jarekczek@poczta.onet.pl>
@@ -724,10 +718,9 @@ new file mode 100644
 +    
 +    return(sym);
 +}
-diff --git a/zbar/decoder/pcard.h b/zbar/decoder/pcard.h
-new file mode 100644
---- /dev/null
-+++ b/zbar/decoder/pcard.h
+diff -r fe4c21fc8ec3 zbar/decoder/pcard.h
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/zbar/decoder/pcard.h	Sun Mar 18 19:07:21 2012 +0100
 @@ -0,0 +1,57 @@
 +/*------------------------------------------------------------------------
 + *  Copyright 2011 (c) Jarek Czekalski <jarekczek@poczta.onet.pl>
@@ -786,10 +779,9 @@ new file mode 100644
 +void pcard_init();
 +
 +#endif
-diff --git a/zbar/decoder/pcard_defs.h b/zbar/decoder/pcard_defs.h
-new file mode 100644
---- /dev/null
-+++ b/zbar/decoder/pcard_defs.h
+diff -r fe4c21fc8ec3 zbar/decoder/pcard_defs.h
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/zbar/decoder/pcard_defs.h	Sun Mar 18 19:07:21 2012 +0100
 @@ -0,0 +1,158 @@
 +/*------------------------------------------------------------------------
 + *  Copyright 2011 (c) Jarek Czekalski <jarekczek@poczta.onet.pl>
@@ -949,9 +941,9 @@ new file mode 100644
 +
 +
 +#endif
-diff --git a/zbar/img_scanner.c b/zbar/img_scanner.c
---- a/zbar/img_scanner.c
-+++ b/zbar/img_scanner.c
+diff -r fe4c21fc8ec3 zbar/img_scanner.c
+--- a/zbar/img_scanner.c	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbar/img_scanner.c	Sun Mar 18 19:07:21 2012 +0100
 @@ -463,7 +463,11 @@
      if(dir)
          sym->orient = (iscn->dy != 0) + ((iscn->du ^ dir) & 2);
@@ -970,25 +962,23 @@ diff --git a/zbar/img_scanner.c b/zbar/img_scanner.c
      zbar_image_scanner_set_config(iscn, ZBAR_CODE93, ZBAR_CFG_UNCERTAINTY, 0);
      zbar_image_scanner_set_config(iscn, ZBAR_CODE39, ZBAR_CFG_UNCERTAINTY, 0);
 +    zbar_image_scanner_set_config(iscn, ZBAR_PCARD, ZBAR_CFG_UNCERTAINTY, 6);
- 
+     zbar_image_scanner_set_config(iscn, ZBAR_CODABAR, ZBAR_CFG_UNCERTAINTY, 1);
      zbar_image_scanner_set_config(iscn, ZBAR_COMPOSITE, ZBAR_CFG_UNCERTAINTY, 0);
      return(iscn);
-@@ -817,8 +822,9 @@
-             zbar_symbol_t *sym = *symp;
-             if(sym->cache_count <= 0 &&
+@@ -819,7 +824,8 @@
                 (sym->type < ZBAR_COMPOSITE && sym->type > ZBAR_PARTIAL) ||
--	       (sym->type == ZBAR_DATABAR || sym->type == ZBAR_DATABAR_EXP)) {
--	        if(filter && sym->quality < 4) {
-+           (sym->type == ZBAR_DATABAR || sym->type == ZBAR_DATABAR_EXP ||
-+            sym->type == ZBAR_PCARD)) {
-+            if(filter && sym->quality < 4) {
+                sym->type == ZBAR_DATABAR ||
+                sym->type == ZBAR_DATABAR_EXP ||
+-               sym->type == ZBAR_CODABAR)
++               sym->type == ZBAR_CODABAR ||
++               sym->type == ZBAR_PCARD)
+             {
+ 	        if((sym->type == ZBAR_CODABAR || filter) && sym->quality < 4) {
                      if(iscn->enable_cache) {
-                         /* revert cache update */
-                         zbar_symbol_t *entry = cache_lookup(iscn, sym);
-diff --git a/zbar/symbol.c b/zbar/symbol.c
---- a/zbar/symbol.c
-+++ b/zbar/symbol.c
-@@ -48,6 +48,7 @@
+diff -r fe4c21fc8ec3 zbar/symbol.c
+--- a/zbar/symbol.c	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbar/symbol.c	Sun Mar 18 19:07:21 2012 +0100
+@@ -49,6 +49,7 @@
      case ZBAR_CODE93: return("CODE-93");
      case ZBAR_CODE128: return("CODE-128");
      case ZBAR_PDF417: return("PDF417");
@@ -996,15 +986,15 @@ diff --git a/zbar/symbol.c b/zbar/symbol.c
      case ZBAR_QRCODE: return("QR-Code");
      default: return("UNKNOWN");
      }
-diff --git a/zbarimg/zbarimg.c b/zbarimg/zbarimg.c
---- a/zbarimg/zbarimg.c
-+++ b/zbarimg/zbarimg.c
-@@ -78,7 +78,7 @@
+diff -r fe4c21fc8ec3 zbarimg/zbarimg.c
+--- a/zbarimg/zbarimg.c	Sun Mar 11 14:31:23 2012 -0700
++++ b/zbarimg/zbarimg.c	Sun Mar 18 19:07:21 2012 +0100
+@@ -92,7 +92,7 @@
      "  currently supported symbologies are:\n"
      "      EAN/UPC (EAN-13, EAN-8, EAN-2, EAN-5, UPC-A, UPC-E,\n"
-     "      ISBN-10, ISBN-13), Code 128, Code 93, Code 39, DataBar,\n"
--    "      DataBar Expanded, and Interleaved 2 of 5\n"
-+    "      DataBar Expanded, PCard and Interleaved 2 of 5\n"
+     "      ISBN-10, ISBN-13), Code 128, Code 93, Code 39, Codabar,\n"
+-    "      DataBar, DataBar Expanded, and Interleaved 2 of 5\n"
++    "      DataBar, DataBar Expanded, Interleaved 2 of 5 and PCard\n"
      "    - is the barcode large enough in the image?\n"
      "    - is the barcode mostly in focus?\n"
      "    - is there sufficient contrast/illumination?\n"

@@ -213,9 +213,13 @@
   <delete quiet="true" dir="${zbarTmp}" />
 </target>
 
-<target name="zbar-download-orig" unless="no.zbar.download.orig" >
+<target name="zbar-props" >
   <property name="zbarDir" location="${basedir}/lib/zbar" />
   <property name="zbarOrigDir" location="${zbarDir}/src_orig" />
+</target>
+
+<target name="zbar-download-orig" depends="zbar-props"
+                                  unless="no.zbar.download.orig" >
   <!-- current patch set prepared 2012-03-18, for rev fe4c21fc8ec3 -->
   <property name="zbarRev" value="-r fe4c21fc8ec3" />
   <property name="zbarRev" value="-r 0.10" />
@@ -227,18 +231,14 @@
   </tar>
 </target>
 
-<target name="zbar-download" depends="zbar-download-orig" >
-  <property name="patchOpts" value="-p1 -F0" />
-  <exec executable="patch" input="${basedir}/src/zbar_patches/pcard_1_0_16.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
-  <exec executable="patch" input="${basedir}/src/zbar_patches/test_decode_pcard_1_0_7.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
-  <exec executable="patch" input="${basedir}/src/zbar_patches/vfw_cleanup_1_0.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
-  <exec executable="patch" input="${basedir}/src/zbar_patches/vfw_doc_1_0.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
-  <exec executable="patch" input="${basedir}/src/zbar_patches/vfw_no_hang_1_0.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
-  <exec executable="patch" input="${basedir}/src/zbar_patches/vfw_rgb_24.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
-  <exec executable="patch" input="${basedir}/src/zbar_patches/w2k_1_1.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
-  <exec executable="patch" input="${basedir}/src/zbar_patches/patch_no_probe_1_0.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
-  <exec executable="patch" input="${basedir}/src/zbar_patches/vfw_dialogs_1_1.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
-  <exec executable="patch" input="${basedir}/src/zbar_patches/zbarcam_static_1_0.txt" dir="${zbarOrigDir}" failonerror="true" ><arg line="${patchOpts}" /></exec>
+<target name="zbar-download" depends="zbar-props, zbar-download-orig" >
+  <mkdir dir="${zbarOrigDir}/.hg/patches" />
+  <copy todir="${zbarOrigDir}/.hg/patches">
+    <fileset dir="${basedir}/src/zbar_patches" />
+  </copy>
+  <exec executable="${hg}" dir="${zbarOrigDir}" failonerror="true" >
+    <arg line="qpush -a" />
+  </exec>
 
   <exec executable="autoreconf" dir="${zbarOrigDir}" failonerror="true"><arg line="-&#45;install"/></exec>
   <delete dir="${zbarOrigDir}/autom4te.cache" />
