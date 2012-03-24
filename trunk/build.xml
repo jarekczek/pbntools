@@ -18,6 +18,7 @@
 <property name="hg" value="hg" />
 <property name="sed" value="sed" />
 <property name="svn" value="svn" />
+<property name="doxygen" value="doxygen" />
 <property name="launch4jJar" location="/usr/local/lib/launch4j/launch4j.jar" />
 
 <property name="compDir" location="${basedir}/work/comp" />
@@ -86,7 +87,11 @@
                 revision="1.0"
                 pattern="${basedir}/lib/[artifact]-[revision].[ext]" /> -->
 </target>
- 
+
+<target name="ivy-scripting">
+  <ivy:cachepath pathid="scripting.path" conf="scripting" />
+</target>
+
 <target name="jar" depends="comp">
   <delete><fileset dir="${compDir}" includes="*.properties"/></delete>
   <jar destfile="${basedir}/work/release/PbnTools.jar" basedir="${basedir}/work/comp" >
@@ -251,6 +256,31 @@
     <fileset dir="${zbarOrigDir}" />
   </tar>
   <delete quiet="true" dir="${zbarOrigDir}" />
+</target>
+
+<target name="zbar-doxygen" depends="zbar-props, ivy-scripting" >
+  <property name="zbarDoxyDir" value="${tmp}/zbar_doxygen" />
+  <echo file="${zbarDoxyDir}/Doxyfile">
+    OUTPUT_DIRECTORY       =${zbarDoxyDir}
+    EXTRACT_ALL            = YES
+    EXTRACT_PRIVATE        = YES
+    EXTRACT_STATIC         = YES
+    EXTRACT_LOCAL_METHODS  = YES
+    EXTRACT_ANON_NSPACES   = YES
+    INPUT                  = ${zbarOrigDir}
+    FILTER_SOURCE_FILES    = YES
+    SOURCE_BROWSER         = YES
+    RECURSIVE              = YES
+    REFERENCED_BY_RELATION = YES
+    REFERENCES_RELATION    = YES
+    REFERENCES_LINK_SOURCE = NO
+    GENERATE_LATEX         = NO
+    #EXAMPLE_PATH           = .
+  </echo>
+  <exec executable="${doxygen}"><arg line="${zbarDoxyDir}/Doxyfile" /></exec>
+  <script manager="bsf" language="beanshell" classpathref="scripting.path">
+    java.awt.Desktop.getDesktop().open(new File(project.getProperty("zbarDoxyDir")+"/html/index.html"));
+  </script>
 </target>
 
 <target name="zbar-build-windows">
