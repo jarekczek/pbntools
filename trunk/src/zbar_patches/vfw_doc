@@ -1,20 +1,10 @@
-diff --git a/doc/ref/zbarcam.xml b/doc/ref/zbarcam.xml
---- a/doc/ref/zbarcam.xml
-+++ b/doc/ref/zbarcam.xml
-@@ -127,6 +127,25 @@
+diff -r a7172ff6b1d3 doc/ref/zbarcam.xml
+--- a/doc/ref/zbarcam.xml	Sat Mar 24 16:41:52 2012 +0100
++++ b/doc/ref/zbarcam.xml	Mon Mar 26 18:32:52 2012 +0200
+@@ -128,6 +128,15 @@
          </listitem>
        </varlistentry>
  
-+      <varlistentry>
-+        <term><option>--no-probe</option></term>
-+        <listitem>
-+          <simpara>VfW (Video for Windows) only flag.
-+          Instead of probing all known formats,
-+          the current format is used. Speeds up processor startup.
-+          </simpara>
-+        </listitem>
-+      </varlistentry>
-+
 +      <varlistentry>
 +        <term><option>--vfw-dlg-all, --vfw-dlg-source, --vfw-dlg-format, --vfw-dlg-display</option></term>
 +        <listitem>

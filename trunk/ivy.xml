@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivy-module version="2.0">
+
+<!-- noTabs=true:tabSize=2: -->
+
+<info organisation="jarek.katowice.pl" module="pbntools">
+</info>
+
+<configurations confmappingoverride="true"
+                defaultconfmapping="%->default">
+  <conf name="scripting" />
+</configurations>
+
+<dependencies>
+  <dependency org="bsf" name="bsf" rev="2.4.0" conf="scripting"/>
+  <dependency org="org.beanshell" name="bsh" rev="2.0b4" conf="scripting"/>
+</dependencies>
+
+</ivy-module>
