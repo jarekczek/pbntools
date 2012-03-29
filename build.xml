@@ -40,6 +40,7 @@
 <property name="launch4jJar" location="/usr/local/lib/launch4j/launch4j.jar" />
 
 <property name="compDir" location="${basedir}/work/comp" />
+<property name="compDirTest" location="${basedir}/work/comp-test" />
 <property name="zbarTag" value="0.10" />
 
 <fileset id="fs.src" dir="${basedir}" 
@@ -65,8 +66,10 @@
 
 <!-- //{{{ java targets -->
 <target name="clean">
-  <delete quiet="true" dir="${basedir}/work/comp" />
-  <mkdir dir="${basedir}/work/comp" />
+  <delete quiet="true" dir="${compDir}" />
+  <mkdir dir="${compDir}" />
+  <delete quiet="true" dir="${compDirTest}" />
+  <mkdir dir="${compDirTest}" />
   <delete quiet="true" dir="${basedir}/work/prever" />
   <mkdir dir="${basedir}/work/prever" />
   <delete quiet="true" dir="${basedir}/work/release" />
@@ -445,6 +448,31 @@
   </ftp>
   <echo>upload files to sourceforge manually</echo>
 </target>
+<!-- //}}} -->
+
+<!-- //{{{ junit tests -->
+
+<target name="junit-jar" depends="comp">
+  <javac verbose="no" classpath="${basedir}/src;${basedir}/lib/jl1.0.1.jar;
+                                 ${basedir}/lib/jsoup-1.6.1.jar"
+         srcdir="${basedir}/junit-tests" destdir="${compDirTest}"
+         includes="**/*.java"
+         debug="true" debuglevel="lines,vars,source"
+         encoding="windows-1250" includeantruntime="false" />
+  <jar destfile="${basedir}/work/PbnToolsTests.jar"
+       basedir="${basedir}/work/comp-test" >
+    <!--<fileset dir="${basedir}" includes="res/*" />-->
+  </jar>
+</target>
+
+<target name="junit-html" depends="junit-jar" >
+  <junit fork="yes" haltonfailure="yes">
+    <test name="jc.pbntools.PbnToolsTests" />
+    <formatter type="plain" usefile="false" />
+    <classpath path="${basedir}/work/PbnToolsTests.jar" />
+  </junit>
+</target>
+
 <!-- //}}} -->
 
 <!-- //{{{ other targets -->
