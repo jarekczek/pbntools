@@ -37,6 +37,8 @@ public class SoupProxy
 {
   protected static LinkedList<CacheElement> m_cache;
   protected final static int m_nCacheSize = 10;
+  public static final int NO_FLAGS = 0;
+  public static final int NO_CACHE = 1;
   
   protected URL m_url;
   
@@ -82,13 +84,21 @@ public class SoupProxy
   public Document getDocument(String sUrl)
     throws SoupProxy.Exception
   {
+    return getDocument(sUrl, NO_FLAGS);
+  }
+  
+  public Document getDocument(String sUrl, int nFlags)
+    throws SoupProxy.Exception
+  {
     Document doc;
-    // check cache
-    CacheElement elem = cacheGetElem(sUrl);
-    if (elem != null) {
-      m_url = elem.url;
-      doc = elem.doc;
-      return doc;
+    if ((nFlags & NO_CACHE) == 0) {
+      // check cache
+      CacheElement elem = cacheGetElem(sUrl);
+      if (elem != null) {
+        m_url = elem.url;
+        doc = elem.doc;
+        return doc;
+      }
     }
     
     try {
@@ -103,7 +113,11 @@ public class SoupProxy
     } else {
       doc = getDocumentFromHttp(m_url);
     }
-    if (doc != null) { cachePut(sUrl, m_url, doc); }
+
+    if ((nFlags & NO_CACHE) == 0) {
+      if (doc != null) { cachePut(sUrl, m_url, doc); }
+    }
+
     return doc;
   }
   

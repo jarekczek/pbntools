@@ -454,7 +454,8 @@
 
 <target name="junit-jar" depends="comp">
   <javac verbose="no" classpath="${basedir}/src;${basedir}/lib/jl1.0.1.jar;
-                                 ${basedir}/lib/jsoup-1.6.1.jar"
+                                 ${basedir}/lib/jsoup-1.6.1.jar;
+                                 ${basedir}/work/comp"
          srcdir="${basedir}/junit-tests" destdir="${compDirTest}"
          includes="**/*.java"
          debug="true" debuglevel="lines,vars,source"
@@ -465,11 +466,13 @@
   </jar>
 </target>
 
-<target name="junit-html" depends="junit-jar" >
+<target name="junit-html" depends="junit-jar, jar" >
   <junit fork="yes" haltonfailure="yes">
     <test name="jc.pbntools.PbnToolsTests" />
     <formatter type="plain" usefile="false" />
-    <classpath path="${basedir}/work/PbnToolsTests.jar" />
+    <classpath path="${basedir}/work/PbnToolsTests.jar;
+                     ${basedir}/work/release/PbnTools.jar;
+                     ${basedir}/lib/jsoup-1.6.1.jar" />
   </junit>
 </target>
 

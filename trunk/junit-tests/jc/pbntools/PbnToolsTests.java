@@ -19,6 +19,7 @@
 
 package jc.pbntools;
 
+import jc.f;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -26,8 +27,16 @@ public class PbnToolsTests
 {
 
 @Test public void checkUpdateTest()
+             throws java.io.IOException, jc.SoupProxy.Exception
   {
-    assertTrue("html file does not contain", "1".equals("2"));
+    String sCurrentVer = PbnTools.m_res.getString("wersja");
+    String sHelpPath = f.basePath(this.getClass()) + f.sDirSep + ".."
+                       + f.sDirSep + "doc" + f.sDirSep;
+    String sHelpUrl = "file://" + sHelpPath + "help_pl.html";
+    // System.out.println(sHelpUrl);
+    String sHtmlVer = PbnTools.getVersionFromUrl(sHelpUrl);
+    assertTrue("versions do not match: current=" + sCurrentVer
+               + ", html:" + sHtmlVer, sCurrentVer.equals(sHtmlVer));
   }
 
 }

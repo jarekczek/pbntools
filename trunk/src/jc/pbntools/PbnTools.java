@@ -22,13 +22,20 @@ package jc.pbntools;
 import java.awt.Window;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.SwingUtilities;
 import jc.f;
+import jc.SoupProxy;
 import jc.outputwindow.DialogOutputWindow;
 import jc.outputwindow.StandardOutputWindow;
 import jc.pbntools.*;
 import jc.pbntools.download.*;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 public class PbnTools {
   static String m_sCurDir;
@@ -138,7 +145,25 @@ public class PbnTools {
     }
     wnd.setIconImages(ai);
   }
-  
+
+  /** Reads version string from given <code>sUrl</code>. This should be
+    * an url of pbntools web page, in Polish.
+    * @return <code>null</code> on error. */  
+  public static String getVersionFromUrl(String sUrl)
+                throws jc.SoupProxy.Exception
+  {
+    SoupProxy sp = new SoupProxy(); 
+    Document doc = sp.getDocument(sUrl);
+    Pattern pat = Pattern.compile("Aktualna wersja. ([0-9\\.]+)[,:].*");
+    for (Element e : doc.body().getElementsMatchingOwnText("Aktualna wersja")) {
+      Matcher m = pat.matcher(e.text());
+      if (m.matches()) {
+        return m.group(1);
+      }
+    }
+    return null;
+  }
+
   static void printUsage() {
     f.out(m_res.getString("usage.1"));
   }
