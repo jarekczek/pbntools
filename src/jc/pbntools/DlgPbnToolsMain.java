@@ -18,8 +18,12 @@
 */
 
 package jc.pbntools;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.io.*;
 import java.util.*;
+import javax.swing.GroupLayout;
+import javax.swing.SwingConstants;
 import jc.f;
 
 public class DlgPbnToolsMain extends javax.swing.JFrame {
@@ -111,10 +115,12 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
+        int cxChar = getContentPane().getFontMetrics(
+                       getContentPane().getFont()).charWidth('X');
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(5*cxChar)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pbZakoncz, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(pbKonfig, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
@@ -124,7 +130,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
                     .addComponent(pbPobierzKops, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     // .addComponent(pbPobierzPary, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(pbOtworzPbn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGap(5*cxChar))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

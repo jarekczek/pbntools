@@ -1,4 +1,4 @@
-<project name="PbnTools" default="zip-src"
+<project name="PbnTools" default="run"
   xmlns:ivy="antlib:org.apache.ivy.ant" >
 
 <!-- jedit properties: :folding=explicit:noTabs=true:indentSize=2: -->
