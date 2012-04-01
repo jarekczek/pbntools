@@ -71,7 +71,7 @@ public class DlgPobierzPary extends javax.swing.JDialog {
         ebLink.setText(PbnTools.m_props.getProperty("pobierzPary.link"));
         ebLink.selectAll();
 
-        f.setTextAndMnem(pbOk, "download");
+        f.setTextAndMnem(pbOk, PbnTools.getRes(), "download");
         pbOk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbOkActionPerformed(evt);
@@ -79,7 +79,7 @@ public class DlgPobierzPary extends javax.swing.JDialog {
         });
         getRootPane().setDefaultButton(pbOk);
 
-        f.setTextAndMnem(pbAnuluj, "cancel");
+        f.setTextAndMnem(pbAnuluj, PbnTools.getRes(), "cancel");
         pbAnuluj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbAnulujActionPerformed(evt);

@@ -26,6 +26,8 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.awt.Component;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import jc.f;
 import jc.SoupProxy;
@@ -79,6 +81,11 @@ public class PbnTools {
     return java.text.MessageFormat.format(m_res.getString(sPropName), ao);
   }
 
+  public static ResourceBundle getRes()
+  {
+    return m_res;
+  }
+  
   public static String getWorkDir()
   {
     String sWorkDir = PbnTools.m_props.getProperty("workDir");
@@ -87,6 +94,30 @@ public class PbnTools {
       return null;
     }
     return sWorkDir;
+  }
+  
+  public static void checkUpdates(Component parent)
+  {
+    String sHomePl = "http://jarek.katowice.pl/pbntools";
+    String sCurrentVer = getStr("wersja");
+    String sHtmlVer = null;
+    try {
+      sHtmlVer = PbnTools.getVersionFromUrl(sHomePl);
+    } catch (jc.SoupProxy.Exception spe) {
+      f.msgException(parent, spe);
+      return;
+    }
+    if (sHtmlVer == null) {
+      JOptionPane.showMessageDialog(parent, getStr("checkUpd.unknownVersion"), 
+        getStr("checkUpd.title"), JOptionPane.WARNING_MESSAGE);
+      return;
+    }
+    if (true || sCurrentVer.equals(sHtmlVer)) {
+      JOptionPane.showMessageDialog(parent,
+        getStr("checkUpd.equal", sCurrentVer),
+        getStr("checkUpd.title"),
+        JOptionPane.PLAIN_MESSAGE);
+    }
   }
   
   static void pobierzKops(String sLink) {

@@ -70,14 +70,14 @@ public class DlgPobierzKops extends javax.swing.JDialog {
         ebLink.setText(PbnTools.m_props.getProperty("pobierzKops.link"));
         ebLink.selectAll();
 
-        f.setTextAndMnem(pbOk, "download");
+        f.setTextAndMnem(pbOk, PbnTools.getRes(), "download");
         pbOk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbOkActionPerformed(evt);
             }
         });
 
-        f.setTextAndMnem(pbAnuluj, "cancel");
+        f.setTextAndMnem(pbAnuluj, PbnTools.getRes(), "cancel");
         pbAnuluj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbAnulujActionPerformed(evt);

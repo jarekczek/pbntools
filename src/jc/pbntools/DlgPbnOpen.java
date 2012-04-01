@@ -71,18 +71,18 @@ public class DlgPbnOpen extends javax.swing.JDialog {
         ebPlik.selectAll();
 
 
-        f.setTextAndMnem(jLabel1, "pbnFile.label");
+        f.setTextAndMnem(jLabel1, PbnTools.getRes(), "pbnFile.label");
 
         pbPlik.setAction(new f.OpenFileAction(ebPlik));
 
-        f.setTextAndMnem(pbOtworz, "open");
+        f.setTextAndMnem(pbOtworz, PbnTools.m_res, "open");
         pbOtworz.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbOtworzActionPerformed(evt);
             }
         });
 
-        f.setTextAndMnem(pbAnuluj, "cancel");
+        f.setTextAndMnem(pbAnuluj, PbnTools.m_res, "cancel");
         pbAnuluj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbAnulujActionPerformed(evt);
