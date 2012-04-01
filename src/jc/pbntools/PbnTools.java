@@ -112,12 +112,32 @@ public class PbnTools {
         getStr("checkUpd.title"), JOptionPane.WARNING_MESSAGE);
       return;
     }
-    if (true || sCurrentVer.equals(sHtmlVer)) {
+    if (f.compareStrings(sCurrentVer, sHtmlVer, true) < 0) {
+      Object options[] = { getStr("download.label"),
+                           getStr("cancel.label") };
+      int rv = JOptionPane.showOptionDialog(parent,
+        getStr("checkUpd.lower", sCurrentVer, sHtmlVer),
+        getStr("checkUpd.title"), JOptionPane.DEFAULT_OPTION,
+        JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+      if (rv == 0) {
+        browseInstallPage(parent);
+      }
+    }
+    else if (f.compareStrings(sCurrentVer, sHtmlVer, true) > 0) {
+      JOptionPane.showMessageDialog(parent,
+        getStr("checkUpd.greater", sCurrentVer, sHtmlVer),
+        getStr("checkUpd.title"), JOptionPane.PLAIN_MESSAGE);
+    }
+    else {
       JOptionPane.showMessageDialog(parent,
         getStr("checkUpd.equal", sCurrentVer),
-        getStr("checkUpd.title"),
-        JOptionPane.PLAIN_MESSAGE);
+        getStr("checkUpd.title"), JOptionPane.PLAIN_MESSAGE);
     }
+  }
+  
+  public static void browseInstallPage(Component parent)
+  {
+    f.desktopBrowse(parent, getStr("homepage") + "#download");
   }
   
   static void pobierzKops(String sLink) {

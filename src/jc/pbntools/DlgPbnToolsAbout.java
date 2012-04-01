@@ -156,13 +156,15 @@ public class DlgPbnToolsAbout extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DlgPbnToolsAbout dialog = new DlgPbnToolsAbout(null, true);
+                PbnTools.browseInstallPage(null);
+                /* DlgPbnToolsAbout dialog = new DlgPbnToolsAbout(null, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
                 });
                 dialog.setVisible(true);
+                */
             }
         });
     }
