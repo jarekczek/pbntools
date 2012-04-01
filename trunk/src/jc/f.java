@@ -22,16 +22,21 @@
 
 package jc;
 
+import java.awt.Component;
 import java.io.File;
-import jc.pbntools.PbnTools;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.swing.JOptionPane;
 
 public class f {
   public static String sLf;
   public static String sDirSep;
+  private static ResourceBundle m_res;
   
   static {
     sLf = System.getProperty("line.separator");
     sDirSep = System.getProperty("file.separator");
+    m_res = ResourceBundle.getBundle("jc.f", Locale.getDefault());
     }
     
   public static boolean stringIn(String s, String as[]) {
@@ -88,8 +93,14 @@ public class f {
     javax.swing.JOptionPane.showMessageDialog(null, sMsg);
   }
   
-  public static String[] extractTextAndMnem(String sPropName) {
-    String sText = PbnTools.m_res.getString(sPropName);
+  public static void msgException(Component parent, Throwable t) {
+    JOptionPane.showMessageDialog(parent, t.toString(),
+      m_res.getString("exception.title"), JOptionPane.ERROR_MESSAGE);
+  }
+  
+  public static String[] extractTextAndMnem(ResourceBundle res,
+                                            String sPropName) {
+    String sText = res.getString(sPropName);
     String as[];
     String asRet[] = new String[2];
     asRet[0] = sText;
@@ -102,20 +113,26 @@ public class f {
     return asRet;
   }
   
-  public static void setTextAndMnem(javax.swing.AbstractButton but, String sPropName) {
-    String as[] = extractTextAndMnem(sPropName);
+  public static void setTextAndMnem(javax.swing.AbstractButton but,
+                                    ResourceBundle res,
+                                    String sPropName) {
+    String as[] = extractTextAndMnem(res, sPropName);
     but.setText(as[0]);
     if (as[1]!=null) { but.setMnemonic(as[1].charAt(0)); }
   }
 
-  public static void setTextAndMnem(javax.swing.JLabel lab, String sPropName) {
-    String as[] = extractTextAndMnem(sPropName);
+  public static void setTextAndMnem(javax.swing.JLabel lab,
+                                    ResourceBundle res,
+                                    String sPropName) {
+    String as[] = extractTextAndMnem(res, sPropName);
     lab.setText(as[0]+":");
     if (as[1]!=null) { lab.setDisplayedMnemonic(as[1].charAt(0)); }
   }
 
-  public static void setTextAndMnem(javax.swing.AbstractAction a, String sPropName) {
-    String as[] = extractTextAndMnem(sPropName);
+  public static void setTextAndMnem(javax.swing.AbstractAction a,
+                                    ResourceBundle res,
+                                    String sPropName) {
+    String as[] = extractTextAndMnem(res, sPropName);
     a.putValue(a.NAME, as[0]);
     if (as[1]!=null) {
       javax.swing.JButton but = new javax.swing.JButton();
@@ -135,7 +152,7 @@ public class f {
       javax.swing.JFileChooser fc = new javax.swing.JFileChooser(m_eb.getText());
       fc.setDialogType(fc.OPEN_DIALOG);
       fc.setFileSelectionMode(fc.DIRECTORIES_ONLY);
-      fc.setDialogTitle(PbnTools.m_res.getString("chooseDir"));
+      fc.setDialogTitle(m_res.getString("chooseDir"));
       int rv = fc.showOpenDialog(null);
       if (rv==fc.APPROVE_OPTION) {
         m_eb.setText(fc.getSelectedFile().getAbsolutePath());
@@ -154,7 +171,7 @@ public class f {
       javax.swing.JFileChooser fc = new javax.swing.JFileChooser(m_eb.getText());
       fc.setDialogType(fc.OPEN_DIALOG);
       fc.setFileSelectionMode(fc.FILES_ONLY );
-      fc.setDialogTitle(PbnTools.m_res.getString("chooseFileOpen"));
+      fc.setDialogTitle(m_res.getString("chooseFileOpen"));
       int rv = fc.showOpenDialog(null);
       if (rv==fc.APPROVE_OPTION) {
         m_eb.setText(fc.getSelectedFile().getAbsolutePath());

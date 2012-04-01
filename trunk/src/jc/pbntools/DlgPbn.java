@@ -83,7 +83,7 @@ public class DlgPbn extends javax.swing.JDialog
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        f.setTextAndMnem(pbZamknij, "close");
+        f.setTextAndMnem(pbZamknij, PbnTools.m_res, "close");
         pbZamknij.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbZamknijActionPerformed(evt);
@@ -109,14 +109,14 @@ public class DlgPbn extends javax.swing.JDialog
         stDealer.setText("jLabel5");
         stVulner.setText("jLabel5");
 
-        f.setTextAndMnem(pbRozdaj, "pbnFile.dealCards");
+        f.setTextAndMnem(pbRozdaj, PbnTools.m_res, "pbnFile.dealCards");
         pbRozdaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbRozdajActionPerformed(evt);
             }
         });
 
-        f.setTextAndMnem(pbArkusz, "pbnFile.sheet");
+        f.setTextAndMnem(pbArkusz, PbnTools.m_res, "pbnFile.sheet");
         pbArkusz.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbArkuszActionPerformed(evt);

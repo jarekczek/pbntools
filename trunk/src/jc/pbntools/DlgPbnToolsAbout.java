@@ -80,10 +80,10 @@ public class DlgPbnToolsAbout extends javax.swing.JDialog {
         });
         getRootPane().setDefaultButton(jButton1);
 
-        f.setTextAndMnem(pbUpdate, "button.checkUpdates");
+        f.setTextAndMnem(pbUpdate, PbnTools.m_res, "button.checkUpdates");
         pbUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
+                PbnTools.checkUpdates(DlgPbnToolsAbout.this);
             }
         });
 

@@ -56,14 +56,14 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pbn Tools " + PbnTools.m_res.getString("wersja"));
 
-        f.setTextAndMnem(pbPobierzKops, "pobierzKops");
+        f.setTextAndMnem(pbPobierzKops, PbnTools.getRes(), "pobierzKops");
         pbPobierzKops.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbPobierzKopsActionPerformed(evt);
             }
         });
 
-        f.setTextAndMnem(pbPobierzPary, "pobierzPary");
+        f.setTextAndMnem(pbPobierzPary, PbnTools.getRes(), "pobierzPary");
         pbPobierzPary.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbPobierzParyActionPerformed(evt);
@@ -78,35 +78,35 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
             }
         });*/
 
-        f.setTextAndMnem(pbKonfig, "button.config");
+        f.setTextAndMnem(pbKonfig, PbnTools.getRes(), "button.config");
         pbKonfig.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbKonfigActionPerformed(evt);
             }
         });
 
-        f.setTextAndMnem(pbZakoncz, "finish");
+        f.setTextAndMnem(pbZakoncz, PbnTools.getRes(), "finish");
         pbZakoncz.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbZakonczActionPerformed(evt);
             }
         });
 
-        f.setTextAndMnem(pbPomoc, "help");
+        f.setTextAndMnem(pbPomoc, PbnTools.getRes(), "help");
         pbPomoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbPomocActionPerformed(evt);
             }
         });
 
-        f.setTextAndMnem(pbOProgramie, "about");
+        f.setTextAndMnem(pbOProgramie, PbnTools.getRes(), "about");
         pbOProgramie.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbOProgramieActionPerformed(evt);
             }
         });
 
-        f.setTextAndMnem(pbOtworzPbn, "openPbnFile");
+        f.setTextAndMnem(pbOtworzPbn, PbnTools.getRes(), "openPbnFile");
         pbOtworzPbn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbOtworzPbnActionPerformed(evt);

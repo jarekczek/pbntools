@@ -58,7 +58,7 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
     pbSave.setAction(new SaveAction("save"));
     
     JLabel stWorkDir = new JLabel();
-    f.setTextAndMnem(stWorkDir, "config.workDir");
+    f.setTextAndMnem(stWorkDir, PbnTools.getRes(), "config.workDir");
     m_ebWorkDir = new JTextField();
     m_ebWorkDir.setColumns(40);
     stWorkDir.setLabelFor(m_ebWorkDir);
@@ -67,7 +67,7 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
     m_ebWorkDir.setText(PbnTools.m_props.getProperty("workDir"));
     
     JLabel stZbarcamOpts = new JLabel();
-    f.setTextAndMnem(stZbarcamOpts, "config.zbarcamOpts");
+    f.setTextAndMnem(stZbarcamOpts, PbnTools.getRes(), "config.zbarcamOpts");
     stZbarcamOpts.setText(String.format(stZbarcamOpts.getText(), "/dev/video1"));
     m_ebZbarcamOpts = new JTextField();
     m_ebZbarcamOpts.setColumns(40);
