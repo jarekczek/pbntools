@@ -42,6 +42,11 @@
 <property name="compDir" location="${basedir}/work/comp" />
 <property name="compDirTest" location="${basedir}/work/comp-test" />
 <property name="zbarTag" value="0.10" />
+<property name="compileClasspath" value="${basedir}/lib/jl1.0.1.jar;
+                                         ${basedir}/lib/jsoup-1.6.1.jar" />
+<property name="runClasspath" value="${compileClasspath};
+                                     ${basedir}/work/comp" />
+
 
 <fileset id="fs.src" dir="${basedir}" 
          includes="src/**/*.java build.xml doc/*.tex src/**/*.sh test/*.sh src/pbntools
@@ -584,7 +589,11 @@
   ]]></script>
 </target>
 
-<target name="test" depends="">
+<target name="test" depends="comp">
+  <java classpath="${runClasspath}" classname="jc.pbntools.DlgPbnToolsAbout"
+        dir="${basedir}" fork="yes" >
+    <arg value="/jarek/www/jarek/brydz/test/p05.pbn"/>
+  </java>
 </target>
 
 <target name="test-rozdaj" depends="comp">
