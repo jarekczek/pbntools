@@ -1,10 +1,12 @@
 package jc;
 
+import java.util.ResourceBundle;
+
 abstract public class MyAction extends javax.swing.AbstractAction {
   MyAction() { super(); }
-  public MyAction(String sProp) {
+  public MyAction(ResourceBundle res, String sProp) {
     super();
-    f.setTextAndMnem(this, sProp);
+    f.setTextAndMnem(this, res, sProp);
   }
 }
 
