@@ -193,7 +193,7 @@ Current version, \version{}:
 
 \begin{itemize}
 \item
-  \htmladdnormallink{PbnTools \version}{http://jarek.katowice.pl/jcwww/pbntools/PbnTools_\versionUnd\_src.zip}
+  \pbntoolsSourceLinks
   or see {\em Development}, section \ref{dev}
 \item
   \htmladdnormallink{jlayer1.0.1.tar.gz}{http://jarek.katowice.pl/jcwww/pbntools/jlayer1.0.1.tar.gz}
@@ -205,9 +205,11 @@ Current version, \version{}:
   \item
     \htmladdnormallink{zbar original}{http://jarek.katowice.pl/jcwww/pbntools/%
     zbar\_src\_orig.tgz}
+    \zbarOldOrigSourceLinks
   \item
     \htmladdnormallink{zbar modified}{http://jarek.katowice.pl/jcwww/pbntools/%
     zbar\_src\_pbntools.tgz}
+    \zbarOldSourceLinks
   \item
     A patch set available with PbnTools source code.
   \end{itemize}
@@ -289,6 +291,21 @@ in source code archive, see: Download, \ref{download}.
 %{{{ history
 \section{Version history}
 \begin{description}
+\item[1.0.3, 02.04.2012]
+  \begin{itemize}
+  \item {\em Check for updates} option in {\em About} window.
+  \item Zbar modification, to handle cameras providing picture in
+        MJPG format.
+  \item Made the app visible in taskbar.
+  \end{itemize}
+\item[1.0.2, 01.11.2011]
+  \begin{itemize}
+  \item Fixing PBN format. \verb!T! instead of \verb!10!.
+  \end{itemize}
+\item[1.0.1, 01.11.2011]
+  \begin{itemize}
+  \item Ignoring {\em robots.txt} file during tournament download.
+  \end{itemize}
 \item[1.0.0, 01.11.2011]
   First official release, under GNU GPL 3.0.
   \begin{itemize}

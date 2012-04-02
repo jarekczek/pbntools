@@ -54,8 +54,8 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
     setLayout(lay);
     JButton pbSave = new JButton();
     JButton pbCancel = new JButton();
-    pbCancel.setAction(new CancelAction("cancel"));
-    pbSave.setAction(new SaveAction("save"));
+    pbCancel.setAction(new CancelAction(PbnTools.getRes(), "cancel"));
+    pbSave.setAction(new SaveAction(PbnTools.getRes(), "save"));
     
     JLabel stWorkDir = new JLabel();
     f.setTextAndMnem(stWorkDir, PbnTools.getRes(), "config.workDir");
@@ -121,14 +121,14 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
   }
   
   class CancelAction extends MyAction {
-    CancelAction(String s) { super(s); }
+    CancelAction(ResourceBundle res, String s) { super(res, s); }
     public void actionPerformed(ActionEvent e) {
       dispose();
     }
   }
     
   class SaveAction extends MyAction {
-    SaveAction(String s) { super(s); }
+    SaveAction(ResourceBundle res, String s) { super(res, s); }
     public void actionPerformed(ActionEvent e) {
       if (!verifyData()) { return; }
       PbnTools.m_props.setProperty("workDir", m_ebWorkDir.getText());

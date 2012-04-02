@@ -247,10 +247,20 @@
 <target name="zbar-props" >
   <property name="zbarDir" location="${basedir}/lib/zbar" />
   <property name="zbarOrigDir" location="${zbarDir}/src_orig" />
+  <condition property="zbarOrigArchAvail">
+    <available file="${zbarDir}/zbar_src_orig.tgz" />
+  </condition>
+</target>
+
+<target name="zbar-clean">
+  <delete dir="${zbarDir}" />
+  <delete file="${basedir}/doc/zbarcam.html" />
+  <delete file="${basedir}/lib/zbarcam.exe" />
+  <delete file="${basedir}/lib/zbarcam" />
 </target>
 
 <target name="zbar-download-orig" depends="zbar-props"
-                                  unless="no.zbar.download.orig" >
+                                  unless="${zbarOrigArchAvail}" >
   <!-- current patch set prepared 2012-03-18, for rev fe4c21fc8ec3 -->
   <property name="zbarRev" value="-r fe4c21fc8ec3" />
   <property name="zbarRev" value="-r 0.10" />
@@ -262,7 +272,16 @@
   </tar>
 </target>
 
-<target name="zbar-download" depends="zbar-props, zbar-download-orig" >
+<target name="zbar-unpack-source-orig" depends="zbar-props"
+        if="${zbarOrigArchAvail}" >
+  <untar src="${zbarDir}/zbar_src_orig.tgz" dest="${zbarOrigDir}"
+         compression="gzip" />
+</target>
+
+<target name="zbar-get-source-orig"
+        depends="zbar-props, zbar-unpack-source-orig, zbar-download-orig" />
+
+<target name="zbar-download" depends="zbar-props, zbar-get-source-orig" >
   <mkdir dir="${zbarOrigDir}/.hg/patches" />
   <copy todir="${zbarOrigDir}/.hg/patches">
     <fileset dir="${basedir}/src/zbar_patches" />
@@ -325,6 +344,12 @@
 <target name="zbar-build-common">
   <property name="zbarConfOpts" value="" />
   <delete quiet="true" dir="${zbarSrc}" />
+  <fail message="File ${zbarDir}/zbar_src_pbntools.tgz is not available.
+                 Run zbar-download target.">
+    <condition>
+      <not><available file="${zbarDir}/zbar_src_pbntools.tgz" /></not>
+    </condition>
+  </fail>
   <untar src="${zbarDir}/zbar_src_pbntools.tgz" dest="${zbarSrc}" compression="gzip" />
   <chmod file="${zbarSrc}/configure" perm="a+x" />
   <antcall target="zbar-configure"><param name="dir" value="${zbarSrc}"/></antcall>

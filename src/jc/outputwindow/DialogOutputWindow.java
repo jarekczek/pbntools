@@ -26,6 +26,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener; 
 import java.io.*;
 import java.util.*;
+import java.util.ResourceBundle;
 import javax.swing.*;
 import jc.f;
 import jc.MyAction;
@@ -52,12 +53,12 @@ public class DialogOutputWindow extends OutputWindow {
     m_dlg.setLayout(lay);
     
     JButton pbClose = new JButton();
-    m_closeAction = new CloseAction("close"); 
+    m_closeAction = new CloseAction(res, "close"); 
     pbClose.setAction(m_closeAction);
     m_closeAction.setEnabled(false);
     
     JButton pbStop = new JButton();
-    m_stopAction = new StopAction("stop"); 
+    m_stopAction = new StopAction(res, "stop"); 
     pbStop.setAction(m_stopAction);
     m_stopAction.setEnabled(true);
     
@@ -114,14 +115,14 @@ public class DialogOutputWindow extends OutputWindow {
   }
   
   class CloseAction extends MyAction {
-    CloseAction(String s) { super(s); }
+    CloseAction(ResourceBundle res, String s) { super(res, s); }
     public void actionPerformed(java.awt.event.ActionEvent e) {
       m_dlg.dispose();
     }
   }
  
   class StopAction extends MyAction {
-    StopAction(String s) { super(s); }
+    StopAction(ResourceBundle res, String s) { super(res, s); }
     public void actionPerformed(java.awt.event.ActionEvent e) {
       m_bStop = true;
       setEnabled(false);
