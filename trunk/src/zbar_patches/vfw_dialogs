@@ -1,6 +1,6 @@
-diff -r 94ae8fbe5a63 include/zbar.h
---- a/include/zbar.h	Mon Mar 26 18:24:07 2012 +0200
-+++ b/include/zbar.h	Mon Mar 26 18:31:40 2012 +0200
+diff -r 84b0c09c7db3 include/zbar.h
+--- a/include/zbar.h	Mon Mar 26 18:37:09 2012 +0200
++++ b/include/zbar.h	Mon Apr 02 16:07:46 2012 +0200
 @@ -797,6 +797,10 @@
  extern int zbar_processor_request_iomode(zbar_processor_t *video,
                                           int iomode);
@@ -30,9 +30,9 @@ diff -r 94ae8fbe5a63 include/zbar.h
  /** retrieve current output image width.
   * @returns the width or 0 if the video device is not open
   */
-diff -r 94ae8fbe5a63 zbar/processor.c
---- a/zbar/processor.c	Mon Mar 26 18:24:07 2012 +0200
-+++ b/zbar/processor.c	Mon Mar 26 18:31:40 2012 +0200
+diff -r 84b0c09c7db3 zbar/processor.c
+--- a/zbar/processor.c	Mon Mar 26 18:37:09 2012 +0200
++++ b/zbar/processor.c	Mon Apr 02 16:07:46 2012 +0200
 @@ -368,6 +368,7 @@
                                       proc->req_width, proc->req_height);
          if(proc->req_intf)
@@ -41,7 +41,7 @@ diff -r 94ae8fbe5a63 zbar/processor.c
          if((proc->req_iomode &&
              zbar_video_request_iomode(proc->video, proc->req_iomode)) ||
             zbar_video_open(proc->video, dev)) {
-@@ -506,6 +507,17 @@
+@@ -506,6 +507,15 @@
      return(0);
  }
  
@@ -50,8 +50,6 @@ diff -r 94ae8fbe5a63 zbar/processor.c
 +{
 +    proc_enter(proc);
 +    proc->vfw_dlg_flag = dlg_flag;
-+    if(proc->vfw_dlg_flag & VFW_DLG_FORMAT)
-+        proc->no_probe_flag = 1;
 +    proc_leave(proc);
 +    return(0);
 +}
@@ -59,9 +57,9 @@ diff -r 94ae8fbe5a63 zbar/processor.c
  int zbar_processor_force_format (zbar_processor_t *proc,
                                   unsigned long input,
                                   unsigned long output)
-diff -r 94ae8fbe5a63 zbar/processor.h
---- a/zbar/processor.h	Mon Mar 26 18:24:07 2012 +0200
-+++ b/zbar/processor.h	Mon Mar 26 18:31:40 2012 +0200
+diff -r 84b0c09c7db3 zbar/processor.h
+--- a/zbar/processor.h	Mon Mar 26 18:37:09 2012 +0200
++++ b/zbar/processor.h	Mon Apr 02 16:07:46 2012 +0200
 @@ -70,6 +70,7 @@
      zbar_image_data_handler_t *handler; /* application data handler */
  
@@ -70,9 +68,9 @@ diff -r 94ae8fbe5a63 zbar/processor.h
      int req_intf, req_iomode;           /* application requested interface */
      uint32_t force_input;               /* force input format (debug) */
      uint32_t force_output;              /* force format conversion (debug) */
-diff -r 94ae8fbe5a63 zbar/video.c
---- a/zbar/video.c	Mon Mar 26 18:24:07 2012 +0200
-+++ b/zbar/video.c	Mon Mar 26 18:31:40 2012 +0200
+diff -r 84b0c09c7db3 zbar/video.c
+--- a/zbar/video.c	Mon Mar 26 18:37:09 2012 +0200
++++ b/zbar/video.c	Mon Apr 02 16:07:46 2012 +0200
 @@ -211,6 +211,11 @@
      return(0);
  }
@@ -85,9 +83,9 @@ diff -r 94ae8fbe5a63 zbar/video.c
  int zbar_video_get_width (const zbar_video_t *vdo)
  {
      return(vdo->width);
-diff -r 94ae8fbe5a63 zbar/video.h
---- a/zbar/video.h	Mon Mar 26 18:24:07 2012 +0200
-+++ b/zbar/video.h	Mon Mar 26 18:31:40 2012 +0200
+diff -r 84b0c09c7db3 zbar/video.h
+--- a/zbar/video.h	Mon Mar 26 18:37:09 2012 +0200
++++ b/zbar/video.h	Mon Apr 02 16:07:46 2012 +0200
 @@ -65,6 +65,7 @@
      video_iomode_t iomode;      /* video data transfer mode */
      unsigned initialized : 1;   /* format selected and images mapped */
@@ -96,9 +94,9 @@ diff -r 94ae8fbe5a63 zbar/video.h
  
      uint32_t format;            /* selected fourcc */
      unsigned palette;           /* v4l1 format index corresponding to format */
-diff -r 94ae8fbe5a63 zbar/video/vfw.c
---- a/zbar/video/vfw.c	Mon Mar 26 18:24:07 2012 +0200
-+++ b/zbar/video/vfw.c	Mon Mar 26 18:31:40 2012 +0200
+diff -r 84b0c09c7db3 zbar/video/vfw.c
+--- a/zbar/video/vfw.c	Mon Mar 26 18:37:09 2012 +0200
++++ b/zbar/video/vfw.c	Mon Apr 02 16:07:46 2012 +0200
 @@ -517,6 +517,19 @@
      return(0);
  }
@@ -129,9 +127,9 @@ diff -r 94ae8fbe5a63 zbar/video/vfw.c
      if(vfw_probe(vdo)) {
          _zbar_thread_stop(&state->thread, NULL);
          return(-1);
-diff -r 94ae8fbe5a63 zbarcam/zbarcam.c
---- a/zbarcam/zbarcam.c	Mon Mar 26 18:24:07 2012 +0200
-+++ b/zbarcam/zbarcam.c	Mon Mar 26 18:31:40 2012 +0200
+diff -r 84b0c09c7db3 zbarcam/zbarcam.c
+--- a/zbarcam/zbarcam.c	Mon Mar 26 18:37:09 2012 +0200
++++ b/zbarcam/zbarcam.c	Mon Apr 02 16:07:46 2012 +0200
 @@ -152,6 +152,7 @@
      const char *video_device = "";
      int display = 1;
