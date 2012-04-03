@@ -16,8 +16,8 @@
 <dependencies>
   <dependency conf="build"
               org="junit" name="junit-dep" rev="latest.integration" />
-  <dependency org="bsf" name="bsf" rev="2.4.0" conf="scripting"/>
-  <dependency org="org.beanshell" name="bsh" rev="2.0b4" conf="scripting"/>
+  <dependency org="bsf" name="bsf" rev="2.4.0" conf="build"/>
+  <dependency org="org.beanshell" name="bsh" rev="2.0b4" conf="build"/>
 </dependencies>
 
 </ivy-module>

@@ -32,12 +32,16 @@
 
 <condition property="bshJar" value="/usr/lib/jvm/bsf.jar:/usr/lib/jvm/commons-logging-1.1.1.jar:/q/instal/lang/java/bsh-2.0b4.jar" else="C:\lang\java\bsh-1.3.0.jar:C:\lang\java\bsf-2.4.0\lib\bsf.jar:C:\lang\java\commons-logging-1.1.1\commons-logging-1.1.1.jar"><os family="unix"/></condition>
 <condition property="tmp" value="/tmp" else="${env.TEMP}"><os family="unix"/></condition>
+<condition property="sedFileSep" value="/" else="\">
+  <equals arg1="${file.separator}" arg2="/" />
+</condition>
 <property name="runDir" value="${tmp}" />
 <property name="hg" value="hg" />
 <property name="sed" value="sed" />
 <property name="svn" value="svn" />
 <property name="doxygen" value="doxygen" />
 <property name="launch4jJar" location="/usr/local/lib/launch4j/launch4j.jar" />
+<property name="latex2html" value="latex2html" />
 
 <property name="compDir" location="${basedir}/work/comp" />
 <property name="compDirTest" location="${basedir}/work/comp-test" />
@@ -114,8 +118,8 @@
                 pattern="${basedir}/lib/[artifact]-[revision].[ext]" /> -->
 </target>
 
-<target name="ivy-scripting">
-  <ivy:cachepath pathid="scripting.path" conf="scripting" />
+<target name="ivy-libs">
+  <ivy:cachepath pathid="ivy.path" conf="build" />
 </target>
 
 <target name="jar" depends="comp">
@@ -201,18 +205,19 @@
   <property name="buildnumberIncreased" value="true" />
 </target>
 
-<target name="set-svn-rev" > <!-- {{{ -->
-  <exec executable="${svn}" outputproperty="svn.info">
+<target name="set-svn-rev" depends="ivy-libs" > <!-- {{{ -->
+  <exec executable="${svn}" outputproperty="svn.info" failonerror="true" >
     <arg line="info" />
   </exec>
-  <script manager="bsf" language="beanshell" classpath="${bshJar}"><![CDATA[
+  <!-- <echo>${svn.info}</echo> -->
+  <script manager="bsf" language="beanshell" classpathref="ivy.path"><![CDATA[
     import java.util.regex.*;
     import org.apache.tools.ant.BuildException;
     sSvnInfo = project.getProperty("svn.info");
-    Pattern p = Pattern.compile("Revision: ([0-9]+)");
+    Pattern p = Pattern.compile("((Wersja)|(Revision)): ([0-9]+)");
     Matcher m = p.matcher(sSvnInfo);
     if (m.find()) {
-      project.setProperty("svn.rev", m.group(1));
+      project.setProperty("svn.rev", m.group(4));
     } else {
       throw new BuildException("Could not find the revision " +
                                "number in svn info.");
@@ -303,7 +308,7 @@
   <delete quiet="true" dir="${zbarOrigDir}" />
 </target>
 
-<target name="zbar-doxygen" depends="zbar-props, ivy-scripting" >
+<target name="zbar-doxygen" depends="zbar-props, ivy-libs" >
   <property name="zbarDoxyDir" value="${tmp}/zbar_doxygen" />
   <echo file="${zbarDoxyDir}/Doxyfile">
     OUTPUT_DIRECTORY       =${zbarDoxyDir}
@@ -323,7 +328,7 @@
     #EXAMPLE_PATH           = .
   </echo>
   <exec executable="${doxygen}"><arg line="${zbarDoxyDir}/Doxyfile" /></exec>
-  <script manager="bsf" language="beanshell" classpathref="scripting.path">
+  <script manager="bsf" language="beanshell" classpathref="ivy.path">
     java.awt.Desktop.getDesktop().open(new File(project.getProperty("zbarDoxyDir")+"/html/index.html"));
   </script>
 </target>
@@ -518,7 +523,7 @@
   <exec executable="xdg-open" failonerror="true"><arg line="/tmp/deal.pdf"/></exec>
 </target>
 
-<target name="launcher" depends="set-filenames">
+<target name="launcher" depends="set-filenames, ivy-libs">
 <taskdef name="launch4j"
    classname="net.sf.launch4j.ant.Launch4jTask"
    classpath="${launch4jJar}" />
@@ -582,7 +587,7 @@
   <antcall target="doc-for-suffix-2" />
 </target>
 
-<target name="doc-for-suffix-2" unless="docUpToDate">
+<target name="doc-for-suffix-2" depends="ivy-libs" unless="docUpToDate">
   <fail message="suffix not set"><condition><not><isset property="suffix"/></not></condition></fail>
   <copy todir="${tmp}"><fileset dir="doc" includes="autoDefs.tex help_common.tex" /></copy>
   <exec executable="latex" failonerror="true">
@@ -590,25 +595,26 @@
   </exec>
   <property name="latex2htmlOpts" value="-dir ${tmp} -split 0 -nonavigation -address &quot;&quot; -noinfo -show_section_numbers" />
   <copy todir="${basedir}/doc"><fileset dir="${tmp}" includes="help_${suffix}.aux autoDefs.aux"/></copy>
-  <exec executable="latex2html" failonerror="true" dir="doc" >
+  <exec executable="${latex2html}" failonerror="true" dir="doc" >
     <arg line="${latex2htmlOpts} -html_version 4.0,latin2,unicode help_${suffix}.tex"/>
   </exec>
 
   <!-- there's a latex error in http:// parsing, slashes are gone, correcting with sed -->
-  <exec executable="sed" >
-    <arg line="&apos;s/http:\([a-z]\)/http:\/\/\1/&apos; -i ${tmp}/help_${suffix}.html"/>
+  <exec executable="sed" failonerror="true" >
+    <arg line="&apos;s/http:\([a-z]\)/http:\/\/\1/&apos; -i ${tmp}${sedFileSep}help_${suffix}.html"/>
   </exec>
   <!-- correct toc links in html -->
-  <exec executable="sed" >
+  <exec executable="sed" failonerror="true" >
     <arg line="&apos;s/HREF=&quot;help_${suffix}.html#SEC/HREF=&quot;#SEC/&apos; -i ${tmp}/help_${suffix}.html"/>
   </exec>
   <!-- some verb statements -->
-  <exec executable="sed" >
+  <exec executable="sed" failonerror="true" >
     <arg line="&apos;s/&lt;code&gt;/&lt;code style=&quot;display:inline&quot;&gt;/&apos; -i ${tmp}/help_${suffix}.html"/>
   </exec>
 
   <copy todir="${basedir}/doc"><fileset dir="${tmp}" includes="help_${suffix}.html help_${suffix}.pdf"/></copy>
-  <script manager="bsf" language="beanshell" classpath="${bshJar}"><![CDATA[
+  <script manager="bsf" language="beanshell"
+          classpathref="ivy.path"><![CDATA[
   java.awt.Desktop.getDesktop().open(new File(project.getProperty("basedir")
                                               +"/doc/help_"+project.getProperty("suffix")+".html"));
   ]]></script>
