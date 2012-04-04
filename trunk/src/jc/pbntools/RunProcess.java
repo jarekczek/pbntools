@@ -263,7 +263,7 @@ public class RunProcess {
   
   void runProcessDialog() {
     if (m_dlgProc==null) {
-      m_dlgProc = new DlgProcess((java.awt.Dialog)m_dlgMain, true, this);
+      m_dlgProc = new DlgProcess(m_dlgMain, true, this);
       }
     run();
     m_dlgProc.pbZatrzymaj.setEnabled(true);

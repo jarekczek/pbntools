@@ -19,28 +19,18 @@
 
 package jc.pbntools;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+import java.awt.Dialog;
 
-/*
- * DlgProcess.java
- *
- * Created on Jan 1, 2011, 9:04:46 PM
- */
-
-/**
- *
- * @author root
- */
 public class DlgProcess extends javax.swing.JDialog {
 
     RunProcess m_rp;
 
     /** Creates new form DlgProcess */
-    public DlgProcess(java.awt.Dialog parent, boolean modal, RunProcess rp) {
-        super(parent, modal);
+    public DlgProcess(java.awt.Window parent, boolean bModal,
+                      RunProcess rp)
+    {
+        super(parent, bModal ? Dialog.ModalityType.APPLICATION_MODAL
+                             : Dialog.ModalityType.MODELESS );
         m_rp = rp;
         initComponents();
     }
