@@ -47,6 +47,7 @@ public class PbnTools {
   static DlgPbnToolsMain m_dlgMain;
   static String m_sSlash;
   public static ResourceBundle m_res;
+  private static String m_sPropsFile;
   static Properties m_props;
   static boolean m_bPropsRead;
   public static boolean m_bVerbose;
@@ -245,14 +246,13 @@ public class PbnTools {
     * <dt>128 - interrupted by user</dt>
     * </dl>
     */
-  public static void main(String args[]) throws InterruptedException,
-                                         InvocationTargetException
+  public static void main(String args[])
   {
-    String sPropsFile = System.getProperty("user.home") + System.getProperty("file.separator") + "PbnTools.props";
+    m_sPropsFile = System.getProperty("user.home") + System.getProperty("file.separator") + "PbnTools.props";
     try {
-      m_props.load(new FileReader(sPropsFile));
+      m_props.load(new FileReader(m_sPropsFile));
       m_bPropsRead = true;
-      f.trace(1, "Properties read from file " + sPropsFile);
+      f.trace(1, "Properties read from file " + m_sPropsFile);
     }
     catch (java.io.FileNotFoundException e) { m_bPropsRead = true; }
     catch (IOException e) { System.out.println(m_res.getString("props.load.error") + ": " + e.toString()); } 
@@ -260,19 +260,24 @@ public class PbnTools {
     parseCommandLine(args);
 
     if (m_bRunMainDialog) {
-      SwingUtilities.invokeAndWait(new Runnable() { public void run() {
+      SwingUtilities.invokeLater(new Runnable() { public void run() {
         m_dlgMain = new DlgPbnToolsMain();
         m_dlgMain.setVisible(true);
       }});
     }
 
+    }
+    
+  public static void closeDown()
+  {
     try {
       if (m_bPropsRead) {
-        m_props.store(new FileWriter(sPropsFile), null);
-        f.trace(1, "Properties stored in file " + sPropsFile);
+        m_props.store(new FileWriter(m_sPropsFile), null);
+        f.trace(1, "Properties stored in file " + m_sPropsFile);
       }
     }
     catch (IOException e) { System.out.println(m_res.getString("props.save.error") + ": " + e.toString()); } 
     System.out.println("koniec");
-    }
   }
+
+}
