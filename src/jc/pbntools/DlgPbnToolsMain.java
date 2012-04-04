@@ -20,6 +20,8 @@
 package jc.pbntools;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.*;
 import javax.swing.GroupLayout;
@@ -54,6 +56,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
         pbOtworzPbn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new CloseHandler());
         setTitle("Pbn Tools " + PbnTools.m_res.getString("wersja"));
 
         f.setTextAndMnem(pbPobierzKops, PbnTools.getRes(), "pobierzKops");
@@ -159,7 +162,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
 
     private void pbZakonczActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbZakonczActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_pbZakonczActionPerformed
 
     private void pbKonfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbKonfigActionPerformed
@@ -249,6 +252,15 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
     private javax.swing.JButton pbPomoc;
     private javax.swing.JButton pbZakoncz;
     // End of variables declaration//GEN-END:variables
+
+  private static class CloseHandler extends WindowAdapter
+  {
+    @Override
+    public void windowClosing(WindowEvent e) {
+      f.trace(1, "closing");
+      PbnTools.closeDown();
+    }
+  }
 
 }
 
