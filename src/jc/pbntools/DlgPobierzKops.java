@@ -76,6 +76,7 @@ public class DlgPobierzKops extends javax.swing.JDialog {
                 pbOkActionPerformed(evt);
             }
         });
+        getRootPane().setDefaultButton(pbOk);
 
         f.setTextAndMnem(pbAnuluj, PbnTools.getRes(), "cancel");
         pbAnuluj.addActionListener(new java.awt.event.ActionListener() {

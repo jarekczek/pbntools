@@ -167,7 +167,9 @@
   <!--unzip is not good, because it does not restore permissions-->
   <!--<unzip src="${fnReleaseZipLinux}" dest="${tmp}/pbntools" />-->
   <mkdir dir="${tmp}/pbntools" />
-  <exec executable="7z" dir="${tmp}/pbntools"><arg line="x ${fnReleaseZipLinux}"/></exec>
+  <exec executable="7z" dir="${tmp}/pbntools" failonerror="true">
+    <arg line="x ${fnReleaseZipLinux}"/>
+  </exec>
   <exec executable="${tmp}/pbntools/pbntools" ><arg line=""/></exec>
   <!--<java jar="${tmp}/pbntools/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=${lang}" /> </java>-->
 </target>

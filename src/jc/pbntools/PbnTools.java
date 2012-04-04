@@ -65,6 +65,8 @@ public class PbnTools {
     m_bPropsRead = false;
     bLinux = System.getProperty("os.name").equals("Linux");
     m_bVerbose = false;
+    f.trace(1, "curDir=" + m_sCurDir + ", binDir=" + m_sBinDir
+            + ", scriptDir=" + m_sScriptDir);
 
     if (m_sCurDir.indexOf(' ') >= 0) {
       f.msg(m_res.getString("error.installedWithSpaces"));
