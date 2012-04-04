@@ -249,7 +249,11 @@ public class PbnTools {
                                          InvocationTargetException
   {
     String sPropsFile = System.getProperty("user.home") + System.getProperty("file.separator") + "PbnTools.props";
-    try { m_props.load(new FileReader(sPropsFile)); m_bPropsRead = true; }
+    try {
+      m_props.load(new FileReader(sPropsFile));
+      m_bPropsRead = true;
+      f.trace(1, "Properties read from file " + sPropsFile);
+    }
     catch (java.io.FileNotFoundException e) { m_bPropsRead = true; }
     catch (IOException e) { System.out.println(m_res.getString("props.load.error") + ": " + e.toString()); } 
     
@@ -262,7 +266,12 @@ public class PbnTools {
       }});
     }
 
-    try { if (m_bPropsRead) { m_props.store(new FileWriter(sPropsFile), null); } }
+    try {
+      if (m_bPropsRead) {
+        m_props.store(new FileWriter(sPropsFile), null);
+        f.trace(1, "Properties stored in file " + sPropsFile);
+      }
+    }
     catch (IOException e) { System.out.println(m_res.getString("props.save.error") + ": " + e.toString()); } 
     System.out.println("koniec");
     }

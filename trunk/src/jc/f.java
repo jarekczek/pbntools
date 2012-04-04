@@ -33,13 +33,23 @@ import javax.swing.JOptionPane;
 public class f {
   public static String sLf;
   public static String sDirSep;
+  public static int nDebugLevel = 0;
   private static ResourceBundle m_res;
   
   static {
     sLf = System.getProperty("line.separator");
     sDirSep = System.getProperty("file.separator");
     m_res = ResourceBundle.getBundle("jc.f", Locale.getDefault());
+
+    String sDebugLevel = System.getProperty("debug.level");
+    if (sDebugLevel != null) {
+      try {
+        nDebugLevel = Integer.parseInt(sDebugLevel);
+      } catch (NumberFormatException nfe) {
+        nDebugLevel = 1;
+      }
     }
+  }
     
   public static boolean stringIn(String s, String as[]) {
     int i;
@@ -55,6 +65,13 @@ public class f {
     System.out.println(s);
   }
   
+  /** Output text if current debug level is suitable */
+  public static void trace(int nLevel, String s) {
+    if (nLevel <= nDebugLevel) {
+      System.out.println(s);
+    }
+  }
+
   public static void err(String s) {
     System.err.println(s);
   }
