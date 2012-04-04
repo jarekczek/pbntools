@@ -144,7 +144,10 @@
 </target>
 
 <target name="run" depends="run-prereq">
-  <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=xx" /> </java>
+  <java jar="${runDir}/PbnTools.jar" fork="true" >
+    <jvmarg value="-Duser.language=xx" />
+    <jvmarg value="-Ddebug.level=1" />
+  </java>
 </target>
 
 <target name="run-pl" depends="run-prereq">
