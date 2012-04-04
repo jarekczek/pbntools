@@ -277,8 +277,9 @@
   <delete quiet="true" dir="${zbarDir}" />
   <mkdir dir="${zbarOrigDir}" />
   <exec executable="${hg}" failonerror="true"><arg line="clone ${zbarRev} http://zbar.hg.sourceforge.net:8000/hgroot/zbar/zbar ${zbarOrigDir}"/></exec>
-  <tar destfile="${zbarDir}/zbar_src_orig.tgz" compression="gzip" defaultexcludes="no" >
-    <fileset dir="${zbarOrigDir}" />
+  <tar destfile="${zbarDir}/zbar_src_orig.tgz" compression="gzip"
+       defaultexcludes="no" >
+    <fileset dir="${zbarOrigDir}" defaultexcludes="no" />
   </tar>
 </target>
 
