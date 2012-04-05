@@ -110,7 +110,8 @@
            <!-- classpathref="ivy.jar.path"/> -->
   <ivy:retrieve inline="true" organisation="org.jsoup"
                 module="jsoup" type="jar" revision="1.6.1"
-                pattern="${basedir}/lib/[artifact]-[revision].[ext]" />
+                pattern="${basedir}/lib/[artifact]-[revision].[ext]"
+                log="download-only" />
   <!-- only 1.0 on maven, we may consider switching to 1.0 
   <ivy:retrieve inline="true" organisation="de.huxhorn.sulky"
                 module="de.huxhorn.sulky.3rdparty.jlayer" type="jar"
@@ -415,6 +416,8 @@
   <antcall target="checkLib"><param name="lib" value="wget" /></antcall>
   <antcall target="checkFile"><param name="lib" value="zbarcam.html" />
                               <param name="dir" value="doc" /></antcall>
+  <antcall target="checkFile"><param name="lib" value="pik_nieb_zol.ico" />
+                              <param name="dir" value="res" /></antcall>
   <copy todir="${basedir}/work/release"><fileset dir="${basedir}/lib" includes="*.jar *.txt" /></copy>
   <copy todir="${basedir}/work/release"><fileset dir="${basedir}/doc" includes="*.html" /></copy>
   <copy todir="${basedir}/work/release/script"><fileset dir="${basedir}/src/script" /></copy>
@@ -547,7 +550,7 @@
     &lt;jar>pbntools.jar&lt;/jar>
     &lt;dontWrapJar>true&lt;/dontWrapJar>
     &lt;errTitle>PbnTools&lt;/errTitle>
-    &lt;downloadUrl>http://jarek.katowice.pl/pbntools&lt;/downloadUrl>
+    &lt;downloadUrl>http://java.com/download&lt;/downloadUrl>
     &lt;supportUrl>http://jarek.katowice.pl/pbntools&lt;/supportUrl>
     &lt;cmdLine>&lt;/cmdLine>
     &lt;customProcName>false&lt;/customProcName>
