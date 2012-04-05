@@ -1,0 +1,164 @@
+diff -r 84b0c09c7db3 include/zbar.h
+--- a/include/zbar.h	Mon Mar 26 18:37:09 2012 +0200
++++ b/include/zbar.h	Mon Apr 02 16:07:46 2012 +0200
+@@ -797,6 +797,10 @@
+ extern int zbar_processor_request_iomode(zbar_processor_t *video,
+                                          int iomode);
+ 
++/** see the description under zbar_video_set_vfw_dlg_flag() */
++extern int zbar_processor_set_vfw_dlg_flag(zbar_processor_t *proc,
++                                           unsigned int dlg_flag);
++
+ /** force specific input and output formats for debug/testing.
+  * @note must be called before zbar_processor_init()
+  */
+@@ -1012,6 +1016,17 @@
+ extern int zbar_video_request_iomode(zbar_video_t *video,
+                                      int iomode);
+ 
++/** set flags to enable vfw dialogs.
++ *  This is a bit flag, masks are VFW_DLG_ defines.
++ *  @see #VFW_DLG_DISPLAY
++ *  @see zbar_processor_set_vfw_dlg_flag()
++ */
++extern int zbar_video_set_vfw_dlg_flag(zbar_video_t *proc,
++                                       unsigned int dlg_flag);
++#define VFW_DLG_SOURCE 1
++#define VFW_DLG_FORMAT 2
++#define VFW_DLG_DISPLAY 4
++
+ /** retrieve current output image width.
+  * @returns the width or 0 if the video device is not open
+  */
+diff -r 84b0c09c7db3 zbar/processor.c
+--- a/zbar/processor.c	Mon Mar 26 18:37:09 2012 +0200
++++ b/zbar/processor.c	Mon Apr 02 16:07:46 2012 +0200
+@@ -368,6 +368,7 @@
+                                      proc->req_width, proc->req_height);
+         if(proc->req_intf)
+             zbar_video_request_interface(proc->video, proc->req_intf);
++        zbar_video_set_vfw_dlg_flag(proc->video, proc->vfw_dlg_flag);
+         if((proc->req_iomode &&
+             zbar_video_request_iomode(proc->video, proc->req_iomode)) ||
+            zbar_video_open(proc->video, dev)) {
+@@ -506,6 +507,15 @@
+     return(0);
+ }
+ 
++int zbar_processor_set_vfw_dlg_flag(zbar_processor_t *proc,
++                                    unsigned int dlg_flag)
++{
++    proc_enter(proc);
++    proc->vfw_dlg_flag = dlg_flag;
++    proc_leave(proc);
++    return(0);
++}
++
+ int zbar_processor_force_format (zbar_processor_t *proc,
+                                  unsigned long input,
+                                  unsigned long output)
+diff -r 84b0c09c7db3 zbar/processor.h
+--- a/zbar/processor.h	Mon Mar 26 18:37:09 2012 +0200
++++ b/zbar/processor.h	Mon Apr 02 16:07:46 2012 +0200
+@@ -70,6 +70,7 @@
+     zbar_image_data_handler_t *handler; /* application data handler */
+ 
+     unsigned req_width, req_height;     /* application requested video size */
++    unsigned int vfw_dlg_flag : 3;      /* enable vfw dialogs */
+     int req_intf, req_iomode;           /* application requested interface */
+     uint32_t force_input;               /* force input format (debug) */
+     uint32_t force_output;              /* force format conversion (debug) */
+diff -r 84b0c09c7db3 zbar/video.c
+--- a/zbar/video.c	Mon Mar 26 18:37:09 2012 +0200
++++ b/zbar/video.c	Mon Apr 02 16:07:46 2012 +0200
+@@ -211,6 +211,11 @@
+     return(0);
+ }
+ 
++int zbar_video_set_vfw_dlg_flag (zbar_video_t *vdo, unsigned int dlg_flag) {
++    vdo->vfw_dlg_flag = dlg_flag;
++    return(0);
++}
++
+ int zbar_video_get_width (const zbar_video_t *vdo)
+ {
+     return(vdo->width);
+diff -r 84b0c09c7db3 zbar/video.h
+--- a/zbar/video.h	Mon Mar 26 18:37:09 2012 +0200
++++ b/zbar/video.h	Mon Apr 02 16:07:46 2012 +0200
+@@ -65,6 +65,7 @@
+     video_iomode_t iomode;      /* video data transfer mode */
+     unsigned initialized : 1;   /* format selected and images mapped */
+     unsigned active      : 1;   /* current streaming state */
++    unsigned vfw_dlg_flag  : 3; /* enable vfw dialogs */
+ 
+     uint32_t format;            /* selected fourcc */
+     unsigned palette;           /* v4l1 format index corresponding to format */
+diff -r 84b0c09c7db3 zbar/video/vfw.c
+--- a/zbar/video/vfw.c	Mon Mar 26 18:37:09 2012 +0200
++++ b/zbar/video/vfw.c	Mon Apr 02 16:07:46 2012 +0200
+@@ -517,6 +517,19 @@
+     return(0);
+ }
+ 
++static int vfw_dialogs (zbar_video_t *vdo)
++{
++    CAPDRIVERCAPS dc;
++    if(!capDriverGetCaps(vdo->state->hwnd, &dc, sizeof(dc))) return(-1);
++    if((vdo->vfw_dlg_flag & VFW_DLG_SOURCE) && dc.fHasDlgVideoSource)
++        capDlgVideoSource(vdo->state->hwnd);
++    if((vdo->vfw_dlg_flag & VFW_DLG_FORMAT) && dc.fHasDlgVideoFormat)
++        capDlgVideoFormat(vdo->state->hwnd);
++    if((vdo->vfw_dlg_flag & VFW_DLG_DISPLAY) && dc.fHasDlgVideoDisplay)
++        capDlgVideoDisplay(vdo->state->hwnd);
++    return(0);
++}
++
+ int _zbar_video_open (zbar_video_t *vdo,
+                       const char *dev)
+ {
+@@ -572,6 +585,9 @@
+     zprintf(1, "opened camera: %.60s (%d) (thr=%04lx)\n",
+             name, devid, _zbar_thread_self());
+ 
++    if (vdo->vfw_dlg_flag)
++        vfw_dialogs(vdo);
++
+     if(vfw_probe(vdo)) {
+         _zbar_thread_stop(&state->thread, NULL);
+         return(-1);
+diff -r 84b0c09c7db3 zbarcam/zbarcam.c
+--- a/zbarcam/zbarcam.c	Mon Mar 26 18:37:09 2012 +0200
++++ b/zbarcam/zbarcam.c	Mon Apr 02 16:07:46 2012 +0200
+@@ -152,6 +152,7 @@
+     const char *video_device = "";
+     int display = 1;
+     unsigned long infmt = 0, outfmt = 0;
++    unsigned long vfw_dlg_flag = 0;
+     int i;
+     for(i = 1; i < argc; i++) {
+         if(argv[i][0] != '-')
+@@ -237,6 +238,14 @@
+                 strlen(argv[i]) == 13)
+             outfmt = (argv[i][9] | (argv[i][10] << 8) |
+                       (argv[i][11] << 16) | (argv[i][12] << 24));
++        else if(!strcmp(argv[i], "--vfw-dlg-all"))
++            vfw_dlg_flag = VFW_DLG_SOURCE | VFW_DLG_FORMAT | VFW_DLG_DISPLAY;
++        else if(!strcmp(argv[i], "--vfw-dlg-source"))
++            vfw_dlg_flag |= VFW_DLG_SOURCE;
++        else if(!strcmp(argv[i], "--vfw-dlg-format"))
++            vfw_dlg_flag |= VFW_DLG_FORMAT;
++        else if(!strcmp(argv[i], "--vfw-dlg-display"))
++            vfw_dlg_flag |= VFW_DLG_DISPLAY;
+         else {
+             fprintf(stderr, "ERROR: unknown option argument: %s\n\n",
+                     argv[i]);
+@@ -246,6 +255,8 @@
+ 
+     if(infmt || outfmt)
+         zbar_processor_force_format(proc, infmt, outfmt);
++    if(vfw_dlg_flag)
++        zbar_processor_set_vfw_dlg_flag(proc, vfw_dlg_flag);
+ 
+     /* open video device, open window */
+     if(zbar_processor_init(proc, video_device, display) ||

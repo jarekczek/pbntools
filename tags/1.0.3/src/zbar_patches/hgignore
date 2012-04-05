@@ -1,0 +1,22 @@
+diff -r fe4c21fc8ec3 .hgignore
+--- a/.hgignore	Sun Mar 11 14:31:23 2012 -0700
++++ b/.hgignore	Sat Mar 24 16:37:28 2012 +0100
+@@ -34,3 +34,17 @@
+ android/*.zip
+ android/local.properties
+ android/examples/*/local.properties
++*.o
++*.exe
++.libs
++.deps
++.dirstamp
++*.lo
++*.la
++*.pc
++include\config.h
++include\stamp-h1
++doc\reldate.xml
++doc\version.xml
++doc\man\man.stamp
++doc\doxygen.conf
+\ No newline at end of file
