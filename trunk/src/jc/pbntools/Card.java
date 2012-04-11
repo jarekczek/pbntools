@@ -1,5 +1,7 @@
 /* *****************************************************************************
 
+    jedit options: :folding=explicit:tabSize=2:indentSize=2:noTabs=true:
+
     Copyright (C) 2011 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
@@ -19,7 +21,7 @@
 
 package jc.pbntools;
 
-public class Card {
+public class Card implements Comparable<Card> {
   static final int SPADE = 1;
   static final int HEART = 2;
   static final int DIAMOND = 3;
@@ -30,6 +32,7 @@ public class Card {
   static final int MAX_KOD = 78;
 
   Card() { zeruj(); }
+  Card(int nCode) { zeruj(); setCode(nCode); }
   
   static int rank(char ch) {
     if (ch>='2' && ch <='9') {
@@ -58,7 +61,7 @@ public class Card {
   int getCode() { return m_nCode; }
   int getKolor() { return m_nCode<=0 ? 0 : m_nCode/16; }
   int getRank() { return m_nCode<=0 ? 0 : m_nCode%16; }
-  void setKod(int nKod) { m_nCode = nKod; }
+  void setCode(int nCode) { m_nCode = nCode; }
   void set(int nKolor, int nWys) { m_nCode = kod(nKolor, nWys); }
   boolean czyOk() { return m_nCode>0 && m_nCode<=MAX_KOD; }
   
@@ -76,4 +79,8 @@ public class Card {
     }
 
   public String toString() { return "" + colorChar(getKolor()) + rankChar(getRank()); }
+  
+  public int compareTo(Card c) {
+    return new Integer(this.getCode()).compareTo(c.getCode());
   }
+}

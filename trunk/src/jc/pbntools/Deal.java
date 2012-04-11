@@ -1,5 +1,7 @@
 /* *****************************************************************************
 
+    jedit options: :folding=explicit:tabSize=2:indentSize=2:noTabs=true:
+
     Copyright (C) 2011 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
@@ -27,7 +29,16 @@ import jc.f;
 import jc.pbntools.*;
 import javazoom.jl.player.Player;
 
-class Reka {
+class Hand {
+  private List<Card> m_lstCards = new ArrayList<Card>();
+  void clear() {
+    m_lstCards.clear();
+  }
+  Card[] getCards() {
+    Collections.sort(m_lstCards);
+    return m_lstCards.toArray(new Card[0]);
+  }
+  void add(Card c) { m_lstCards.add(c); }
   }
 
 public class Deal {
@@ -41,12 +52,12 @@ public class Deal {
   public String m_sVulner;
   public int m_nNr;
   public String m_sDeal;
-  public Reka m_aRece[];
+  public Hand m_aHands[];
   String m_sErrors;
   boolean m_bEof;
   boolean m_bEmpty;
   boolean m_bOk;
-  int m_anKarty[];
+  int m_anCards[];
   protected HashMap<String, String> m_mIdentFields;
   
   static final String m_asPossVulner[] = { "None", "NS", "EW", "All" };
@@ -70,7 +81,7 @@ public class Deal {
   }
   
   public Deal() {
-    m_anKarty = new int[Card.MAX_KOD+1];
+    m_anCards = new int[Card.MAX_KOD+1];
     zeruj();
     }
 
@@ -78,12 +89,12 @@ public class Deal {
 
   void zeruj() {
     m_nDealer=-1; m_sVulner="?"; m_nNr=-1; m_sDeal="";
-    m_aRece = new Reka[4];
+    m_aHands = new Hand[4];
     m_sErrors = null;
     m_bEof = true;
     m_bEmpty = true;
     m_bOk = false;
-    Arrays.fill(m_anKarty, -1);
+    Arrays.fill(m_anCards, -1);
     m_mIdentFields = new HashMap<String, String>();
     }
 
@@ -117,7 +128,7 @@ public class Deal {
   }
   
   public void setCard(Card c, int nPerson) {
-    m_anKarty[c.getCode()] = nPerson;
+    m_anCards[c.getCode()] = nPerson;
   }
   
   public boolean czyOk() {
@@ -140,6 +151,14 @@ public class Deal {
     return (m_bOk = (m_sErrors == null));
     }
 
+  /** Fills <code>m_aHands</code> with the cards from
+    * <code>m_anCards</code>. */
+  private void fillHands() {
+    for (int i=0; i<m_anCards.length; i++) {
+      m_aHands[m_anCards[i]].add(new Card(i));
+    }
+  }
+    
   private boolean wczytajTagDeal(String sDeal) {
     int nPerson, nKolor;
     int nPoz;
@@ -158,7 +177,7 @@ public class Deal {
       if (sDeal.charAt(nPoz+=1) != ':') { System.err.println("B³¹d sk³adni pliku PBN. W tagu deal na pozycji 2 powinien byæ znak :"); return false; }
       while (cKarty<52) {
         char ch = sDeal.charAt(nPoz+=1);
-        //System.err.println(""+ch+" m_anKarty[28]="+m_anKarty[28]);
+        //System.err.println(""+ch+" m_anCards[28]="+m_anCards[28]);
         if (ch=='.') {
           nKolor = Card.nastKolor(nKolor);
           }
@@ -180,8 +199,8 @@ public class Deal {
           
           k.set(nKolor, Card.rank(ch));
           if (!k.czyOk()) { System.err.println("B³¹d sk³adni pliku PBN. B³êdna wysokoœæ karty: "+ch);return false; }
-          if (m_anKarty[k.getCode()] != -1) { System.err.println("B³¹d sk³adni pliku PBN. Karta "+k.toString()+" ("+k.getCode()+") zosta³a rozdana 2 razy. Poprzednio do "+m_anKarty[k.getCode()]+" a teraz do "+nPerson); return false; }
-          m_anKarty[k.getCode()] = nPerson;
+          if (m_anCards[k.getCode()] != -1) { System.err.println("B³¹d sk³adni pliku PBN. Karta "+k.toString()+" ("+k.getCode()+") zosta³a rozdana 2 razy. Poprzednio do "+m_anCards[k.getCode()]+" a teraz do "+nPerson); return false; }
+          m_anCards[k.getCode()] = nPerson;
           //System.err.println("Karta "+k.toString()+" ("+k.getCode()+") idzie do "+znakOsoby(nPerson));
           cKarty += 1;
           }
@@ -224,6 +243,7 @@ public class Deal {
       }
     //System.out.println("rozdanie nr "+m_nNr+", rozdawal "+dealerToString(m_nDealer)+", po partii: "+m_sVulner+": "+m_sDeal);
     if (!m_sDeal.isEmpty()) { wczytajTagDeal(m_sDeal); }
+    fillHands();
     m_bEmpty = (cLinie==0);
     m_bEof = (sLinia == null);
     return czyOk();
@@ -284,7 +304,7 @@ public class Deal {
                   System.out.println("Nieznana karta "+sCard);
                   }
                 else {
-                  int nPerson = m_anKarty[nKodKarty];
+                  int nPerson = m_anCards[nKodKarty];
                   //System.out.println(sKarta + " -> " + nPerson);
                   sb.replace(nPoz+KLUCZ_LEN, nPoz+KLUCZ_LEN+2, "*"+personChar(nPerson));
                   grajDzwiek(nPerson);
@@ -328,6 +348,15 @@ public class Deal {
     }
   }
   
+  public static String getPbnString(Hand h) {
+    StringBuilder sb = new StringBuilder();
+    if (h == null) return "";
+    for (Card c : h.getCards()) {
+      sb.append(c.getCode());
+    }
+    return sb.toString();
+  }
+  
   public void savePbn(Writer w) throws java.io.IOException {
     if (m_nNr > 0) { setIdentField("Board", "" + m_nNr); }
     if (m_nDealer >= 0) { setIdentField("Dealer", "" + personChar(m_nDealer)); }
@@ -340,6 +369,16 @@ public class Deal {
         w.write("[" + sField + " \"" + sValue + "\"]" + sLf);
       }
     }
+    
+    w.write("[Deal \"");
+    int nPerson = m_nDealer >= 0 ? m_nDealer : 0;
+    w.write("" + personChar(nPerson) + ":");
+    for (int i=0; i<4; i++) {
+        if (i > 0) { w.write("."); }
+        w.write(getPbnString(m_aHands[nPerson]));
+        nPerson = nextPerson(nPerson);
+    }
+    w.write("\"]" + sLf);
     w.write(sLf);
   }
   
@@ -349,3 +388,5 @@ public class Deal {
     System.out.println("koniec");
     }
   }
+
+// tabSize=2:noTabs=true:folding=explicit:
