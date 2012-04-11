@@ -1,5 +1,7 @@
 /* *****************************************************************************
 
+    jedit options: :folding=explicit:tabSize=2:indentSize=2:noTabs=true:
+
     Copyright (C) 2011 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
