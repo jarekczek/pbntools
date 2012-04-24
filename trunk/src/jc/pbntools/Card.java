@@ -22,10 +22,10 @@
 package jc.pbntools;
 
 public class Card implements Comparable<Card> {
-  static final int SPADE = 1;
-  static final int HEART = 2;
-  static final int DIAMOND = 3;
-  static final int CLUB = 4;
+  public static final int SPADE = 1;
+  public static final int HEART = 2;
+  public static final int DIAMOND = 3;
+  public static final int CLUB = 4;
   static final String m_asKolAng[] = { "S", "H", "D", "C" };
   static final char m_achRank[] = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
   private int m_nCode;  // 16*kolor(1-4) + wysokosc karty(2-14); czyli od 18 (S2) do 78 (CA)
@@ -45,10 +45,10 @@ public class Card implements Comparable<Card> {
     else if (ch=='A') { return 14; }
     else return 0;
     }
-  static char rankChar(int nWys) { return nWys>=2 && nWys<=14 ? m_achRank[nWys-2] : '?'; }
-  static char colorChar(int nKolor) { return nKolor>=1 && nKolor<=4 ? m_asKolAng[nKolor-1].charAt(0) : '?'; }
+  public static char rankChar(int nWys) { return nWys>=2 && nWys<=14 ? m_achRank[nWys-2] : '?'; }
+  public static char colorChar(int nKolor) { return nKolor>=1 && nKolor<=4 ? m_asKolAng[nKolor-1].charAt(0) : '?'; }
 
-  static int kolor(char ch) {
+  public static int color(char ch) {
     int i;
     for (i=0; i<m_asKolAng.length; i++) { if (m_asKolAng[i].charAt(0) == ch) { return i+1; } }
     return 0;
@@ -67,13 +67,13 @@ public class Card implements Comparable<Card> {
   
   static int kod(String sCard) {
     if (sCard.length()!=2) { return 0; }
-    return kod(kolor(sCard.charAt(0)), rank(sCard.charAt(1)));
+    return kod(color(sCard.charAt(0)), rank(sCard.charAt(1)));
     }
   
   boolean setKolor(char chKolor) {
     int nKolor;
     m_nCode = m_nCode % 16;
-    nKolor = kolor(chKolor);
+    nKolor = color(chKolor);
     if (nKolor>0) { m_nCode += nKolor * 16; return true; }
     else { return false; }
     }

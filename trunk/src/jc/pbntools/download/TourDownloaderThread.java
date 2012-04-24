@@ -37,12 +37,14 @@ public class TourDownloaderThread extends OutputWindow.Client
   protected String m_sLink;
   protected OutputWindow m_ow;
   protected HtmlTourDownloader m_dloader;
+  public boolean m_bSuccess;
   
   public TourDownloaderThread(String sLink, HtmlTourDownloader dloader) //{{{
   {
     m_sLink = sLink;
     m_dloader = dloader;
     m_ow = null;
+    m_bSuccess = false;
   } //}}}
   
   public void setOutputWindow(OutputWindow ow)
@@ -54,6 +56,7 @@ public class TourDownloaderThread extends OutputWindow.Client
   /** thread's main method */ //{{{
   public void run()
   {
+    m_bSuccess = false;
     m_ow.setTitle(f.extractTextAndMnem(PbnTools.getRes(), "pobierzPary")[0]);
     if (!m_sLink.matches("^[a-zA-Z]+:.*$")) {
       // if no protocol at the beginning of link, treat it as a file
@@ -66,9 +69,14 @@ public class TourDownloaderThread extends OutputWindow.Client
     try {
       m_dloader.verify(false);
       m_dloader.fullDownload();
+      m_bSuccess = true;
     }
-    catch (HtmlTourDownloader.VerifyFailedException e) {  }
-    catch (HtmlTourDownloader.DownloadFailedException e) {  }
+    catch (HtmlTourDownloader.VerifyFailedException e) {
+      m_ow.addLine(e.toString() + ": " + e.getMessage());
+    }
+    catch (HtmlTourDownloader.DownloadFailedException e) {
+      m_ow.addLine(e.toString());
+      }
     catch (Throwable e) {
       e.printStackTrace();
       m_ow.addLine(e.toString() + ": " + e.getMessage());

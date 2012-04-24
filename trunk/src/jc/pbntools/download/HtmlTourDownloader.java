@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 
 import jc.JCException;
 import jc.outputwindow.OutputWindow;
+import jc.pbntools.Card;
 import jc.pbntools.Deal;
 import jc.pbntools.PbnFile;
 import jc.pbntools.PbnTools;
@@ -48,6 +49,8 @@ import org.jsoup.select.Elements;
 abstract public class HtmlTourDownloader
   implements DealReader
 {
+  public static final String HTML_SPACE_REG = "[ \u00A0]";
+  
   protected String m_sLink;
   protected URL m_remoteUrl;
   protected URL m_localUrl;
@@ -97,6 +100,25 @@ abstract public class HtmlTourDownloader
       }
     }
     return elems.get(0);
+  }
+  
+  /** Returns the card color corresponding to the given img tag element. 
+    * @param img <code>img</code> Element. Its <code>src</code> attribute
+    * denotes the card color.
+    * @return The color from {@link jc.pbntools.Card} constants. */
+  protected int getImgColor(Element img) throws DownloadFailedException
+  {
+      String sSrc = img.attr("src");
+      int nColor = 0;
+      String sColor = sSrc.replaceFirst("^.*/", "");
+      sColor = sColor.replaceFirst("\\.[a-zA-Z]+$", "");
+      if (sColor.length() == 1) {
+        nColor = Card.color(sColor.charAt(0));
+      }
+      if (nColor == 0) { throw new DownloadFailedException(
+        PbnTools.getStr("tourDown.error.notRecognColor", img.outerHtml()));
+      }
+      return nColor;
   }
   
   protected boolean checkGenerator(Document doc, String sExpValue, boolean bSilent) {
