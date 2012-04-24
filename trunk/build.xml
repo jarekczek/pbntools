@@ -46,7 +46,8 @@
 <property name="compDir" location="${basedir}/work/comp" />
 <property name="compDirTest" location="${basedir}/work/comp-test" />
 <property name="zbarTag" value="0.10" />
-<property name="compileClasspath" value="${basedir}/lib/jl1.0.1.jar;
+<property name="compileClasspath" value="${basedir}/src;
+                                         ${basedir}/lib/jl1.0.1.jar;
                                          ${basedir}/lib/jsoup-1.6.1.jar" />
 <property name="runClasspath" value="${compileClasspath};
                                      ${basedir}/work/comp" />
@@ -97,11 +98,22 @@
   <copy todir="${basedir}/work/comp/jc/pbntools/res">
     <fileset dir="${basedir}/res" includes="*" />
   </copy>
-  <javac verbose="no" classpath="${basedir}/src;${basedir}/lib/jl1.0.1.jar;
-                                 ${basedir}/lib/jsoup-1.6.1.jar" srcdir="${basedir}/src" destdir="${compDir}"
+  <javac verbose="no" classpath="${compileClasspath}"
+         srcdir="${basedir}/src" destdir="${compDir}"
          includes="**/*.java" excludes="**/pbn_nb/**/*"
          debug="true" debuglevel="lines,vars,source"
          encoding="windows-1250" includeantruntime="false" />
+</target>
+
+<target name="javadoc" depends="ivy-libs" >
+  <property name="javadocDir" value="${basedir}/build/javadoc" />
+  <javadoc classpath="${compileClasspath}"
+           sourcepath="${basedir}/src"
+           destdir="${javadocDir}" />
+  <script manager="bsf" language="beanshell" classpathref="ivy.path"><![CDATA[
+    sDir = project.getProperty("javadocDir"); 
+    Desktop.getDesktop().open(new File(sDir, "index.html"));
+  ]]></script>
 </target>
 
 <target name="download-deps">
