@@ -1,0 +1,13 @@
+^.hgignore
+.svn/
+^arch/
+^build.number$
+^doc/.*\.aux
+^doc/.*\.html
+^doc/.*\.pdf
+^lib/
+^local.properties$
+^release/
+^res/
+^test/
+^work/
