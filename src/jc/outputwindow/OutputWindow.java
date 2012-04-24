@@ -74,7 +74,7 @@ public abstract class OutputWindow {
   public void setTitle(String sTitle) {}
 
   /** A class to enable running of external processes and having their output
-  * in our window. Instantiate using {@link #create}. */
+  * in our window. */
   public class Process {
     
     public boolean m_bShowCommand = true;
