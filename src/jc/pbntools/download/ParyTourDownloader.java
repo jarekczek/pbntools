@@ -27,12 +27,14 @@ import java.io.FileWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 import javax.swing.JDialog;
 
 import jc.f;
 import jc.JCException;
 import jc.outputwindow.OutputWindow;
 import jc.SoupProxy;
+import jc.pbntools.Card;
 import jc.pbntools.Deal;
 import jc.pbntools.PbnFile;
 import jc.pbntools.PbnTools;
@@ -294,7 +296,17 @@ public class ParyTourDownloader extends HtmlTourDownloader
   protected void setCards(int nPerson, Element hand)
     throws DownloadFailedException
   {
-    m_ow.addLine(hand.text());
+    m_ow.addLine(hand.getClass().getName() + "=" + hand.html());
+    String asText[] = SoupProxy.splitElemText(hand);
+    for (Element img : hand.getElementsByTag("img")) {
+      String sCards = asText[img.elementSiblingIndex() + 1];
+      StringTokenizer st = new StringTokenizer(sCards, HTML_SPACE_REG);
+      String sCards2 = "";
+      while (st.hasMoreTokens()) {
+        sCards2 += "_" + st.nextToken();
+      }
+      m_ow.addLine(Card.colorChar(getImgColor(img)) + ":" + sCards2);
+    }
   }
 
 }
