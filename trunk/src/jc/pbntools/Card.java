@@ -28,13 +28,13 @@ public class Card implements Comparable<Card> {
   public static final int CLUB = 4;
   static final String m_asKolAng[] = { "S", "H", "D", "C" };
   static final char m_achRank[] = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
-  private int m_nCode;  // 16*kolor(1-4) + wysokosc karty(2-14); czyli od 18 (S2) do 78 (CA)
+  private int m_nCode;  // 16*color(1-4) + wysokosc karty(2-14); czyli od 18 (S2) do 78 (CA)
   static final int MAX_KOD = 78;
 
-  Card() { zeruj(); }
-  Card(int nCode) { zeruj(); setCode(nCode); }
+  public Card() { clear(); }
+  public Card(int nCode) { clear(); setCode(nCode); }
   
-  static int rank(char ch) {
+  public static int rank(char ch) {
     if (ch>='2' && ch <='9') {
       return (ch-'2')+2;
       }
@@ -45,40 +45,60 @@ public class Card implements Comparable<Card> {
     else if (ch=='A') { return 14; }
     else return 0;
     }
+    
+  public static int rank(String sRank)
+  {
+    if ("10".equals(sRank)) { sRank = "T"; }
+    if (sRank == null || sRank.length() != 1) {
+      throw new IllegalArgumentException("Card rank not known: " + sRank);
+    }
+    return rank(sRank.charAt(0));
+  }
+  
   public static char rankChar(int nWys) { return nWys>=2 && nWys<=14 ? m_achRank[nWys-2] : '?'; }
-  public static char colorChar(int nKolor) { return nKolor>=1 && nKolor<=4 ? m_asKolAng[nKolor-1].charAt(0) : '?'; }
+  public static char colorChar(int nColor) { return nColor>=1 && nColor<=4 ? m_asKolAng[nColor-1].charAt(0) : '?'; }
 
   public static int color(char ch) {
     int i;
     for (i=0; i<m_asKolAng.length; i++) { if (m_asKolAng[i].charAt(0) == ch) { return i+1; } }
     return 0;
     }
-  static int nastKolor(int nKolor) { return (nKolor<=0) ? 0 : (nKolor%4)+1; }
+  static int nextColor(int nColor) { return (nColor<=0) ? 0 : (nColor%4)+1; }
   
-  static int kod(int nKolor, int nWys) { return (nKolor>=1 && nKolor<=4 && nWys>=2 && nWys<=14) ? 16*nKolor+nWys : 0; }
+  static int kod(int nColor, int nWys) { return (nColor>=1 && nColor<=4 && nWys>=2 && nWys<=14) ? 16*nColor+nWys : 0; }
 
-  void zeruj() { m_nCode = 0; }
-  int getCode() { return m_nCode; }
-  int getKolor() { return m_nCode<=0 ? 0 : m_nCode/16; }
-  int getRank() { return m_nCode<=0 ? 0 : m_nCode%16; }
-  void setCode(int nCode) { m_nCode = nCode; }
-  void set(int nKolor, int nWys) { m_nCode = kod(nKolor, nWys); }
-  boolean czyOk() { return m_nCode>0 && m_nCode<=MAX_KOD; }
+  public void clear() { m_nCode = 0; }
+  public int getCode() { return m_nCode; }
+  public int getColor() { return m_nCode<=0 ? 0 : m_nCode/16; }
+  public int getRank() { return m_nCode<=0 ? 0 : m_nCode%16; }
+  public void setCode(int nCode) { m_nCode = nCode; }
+  public void setRank(String sRank) { setRank(rank(sRank)); }
+  public void set(int nColor, int nWys) { m_nCode = kod(nColor, nWys); }
+  public boolean czyOk() { return m_nCode>0 && m_nCode<=MAX_KOD; }
   
   static int kod(String sCard) {
     if (sCard.length()!=2) { return 0; }
     return kod(color(sCard.charAt(0)), rank(sCard.charAt(1)));
     }
   
-  boolean setKolor(char chKolor) {
-    int nKolor;
+  public boolean setColor(char chColor) {
+    int nColor = color(chColor);
+    return setColor(nColor);
+    }
+
+  public boolean setColor(int nColor) {
     m_nCode = m_nCode % 16;
-    nKolor = color(chKolor);
-    if (nKolor>0) { m_nCode += nKolor * 16; return true; }
+    if (nColor>0) { m_nCode += nColor * 16; return true; }
     else { return false; }
     }
 
-  public String toString() { return "" + colorChar(getKolor()) + rankChar(getRank()); }
+  public boolean setRank(int nRank) {
+    m_nCode = m_nCode & 0xFFF0;
+    if (nRank > 0) { m_nCode += nRank; return true; }
+    else { return false; }
+    }
+
+  public String toString() { return "" + colorChar(getColor()) + rankChar(getRank()); }
   
   public int compareTo(Card c) {
     return new Integer(this.getCode()).compareTo(c.getCode());

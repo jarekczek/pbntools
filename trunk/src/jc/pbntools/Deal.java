@@ -179,7 +179,7 @@ public class Deal {
         char ch = sDeal.charAt(nPoz+=1);
         //System.err.println(""+ch+" m_anCards[28]="+m_anCards[28]);
         if (ch=='.') {
-          nKolor = Card.nastKolor(nKolor);
+          nKolor = Card.nextColor(nKolor);
           }
         else if (ch==' ') {
           nPerson = nextPerson(nPerson);
