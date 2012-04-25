@@ -254,7 +254,9 @@ public class ParyTourDownloader extends HtmlTourDownloader
     return deal;
   }
   
-  /** @param dealElem tbody with deal definition without results */
+  /** Extracts hands from the given element and saves them to
+    * <code>deal</code>.
+    * @param dealElem tbody with deal definition without results */
   protected void extractHands(Deal deal, Element dealElem)
     throws DownloadFailedException
   {
@@ -286,26 +288,28 @@ public class ParyTourDownloader extends HtmlTourDownloader
         sVulner = sVulner.replace("nikt", "none");
         deal.setVulner(sVulner);
         
-        setCards(Deal.N, getOneTag(elems.get(iRow), ".w", false));
+        setCards(deal, Deal.N, getOneTag(elems.get(iRow), ".w", false));
       }
     }
     //throw new DownloadFailedException("dosc", true);
   }
 
-  /** Deals cards presented by html <code>hand</code> to <code>nPerson</code> */
-  protected void setCards(int nPerson, Element hand)
+  /** Deals cards presented by html <code>hand</code> to
+    * <code>nPerson</code>. Saves it in <code>deal</code>. */
+  protected void setCards(Deal deal, int nPerson, Element hand)
     throws DownloadFailedException
   {
-    m_ow.addLine(hand.getClass().getName() + "=" + hand.html());
     String asText[] = SoupProxy.splitElemText(hand);
     for (Element img : hand.getElementsByTag("img")) {
+      int nColor = getImgColor(img);
       String sCards = asText[img.elementSiblingIndex() + 1];
       StringTokenizer st = new StringTokenizer(sCards, HTML_SPACE_REG);
-      String sCards2 = "";
       while (st.hasMoreTokens()) {
-        sCards2 += "_" + st.nextToken();
+        Card card = new Card();
+        card.setColor(nColor);
+        card.setRank(st.nextToken());
+        deal.setCard(card, nPerson);
       }
-      m_ow.addLine(Card.colorChar(getImgColor(img)) + ":" + sCards2);
     }
   }
 
