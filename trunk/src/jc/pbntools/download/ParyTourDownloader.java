@@ -287,10 +287,27 @@ public class ParyTourDownloader extends HtmlTourDownloader
         sVulner = sVulner.replace("obie", "all");
         sVulner = sVulner.replace("nikt", "none");
         deal.setVulner(sVulner);
-        
-        setCards(deal, Deal.N, getOneTag(elems.get(iRow), ".w", false));
       }
+      
+      // there are more than 4 .w tags, but the first 4 are ok
+      // later comes minimax for example
+      Elements handElems = dealElem.select(".w");
+      if (handElems.size() < 4) {
+        throw new DownloadFailedException(
+          PbnTools.getStr("tourDown.error.wrongTagCount",
+                          ".w", ">=4", handElems.size()));
+      }
+      int anPersons[] = new int[] { Deal.N, Deal.W, Deal.E, Deal.S };
+      int iPerson = 0;
+      for (Element handElem : handElems) {
+        setCards(deal, anPersons[iPerson], handElem);
+        iPerson++;
+        if (iPerson >= anPersons.length) { break; }
+      }
+    
     }
+    
+    
     //throw new DownloadFailedException("dosc", true);
   }
 
@@ -311,6 +328,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
         deal.setCard(card, nPerson);
       }
     }
+    deal.fillHands();
   }
 
 }
