@@ -21,6 +21,7 @@
 
 package jc.pbntools;
 
+/** color: 1-4 (SHDC). */  
 public class Card implements Comparable<Card> {
   public static final int SPADE = 1;
   public static final int HEART = 2;
@@ -71,6 +72,7 @@ public class Card implements Comparable<Card> {
   public int getCode() { return m_nCode; }
   public int getColor() { return m_nCode<=0 ? 0 : m_nCode/16; }
   public int getRank() { return m_nCode<=0 ? 0 : m_nCode%16; }
+  public char getRankChar() { return m_nCode<=0 ? 0 : rankChar(m_nCode%16); }
   public void setCode(int nCode) { m_nCode = nCode; }
   public void setRank(String sRank) { setRank(rank(sRank)); }
   public void set(int nColor, int nWys) { m_nCode = kod(nColor, nWys); }

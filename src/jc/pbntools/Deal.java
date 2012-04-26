@@ -35,7 +35,7 @@ class Hand {
     m_lstCards.clear();
   }
   Card[] getCards() {
-    Collections.sort(m_lstCards);
+    Collections.sort(m_lstCards, Collections.reverseOrder());
     return m_lstCards.toArray(new Card[0]);
   }
   void add(Card c) { m_lstCards.add(c); }
@@ -90,6 +90,9 @@ public class Deal {
   void zeruj() {
     m_nDealer=-1; m_sVulner="?"; m_nNr=-1; m_sDeal="";
     m_aHands = new Hand[4];
+    for (int i=0; i<m_aHands.length; i++) {
+      m_aHands[i] = new Hand();
+    }
     m_sErrors = null;
     m_bEof = true;
     m_bEmpty = true;
@@ -127,6 +130,8 @@ public class Deal {
     }
   }
   
+  /** Places a single card into a hand. After all cards are set,
+    * <code>fillHands</code> must be called. */
   public void setCard(Card c, int nPerson) {
     m_anCards[c.getCode()] = nPerson;
   }
@@ -152,10 +157,16 @@ public class Deal {
     }
 
   /** Fills <code>m_aHands</code> with the cards from
-    * <code>m_anCards</code>. */
-  private void fillHands() {
+    * <code>m_anCards</code>. Must be called after
+    * a sequence of <code>setCard</code>. */
+  public void fillHands() {
+    for (int i=0; i<m_aHands.length; i++) {
+      m_aHands[i].clear();
+    }
     for (int i=0; i<m_anCards.length; i++) {
-      m_aHands[m_anCards[i]].add(new Card(i));
+      if (m_anCards[i] >= 0) {
+        m_aHands[m_anCards[i]].add(new Card(i));
+      }
     }
   }
     
@@ -351,9 +362,20 @@ public class Deal {
   public static String getPbnString(Hand h) {
     StringBuilder sb = new StringBuilder();
     if (h == null) return "";
-    for (Card c : h.getCards()) {
-      sb.append(c.getCode());
+    ArrayList<Card> aCards[] = new ArrayList[4];
+    for (int nColor=1; nColor<=4; nColor++) {
+      aCards[nColor-1] = new ArrayList<Card>();
     }
+    for (Card c : h.getCards()) {
+      aCards[c.getColor() - 1].add(c);
+    }
+    for (int nColor=1; nColor<=4; nColor++) {
+      if (nColor != 1) { sb.append('.'); }
+      for (Card c : aCards[nColor - 1]) {
+        sb.append(c.getRankChar());
+      }
+    }
+
     return sb.toString();
   }
   
@@ -374,7 +396,7 @@ public class Deal {
     int nPerson = m_nDealer >= 0 ? m_nDealer : 0;
     w.write("" + personChar(nPerson) + ":");
     for (int i=0; i<4; i++) {
-        if (i > 0) { w.write("."); }
+        if (i > 0) { w.write(" "); }
         w.write(getPbnString(m_aHands[nPerson]));
         nPerson = nextPerson(nPerson);
     }
