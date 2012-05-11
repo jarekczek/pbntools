@@ -1,32 +1,9 @@
 # HG changeset patch
-# Parent 7b9e4837c7b98c41cc4dd274c7b8e043769e4249
+# Parent addb759f9c390506bbab2e35694c01b3b3a355f3
 
-diff -r 7b9e4837c7b9 zbar/convert.c
---- a/zbar/convert.c	Sat Mar 24 16:41:52 2012 +0100
-+++ b/zbar/convert.c	Mon Mar 26 18:24:07 2012 +0200
-@@ -1153,8 +1153,8 @@
-         if(min_cost > cost) {
-             min_cost = cost;
-             min_fmt = *fmt;
--            if(!cost)
--                break;
-+//BS            // if(!cost)
-+                // break;
-         }
-     }
-     if(win)
-diff -r 7b9e4837c7b9 zbar/video/vfw.c
---- a/zbar/video/vfw.c	Sat Mar 24 16:41:52 2012 +0100
-+++ b/zbar/video/vfw.c	Mon Mar 26 18:24:07 2012 +0200
-@@ -4,7 +4,7 @@
-  *  This file is part of the ZBar Bar Code Reader.
-  *
-  *  The ZBar Bar Code Reader is free software; you can redistribute it
-- *  and/or modify it under the terms of the GNU Lesser Public License as
-+ *  and/or modify it ugnder the terms of the GNU Lesser Public License as
-  *  published by the Free Software Foundation; either version 2.1 of
-  *  the License, or (at your option) any later version.
-  *
+diff -r addb759f9c39 zbar/video/vfw.c
+--- a/zbar/video/vfw.c	Mon Mar 26 18:37:09 2012 +0200
++++ b/zbar/video/vfw.c	Fri May 11 12:24:27 2012 +0200
 @@ -37,6 +37,10 @@
          (bih)->biXPelsPerMeter, (bih)->biYPelsPerMeter,                 \
          (bih)->biClrImportant, (bih)->biClrUsed, (bih)->biSize
