@@ -214,16 +214,18 @@ public class ParyTourDownloader extends HtmlTourDownloader
   {
     ArrayList<Deal> deals = new ArrayList<Deal>();
     for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
-      Deal d = readDeal(getLinkForDeal(iDeal), false);
-      if (d != null) {
-        d.setIdentField("Event", m_sTitle);
-        deals.add(d);
+      Deal ad[] = readDeals(getLinkForDeal(iDeal), false);
+      if (ad != null) {
+        for (Deal d: ad) {
+          d.setIdentField("Event", m_sTitle);
+          deals.add(d);
+        }
       }
     }
     return deals.toArray(new Deal[0]);
   }
 
-  public Deal readDeal(String sUrl, boolean bSilent)
+  public Deal[] readDeals(String sUrl, boolean bSilent)
     throws DownloadFailedException
   {
     Document doc;
@@ -251,7 +253,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
     if (dealElem == null) { throwElemNotFound("deal table"); } 
     // java.lang.System.out.println("1:" + dealElem.html());
     extractHands(deal, dealElem);
-    return deal;
+    return new Deal[] { deal };
   }
   
   /** Extracts hands from the given element and saves them to

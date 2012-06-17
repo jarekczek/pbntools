@@ -193,7 +193,8 @@ abstract public class HtmlTourDownloader
   abstract protected Deal[] readDealsFromDir(String sDir)
     throws DownloadFailedException;
 
-  abstract public Deal readDeal(String sUrl, boolean bSilent)
+  /** Reads deals from the given url. */
+  abstract public Deal[] readDeals(String sUrl, boolean bSilent)
     throws DownloadFailedException;
 
   protected void saveDealsAsPbn(Deal[] aDeal, String sDir)
