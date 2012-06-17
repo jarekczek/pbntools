@@ -53,6 +53,12 @@ public class Deal {
   public int m_nNr;
   public String m_sDeal;
   public Hand m_aHands[];
+  // Results:
+  private int m_nDeclarer;
+  // contract
+  /** Number of tricks taken */
+  private int m_nResult;
+  
   String m_sErrors;
   boolean m_bEof;
   boolean m_bEmpty;
@@ -122,6 +128,7 @@ public class Deal {
   
   public void setNumber(int nNr) { m_nNr = nNr; }
   public void setDealer(int nDealer) { m_nDealer = nDealer; }
+  public void setDeclarer(int nDeclarer) { m_nDeclarer = nDeclarer; }
 
   public void setVulner(String sVulner) {
     m_sVulner = "?";
@@ -380,11 +387,16 @@ public class Deal {
   }
   
   public void savePbn(Writer w) throws java.io.IOException {
+    // set fields in the map
     if (m_nNr > 0) { setIdentField("Board", "" + m_nNr); }
     if (m_nDealer >= 0) { setIdentField("Dealer", "" + personChar(m_nDealer)); }
     if (m_sVulner!=null && !m_sVulner.equals("?")) {
       setIdentField("Vulnerable", m_sVulner);
     }
+    if (m_nDeclarer >= 0)
+      setIdentField("Declarer", "" + personChar(m_nDeclarer));
+    
+    // output fields in correct order
     for (String sField : m_sIdentFields) {
       String sValue = m_mIdentFields.get(sField);
       if (sValue != null) {
