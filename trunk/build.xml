@@ -251,7 +251,7 @@
   <fail message="dir not set" unless="dir" />
   <property name="zbarConfOpts" value="" />
   <exec executable="./configure" dir="${dir}">
-    <arg line="${zbarConfOpts} --without-imagemagick --without-gtk --without-python --without-qt --without-java --enable-codes=ean,databar,code128,code93,code39,pcard"/>
+    <arg line="${zbarConfOpts} --disable-shared --without-imagemagick --without-gtk --without-python --without-qt --without-java --enable-codes=ean,databar,code128,code93,code39,pcard"/>
   </exec>
 </target>
 
