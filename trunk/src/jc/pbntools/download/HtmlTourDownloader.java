@@ -270,6 +270,16 @@ abstract public class HtmlTourDownloader
     }
     
   }
+
+  /** Returns the local file in <code>m_sLocalDir</code> resembling
+    * <code>sRemoteLink</code>.
+    */
+  protected String getLocalFile(String sRemoteLink)
+  {
+    String sRemoteFile = sRemoteLink.replaceFirst("^.*/([^/]+)$", "$1");
+    String sLocalFile = m_sLocalDir + "/" + sRemoteFile;
+    return sLocalFile;
+  }
   
   /** Changes the local file in m_sLocalDir resembling <code>sRemoteLink</code>.
     * Dynamic content, loaded by browser in <code>onload</code> handler,
@@ -278,8 +288,7 @@ abstract public class HtmlTourDownloader
     */
   protected void ajaxFile(String sRemoteLink, boolean bWarn) throws DownloadFailedException
   {
-    String sRemoteFile = sRemoteLink.replaceFirst("^.*/([^/]+)$", "$1");
-    String sLocalFile = m_sLocalDir + "/" + sRemoteFile;
+    String sLocalFile = getLocalFile(sRemoteLink);
 
     Document docLocal = null;
     try {

@@ -106,9 +106,15 @@ public class SoupProxy
       m_url = new URL(sUrl);
     }
     catch (java.net.MalformedURLException eUrl) {
-      throw new SoupProxy.Exception(eUrl);
+      // Not an url? Let's try to get the file
+      try {
+        m_url = new URL("file:" + sUrl);
+      }
+      catch (java.net.MalformedURLException eUrl2) {
+        throw new SoupProxy.Exception(eUrl);
+      }
     }
-
+      
     if (m_url.getProtocol().equals("file")) {
       doc = getDocumentFromFile(m_url.getFile());
     } else {
