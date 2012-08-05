@@ -41,7 +41,7 @@ class Hand {
   void add(Card c) { m_lstCards.add(c); }
   }
 
-public class Deal {
+public class Deal implements Cloneable {
   public static final int N = 0;
   public static final int E = 1;
   public static final int S = 2;
@@ -57,7 +57,7 @@ public class Deal {
   private int m_nDeclarer;
   // contract
   /** Number of tricks taken */
-  private int m_nResult;
+  private int m_nResult = -1;
   
   String m_sErrors;
   boolean m_bEof;
@@ -90,6 +90,20 @@ public class Deal {
     m_anCards = new int[Card.MAX_KOD+1];
     zeruj();
     }
+
+  public Deal clone()
+  {
+    try {
+      Deal d = (Deal)super.clone();
+      d.m_aHands = this.m_aHands.clone();
+      d.m_anCards = this.m_anCards.clone();
+      d.m_mIdentFields = (HashMap<String, String>)this.m_mIdentFields.clone();
+      return d;
+    }
+    catch (CloneNotSupportedException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   public String toString() { return "" + m_nNr; }
 
@@ -136,6 +150,8 @@ public class Deal {
       if (sValid.equalsIgnoreCase(sVulner)) { m_sVulner = sValid; }
     }
   }
+  
+  public void setResult(int nResult) { m_nResult = nResult; }
   
   /** Places a single card into a hand. After all cards are set,
     * <code>fillHands</code> must be called. */

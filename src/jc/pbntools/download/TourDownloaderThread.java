@@ -76,6 +76,8 @@ public class TourDownloaderThread extends OutputWindow.Client
     }
     catch (HtmlTourDownloader.DownloadFailedException e) {
       m_ow.addLine(e.toString());
+      //TODO: added for debugging purposes, should be switchable
+      e.printStackTrace();
       }
     catch (Throwable e) {
       e.printStackTrace();

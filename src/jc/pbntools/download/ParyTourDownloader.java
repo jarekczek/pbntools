@@ -64,10 +64,15 @@ public class ParyTourDownloader extends HtmlTourDownloader
       return false;
   }
 
-  /** Gets link for a deal with a given number */
+  /** Gets remote link for the deal with the given number */
   protected String getLinkForDeal(int iDeal) {
     return m_sLink.replaceFirst("/[^/]+$", "/" + m_sDirName.toLowerCase() 
       + String.format("%03d.html", iDeal));
+  }
+  
+  /** Gets local link for the deal with the given number */
+  protected String getLocalLinkForDeal(int iDeal) {
+    return getLocalFile(getLinkForDeal(iDeal));
   }
   
   /** @param doc Document after redirection, containing 2 frames.
@@ -214,7 +219,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
   {
     ArrayList<Deal> deals = new ArrayList<Deal>();
     for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
-      Deal ad[] = readDeals(getLinkForDeal(iDeal), false);
+      Deal ad[] = readDeals(getLocalLinkForDeal(iDeal), false);
       if (ad != null) {
         for (Deal d: ad) {
           d.setIdentField("Event", m_sTitle);
@@ -253,7 +258,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
     if (dealElem == null) { throwElemNotFound("deal table"); } 
     // java.lang.System.out.println("1:" + dealElem.html());
     extractHands(deal, dealElem);
-    return new Deal[] { deal };
+    return processResults(deal, doc);
   }
   
   /** Extracts hands from the given element and saves them to
@@ -333,4 +338,26 @@ public class ParyTourDownloader extends HtmlTourDownloader
     deal.fillHands();
   }
 
+  /** Multiplies given <code>deal</code> by the number of results. */
+  private Deal[] processResults(Deal deal0, Document doc)
+    throws DownloadFailedException
+  {
+    ArrayList<Deal> ad = new ArrayList<Deal>();
+    Elements elems = doc.select("div#pro tr");
+    if (elems.size() < 1) { throwElemNotFound("div#pro tr"); }
+    for (Element tr: elems) {
+      Elements tds = tr.select("td");
+      if (tds.size() == 11) {
+        Deal d = deal0.clone();
+        d.setIdentField("North", "Para " + tds.get(1).text());
+        d.setIdentField("South", "Para " + tds.get(1).text());
+        d.setIdentField("East", "Para " + tds.get(2).text());
+        d.setIdentField("West", "Para " + tds.get(2).text());
+        d.setDeclarer(Deal.person(tds.get(4).text()));
+        ad.add(d);
+      }
+    }
+    
+    return ad.toArray(new Deal[0]);
+  }
 }
