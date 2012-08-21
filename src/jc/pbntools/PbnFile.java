@@ -89,7 +89,7 @@ public class PbnFile  {
     }
     bw.close();
   }
-    
+
   public void arkusz() {
     String sPlikOut = "";
     String sTdStart = "<td>";
