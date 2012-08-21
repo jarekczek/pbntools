@@ -402,6 +402,12 @@ public class Deal implements Cloneable {
     return sb.toString();
   }
   
+  public static void writeField(Writer w, String sField, String sValue)
+    throws java.io.IOException
+  {
+    w.write("[" + sField + " \"" + sValue + "\"]" + sLf);
+  }
+    
   public void savePbn(Writer w) throws java.io.IOException {
     // set fields in the map
     if (m_nNr > 0) { setIdentField("Board", "" + m_nNr); }
@@ -409,14 +415,12 @@ public class Deal implements Cloneable {
     if (m_sVulner!=null && !m_sVulner.equals("?")) {
       setIdentField("Vulnerable", m_sVulner);
     }
-    if (m_nDeclarer >= 0)
-      setIdentField("Declarer", "" + personChar(m_nDeclarer));
     
     // output fields in correct order
     for (String sField : m_sIdentFields) {
       String sValue = m_mIdentFields.get(sField);
       if (sValue != null) {
-        w.write("[" + sField + " \"" + sValue + "\"]" + sLf);
+        writeField(w, sField, sValue);
       }
     }
     
@@ -429,6 +433,10 @@ public class Deal implements Cloneable {
         nPerson = nextPerson(nPerson);
     }
     w.write("\"]" + sLf);
+
+    if (m_nDeclarer >= 0)
+      writeField(w, "Declarer", "" + personChar(m_nDeclarer));
+
     w.write(sLf);
   }
   
