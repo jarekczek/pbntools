@@ -23,13 +23,17 @@
 # by apaches. Due to Ajax usage it's not possible to use it directly,
 # because txt files would not get in their place.
 
-shopt -s extglob
 mkdir -p tur_pary_example
 cd tur_pary_example
-data=120510
-wars=http://www.warsbrydz.pl/wyniki/wob
-wget -p -k -nH -nd -r -l 3 -w 2 --random-wait -e robots=off \
-  -R "W-*.html,H-*.html" -N $wars/WB$data/wb$data.html
+data=120802
+wars=http://warsbrydz.pl/wyniki/wob
+wget -p -k -nH -nd -r -l 3 -w 1 --random-wait -e robots=off \
+  --no-parent -R "H-*.html,*WYN.html" \
+  -N $wars/WB$data/W-wb$data.html
+
+shopt -s extglob
+shopt -s nullglob
+shopt -s nocaseglob
 for p in WB$data[0-9]*.html; do
   sleep 2
   t=${p%.html}.txt
