@@ -55,9 +55,12 @@ public class Deal implements Cloneable {
   public Hand m_aHands[];
   // Results:
   private int m_nDeclarer;
+  private int m_nContractHeight;
+  private int m_nContractDouble;
+  private int m_nContractColor; // 0 = no trump, Card.SPADE - Card.CLUB
   // contract
   /** Number of tricks taken */
-  private int m_nResult = -1;
+  private int m_nResult;
   
   String m_sErrors;
   boolean m_bEof;
@@ -119,6 +122,11 @@ public class Deal implements Cloneable {
     m_bOk = false;
     Arrays.fill(m_anCards, -1);
     m_mIdentFields = new HashMap<String, String>();
+    
+    m_nDeclarer = 0;
+    m_nContractHeight = m_nContractColor = m_nContractDouble = -1;
+    m_nResult = -1;
+    
     }
 
   static char personChar(int nPerson) { return nPerson>=0 && nPerson<=3 ? m_asPersons[nPerson].charAt(0) : '?'; }
@@ -143,6 +151,13 @@ public class Deal implements Cloneable {
   public void setNumber(int nNr) { m_nNr = nNr; }
   public void setDealer(int nDealer) { m_nDealer = nDealer; }
   public void setDeclarer(int nDeclarer) { m_nDeclarer = nDeclarer; }
+  public int getDeclarer() { return m_nDeclarer; }
+  public void setContractHeight(int h) { m_nContractHeight = h; }
+  public void setContractColor(int c) { m_nContractColor = c; }
+  public void setContractDouble(int d) { m_nContractDouble = d; }
+  public int getContractHeight() { return m_nContractHeight; }
+  public int getContractColor() { return m_nContractColor; }
+  public int getContractDouble() { return m_nContractDouble; }
 
   public void setVulner(String sVulner) {
     m_sVulner = "?";
@@ -407,6 +422,27 @@ public class Deal implements Cloneable {
   {
     w.write("[" + sField + " \"" + sValue + "\"]" + sLf);
   }
+
+  /* Writes contract to the <code>Writer</code>. If no contract set,
+   * does not write anything. */
+  public void writeContract(Writer w) throws java.io.IOException
+  {
+    String sContract = "";
+    if (m_nContractHeight < 0)
+      return;
+    else if (m_nContractHeight == 0)
+      sContract = "Pass";
+    else {
+      sContract = String.valueOf(m_nContractHeight);
+      if (m_nContractColor == 0)
+        sContract += "NT";
+      else
+        sContract += String.valueOf(Card.colorChar(m_nContractColor));
+      if (m_nContractDouble > 0)
+        sContract += ( m_nContractDouble == 1 ? "X" : "XX" );
+    }
+    writeField(w, "Contract", sContract);
+  }
     
   public void savePbn(Writer w) throws java.io.IOException {
     // set fields in the map
@@ -436,6 +472,7 @@ public class Deal implements Cloneable {
 
     if (m_nDeclarer >= 0)
       writeField(w, "Declarer", "" + personChar(m_nDeclarer));
+    writeContract(w);
 
     w.write(sLf);
   }

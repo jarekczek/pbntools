@@ -27,6 +27,7 @@ import java.io.FileWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 import java.util.StringTokenizer;
 import javax.swing.JDialog;
 
@@ -85,7 +86,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
       throw new VerifyFailedException(PbnTools.getStr("error.getNumberOfDeals"), !bSilent);
     }
     String sFoundSrc = frame.attr("src");
-    if (!sFoundSrc.equals(sExpectedSrc)) {
+    if (!sFoundSrc.equalsIgnoreCase(sExpectedSrc)) {
       throw new VerifyFailedException(PbnTools.getStr("error.invalidTagValue",
                   sFrameTag, sExpectedSrc, sFoundSrc), true);
     }
@@ -111,7 +112,10 @@ public class ParyTourDownloader extends HtmlTourDownloader
     
     // parse the link to get the deal number
     String sLast = elemLast.attr("href");
-    String sNoLast = sLast.replaceFirst("^" + m_sDirName.toLowerCase() + "([0-9]{3})\\.html", "$1");
+    Pattern pat = Pattern.compile(
+                  "^" + m_sDirName.toLowerCase() + "([0-9]{3})\\.html",
+                  Pattern.CASE_INSENSITIVE);
+    String sNoLast = pat.matcher(sLast).replaceFirst("$1");
     m_cDeals = 0;
     try {
       m_cDeals = Integer.parseInt(sNoLast);
@@ -347,13 +351,17 @@ public class ParyTourDownloader extends HtmlTourDownloader
     if (elems.size() < 1) { throwElemNotFound("div#pro tr"); }
     for (Element tr: elems) {
       Elements tds = tr.select("td");
-      if (tds.size() == 11) {
+      // w 2. kolumnie powinien byæ numer pary, wiêc tylko te wiersze
+      // bêdziemy czytaæ
+      if (tds.size() >= 2 && tds.get(1).text().matches("[0-9]+"))  {
+        m_ow.addLine(tr.html());
         Deal d = deal0.clone();
         d.setIdentField("North", "Para " + tds.get(1).text());
         d.setIdentField("South", "Para " + tds.get(1).text());
         d.setIdentField("East", "Para " + tds.get(2).text());
         d.setIdentField("West", "Para " + tds.get(2).text());
         d.setDeclarer(Deal.person(tds.get(4).text()));
+        processContract(d, tds.get(3));
         ad.add(d);
       }
     }

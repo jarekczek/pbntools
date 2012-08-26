@@ -1,6 +1,7 @@
 ^.hgignore
 .svn/
 ^arch/
+^build/
 ^build.number$
 ^doc/.*\.aux
 ^doc/.*\.html
