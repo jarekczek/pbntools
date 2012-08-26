@@ -324,7 +324,26 @@ abstract public class HtmlTourDownloader
     String sRemoteContentLink = sRemoteLink.replaceFirst("/([^/]+)$", "/" + sContentFile); 
     replaceHtmlAndWrite(docLocal, elemToReplace, sRemoteContentLink, sLocalFile); 
   }
-  
+
+  /* Reads contract info from <code>contrElem</code> and stores it
+   * in the <code>Deal</code>.
+   * @param contrElem Element containing contract data, for example
+   *                  <code>4<;img src="H.gif" alt="h" /></code>
+   */
+  public void processContract(Deal d, Element contrElem)
+    throws DownloadFailedException
+  {
+    int nHeight;
+    try {
+      nHeight = Integer.parseInt(contrElem.text().substring(0,1));
+      m_ow.addLine("contract: " + nHeight);
+    }
+    catch (NumberFormatException ne) {
+      throw new DownloadFailedException(PbnTools.getStr(
+        "tourDown.error.unrecognizedContract", contrElem.html()));
+    }
+  }
+
   public class VerifyFailedException extends JCException //{{{
   {
     VerifyFailedException(String sMessage, boolean bPrint) {
