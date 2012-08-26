@@ -333,14 +333,18 @@ abstract public class HtmlTourDownloader
   public void processContract(Deal d, Element contrElem)
     throws DownloadFailedException
   {
-    int nHeight;
-    try {
-      nHeight = Integer.parseInt(contrElem.text().substring(0,1));
-      m_ow.addLine("contract: " + nHeight);
-    }
-    catch (NumberFormatException ne) {
-      throw new DownloadFailedException(PbnTools.getStr(
-        "tourDown.error.unrecognizedContract", contrElem.html()));
+    if ("PASS".equals(contrElem.text())) {
+      d.setContractHeight(0);
+    } else {
+      try {
+        int nHeight = Integer.parseInt(contrElem.text().substring(0,1));
+        m_ow.addLine("contract: " + nHeight);
+        d.setContractHeight(nHeight);
+      }
+      catch (NumberFormatException ne) {
+        throw new DownloadFailedException(PbnTools.getStr(
+          "tourDown.error.unrecognizedContract", contrElem.html()));
+      }
     }
   }
 

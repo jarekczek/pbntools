@@ -48,6 +48,10 @@ import org.jsoup.select.Elements;
 public class ParyTourDownloader extends HtmlTourDownloader
 {
 
+  /** each deal is in file m_sDealPrefix + "nnn.html" */
+  private String m_sDealPrefix = "";
+  
+
   public void setOutputWindow(OutputWindow ow)
   {
     m_ow = ow;
@@ -67,7 +71,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
 
   /** Gets remote link for the deal with the given number */
   protected String getLinkForDeal(int iDeal) {
-    return m_sLink.replaceFirst("/[^/]+$", "/" + m_sDirName.toLowerCase() 
+    return m_sLink.replaceFirst("/[^/]+$", "/" + m_sDealPrefix 
       + String.format("%03d.html", iDeal));
   }
   
@@ -90,6 +94,8 @@ public class ParyTourDownloader extends HtmlTourDownloader
       throw new VerifyFailedException(PbnTools.getStr("error.invalidTagValue",
                   sFrameTag, sExpectedSrc, sFoundSrc), true);
     }
+    assert(m_sDealPrefix.matches("*001.html"));
+    m_sDealPrefix = sFoundSrc.replaceFirst("001.html$", "");
     
     // download page with the first deal
     String sLink1 = getLinkForDeal(1);
@@ -112,10 +118,8 @@ public class ParyTourDownloader extends HtmlTourDownloader
     
     // parse the link to get the deal number
     String sLast = elemLast.attr("href");
-    Pattern pat = Pattern.compile(
-                  "^" + m_sDirName.toLowerCase() + "([0-9]{3})\\.html",
-                  Pattern.CASE_INSENSITIVE);
-    String sNoLast = pat.matcher(sLast).replaceFirst("$1");
+    String sNoLast = sLast.replaceFirst(
+      "^" + m_sDealPrefix + "([0-9]{3})\\.html", "$1");
     m_cDeals = 0;
     try {
       m_cDeals = Integer.parseInt(sNoLast);
