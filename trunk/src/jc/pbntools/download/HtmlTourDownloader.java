@@ -92,31 +92,52 @@ abstract public class HtmlTourDownloader
     if (elems.size()==0) {
       if (!bSilent) {
         m_ow.addLine(PbnTools.getStr("error.tagNotFound", sTag));
-        return null;
       }
+      return null;
     }
     if (elems.size()>1) {
       if (!bSilent) {
         m_ow.addLine(PbnTools.getStr("error.onlyOneTagAllowed", sTag));
-        return null;
       }
+      return null;
     }
     return elems.get(0);
   }
   
   /** Returns the card color corresponding to the given img tag element. 
     * @param img <code>img</code> Element. Its <code>src</code> attribute
-    * denotes the card color.
-    * @return The color from {@link jc.pbntools.Card} constants. */
-  protected int getImgColor(Element img) throws DownloadFailedException
+    * denotes the card color. This version also accepts NT.
+    * @return The color from {@link jc.pbntools.Card} constants
+    *         or 0 for NT. 
+    */
+  protected int getImgColorOrNt(Element img)
+    throws DownloadFailedException
   {
       String sSrc = img.attr("src");
       int nColor = 0;
       String sColor = sSrc.replaceFirst("^.*/", "");
       sColor = sColor.replaceFirst("\\.[a-zA-Z]+$", "");
+      if ("N".equals(sColor)) {
+        // no trump
+        return 0;
+      }
       if (sColor.length() == 1) {
         nColor = Card.color(sColor.charAt(0));
       }
+      if (nColor == 0) { throw new DownloadFailedException(
+        PbnTools.getStr("tourDown.error.notRecognColor", img.outerHtml()));
+      }
+      return nColor;
+  }
+  
+  /** Returns the card color corresponding to the given img tag element. 
+    * @param img <code>img</code> Element. Its <code>src</code> attribute
+    * denotes the card color.
+    * @return The color from {@link jc.pbntools.Card} constants. */
+  protected int getImgColor(Element img)
+    throws DownloadFailedException
+  {
+      int nColor = getImgColorOrNt(img);
       if (nColor == 0) { throw new DownloadFailedException(
         PbnTools.getStr("tourDown.error.notRecognColor", img.outerHtml()));
       }
@@ -341,12 +362,40 @@ abstract public class HtmlTourDownloader
   public void processContract(Deal d, Element contrElem)
     throws DownloadFailedException
   {
+    if (contrElem.text().length() < 1) {
+      throw new DownloadFailedException(PbnTools.getStr(
+        "tourDown.error.emptyContract", d.getNumber(), contrElem.html()));
+    }
     if ("PASS".equals(contrElem.text())) {
       d.setContractHeight(0);
     } else {
       try {
         int nHeight = Integer.parseInt(contrElem.text().substring(0,1));
         d.setContractHeight(nHeight);
+        Element img = getOneTag(contrElem, "img", true);
+        if (img == null) {
+          throw new DownloadFailedException(PbnTools.getStr(
+            "tourDown.error.noImgInContr", d.getNumber(), contrElem.html()));
+        }
+        d.setContractColor(getImgColorOrNt(img));
+
+        String sDoubles = contrElem.text().substring(1);
+        int nDouble = 0;
+        for (int i=0; i<2; i++) {
+          if (sDoubles.startsWith("×")) {
+            nDouble++;
+            sDoubles = sDoubles.substring(1);
+          } else {
+            break;
+          }
+        }
+        if (sDoubles.length() > 0) {
+          m_ow.addLine(sDoubles);
+          // after reading doubles (if present) the string should be empty
+          throw new DownloadFailedException(PbnTools.getStr(
+            "tourDown.error.wrongDblContr", d.getNumber(), contrElem.html()));
+        }
+        d.setContractDouble(nDouble);
       }
       catch (NumberFormatException ne) {
         throw new DownloadFailedException(PbnTools.getStr(
