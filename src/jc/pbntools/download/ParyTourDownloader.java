@@ -179,7 +179,9 @@ public class ParyTourDownloader extends HtmlTourDownloader
     m_ow.addLine(PbnTools.getStr("tourDown.msg.creatingIndex", sLinksFile));
     try {
       if (!(new File(m_sLocalDir).mkdir())) {
-        throw new DownloadFailedException(PbnTools.getStr("error.unableToCreateDir", m_sLocalDir), true);
+        throw new DownloadFailedException(
+          PbnTools.getStr(
+            "error.unableToCreateDir", m_sLocalDir), m_ow, true);
       }
       BufferedWriter fw = new BufferedWriter(new FileWriter(sLinksFile));
       for (iDeal=1; iDeal<=m_cDeals; iDeal++) {
@@ -190,14 +192,16 @@ public class ParyTourDownloader extends HtmlTourDownloader
         if (!sDealLinkTxt.endsWith(".txt")) {
           throw new DownloadFailedException(
             PbnTools.getStr("tourDown.error.convertExt", sDealLink, "html", "txt"),
-            true);
+            m_ow, true);
         }
         // fw.write(sDealLinkTxt);
         // fw.newLine();
       }
       fw.close();
     }
-    catch (java.io.IOException ioe) { throw new DownloadFailedException(ioe); }
+    catch (java.io.IOException ioe) {
+      throw new DownloadFailedException(ioe, m_ow, m_bSilent);
+    }
     return sLinksFile;
   }
   
@@ -214,7 +218,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
     try {
       p.exec(asCmdLine.toArray(new String[0]));
     } catch (JCException e) {
-      throw new DownloadFailedException(e);
+      throw new DownloadFailedException(e, m_ow, m_bSilent);
     }
     
     for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
@@ -251,7 +255,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
       doc = proxy.getDocument(sUrl);
     }
     catch (JCException e) {
-      throw new DownloadFailedException(e);
+      throw new DownloadFailedException(e, m_ow, m_bSilent);
     }
 
     // locate tbody with deal definition without results

@@ -207,7 +207,7 @@ abstract public class HtmlTourDownloader
       pbnFile.save(file.getAbsolutePath());
     }
     catch (IOException ioe) {
-      throw new DownloadFailedException(ioe);
+      throw new DownloadFailedException(ioe, m_ow, m_bSilent);
     }
   }
 
@@ -226,7 +226,9 @@ abstract public class HtmlTourDownloader
       if (sFileName.indexOf('.')<0) { sFileName = "index.html"; }
       try {
         m_localUrl = new File(new File(m_sLocalDir, "html"), sFileName).toURI().toURL();
-      } catch (Exception e) { throw new DownloadFailedException(e); }
+      } catch (Exception e) {
+        throw new DownloadFailedException(e, m_ow, m_bSilent);
+      }
       m_ow.addLine("local url: " + m_localUrl);
       
       if (!bDownloaded) {
@@ -264,9 +266,9 @@ abstract public class HtmlTourDownloader
       w.close();
     }
     catch (MalformedURLException mue) {
-      throw new DownloadFailedException(mue); 
+      throw new DownloadFailedException(mue, m_ow, m_bSilent); 
     } catch (IOException ioe) {
-      throw new DownloadFailedException(ioe); 
+      throw new DownloadFailedException(ioe, m_ow, m_bSilent); 
     }
     
   }
@@ -295,10 +297,13 @@ abstract public class HtmlTourDownloader
       SoupProxy proxy = new SoupProxy();
       docLocal = proxy.getDocumentFromFile(sLocalFile);
     }
-    catch (JCException e) { throw new DownloadFailedException(e); }
+    catch (JCException e) {
+      throw new DownloadFailedException(e, m_ow, m_bSilent);
+    }
     
     if (docLocal.body() == null) {
-      throw new DownloadFailedException(PbnTools.getStr("error.noBody"), true);
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.noBody"), m_ow, true);
     }
     
     // determining name of the file with missing content
@@ -318,7 +323,8 @@ abstract public class HtmlTourDownloader
     // replacing the body of m.group(2) element
     Element elemToReplace = getOneTag(docLocal.body(), "div#" + m.group(2), false);
     if (elemToReplace == null) {
-      throw new DownloadFailedException(PbnTools.getStr("tourDown.error.ajaxFailed", sLocalFile), true);
+      throw new DownloadFailedException(
+        PbnTools.getStr("tourDown.error.ajaxFailed", sLocalFile), m_ow, true);
     }
     
     String sRemoteContentLink = sRemoteLink.replaceFirst("/([^/]+)$", "/" + sContentFile); 
@@ -364,28 +370,13 @@ abstract public class HtmlTourDownloader
     }
   } //}}}
 
-  public class DownloadFailedException extends JCException //{{{
-  {
-    DownloadFailedException(String sMessage, boolean bPrint) {
-      super(sMessage);
-      if (bPrint) { m_ow.addLine(sMessage); }
-    }
-    
-    DownloadFailedException(String sMessage) { super(sMessage); }
-    
-    DownloadFailedException(Throwable t)
-    {
-      super(t);
-      m_ow.addLine(t.getMessage());
-    }
-  } //}}}
-
   /** A helper function to make error messages code shorter. */
   void throwElemNotFound(String sElem)
     throws DownloadFailedException
   {
     throw new DownloadFailedException(
       PbnTools.getStr("error.elementNotFound", sElem, m_sCurFile),
+      m_ow,
       !m_bSilent);
   }
   
