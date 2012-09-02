@@ -44,8 +44,8 @@ public class VerifyFailedException extends JCException
   {
     super(t);
     ow.addLine(t.getMessage());
-    if (!System.getProperty("jc.debug", "0").equals("0")) {
-      t.printStackTrace(new PrintWriter(new OutputWindowWriter(ow)));
-    }
+    // if (!System.getProperty("jc.debug", "0").equals("0")) {
+      // t.printStackTrace(new PrintWriter(new OutputWindowWriter(ow)));
+    // }
   }
 }
