@@ -226,6 +226,9 @@ public class PbnTools {
   static void parseCommandLine(String args[]) {
     m_bRunMainDialog = true;
     for (int i=0; i<args.length; i++) {
+      if (args[i].equals("--debug")) {
+        System.setProperty("jc.debug", "1");
+      }
       if (args[i].equals("--verbose")) {
         m_bVerbose = true;
       }
