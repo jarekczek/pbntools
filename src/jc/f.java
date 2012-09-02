@@ -76,15 +76,15 @@ public class f {
     System.err.println(s);
   }
 
-  public static String basePath(Class c) {
+  public static String basePath(Class c) { //{{{
     String sPath = c.getResource("").getPath();
     sPath = sPath.substring(5);
     sPath = sPath.replaceFirst("!.*$", "");
     File file = new File(sPath);
     return file.getParentFile().getAbsolutePath();
-  }
+  } //}}}
 
-  public static int desktopOpen(String s) {
+  public static int desktopOpen(String s) { //{{{
     try {
       java.awt.Desktop.getDesktop().open(new File(s));
       return 0;
@@ -93,9 +93,9 @@ public class f {
       javax.swing.JOptionPane.showMessageDialog(null, e.toString());
       return -1;
     }
-  }
+  } //}}}
 
-  public static int desktopBrowse(Component parent, String s) {
+  public static int desktopBrowse(Component parent, String s) { //{{{
     try {
       java.awt.Desktop.getDesktop().browse(new URI(s));
       return 0;
@@ -104,9 +104,9 @@ public class f {
       msgException(parent, e); 
       return -1;
     }
-  }
+  } //}}}
 
-  public static String toSpacedString(Object a[]) {
+  public static String toSpacedString(Object a[]) { //{{{
     StringBuffer sb = new StringBuffer();
     if (a!=null && a.length>0) {
       sb.append(a[0]);
@@ -116,8 +116,8 @@ public class f {
       }
     }
     return new String(sb);
-  }
-  
+  } //}}}
+
   //{{{ swing methods
   public static void msg(String sMsg) {
     javax.swing.JOptionPane.showMessageDialog(null, sMsg);

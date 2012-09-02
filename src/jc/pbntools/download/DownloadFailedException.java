@@ -21,8 +21,11 @@
 
 package jc.pbntools.download;
 
+import java.io.PrintWriter;
+
 import jc.JCException;
 import jc.outputwindow.OutputWindow;
+import jc.outputwindow.OutputWindowWriter;
 
 /**
  * An exception thrown when downloading tournaments, for example by class
@@ -41,5 +44,8 @@ public class DownloadFailedException extends JCException
   {
     super(t);
     if (bPrint) ow.addLine(t.getMessage());
+    if (!System.getProperty("jc.debug", "0").equals("0")) {
+      t.printStackTrace(new PrintWriter(new OutputWindowWriter(ow)));
+    }
   }
 }

@@ -28,6 +28,7 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,6 +38,7 @@ import java.util.regex.Pattern;
 
 import jc.JCException;
 import jc.outputwindow.OutputWindow;
+import jc.outputwindow.OutputWindowWriter;
 import jc.pbntools.Card;
 import jc.pbntools.Deal;
 import jc.pbntools.PbnFile;
@@ -367,6 +369,9 @@ abstract public class HtmlTourDownloader
     {
       super(t);
       m_ow.addLine(t.getMessage());
+      if (!System.getProperty("jc.debug", "0").equals("0")) {
+        t.printStackTrace(new PrintWriter(new OutputWindowWriter(m_ow)));
+      }
     }
   } //}}}
 
