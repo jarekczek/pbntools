@@ -41,13 +41,13 @@ public class PbnFile  {
 
   public void addDeal(Deal d) {
     m_ar.add(d);
-    m_setBoardNrs.add(d.m_nNr);
+    m_setBoardNrs.add(d.getNumber());
   }
 
   public void addDeals(Deal[] deals) {
     for (Deal d : deals) {
       m_ar.add(d);
-      m_setBoardNrs.add(d.m_nNr);
+      m_setBoardNrs.add(d.getNumber());
     }
   }
 
@@ -65,12 +65,14 @@ public class PbnFile  {
         r = new Deal();
         if (!r.wczytaj(br) && !r.m_bEmpty) {
           f temp;
-          System.err.print(PbnTools.m_res.getString("pbnFile.errorReadingDeal")+" "+r.m_nNr+": " + r.m_sErrors + f.sLf); //System.getProperty("line.separator")
+          System.err.print(
+            PbnTools.m_res.getString("pbnFile.errorReadingDeal")
+            + " " + r.getNumber() + ": " + r.m_sErrors + f.sLf);
           }
         if (r.m_bOk) {
-          if (!m_setBoardNrs.contains(r.m_nNr)) {
+          if (!m_setBoardNrs.contains(r.getNumber())) {
             m_ar.add(r);
-            m_setBoardNrs.add(r.m_nNr);
+            m_setBoardNrs.add(r.getNumber());
             }
           }
         }
@@ -117,7 +119,7 @@ public class PbnFile  {
       for (i=0; i<m_ar.size(); i++) {
         Deal r = m_ar.get(i);
         bw.write("<tr>"); bw.newLine();
-        bw.write(sTdStart + r.m_nNr + "</td>");
+        bw.write(sTdStart + r.getNumber() + "</td>");
         bw.write(sTdStart + Deal.personChar(r.m_nDealer) + "</td>");
         bw.write(sTdStart + r.m_sVulner + "</td>");
         bw.write(sTdStart + "&nbsp;" + "</td>");
