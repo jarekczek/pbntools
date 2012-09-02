@@ -50,7 +50,7 @@ public class Deal implements Cloneable {
   public int m_nDealer;
   /** Default value: <code>"?"</code> */
   public String m_sVulner;
-  public int m_nNr;
+  private int m_nNr;
   public String m_sDeal;
   public Hand m_aHands[];
   // Results:
@@ -149,6 +149,7 @@ public class Deal implements Cloneable {
   }
   
   public void setNumber(int nNr) { m_nNr = nNr; }
+  public int getNumber() { return m_nNr; }
   public void setDealer(int nDealer) { m_nDealer = nDealer; }
   public void setDeclarer(int nDeclarer) { m_nDeclarer = nDeclarer; }
   public int getDeclarer() { return m_nDeclarer; }

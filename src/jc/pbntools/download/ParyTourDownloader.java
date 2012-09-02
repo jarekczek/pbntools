@@ -359,10 +359,29 @@ public class ParyTourDownloader extends HtmlTourDownloader
     if (elems.size() < 1) { throwElemNotFound("div#pro tr"); }
     for (Element tr: elems) {
       Elements tds = tr.select("td");
+      // 1st column is invisible (index 0)
       // w 2. kolumnie powinien byæ numer pary, wiêc tylko te wiersze
       // bêdziemy czytaæ
-      if (tds.size() >= 2 && tds.get(1).text().matches("[0-9]+"))  {
-        m_ow.addLine(tr.html());
+      boolean bValidContract = false;
+      // valid deals have pair numbers in columns 1 and 2
+      if (tds.size() >= 8
+          && tds.get(1).text().matches("[0-9]+")
+          && tds.get(2).text().matches("[0-9]+")) {
+        bValidContract = true;
+      }
+      // columns 7 and 8 contain plain result in contract points
+      // valid deals have digits in one of these columns, even PASS deal
+      if (bValidContract
+          && !tds.get(7).text().matches("[0-9]+")
+          && !tds.get(8).text().matches("[0-9]+")) {
+        bValidContract = false;
+      }
+      
+      // if ("TD".equals(tds.get(3).text())) {
+        // rozdanie bez wyniku
+        // bValidContract = false;
+      // }
+      if (bValidContract) {
         Deal d = deal0.clone();
         d.setIdentField("North", "Para " + tds.get(1).text());
         d.setIdentField("South", "Para " + tds.get(1).text());

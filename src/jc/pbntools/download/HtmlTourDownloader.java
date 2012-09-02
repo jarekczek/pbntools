@@ -346,12 +346,13 @@ abstract public class HtmlTourDownloader
     } else {
       try {
         int nHeight = Integer.parseInt(contrElem.text().substring(0,1));
-        m_ow.addLine("contract: " + nHeight);
         d.setContractHeight(nHeight);
       }
       catch (NumberFormatException ne) {
         throw new DownloadFailedException(PbnTools.getStr(
-          "tourDown.error.unrecognizedContract", contrElem.html()));
+          "tourDown.error.unrecognizedContract",
+          String.valueOf(d.getNumber()),
+          contrElem.html()));
       }
     }
   }
