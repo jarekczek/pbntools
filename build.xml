@@ -160,6 +160,7 @@
   <java jar="${runDir}/PbnTools.jar" fork="true" >
     <jvmarg value="-Duser.language=xx" />
     <jvmarg value="-Ddebug.level=1" />
+    <arg line="" />
   </java>
 </target>
 

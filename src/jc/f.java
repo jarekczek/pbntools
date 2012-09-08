@@ -27,6 +27,7 @@ import java.awt.Component;
 import java.io.File;
 import java.net.URI;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
@@ -210,7 +211,21 @@ public class f {
   }
 
   //}}}
-  
+
+  //{{{ getIntProp method
+  public static int getIntProp(Properties props, String sProp, int nDefault)
+  {
+    String sValue = props.getProperty(sProp);
+    int nValue = nDefault;
+    if (sValue != null) {
+      try {
+        nValue = Integer.parseInt(sValue);
+      } catch (NumberFormatException nfe) {}
+    }
+    return nValue;
+  }
+  //}}}
+
   //{{{ compareStrings method
   /**
    * Compares two strings. Copied from jedit: org.gjt.sp.StandardUtilities.

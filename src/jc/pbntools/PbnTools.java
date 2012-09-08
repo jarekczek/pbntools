@@ -94,6 +94,16 @@ public class PbnTools {
   {
     return m_bVerbose ? 1 : 0;
   }
+  
+  /** Sets the verbosity level.
+   *  @return Previous value
+   */
+  public static int setVerbos(int nVerb)
+  {
+    int nOldVerb = getVerbos();
+    m_bVerbose = (nVerb != 0);
+    return nOldVerb;
+  }
 
   public static String getWorkDir()
   {
@@ -236,7 +246,7 @@ public class PbnTools {
         System.setProperty("jc.debug", "1");
       }
       if (args[i].equals("--verbose")) {
-        m_bVerbose = true;
+        setVerbos(1);
       }
       if (args[i].equals("-h") || args[i].equals("--help") || args[i].equals("/?")) {
         printUsage();
@@ -266,7 +276,8 @@ public class PbnTools {
       f.trace(1, "Properties read from file " + m_sPropsFile);
     }
     catch (java.io.FileNotFoundException e) { m_bPropsRead = true; }
-    catch (IOException e) { System.out.println(m_res.getString("props.load.error") + ": " + e.toString()); } 
+    catch (IOException e) { System.out.println(m_res.getString("props.load.error") + ": " + e.toString()); }
+    setVerbos(f.getIntProp(m_props, "verbosity", 0));
     
     parseCommandLine(args);
 
