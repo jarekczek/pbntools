@@ -270,6 +270,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
     if (dealElem == null) { throwElemNotFound("deal table"); } 
     // java.lang.System.out.println("1:" + dealElem.html());
     extractHands(deal, dealElem);
+    readScoring(deal, doc);
     return processResults(deal, doc);
   }
   
@@ -349,6 +350,35 @@ public class ParyTourDownloader extends HtmlTourDownloader
     }
     deal.fillHands();
   }
+
+  /** readScoring method {{{
+   * Reads scoring type of the deal from <code>doc</code> and
+   * sets it in <code>deal</code>.
+   */
+  private void readScoring(Deal deal, Document doc)
+  {
+    boolean bOk;
+    String sScoring = null;
+    ArrayList<Deal> ad = new ArrayList<Deal>();
+    Elements elems = doc.select("div#pro tr");
+    if (elems.size() >= 2) {
+      // potrzebny nam jest drugi wiersz tabelki, nag³ówkowy
+      Elements tds = elems.get(1).select("td");
+      if (tds.size() == 8) {
+        // musi mieæ 8 kolumn, pierwsza jest niewidoczna
+        if ("numery".equals(tds.get(1).text())) {
+          sScoring = tds.get(7).text();
+        }
+      }
+    }
+    if ("%".equals(sScoring)) {
+      deal.setIdentField("Scoring", "MP");
+    } else {
+      if (PbnTools.getVerbos() > 0) {
+        m_ow.addLine("Unknown scoring header: " + sScoring);
+      }
+    }
+  } //}}}
 
   /** Multiplies given <code>deal</code> by the number of results. */
   private Deal[] processResults(Deal deal0, Document doc)

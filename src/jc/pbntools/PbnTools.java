@@ -50,7 +50,7 @@ public class PbnTools {
   private static String m_sPropsFile;
   static Properties m_props;
   static boolean m_bPropsRead;
-  public static boolean m_bVerbose;
+  private static boolean m_bVerbose;
   static boolean m_bRunMainDialog;
   
   static {
@@ -88,7 +88,13 @@ public class PbnTools {
   {
     return m_res;
   }
-  
+
+  /** Returns verbosity level: 0..1 */
+  public static int getVerbos()
+  {
+    return m_bVerbose ? 1 : 0;
+  }
+
   public static String getWorkDir()
   {
     String sWorkDir = PbnTools.m_props.getProperty("workDir");
