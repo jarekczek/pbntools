@@ -362,7 +362,7 @@ abstract public class HtmlTourDownloader
     replaceHtmlAndWrite(docLocal, elemToReplace, sRemoteContentLink, sLocalFile); 
   }
 
-  /* Reads contract info from <code>contrElem</code> and stores it
+  /** Reads contract info from <code>contrElem</code> and stores it
    * in the <code>Deal</code>.
    * @param contrElem Element containing contract data, for example
    *                  <code>4<;img src="H.gif" alt="h" /></code>
@@ -413,6 +413,54 @@ abstract public class HtmlTourDownloader
       }
     }
   }
+
+  // processResult method {{{
+  /** Reads the result as a string in form +x, -x, =, and writes it as
+   * a number of tricks won by the declarer into <code>d</code>.
+   * A contract must be valid.
+   * @param sResult Valid values: <code>"", "+n", "-n", "="</code>
+   */
+  public void processResult(Deal d, String sResult)
+    throws DownloadFailedException
+  {
+    assert(d.getContractHeight() >= 0);
+    boolean bBad = false;
+    if (sResult == null) {
+      sResult = "";
+      bBad = true;
+    } else if (d.getContractHeight() == 0) {
+      // passed out deal
+      if (sResult.equals("\u00A0")) {
+        // ok, nothing to do
+      } else {
+        bBad = true;
+      }
+    } else {
+      // regular contract with a given number
+      int nTricksDeclared = d.getContractHeight() + 6;
+      if (sResult.equals("=")) {
+        d.setResult(nTricksDeclared);
+      } else {
+        if (sResult.startsWith("-") || sResult.startsWith("+")) {
+          // read the delta of tricks
+          int nDelta = 0;
+          try {
+            nDelta = Integer.parseInt(sResult.substring(1));
+            int nSign = (sResult.charAt(0) == '+') ? 1 : -1;
+            d.setResult(nTricksDeclared + nSign * nDelta);
+          } catch (NumberFormatException nfe) {
+            bBad = true;
+          }
+        } else {
+          bBad = true;
+        }
+      }
+    }
+    if (bBad) {
+      throw new DownloadFailedException(
+        PbnTools.getStr("tourDown.error.invRes", d.getNumber(), sResult));
+    }
+  } //}}}
 
   public class VerifyFailedException extends JCException //{{{
   {

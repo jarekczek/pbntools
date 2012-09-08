@@ -438,9 +438,9 @@ public class Deal implements Cloneable {
 
   //}}}
 
-  /** writeContract method {{{
-   * Writes contract to the <code>Writer</code>. If no contract set,
-   * does not write anything. */
+  // writeContract method {{{
+  /** Writes contract to the <code>Writer</code>. If no contract set,
+   *  does not write anything. */
   public void writeContract(Writer w) throws java.io.IOException
   {
     String sContract = "";
@@ -460,6 +460,21 @@ public class Deal implements Cloneable {
     writeField(w, "Contract", sContract);
   } //}}}
     
+  // writeResult method {{{
+  /** Writes result to the <code>Writer</code>, according to the pbn
+   *  specification. */
+  public void writeResult(Writer w) throws java.io.IOException
+  {
+    if (getContractHeight() < 0)
+      return;
+    // the result for a passed out deal is empty string
+    String sResult = "";
+    if (getContractHeight() > 0) {
+      sResult = "" + m_nResult;
+    }
+    writeField(w, "Result", sResult);
+  } //}}}
+
   public void savePbn(Writer w) throws java.io.IOException { //{{{
     // set fields in the map
     if (m_nNr > 0) { setIdentField("Board", "" + m_nNr); }
@@ -489,6 +504,7 @@ public class Deal implements Cloneable {
     if (m_nDeclarer >= 0)
       writeField(w, "Declarer", "" + personChar(m_nDeclarer));
     writeContract(w);
+    writeResult(w);
 
     w.write(sLf);
   } //}}}

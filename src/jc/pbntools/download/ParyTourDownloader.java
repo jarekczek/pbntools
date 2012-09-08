@@ -419,6 +419,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
         d.setIdentField("West", "Para-" + tds.get(2).text());
         d.setDeclarer(Deal.person(tds.get(4).text()));
         processContract(d, tds.get(3));
+        processResult(d, tds.get(6).text());
         ad.add(d);
       }
     }
