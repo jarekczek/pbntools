@@ -220,18 +220,21 @@ abstract public class HtmlTourDownloader
   abstract public Deal[] readDeals(String sUrl, boolean bSilent)
     throws DownloadFailedException;
 
-  protected void saveDealsAsPbn(Deal[] aDeal, String sDir)
+  protected String saveDealsAsPbn(Deal[] aDeal, String sDir)
     throws DownloadFailedException
   {
+    String sPath = "";
     try {
       File file = new File(sDir, m_sDirName.toLowerCase() + ".pbn");
       PbnFile pbnFile = new PbnFile();
       pbnFile.addDeals(aDeal);
+      sPath = file.getAbsolutePath();
       pbnFile.save(file.getAbsolutePath());
     }
     catch (IOException ioe) {
       throw new DownloadFailedException(ioe, m_ow, m_bSilent);
     }
+    return sPath;
   }
 
   /** performs 2 operations: downloading (if required) from internet and
@@ -257,13 +260,18 @@ abstract public class HtmlTourDownloader
       if (!bDownloaded) {
         m_ow.addLine(PbnTools.getStr("tourDown.msg.willWget", m_sLocalDir));
         wget();
+        m_ow.addLine(PbnTools.getStr("tourDown.msg.wgetDone", m_sLocalDir));
       } else {
         m_ow.addLine(PbnTools.getStr("tourDown.msg.alreadyWgetted", m_sLocalDir));
       }
     }
 
     Deal[] aDeal = readDealsFromDir(m_sLocalDir);
-    saveDealsAsPbn(aDeal, m_sLocalDir);
+    String sPbnFile = saveDealsAsPbn(aDeal, m_sLocalDir);
+    int nUnique = Deal.getUniqueCount(aDeal);
+    m_ow.addLine(PbnTools.getStr("tourDown.msg.dealsSaved", sPbnFile,
+      aDeal.length, nUnique,
+      String.format("%.3f", aDeal.length * 1.0 / nUnique)));
 
     return true;
   }

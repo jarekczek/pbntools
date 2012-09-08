@@ -29,7 +29,7 @@ import jc.f;
 import jc.pbntools.*;
 import javazoom.jl.player.Player;
 
-class Hand {
+class Hand { //{{{
   private List<Card> m_lstCards = new ArrayList<Card>();
   void clear() {
     m_lstCards.clear();
@@ -39,7 +39,7 @@ class Hand {
     return m_lstCards.toArray(new Card[0]);
   }
   void add(Card c) { m_lstCards.add(c); }
-  }
+} //}}}
 
 public class Deal implements Cloneable {
   public static final int N = 0;
@@ -94,7 +94,7 @@ public class Deal implements Cloneable {
     zeruj();
     }
 
-  public Deal clone()
+  public Deal clone() //{{{
   {
     try {
       Deal d = (Deal)super.clone();
@@ -106,11 +106,11 @@ public class Deal implements Cloneable {
     catch (CloneNotSupportedException e) {
       throw new RuntimeException(e);
     }
-  }
+  } //}}}
 
   public String toString() { return "" + m_nNr; }
 
-  void zeruj() {
+  void zeruj() { //{{{
     m_nDealer=-1; m_sVulner="?"; m_nNr=-1; m_sDeal="";
     m_aHands = new Hand[4];
     for (int i=0; i<m_aHands.length; i++) {
@@ -127,7 +127,7 @@ public class Deal implements Cloneable {
     m_nContractHeight = m_nContractColor = m_nContractDouble = -1;
     m_nResult = -1;
     
-    }
+    } //}}}
 
   static char personChar(int nPerson) { return nPerson>=0 && nPerson<=3 ? m_asPersons[nPerson].charAt(0) : '?'; }
   String dealerToString(int nDealer) { return nDealer<0 ? "?" : m_asPersons[nDealer]; }
@@ -175,7 +175,7 @@ public class Deal implements Cloneable {
     m_anCards[c.getCode()] = nPerson;
   }
   
-  public boolean czyOk() {
+  public boolean czyOk() { //{{{
     m_sErrors = "";
     if (m_nNr<=0) { m_sErrors += String.format("Brak numeru rozdania. "); }
     if (m_nDealer<0) { m_sErrors += String.format("Brak rozdaj¹cego. "); }
@@ -193,9 +193,10 @@ public class Deal implements Cloneable {
 
     if (m_sErrors.isEmpty()) { m_sErrors = null; }
     return (m_bOk = (m_sErrors == null));
-    }
+    } //}}}
 
-  /** Fills <code>m_aHands</code> with the cards from
+  /** fillHands method {{{
+    * Fills <code>m_aHands</code> with the cards from
     * <code>m_anCards</code>. Must be called after
     * a sequence of <code>setCard</code>. */
   public void fillHands() {
@@ -207,9 +208,9 @@ public class Deal implements Cloneable {
         m_aHands[m_anCards[i]].add(new Card(i));
       }
     }
-  }
+  } //}}}
     
-  private boolean wczytajTagDeal(String sDeal) {
+  private boolean wczytajTagDeal(String sDeal) { //{{{
     int nPerson, nKolor;
     int nPoz;
     int cKarty, cOsoby;
@@ -263,9 +264,9 @@ public class Deal implements Cloneable {
       }
     if (cOsoby!=4) { System.err.println("B³¹d sk³adni pliku PBN. Wczytano karty tylko "+cOsoby+" osób"); return false; }
     return true;
-    }
+    } //}}}
 
-  public boolean wczytaj(BufferedReader br) throws IOException {
+  public boolean wczytaj(BufferedReader br) throws IOException { //{{{
     Pattern patBoard = Pattern.compile("^\\[Board \"([0-9]+)\".*$");
     Pattern patDealer = Pattern.compile("^\\[Dealer \"([NESW])\".*$");
     Pattern patVulner = Pattern.compile("^\\[Vulnerable \"(.*)\".*$");
@@ -297,9 +298,9 @@ public class Deal implements Cloneable {
     m_bEmpty = (cLinie==0);
     m_bEof = (sLinia == null);
     return czyOk();
-    }
+    } //}}}
 
-  class FiltrTekstuRozd extends RunProcess.FiltrTekstu {
+  class FiltrTekstuRozd extends RunProcess.FiltrTekstu { //{{{
     int m_nOstPoz;
     static final String KLUCZ = "PCard:";
     static final int KLUCZ_LEN = 6;
@@ -331,7 +332,7 @@ public class Deal implements Cloneable {
       grajDzwiek("" + (nPerson+1));
       }
 
-    void filtruj(StringBuffer sb) {
+    void filtruj(StringBuffer sb) { //{{{
       int nPoz;
       int nNewOstPoz = -1;
       char chPrev;
@@ -380,13 +381,13 @@ public class Deal implements Cloneable {
         nNewOstPoz = sb.length() - KLUCZ_LEN;
         }
       m_nOstPoz = nNewOstPoz;
-      }
+      } //}}}
 
     void destroy() {
       }
-    }
+    } //}}}
     
-  public void rozdaj() {
+  public void rozdaj() { //{{{
     String sZbarcam = PbnTools.m_sBinDir + f.sDirSep + "zbarcam";
     String sOpts = PbnTools.m_props.getProperty("zbarcamOpts");
     sOpts = "-q --nodisplay -Spcard.enable " + sOpts;
@@ -396,9 +397,11 @@ public class Deal implements Cloneable {
     else {
       RunProcess.runCmd(null, sZbarcam + " " + sOpts, new FiltrTekstuRozd());
     }
-  }
+  } //}}}
+
+  // {{{ static methods
   
-  public static String getPbnString(Hand h) {
+  public static String getPbnString(Hand h) { //{{{
     StringBuilder sb = new StringBuilder();
     if (h == null) return "";
     ArrayList<Card> aCards[] = new ArrayList[4];
@@ -416,15 +419,27 @@ public class Deal implements Cloneable {
     }
 
     return sb.toString();
-  }
-  
+  } //}}}
+
+  public static int getUniqueCount(Deal deals[]) //{{{
+  {
+    HashSet<Integer> set = new HashSet<Integer>();
+    for (Deal d: deals) {
+      set.add(d.getNumber());
+    }
+    return set.size();
+  } //}}}
+
   public static void writeField(Writer w, String sField, String sValue)
     throws java.io.IOException
   {
     w.write("[" + sField + " \"" + sValue + "\"]" + sLf);
   }
 
-  /* Writes contract to the <code>Writer</code>. If no contract set,
+  //}}}
+
+  /** writeContract method {{{
+   * Writes contract to the <code>Writer</code>. If no contract set,
    * does not write anything. */
   public void writeContract(Writer w) throws java.io.IOException
   {
@@ -443,9 +458,9 @@ public class Deal implements Cloneable {
         sContract += ( m_nContractDouble == 1 ? "X" : "XX" );
     }
     writeField(w, "Contract", sContract);
-  }
+  } //}}}
     
-  public void savePbn(Writer w) throws java.io.IOException {
+  public void savePbn(Writer w) throws java.io.IOException { //{{{
     // set fields in the map
     if (m_nNr > 0) { setIdentField("Board", "" + m_nNr); }
     if (m_nDealer >= 0) { setIdentField("Dealer", "" + personChar(m_nDealer)); }
@@ -476,7 +491,7 @@ public class Deal implements Cloneable {
     writeContract(w);
 
     w.write(sLf);
-  }
+  } //}}}
   
   public static void main(String args[]) {
 //    DlgRozdaj d = new DlgRozdaj(null, true);
