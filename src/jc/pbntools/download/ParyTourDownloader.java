@@ -372,7 +372,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
       }
     }
     if ("%".equals(sScoring)) {
-      deal.setIdentField("Scoring", "MP");
+      deal.setScoring("MP");
     } else {
       if (PbnTools.getVerbos() > 0) {
         m_ow.addLine("Unknown scoring header: " + sScoring);
