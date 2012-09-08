@@ -237,6 +237,10 @@ public class ParyTourDownloader extends HtmlTourDownloader
           d.setIdentField("Event", m_sTitle);
           deals.add(d);
         }
+        if (PbnTools.getVerbos() > 0) {
+          m_ow.addLine(PbnTools.getStr("tourDown.msg.readOne",
+            iDeal, ad.length));
+        }
       }
     }
     return deals.toArray(new Deal[0]);
