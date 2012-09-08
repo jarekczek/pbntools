@@ -383,10 +383,10 @@ public class ParyTourDownloader extends HtmlTourDownloader
       // }
       if (bValidContract) {
         Deal d = deal0.clone();
-        d.setIdentField("North", "Para " + tds.get(1).text());
-        d.setIdentField("South", "Para " + tds.get(1).text());
-        d.setIdentField("East", "Para " + tds.get(2).text());
-        d.setIdentField("West", "Para " + tds.get(2).text());
+        d.setIdentField("North", "Para-" + tds.get(1).text());
+        d.setIdentField("South", "Para-" + tds.get(1).text());
+        d.setIdentField("East", "Para-" + tds.get(2).text());
+        d.setIdentField("West", "Para-" + tds.get(2).text());
         d.setDeclarer(Deal.person(tds.get(4).text()));
         processContract(d, tds.get(3));
         ad.add(d);
