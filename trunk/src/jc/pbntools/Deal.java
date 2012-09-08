@@ -50,6 +50,7 @@ public class Deal implements Cloneable {
   public int m_nDealer;
   /** Default value: <code>"?"</code> */
   public String m_sVulner;
+  public String m_sScoring;
   private int m_nNr;
   public String m_sDeal;
   public Hand m_aHands[];
@@ -73,9 +74,12 @@ public class Deal implements Cloneable {
   
   // {{{ PBN standard definitions
   public final static String sLf = "\r\n";
+  /** initially they should only be identification fields, but later
+    * more were added. Anyway fields after Vulnerable are not considered
+    * <code>ident</code> */
   public static final String m_sIdentFields[] = { "Event", "Site", "Date",
-    "Board", "West", "North", "East", "South", "Dealer", "Vulnerable",
-    "Deal", "Scoring", "Declarer", "Contract", "Result" };
+    "Board", "West", "North", "East", "South", "Dealer", "Vulnerable" };
+    // "Deal", "Scoring", "Declarer", "Contract", "Result" };
   // }}}
   /** <code>m_sIdentFields</code> inserted into map: uppercased -> normalized */
   private static HashMap<String, String> m_mIdentFieldNames;
@@ -122,7 +126,8 @@ public class Deal implements Cloneable {
     m_bOk = false;
     Arrays.fill(m_anCards, -1);
     m_mIdentFields = new HashMap<String, String>();
-    
+
+    m_sScoring = null;
     m_nDeclarer = 0;
     m_nContractHeight = m_nContractColor = m_nContractDouble = -1;
     m_nResult = -1;
@@ -166,7 +171,10 @@ public class Deal implements Cloneable {
       if (sValid.equalsIgnoreCase(sVulner)) { m_sVulner = sValid; }
     }
   }
+  public String getVulner() { return m_sVulner; }
   
+  public void setScoring(String sScoring) { m_sScoring = sScoring; }
+  public String getScoring() { return m_sScoring; }
   public void setResult(int nResult) { m_nResult = nResult; }
   
   /** Places a single card into a hand. After all cards are set,
@@ -501,6 +509,8 @@ public class Deal implements Cloneable {
     }
     w.write("\"]" + sLf);
 
+    if (getScoring() != null)
+      writeField(w, "Scoring", getScoring());
     if (m_nDeclarer >= 0)
       writeField(w, "Declarer", "" + personChar(m_nDeclarer));
     writeContract(w);
