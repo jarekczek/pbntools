@@ -1,9 +1,3 @@
 hgignore
 pcard
 test_decode_pcard
-vfw_cleanup
-vfw_doc
-vfw_no_hang
-w2k
-rgb0
-vfw_dialogs
