@@ -91,11 +91,14 @@ Program korzysta z nastêpuj±cego oprogramowania:
   Patrz plik: {\em jsoup\_LICENSE.txt} w katalogu programu.
 
 \item[ZBar]
-  \htmladdnormallink{ZBar}{http://zbar.sourceforge.net/} to biblioteka
-  o funkcjonalno¶ci czytnika kodów paskowych,
+  \htmladdnormallink{ZBar}{http://zbar.sourceforge.net/}
+  (lub jej klon
+  \htmladdnormallink{ZBarW}{http://sourceforge.net/projects/zbarw/})
+  to biblioteka o funkcjonalno¶ci czytnika kodów paskowych,
   rozprowadzana na licencji LGPL 2.1 (lub pó¼niejsza).
   Czyta pliki graficzne lub obraz z kamery internetowej.
-  Zastosowana zosta³a tutaj okrojona wersja odczytuj±ca obraz z kamery. Plik z licencj±: zbar\_LICENSE.txt
+  Zastosowana zosta³a tutaj okrojona wersja odczytuj±ca obraz z kamery.
+  Plik z licencj±: zbar\_LICENSE.txt
 
 \end{description}
 
@@ -184,6 +187,30 @@ kompletnej strony z wynikami turnieju. Po wrzuceniu tego katalogu np. na komórkê
 mo¿na potem wygodnie analizowaæ rozdania tu¿ po ich rozegraniu.
 %}}}
 
+%{{{ pobierz pary
+\subsection{Pobierz Pary} \label{pobPary}
+
+  {\em Pary} to równie¿ program
+  Jana Romañskiego, który mia³ zast±piæ Kopsa, a ostatecznie funkcjonuje
+  równolegle z nim. Turnieje wygenerowane tym programem poznaæ po stopce
+  {\em Pary.4.1.0.23 (C) Jan Romañski'2005, strona wygenerowana ...}.
+  Turnieje takie mo¿na znale¼æ na przyk³ad w¶ród wyników turniejów
+  na stronie \htmladdnormallink{warsbrydz}{http://www.warsbrydz.pl},
+  cykl \em WOB. Linki otrzymujemy po wybraniu pseudoturnieju {\em Stare},
+  a nastêpnie ju¿ normalnie - prawy przycisk,
+  {\em Kopiuj adres odno¶nika}.
+  
+  Efektem dzia³ania tej opcji programu s± nastêpuj±ce pliki:
+  \begin{itemize}
+  \item XXX.pbn - plik z rozdaniami i wynikami
+  \item AAyymmddnnn.html - travellery poszczególnych rozdañ.
+        Ka¿dy z nich stanowi jednocze¶nie indeks umo¿liwiaj±cy przej¶cie do
+        pozosta³ych rozdañ turnieju.
+  \item link.html - zawiera link do orygina³u turnieju, u³atwiaj±cy analizê porozdaniow±
+  \item inne pliki potrzebne dla prawid³owego wy¶wietlenia stron html
+  \end{itemize}
+%}}}
+
 %{{{ rozdaj
 \subsection{Rozdaj} \label{rozdaj}
 Rozdawanie polega na pokazywaniu kart do kamery internetowej, która "odnajduje" tê
@@ -268,8 +295,7 @@ Aktualna wersja, \version{}:
 
 \begin{itemize}
 \item
-  \htmladdnormallink{PbnTools \version}{http://jarek.katowice.pl/jcwww/pbntools/PbnTools_\versionUnd\_src.zip},
-  \htmladdnormallink{PbnTools 1.0.2}{http://jarek.katowice.pl/jcwww/pbntools/PbnTools_1_0_2_src.zip}
+  \pbntoolsSourceLinks
   lub patrz {\em Rozwój}, rozdzia³ \ref{dev}
 \item
   \htmladdnormallink{jlayer1.0.1.tar.gz}{http://jarek.katowice.pl/jcwww/pbntools/jlayer1.0.1.tar.gz}
@@ -380,6 +406,18 @@ w archiwum kodu ¼ród³owego, patrz: Pobieranie, \ref{download}.
 %{{{ historia
 \section{Historia wersji programu}
 \begin{description}
+\item[1.1.0, 16.09.2012]
+  \begin{itemize}
+  \item Pobieranie turniejów w formacie {\em Pary}.
+        Na przyk³ad ze strony
+        \htmladdnormallink{warsbrydz}{http://www.warsbrydz.pl}
+        , {\em Wyniki, WOB, stare}.
+  \item Zmiana biblioteki video u¿ywanej do rozdawania kart pod Windows,
+        zastosowanie sterownika {\em DirectShow} w miejsce
+        {\em Video for Windows}. Powinno to usun±æ wiêkszo¶æ problemów,
+        z którymi borykali siê u¿ytkownicy Windows, czyli 
+        nie uruchamiaj±ca siê w ogóle kamera lub jej zawieszanie.
+  \end{itemize}
 \item[1.0.3, 05.04.2012]
   \begin{itemize}
   \item Opcja {\em Sprawd¼ uaktualnienie} w oknie {\em O programie}.
@@ -414,7 +452,7 @@ w archiwum kodu ¼ród³owego, patrz: Pobieranie, \ref{download}.
 Jestem otwarty na sugestie. Bêdê wdziêczny za informacje o nieprawid³owym dzia³aniu strony lub programu.
 
 {\setlength{\parindent}{0pt}\small\htmladdnormallink{Jarek Czekalski}{mailto:jarekczek@poczta.onet.pl},
-ostatnia modyfikacja 05.04.2012}
+ostatnia modyfikacja 16.09.2012}
 %}}}
 
 \end{document}
