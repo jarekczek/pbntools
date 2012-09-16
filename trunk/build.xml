@@ -251,8 +251,9 @@
 <target name="zbar-configure">
   <fail message="dir not set" unless="dir" />
   <property name="zbarConfOpts" value="" />
-  <exec executable="./configure" dir="${dir}">
+  <exec executable="./configure" dir="${dir}" failonerror="true">
     <arg line="${zbarConfOpts} --with-directshow --disable-shared --without-imagemagick --without-gtk --without-python --without-qt --without-java --enable-codes=ean,databar,code128,code93,code39,pcard"/>
+    <env key="CPPFLAGS" value="-fno-strict-aliasing" />
   </exec>
 </target>
 
@@ -261,9 +262,13 @@
   <property name="zbarOrigDir" location="${zbarDir}/src_orig" />
   <property name="zbarTmp" value="${tmp}/zbar" />
   <delete quiet="true" dir="${zbarTmp}" />
-  <exec executable="cp"><arg line="-r ${zbarOrigDir} ${zbarTmp}" /></exec>
+  <exec executable="cp" failonerror="true">
+    <arg line="-r ${zbarOrigDir} ${zbarTmp}" />
+  </exec>
   <antcall target="zbar-configure"><param name="dir" value="${zbarTmp}"/></antcall>
-  <exec executable="make" dir="${zbarTmp}"><arg line="docs html"/></exec>
+  <exec executable="make" dir="${zbarTmp}" failonerror="true">
+    <arg line="docs html"/>
+  </exec>
   <copy todir="${zbarOrigDir}"><fileset dir="${zbarTmp}" includes="doc/man/* doc/html/*" /></copy>
   <delete quiet="true" dir="${zbarTmp}" />
 </target>
@@ -356,7 +361,9 @@
     GENERATE_LATEX         = NO
     #EXAMPLE_PATH           = .
   </echo>
-  <exec executable="${doxygen}"><arg line="${zbarDoxyDir}/Doxyfile" /></exec>
+  <exec executable="${doxygen}" failonerror="true">
+    <arg line="${zbarDoxyDir}/Doxyfile" />
+  </exec>
   <script manager="bsf" language="beanshell" classpathref="ivy.path">
     java.awt.Desktop.getDesktop().open(new File(project.getProperty("zbarDoxyDir")+"/html/index.html"));
   </script>
@@ -366,12 +373,12 @@
   <antcall target="zbar-build-common">
     <param name="zbarConfOpts" value="-&#45;build=mingw32 -&#45;host i586-mingw32msvc" />
   </antcall>
-  <copy tofile="${basedir}/lib/zbarcam.exe" file="${zbarSrc}/zbarcam/.libs/zbarcamstatic.exe" overwrite="true" />
+  <copy tofile="${basedir}/lib/zbarcam.exe" file="${zbarSrc}/zbarcam/.libs/zbarcam.exe" overwrite="true" />
 </target>
 
 <target name="zbar-build-linux">
   <antcall target="zbar-build-common" />
-  <copy tofile="${basedir}/lib/zbarcam" file="${zbarSrc}/zbarcam/zbarcamstatic" overwrite="true" />
+  <copy tofile="${basedir}/lib/zbarcam" file="${zbarSrc}/zbarcam/zbarcam" overwrite="true" />
   <chmod file="${basedir}/lib/zbarcam" perm="a+x" />
 </target>
 
@@ -387,8 +394,12 @@
   <untar src="${zbarDir}/zbar_src_pbntools.tgz" dest="${zbarSrc}" compression="gzip" />
   <chmod file="${zbarSrc}/configure" perm="a+x" />
   <antcall target="zbar-configure"><param name="dir" value="${zbarSrc}"/></antcall>
-  <exec executable="make" dir="${zbarSrc}"><arg line="clean"/></exec>
-  <exec executable="make" dir="${zbarSrc}"><arg line=""/></exec>
+  <exec executable="make" dir="${zbarSrc}" failonerror="true">
+    <arg line="clean"/>
+  </exec>
+  <exec executable="make" dir="${zbarSrc}" failonerror="true">
+    <arg line=""/>
+  </exec>
 </target>
 
 <target name="zbar-build" depends="" >
@@ -665,8 +676,12 @@
 
 <target name="test-www-linux">
   <delete quiet="true"><fileset dir="${tmp}" includes="PbnTools_*_linux*.zip*" /></delete>
-  <exec executable="wget" dir="${tmp}"><arg line="http://jarek.katowice.pl/jcwww/pbntools/PbnTools_${wersja_podkr}_linux.zip"/></exec>
-  <exec executable="7z" dir="${tmp}"><arg line="x PbnTools_${wersja_podkr}_linux.zip -opbntools-www"/></exec>
+  <exec executable="wget" dir="${tmp}" failonerror="true">
+    <arg line="http://jarek.katowice.pl/jcwww/pbntools/PbnTools_${wersja_podkr}_linux.zip"/>
+  </exec>
+  <exec executable="7z" dir="${tmp}" failonerror="true">
+    <arg line="x PbnTools_${wersja_podkr}_linux.zip -opbntools-www"/>
+  </exec>
   <exec executable="${tmp}/pbntools-www/pbntools"/>
 </target>
 
