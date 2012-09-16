@@ -373,7 +373,7 @@
   <antcall target="zbar-build-common">
     <param name="zbarConfOpts" value="-&#45;build=mingw32 -&#45;host i586-mingw32msvc" />
   </antcall>
-  <copy tofile="${basedir}/lib/zbarcam.exe" file="${zbarSrc}/zbarcam/.libs/zbarcam.exe" overwrite="true" />
+  <copy tofile="${basedir}/lib/zbarcam.exe" file="${zbarSrc}/zbarcam/zbarcam.exe" overwrite="true" />
 </target>
 
 <target name="zbar-build-linux">
