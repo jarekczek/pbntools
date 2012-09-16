@@ -209,7 +209,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
   {
     String sLinksFile = createIndexFile();
       
-    String sCmdLine = "wget -p -k -nH -nd -nc -w 0 --random-wait -E -e robots=off";
+    String sCmdLine = "wget -p -k -nH -nd -nc -w 1 --random-wait -E -e robots=off";
     ArrayList<String> asCmdLine = new ArrayList<String>(Arrays.asList(sCmdLine.split(" ")));
     asCmdLine.add("--directory-prefix=" + m_sLocalDir);
     asCmdLine.add("--input-file=" + sLinksFile);

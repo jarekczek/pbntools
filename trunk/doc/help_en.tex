@@ -76,6 +76,8 @@ The program uses following software:
 
 \item[ZBar]
   \htmladdnormallink{ZBar}{http://zbar.sourceforge.net/}
+  (or its clone 
+  \htmladdnormallink{ZBarW}{http://sourceforge.net/projects/zbarw/})
   is an open source software suite for reading bar codes from various sources,
   such as video streams, image files and raw intensity sensors.
   Distributed under LGPL 2.1 (or later) license.
@@ -133,6 +135,15 @@ Generated files are inserted into working directory ({\em Configuration}),
 in a subdirectory {\em kops}. Subdirectory is generated automatically.
 %}}}
 
+%{{{ download pary
+\subsection{Download Pary} \label{pobPary}
+
+Polish tournaments published in {\em Pary}
+format can be found on page
+\htmladdnormallink{warsbrydz}{http://www.warsbrydz.pl},
+{\em Wyniki, WOB, Stare}.
+%}}}
+
 %{{{ deal cards
 \subsection{Deal cards} \label{rozdaj}
 
@@ -166,7 +177,6 @@ respectively for {\em N, E, S, W}.
 
 %}}}
 %}}}
-
 
 %{{{ requirements
 \section{Requirements}
@@ -291,6 +301,17 @@ in source code archive, see: Download, \ref{download}.
 %{{{ history
 \section{Version history}
 \begin{description}
+\item[1.1.0, 16.09.2012]
+  \begin{itemize}
+  \item Downloading tournaments in {\em Pary} format,
+        i.e. \htmladdnormallink{warsbrydz}{http://www.warsbrydz.pl}
+        , {\em Wyniki, WOB, stare}.
+  \item Switched barcode video library for dealing cards on Windows
+        to the one using
+        {\em DirectShow} driver instead of
+        {\em Video for Windows}. This should remove most problems
+        experienced by Windows users.
+  \end{itemize}
 \item[1.0.3, 05.04.2012]
   \begin{itemize}
   \item {\em Check for updates} option in {\em About} window.
@@ -325,7 +346,7 @@ in source code archive, see: Download, \ref{download}.
 I am open for suggestions. I will be grateful for informations about incorrect operation of the program or a web-page.
 
 {\setlength{\parindent}{0pt}\small\htmladdnormallink{Jarek Czekalski}{mailto:jarekczek@poczta.onet.pl}
-, last modification Apr 05 2012}
+, last modification Sep 16 2012}
 %}}}
 
 
