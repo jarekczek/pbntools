@@ -252,7 +252,7 @@
   <fail message="dir not set" unless="dir" />
   <property name="zbarConfOpts" value="" />
   <exec executable="./configure" dir="${dir}">
-    <arg line="${zbarConfOpts} --disable-shared --without-imagemagick --without-gtk --without-python --without-qt --without-java --enable-codes=ean,databar,code128,code93,code39,pcard"/>
+    <arg line="${zbarConfOpts} --with-directshow --disable-shared --without-imagemagick --without-gtk --without-python --without-qt --without-java --enable-codes=ean,databar,code128,code93,code39,pcard"/>
   </exec>
 </target>
 
@@ -285,12 +285,21 @@
 
 <target name="zbar-download-orig" depends="zbar-props"
                                   unless="${zbarOrigArchAvail}" >
-  <!-- current patch set prepared 2012-03-18, for rev fe4c21fc8ec3 -->
-  <property name="zbarRev" value="-r fe4c21fc8ec3" />
+  <!-- current patch set prepared 2012-09-16, for zbarw rev c71f2c2d0051 -->
+  <property name="zbarRev" value="-r c71f2c2d0051" />
   <property name="zbarRev" value="-r 0.10" />
   <delete quiet="true" dir="${zbarDir}" />
   <mkdir dir="${zbarOrigDir}" />
-  <exec executable="${hg}" failonerror="true"><arg line="clone ${zbarRev} http://zbar.hg.sourceforge.net:8000/hgroot/zbar/zbar ${zbarOrigDir}"/></exec>
+  <exec executable="${hg}" failonerror="true">
+    <arg value="clone" />
+    <arg value="${zbarRev}" />
+    <arg value="http://hg.code.sf.net/p/zbarw/code" />
+    <arg value="${zbarOrigDir}" />
+  </exec>
+  <get src="http://sourceforge.net/projects/zbarw/files/deps/wine-1.4-zbar.tgz/download"
+       dest="${zbarDir}/wine-1.4-zbar.tgz" />
+  <untar src="${zbarDir}/wine-1.4-zbar.tgz" compression="gzip"
+         dest="${zbarOrigDir}/zbar/video" />
   <tar destfile="${zbarDir}/zbar_src_orig.tgz" compression="gzip"
        defaultexcludes="no" >
     <fileset dir="${zbarOrigDir}" defaultexcludes="no" />
