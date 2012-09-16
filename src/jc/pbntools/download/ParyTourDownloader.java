@@ -214,6 +214,12 @@ public class ParyTourDownloader extends HtmlTourDownloader
     asCmdLine.add("--directory-prefix=" + m_sLocalDir);
     asCmdLine.add("--input-file=" + sLinksFile);
     
+    if (!PbnTools.bWindows) {
+      // on Windows we need to point our wget.exe
+      String sWget = PbnTools.getWgetPath();
+      asCmdLine.set(0, sWget);
+    }
+    
     OutputWindow.Process p = m_ow.createProcess();
     try {
       p.exec(asCmdLine.toArray(new String[0]));

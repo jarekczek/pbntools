@@ -44,6 +44,7 @@ public class PbnTools {
   static String m_sScriptDir;
   static String m_sBinDir;
   public static boolean bLinux;
+  public static boolean bWindows;
   static DlgPbnToolsMain m_dlgMain;
   static String m_sSlash;
   public static ResourceBundle m_res;
@@ -64,6 +65,7 @@ public class PbnTools {
     m_props = new Properties();
     m_bPropsRead = false;
     bLinux = System.getProperty("os.name").equals("Linux");
+    bWindows = System.getProperty("os.name").startsWith("Windows");
     m_bVerbose = false;
     f.trace(1, "curDir=" + m_sCurDir + ", binDir=" + m_sBinDir
             + ", scriptDir=" + m_sScriptDir);
@@ -113,6 +115,22 @@ public class PbnTools {
       return null;
     }
     return sWorkDir;
+  }
+  
+  /** Get our bin subdirectory path, with trailing slash added */
+  public static String getBin()
+  {
+    return m_sCurDir + m_sSlash + "bin" + m_sSlash;
+  }
+  
+  /** Get our wget full pathname */
+  public static String getWgetPath()
+  {
+    String sWget = m_sCurDir + m_sSlash + "bin" + m_sSlash + "wget"
+                   + m_sSlash + "wget";
+    if (bWindows)
+      sWget += ".exe";
+    return sWget;
   }
   
   public static void checkUpdates(Component parent)
