@@ -44,6 +44,10 @@ Obecnie PbnTools posiada nastêpuj±ce funkcjonalno¶ci:
   Pobiera z sieci turnieje bryd¿owe zapisane w formacie Kops
   i zapisuje je w formacie PBN. Szczegó³y: \ref{pobKops}.
 
+\item[Pobierz Pary]
+  Pobiera z sieci turnieje bryd¿owe zapisane w formacie Pary
+  i zapisuje je w formacie PBN. Szczegó³y: \ref{pobPary}.
+
 \item[Rozdaj]
   Po otwarciu dowolnego pliku PBN mo¿na go rozdaæ, czyli rozdzieliæ
   prawdziwe papierowe karty na 4 kupki, powielaj±c oryginalny uk³ad.
@@ -175,11 +179,11 @@ Teraz ju¿ zadzia³a.
 
 Efektem dzia³ania tej opcji programu s± nastêpuj±ce pliki:
 \begin{itemize}
-\item XXX\_wyn.pbn - plik z rozdaniami i wynikami - na podstawie tego pliku generujemy turniej w Jacku
-\item XXX.pbn - plik z rozdaniami turnieju (XXX to nazwa turnieju, np. MCH0308)
-\item roz.html - lista travellerów ca³ego turnieju
-\item link.html - zawiera link do orygina³u turnieju, u³atwiaj±cy analizê porozdaniow±
-\item pNN.html - traveller dla rozdania o numerze NN
+\item \verb!XXX_wyn.pbn! - plik z rozdaniami i wynikami - na podstawie tego pliku generujemy turniej w Jacku
+\item \verb!XXX.pbn! - plik z rozdaniami turnieju (XXX to nazwa turnieju, np. MCH0308)
+\item \verb!roz.html! - lista travellerów ca³ego turnieju
+\item \verb!link.html! - zawiera link do orygina³u turnieju, u³atwiaj±cy analizê porozdaniow±
+\item \verb!pNN.html! - traveller dla rozdania o numerze NN
 \end{itemize}
 
 Efektem ubocznym dzia³ania tej funkcji jest równie¿ zapisanie w katalogu roboczym
@@ -196,17 +200,17 @@ mo¿na potem wygodnie analizowaæ rozdania tu¿ po ich rozegraniu.
   {\em Pary.4.1.0.23 (C) Jan Romañski'2005, strona wygenerowana ...}.
   Turnieje takie mo¿na znale¼æ na przyk³ad w¶ród wyników turniejów
   na stronie \htmladdnormallink{warsbrydz}{http://www.warsbrydz.pl},
-  cykl \em WOB. Linki otrzymujemy po wybraniu pseudoturnieju {\em Stare},
+  cykl {\em WOB}. Linki otrzymujemy po wybraniu pseudoturnieju {\em Stare},
   a nastêpnie ju¿ normalnie - prawy przycisk,
   {\em Kopiuj adres odno¶nika}.
   
   Efektem dzia³ania tej opcji programu s± nastêpuj±ce pliki:
   \begin{itemize}
-  \item XXX.pbn - plik z rozdaniami i wynikami
-  \item AAyymmddnnn.html - travellery poszczególnych rozdañ.
+  \item \verb!XXX.pbn! - plik z rozdaniami i wynikami
+  \item \verb!AAyymmddnnn.html! - travellery poszczególnych rozdañ.
         Ka¿dy z nich stanowi jednocze¶nie indeks umo¿liwiaj±cy przej¶cie do
         pozosta³ych rozdañ turnieju.
-  \item link.html - zawiera link do orygina³u turnieju, u³atwiaj±cy analizê porozdaniow±
+  \item \verb!link.html! - zawiera link do orygina³u turnieju, u³atwiaj±cy analizê porozdaniow±
   \item inne pliki potrzebne dla prawid³owego wy¶wietlenia stron html
   \end{itemize}
 %}}}
@@ -290,6 +294,9 @@ Aktualna wersja, \version{}:
   Plik dla \htmladdnormallink{Linux}{http://jarek.katowice.pl/jcwww/pbntools/PbnTools_\versionUnd\_linux.zip}
 
 \end{itemize}
+
+Poprzednie wersje:
+\oldBinaries
 
 \subsection{Kody ¼ród³owe} \label{downloadSrc}
 
