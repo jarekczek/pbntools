@@ -177,7 +177,20 @@ public class PbnTools {
     f.desktopBrowse(parent, getStr("homepage") + "#download");
   }
   
-  static void pobierzKops(String sLink) {
+  static void pobierzKops(String sLink, boolean bGui) //{{{
+  {
+    if (getWorkDir() == null) { return; }
+    TourDownloaderThread thr =
+      new TourDownloaderThread(sLink, new KopsTourDownloader());
+    if (bGui) {
+      DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, thr, m_res);
+      ow.setVisible(true);
+    } else {
+      StandardOutputWindow ow =  new StandardOutputWindow(thr, m_res);
+    }
+  } //}}}
+
+  static void pobierzKopsOld(String sLink) { //{{{
     int rv;
     String sWorkDir = getWorkDir();
     if (sWorkDir==null) { return; }
@@ -197,7 +210,7 @@ public class PbnTools {
       String sBash = sMsysBin + m_sSlash + "bash";
       rv = RunProcess.runCmd(m_dlgMain, sBash, asArgs, m_sScriptDir, asPaths);
       }
-  }
+    } //}}}
   
   static void pobierzPary(String sLink, boolean bGui) {
     if (getWorkDir()==null) { return; }
@@ -274,7 +287,7 @@ public class PbnTools {
         m_bRunMainDialog = false;
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
-        pobierzPary(args[i], false);
+        pobierzKops(args[i], false);
       }
     }
   }

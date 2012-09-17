@@ -176,7 +176,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
       DlgPobierzKops d = new DlgPobierzKops(null,true);
       d.setVisible(true);
       if (d.rv==2) {
-        PbnTools.pobierzKops(d.m_sLink);
+        PbnTools.pobierzKops(d.m_sLink, true);
         }
     }//GEN-LAST:event_pbPobierzParyActionPerformed
 
