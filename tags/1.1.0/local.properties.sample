@@ -1,0 +1,9 @@
+ftp.server=jarek.katowice.pl
+ftp.user=ftp@jarek.katowice.pl
+ftp.dir=/public_html/jcwww
+ftp.password=xxxx
+svn.user=jarekczek
+svn.pass=xxxx
+testArgs=-dt http://localhost/pbntools/pary/WB110602/W-wb110602.html
+# testArgs=-dt http://warsbrydz.pl/wyniki/wob/WB120510/W-WB120510.html
+# testArgs=-dt /var/www/pbntools/pary/WB120510/wb120510001.html
