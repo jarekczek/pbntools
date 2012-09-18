@@ -86,6 +86,18 @@ abstract public class HtmlTourDownloader
     m_sLink = sLink;
   }
 
+  /** Returns the url which may be used as base url for links from inside
+    * the given url. That is <code>http://aaa.com/start/</code> for both
+    * <code>http://aaa.com/start/page.htm</code>
+    * and <code>http://aaa.com/start</code>. */
+  public static String getBaseUrl(String sUrl)
+  {
+    sUrl = sUrl.replaceFirst("/[^/]+\\.h[a-zA-Z]+", "/");
+    if (!sUrl.endsWith("/"))
+      sUrl += "/";
+    return sUrl;
+  }
+
   /** select <code>sTag</code> but require exactly one match */
   protected Element getOneTag(Element parent, String sTag, boolean bSilent) {
     Elements elems = parent.select(sTag);
