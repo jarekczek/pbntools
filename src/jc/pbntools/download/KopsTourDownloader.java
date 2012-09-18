@@ -102,15 +102,12 @@ public class KopsTourDownloader extends HtmlTourDownloader
     }
     m_ow.addLine(PbnTools.m_res.getString("msg.documentLoaded"));
 
-    if (!checkGenerator(doc, "JFR 2005", bSilent)) { throw new VerifyFailedException("generator"); }
-    if (doc.body() != null) {
-      // only W- link has body
-      // direct link has frames which should be read instead
-      if (!checkTagText(doc.body(), "p.f", "^\\sPary\\..*$", bSilent)) {
-        throw new VerifyFailedException("p.f");
-      }
-    }
-
+    if (!checkGenerator(doc, "KoPS2www, JFR 2005", bSilent))
+      throw new VerifyFailedException("generator");
+    if (getOneTag(doc, "frame[src=wyn.html]", bSilent) == null)
+      throw new VerifyFailedException("frame[src=wyn.html]");
+    if (getOneTag(doc, "frame[src=roz.html]", bSilent) == null)
+      throw new VerifyFailedException("frame[src=roz.html]");
     return true;
   } //}}}
   

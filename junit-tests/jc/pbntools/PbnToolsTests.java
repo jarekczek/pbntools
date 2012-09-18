@@ -20,6 +20,7 @@
 package jc.pbntools;
 
 import jc.f;
+import jc.pbntools.download.HtmlTourDownloader;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -39,4 +40,17 @@ public class PbnToolsTests
                + ", html:" + sHtmlVer, sCurrentVer.equals(sHtmlVer));
   }
 
+@Test public void getBaseUrlTest()
+{
+  String asUrl[] = { "http://test.com/start",
+                     "http://test.com/start/",
+                     "http://test.com/start/index.html",
+                     "http://test.com/start/test.htm" };
+  for (String sUrl: asUrl) {
+    assertEquals("getBaseUrl(" + sUrl + ")",
+                 "http://test.com/start/",
+                 HtmlTourDownloader.getBaseUrl(sUrl));
+  }
+}
+  
 }
