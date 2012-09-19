@@ -272,7 +272,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
     Element dealElem = null;
     for (Element elemH4 : doc.select("h4")) {
       Elements parents = elemH4.parents();
-      if (parents.size() >= 2) {
+      if (parents.size() >= 3) {
         dealElem = parents.get(2);
         break;
       }

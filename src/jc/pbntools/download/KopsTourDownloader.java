@@ -48,8 +48,6 @@ import org.jsoup.select.Elements;
 public class KopsTourDownloader extends HtmlTourDownloader
 {
 
-  /** each deal is in file m_sDealPrefix + "nnn.html" */
-  private String m_sDealPrefix = "";
   /** Subdocument (frame contents), wyn.html */
   protected Document m_docWyn;
   /** Subdocument (frame contents), roz.html */
@@ -75,8 +73,10 @@ public class KopsTourDownloader extends HtmlTourDownloader
 
   /** Gets remote link for the deal with the given number */
   protected String getLinkForDeal(int iDeal) {
-    return m_sLink.replaceFirst("/[^/]+$", "/" + m_sDealPrefix 
-      + String.format("%03d.html", iDeal));
+    String sLink = getBaseUrl(m_sLink) + "p" + iDeal + ".html";
+    if (f.isDebugMode())
+      System.out.println("getLinkForDeal(" + iDeal + ") = " + sLink);
+    return sLink;
   }
   
   /** Gets local link for the deal with the given number */
@@ -86,7 +86,9 @@ public class KopsTourDownloader extends HtmlTourDownloader
   
   /** @param doc Document after redirection, containing 2 frames.
     *  */
-  protected void getNumberOfDeals(Document doc, boolean bSilent) throws VerifyFailedException {
+  protected void getNumberOfDeals(Document doc, boolean bSilent)
+    throws VerifyFailedException {
+    m_cDeals = m_docRoz.select("tr").size();
   }
 
   /** Verifies whether link points to a valid data in this format.
@@ -248,7 +250,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
     Element dealElem = null;
     for (Element elemH4 : doc.select("h4")) {
       Elements parents = elemH4.parents();
-      if (parents.size() >= 2) {
+      if (parents.size() >= 3) {
         dealElem = parents.get(2);
         break;
       }
