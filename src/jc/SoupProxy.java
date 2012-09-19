@@ -29,9 +29,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-/** <code>SoupProxy</code> class retrieves an html page through
- *  <code>org.jsoup.Jsoup</code> library. Latest pages are cached.
- *  Allows supplying http or file urls.
+/**
+ * <code>SoupProxy</code> class retrieves an html page through
+ * <code>org.jsoup.Jsoup</code> library. Latest pages are cached.
+ * Allows supplying http or file urls.
+ * <p>
+ * Cache is static, so it's correct to create a new proxy instance every
+ * time it is needed.
  */
 
 public class SoupProxy
