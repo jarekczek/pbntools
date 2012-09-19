@@ -50,6 +50,10 @@ public class KopsTourDownloader extends HtmlTourDownloader
 
   /** each deal is in file m_sDealPrefix + "nnn.html" */
   private String m_sDealPrefix = "";
+  /** Subdocument (frame contents), wyn.html */
+  protected Document m_docWyn;
+  /** Subdocument (frame contents), roz.html */
+  protected Document m_docRoz;
   
 
   public void setOutputWindow(OutputWindow ow)
@@ -119,6 +123,25 @@ public class KopsTourDownloader extends HtmlTourDownloader
       bRedirected = redirect();
     }
     getTitleAndDir();
+
+    // download 2 frames
+    try {
+      SoupProxy proxy = new SoupProxy();
+      m_docWyn = proxy.getDocument(getBaseUrl(m_sLink) + "wyn.html");
+      m_docRoz = proxy.getDocument(getBaseUrl(m_sLink) + "roz.html");
+    }
+    catch (JCException e) {
+      throw new VerifyFailedException(e);
+    }
+    
+    // default title, as <title> tag does not work well for kops
+    // an internal path is given there, so we get a better title
+    Element title = getOneTag(m_docWyn, "h4", bSilent);
+    if (title == null)
+      throw new VerifyFailedException(
+        PbnTools.getStr("error.oneTagExpected", "h4", " (wyn.html)"));
+    m_sTitle = title.text();
+
     getNumberOfDeals(m_doc, bSilent);
     if (!bSilent) { m_ow.addLine(PbnTools.getStr("msg.tourFound", m_sTitle, m_cDeals)); }
 

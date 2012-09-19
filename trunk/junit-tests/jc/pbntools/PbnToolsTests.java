@@ -51,6 +51,10 @@ public class PbnToolsTests
                  "http://test.com/start/",
                  HtmlTourDownloader.getBaseUrl(sUrl));
   }
+
+  String sUrl = "http://www.halo.com/test/";
+  assertEquals("getBaseUrl(" + sUrl,
+               sUrl, HtmlTourDownloader.getBaseUrl(sUrl));
 }
   
 }

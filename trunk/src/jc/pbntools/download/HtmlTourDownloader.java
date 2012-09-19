@@ -92,7 +92,7 @@ abstract public class HtmlTourDownloader
     * and <code>http://aaa.com/start</code>. */
   public static String getBaseUrl(String sUrl)
   {
-    sUrl = sUrl.replaceFirst("/[^/]+\\.h[a-zA-Z]+", "/");
+    sUrl = sUrl.replaceFirst("/[^/]+\\.[a-zA-Z]+$", "/");
     if (!sUrl.endsWith("/"))
       sUrl += "/";
     return sUrl;
