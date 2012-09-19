@@ -36,6 +36,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jc.f;
 import jc.JCException;
 import jc.outputwindow.OutputWindow;
 import jc.outputwindow.OutputWindowWriter;
@@ -47,6 +48,10 @@ import jc.SoupProxy;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+
+/**
+ * This class's methods are called from {@link TourDownloaderThread#run}.
+ */
 
 abstract public class HtmlTourDownloader
   implements DealReader
@@ -254,8 +259,9 @@ abstract public class HtmlTourDownloader
   public boolean fullDownload() throws DownloadFailedException
   {
     if (m_remoteUrl.getProtocol().equals("file")) {
-      m_ow.addLine(PbnTools.getStr("tourDown.msg.localLink", m_sLocalDir));
       m_localUrl = m_remoteUrl;
+      m_sLocalDir = getBaseUrl(m_localUrl.getFile());
+      m_ow.addLine(PbnTools.getStr("tourDown.msg.localLink", m_sLocalDir));
     } else {
       boolean bDownloaded = isDownloaded();
 
@@ -321,8 +327,15 @@ abstract public class HtmlTourDownloader
     */
   protected String getLocalFile(String sRemoteLink)
   {
+    if (sRemoteLink.endsWith("/"))
+      throw new IllegalArgumentException("file link: " + sRemoteLink);
     String sRemoteFile = sRemoteLink.replaceFirst("^.*/([^/]+)$", "$1");
     String sLocalFile = m_sLocalDir + "/" + sRemoteFile;
+    if (f.isDebugMode()) {
+      System.out.println("getLocalFile(" + sRemoteLink + ") = " + sLocalFile);
+      System.out.println("m_sLocalDir:" + m_sLocalDir);
+      System.out.println("sRemoteFile:" + sRemoteFile);
+    }
     return sLocalFile;
   }
   
@@ -487,7 +500,7 @@ abstract public class HtmlTourDownloader
     {
       super(t);
       m_ow.addLine(t.getMessage());
-      if (!System.getProperty("jc.debug", "0").equals("0")) {
+      if (f.isDebugMode()) {
         t.printStackTrace(new PrintWriter(new OutputWindowWriter(m_ow)));
       }
     }

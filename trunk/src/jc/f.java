@@ -77,6 +77,10 @@ public class f {
     System.err.println(s);
   }
 
+  public static boolean isDebugMode() {
+    return !System.getProperty("jc.debug", "0").equals("0");
+  }
+
   public static String basePath(Class c) { //{{{
     String sPath = c.getResource("").getPath();
     sPath = sPath.substring(5);
