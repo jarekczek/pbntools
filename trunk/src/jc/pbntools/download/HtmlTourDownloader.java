@@ -261,6 +261,9 @@ abstract public class HtmlTourDownloader
     if (m_remoteUrl.getProtocol().equals("file")) {
       m_localUrl = m_remoteUrl;
       m_sLocalDir = getBaseUrl(m_localUrl.getFile());
+      if (m_sLocalDir.endsWith("/"))
+        m_sLocalDir = m_sLocalDir.substring(0, m_sLocalDir.length() - 1);
+      m_sLocalDir = new File(m_sLocalDir).getAbsolutePath();
       m_ow.addLine(PbnTools.getStr("tourDown.msg.localLink", m_sLocalDir));
     } else {
       boolean bDownloaded = isDownloaded();

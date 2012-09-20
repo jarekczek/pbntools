@@ -283,11 +283,17 @@ public class PbnTools {
         printUsage();
         System.exit(0);
       }
-      if (args[i].equals("-dt")) {
+      if (args[i].equals("-dtk")) {
         m_bRunMainDialog = false;
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
         pobierzKops(args[i], false);
+      }
+      if (args[i].equals("-dtp")) {
+        m_bRunMainDialog = false;
+        ++i;
+        if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
+        pobierzPary(args[i], false);
       }
     }
   }
