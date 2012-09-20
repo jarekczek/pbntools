@@ -246,17 +246,13 @@ public class KopsTourDownloader extends HtmlTourDownloader
       throw new DownloadFailedException(e, m_ow, m_bSilent);
     }
 
+    readNumber(deal, doc);
     // locate tbody with deal definition without results
     Element dealElem = null;
-    for (Element elemH4 : doc.select("h4")) {
-      Elements parents = elemH4.parents();
-      if (parents.size() >= 3) {
-        dealElem = parents.get(2);
-        break;
-      }
-    }
-    if (dealElem == null) { throwElemNotFound("deal table"); } 
-    // java.lang.System.out.println("1:" + dealElem.html());
+    Elements tables = doc.select("table");
+    if (tables.size() < 1)
+      throwElemNotFound("table");
+    dealElem = tables.get(0);
     extractHands(deal, dealElem);
     readScoring(deal, doc);
     return processResults(deal, doc);
@@ -268,26 +264,16 @@ public class KopsTourDownloader extends HtmlTourDownloader
   protected void extractHands(Deal deal, Element dealElem)
     throws DownloadFailedException
   {
-    Elements elems = dealElem.select("tr");
-    // first 4 rows describe the deal
-    for (int iRow=0; iRow<=3; iRow++) {
-      if (iRow > elems.size()) { throwElemNotFound("row no " + iRow); }
-      switch (iRow) {
+    Elements elems = dealElem.select("td");
+    // 9 cells, (3x3), describe the deal
+    for (int iCell=0; iCell<=8; iCell++) {
+      if (iCell > elems.size()) { throwElemNotFound("td no " + iCell); }
+      int nPerson = -1;
+      switch (iCell) {
         
       case 0:
-        // text "ROZDANIE xx"
-        String sRozdanie = elems.get(iRow).text();
-        sRozdanie = sRozdanie.replace("ROZDANIE ", "");
-        try {
-          deal.setNumber(Integer.parseInt(sRozdanie));
-        } catch (NumberFormatException nfe) {
-          throwElemNotFound("rozdanie");
-        }
-        break;
-        
-      case 1:
-        // first character of this row denotes dealer
-        String sText = elems.get(iRow).text();
+        // first character of this cell denotes dealer
+        String sText = elems.get(iCell).text();
         deal.setDealer(Deal.person(sText.substring(0,1)));
         
         // second word - vulnerability
@@ -295,26 +281,23 @@ public class KopsTourDownloader extends HtmlTourDownloader
         sVulner = sVulner.replace("obie", "all");
         sVulner = sVulner.replace("nikt", "none");
         deal.setVulner(sVulner);
+        break;
+        
+      case 1:
+        nPerson = Deal.N; break;
+      case 3:
+        nPerson = Deal.W; break;
+      case 5:
+        nPerson = Deal.E; break;
+      case 6:
+        nPerson = Deal.S; break;
       }
       
-      // there are more than 4 .w tags, but the first 4 are ok
-      // later comes minimax for example
-      Elements handElems = dealElem.select(".w");
-      if (handElems.size() < 4) {
-        throw new DownloadFailedException(
-          PbnTools.getStr("tourDown.error.wrongTagCount",
-                          ".w", ">=4", handElems.size()));
+      if (nPerson >= 0) {
+        setCards(deal, nPerson, elems.get(iCell));
       }
-      int anPersons[] = new int[] { Deal.N, Deal.W, Deal.E, Deal.S };
-      int iPerson = 0;
-      for (Element handElem : handElems) {
-        setCards(deal, anPersons[iPerson], handElem);
-        iPerson++;
-        if (iPerson >= anPersons.length) { break; }
-      }
-    
+
     }
-    
     
     //throw new DownloadFailedException("dosc", true);
   }
@@ -338,6 +321,25 @@ public class KopsTourDownloader extends HtmlTourDownloader
     }
     deal.fillHands();
   }
+
+  /** readNumber method {{{
+   * Reads deal number from <code>doc</code> and
+   * sets it in <code>deal</code>.
+   */
+  private void readNumber(Deal deal, Document doc)
+    throws DownloadFailedException
+  {
+    Elements h4 = doc.select("h4");
+    if (h4.size() == 0)
+      throwElemNotFound("h4");
+    String sRozdanie = h4.get(0).text();
+    sRozdanie = sRozdanie.replace("ROZDANIE NR ", "");
+    try {
+      deal.setNumber(Integer.parseInt(sRozdanie));
+    } catch (NumberFormatException nfe) {
+      throwElemNotFound("h4: ROZDANIE NR n");
+    }
+  } //}}}
 
   /** readScoring method {{{
    * Reads scoring type of the deal from <code>doc</code> and

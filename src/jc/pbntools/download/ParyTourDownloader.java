@@ -272,12 +272,13 @@ public class ParyTourDownloader extends HtmlTourDownloader
     Element dealElem = null;
     for (Element elemH4 : doc.select("h4")) {
       Elements parents = elemH4.parents();
-      if (parents.size() >= 3) {
-        dealElem = parents.get(2);
+      if (parents.size() >= 4) {
+        dealElem = parents.get(3);
         break;
       }
     }
-    if (dealElem == null) { throwElemNotFound("deal table"); } 
+    if (dealElem == null || !"table".equals(dealElem.tagName()))
+      throwElemNotFound("deal table"); 
     // java.lang.System.out.println("1:" + dealElem.html());
     extractHands(deal, dealElem);
     readScoring(deal, doc);
@@ -319,24 +320,23 @@ public class ParyTourDownloader extends HtmlTourDownloader
         deal.setVulner(sVulner);
       }
       
-      // there are more than 4 .w tags, but the first 4 are ok
-      // later comes minimax for example
-      Elements handElems = dealElem.select(".w");
-      if (handElems.size() < 4) {
-        throw new DownloadFailedException(
-          PbnTools.getStr("tourDown.error.wrongTagCount",
-                          ".w", ">=4", handElems.size()));
-      }
-      int anPersons[] = new int[] { Deal.N, Deal.W, Deal.E, Deal.S };
-      int iPerson = 0;
-      for (Element handElem : handElems) {
-        setCards(deal, anPersons[iPerson], handElem);
-        iPerson++;
-        if (iPerson >= anPersons.length) { break; }
-      }
-    
     }
     
+    // there are more than 4 .w tags, but the first 4 are ok
+    // later comes minimax for example
+    Elements handElems = dealElem.select(".w");
+    if (handElems.size() < 4) {
+      throw new DownloadFailedException(
+        PbnTools.getStr("tourDown.error.wrongTagCount",
+                        ".w", ">=4", handElems.size()));
+    }
+    int anPersons[] = new int[] { Deal.N, Deal.W, Deal.E, Deal.S };
+    int iPerson = 0;
+    for (Element handElem : handElems) {
+      setCards(deal, anPersons[iPerson], handElem);
+      iPerson++;
+      if (iPerson >= anPersons.length) { break; }
+    }
     
     //throw new DownloadFailedException("dosc", true);
   }

@@ -41,6 +41,11 @@ class Hand { //{{{
   void add(Card c) { m_lstCards.add(c); }
 } //}}}
 
+/**
+ * <code>person</code> - <code>N</code>, <code>E</code>, <code>S</code>
+ *   or <code>W</code>. Not set - <code>-1</code>. 
+ */
+
 public class Deal implements Cloneable {
   public static final int N = 0;
   public static final int E = 1;
@@ -128,7 +133,7 @@ public class Deal implements Cloneable {
     m_mIdentFields = new HashMap<String, String>();
 
     m_sScoring = null;
-    m_nDeclarer = 0;
+    m_nDeclarer = -1;
     m_nContractHeight = m_nContractColor = m_nContractDouble = -1;
     m_nResult = -1;
     
