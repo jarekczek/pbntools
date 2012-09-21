@@ -188,7 +188,7 @@ public class Deal implements Cloneable {
     m_anCards[c.getCode()] = nPerson;
   }
   
-  public boolean czyOk() { //{{{
+  public boolean isOk() { //{{{
     m_sErrors = "";
     if (m_nNr<=0) { m_sErrors += String.format("Brak numeru rozdania. "); }
     if (m_nDealer<0) { m_sErrors += String.format("Brak rozdaj¹cego. "); }
@@ -262,7 +262,7 @@ public class Deal implements Cloneable {
             }
           
           k.set(nKolor, Card.rank(ch));
-          if (!k.czyOk()) { System.err.println("B³¹d sk³adni pliku PBN. B³êdna wysokoœæ karty: "+ch);return false; }
+          if (!k.isOk()) { System.err.println("B³¹d sk³adni pliku PBN. B³êdna wysokoœæ karty: "+ch);return false; }
           if (m_anCards[k.getCode()] != -1) { System.err.println("B³¹d sk³adni pliku PBN. Karta "+k.toString()+" ("+k.getCode()+") zosta³a rozdana 2 razy. Poprzednio do "+m_anCards[k.getCode()]+" a teraz do "+nPerson); return false; }
           m_anCards[k.getCode()] = nPerson;
           //System.err.println("Karta "+k.toString()+" ("+k.getCode()+") idzie do "+znakOsoby(nPerson));
@@ -310,7 +310,7 @@ public class Deal implements Cloneable {
     fillHands();
     m_bEmpty = (cLinie==0);
     m_bEof = (sLinia == null);
-    return czyOk();
+    return isOk();
     } //}}}
 
   class FiltrTekstuRozd extends RunProcess.FiltrTekstu { //{{{

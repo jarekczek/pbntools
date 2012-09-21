@@ -77,7 +77,7 @@ public class Card implements Comparable<Card> {
   public void setRank(String sRank) { setRank(rank(sRank)); }
   public void setRankCh(char chRank) { setRank(rank(chRank)); }
   public void set(int nColor, int nWys) { m_nCode = kod(nColor, nWys); }
-  public boolean czyOk() { return m_nCode>0 && m_nCode<=MAX_KOD; }
+  public boolean isOk() { return m_nCode>0 && m_nCode<=MAX_KOD; }
   
   static int kod(String sCard) {
     if (sCard.length()!=2) { return 0; }
