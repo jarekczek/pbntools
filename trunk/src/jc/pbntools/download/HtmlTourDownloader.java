@@ -57,6 +57,7 @@ abstract public class HtmlTourDownloader
   implements DealReader
 {
   public static final String HTML_SPACE_REG = "[ \u00A0]";
+  public static final String HTML_SPACE = " \u00A0";
   
   protected String m_sLink;
   protected URL m_remoteUrl;
@@ -518,5 +519,36 @@ abstract public class HtmlTourDownloader
       m_ow,
       !m_bSilent);
   }
-  
+
+  // JFR methods {{{
+
+  // setCardsJfr method {{{
+  /** Deals cards presented by html <code>hand</code> to
+    * <code>nPerson</code>. Saves it in <code>deal</code>.
+    * This code works for JFR formats: Kops, Pary */
+  protected void setCardsJfr(Deal deal, int nPerson, Element hand)
+    throws DownloadFailedException
+  {
+    String asText[] = SoupProxy.splitElemText(hand);
+    for (Element img : hand.getElementsByTag("img")) {
+      int nColor = getImgColor(img);
+      String sCards = asText[img.elementSiblingIndex() + 1];
+      // we need all symbols to be 1 char long
+      sCards = sCards.replaceAll("10", "T");
+      for (int i = 0; i < sCards.length(); i++) {
+        char chCard = sCards.charAt(i);
+        // skip spaces
+        if (HTML_SPACE.indexOf(chCard) >= 0)
+          continue;
+        Card card = new Card();
+        card.setColor(nColor);
+        card.setRankCh(chCard);
+        deal.setCard(card, nPerson);
+      }
+    }
+    deal.fillHands();
+  } //}}}
+
+  //}}} JFR methods
+
 }

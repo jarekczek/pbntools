@@ -75,6 +75,7 @@ public class Card implements Comparable<Card> {
   public char getRankChar() { return m_nCode<=0 ? 0 : rankChar(m_nCode%16); }
   public void setCode(int nCode) { m_nCode = nCode; }
   public void setRank(String sRank) { setRank(rank(sRank)); }
+  public void setRankCh(char chRank) { setRank(rank(chRank)); }
   public void set(int nColor, int nWys) { m_nCode = kod(nColor, nWys); }
   public boolean czyOk() { return m_nCode>0 && m_nCode<=MAX_KOD; }
   
