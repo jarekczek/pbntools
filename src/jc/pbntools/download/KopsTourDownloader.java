@@ -255,6 +255,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
     dealElem = tables.get(0);
     extractHands(deal, dealElem);
     readScoring(deal, doc);
+    //TODO isOk()
     return processResults(deal, doc);
   }
   
