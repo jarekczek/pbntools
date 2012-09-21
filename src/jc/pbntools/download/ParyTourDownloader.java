@@ -333,32 +333,12 @@ public class ParyTourDownloader extends HtmlTourDownloader
     int anPersons[] = new int[] { Deal.N, Deal.W, Deal.E, Deal.S };
     int iPerson = 0;
     for (Element handElem : handElems) {
-      setCards(deal, anPersons[iPerson], handElem);
+      setCardsJfr(deal, anPersons[iPerson], handElem);
       iPerson++;
       if (iPerson >= anPersons.length) { break; }
     }
     
     //throw new DownloadFailedException("dosc", true);
-  }
-
-  /** Deals cards presented by html <code>hand</code> to
-    * <code>nPerson</code>. Saves it in <code>deal</code>. */
-  protected void setCards(Deal deal, int nPerson, Element hand)
-    throws DownloadFailedException
-  {
-    String asText[] = SoupProxy.splitElemText(hand);
-    for (Element img : hand.getElementsByTag("img")) {
-      int nColor = getImgColor(img);
-      String sCards = asText[img.elementSiblingIndex() + 1];
-      StringTokenizer st = new StringTokenizer(sCards, HTML_SPACE_REG);
-      while (st.hasMoreTokens()) {
-        Card card = new Card();
-        card.setColor(nColor);
-        card.setRank(st.nextToken());
-        deal.setCard(card, nPerson);
-      }
-    }
-    deal.fillHands();
   }
 
   /** readScoring method {{{
