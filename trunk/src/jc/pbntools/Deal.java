@@ -187,8 +187,16 @@ public class Deal implements Cloneable {
   public void setCard(Card c, int nPerson) {
     m_anCards[c.getCode()] = nPerson;
   }
-  
-  public boolean isOk() { //{{{
+
+  // isOk method {{{
+  /** Performs deal validation.
+   * <ul><li>Sets <code>m_sErrors</code> when errors met, <code>null</code>
+   *         otherwise.
+   * <li>Corrects some non-standard wording, like vulnerability
+   *     <code>Love</code> instead of <code>None</code>.
+   * @return Whether the deal is valid.
+   */
+  public boolean isOk() {
     m_sErrors = "";
     if (m_nNr<=0) { m_sErrors += String.format("Brak numeru rozdania. "); }
     if (m_nDealer<0) { m_sErrors += String.format("Brak rozdaj¹cego. "); }
@@ -203,6 +211,7 @@ public class Deal implements Cloneable {
     // trzeba sprawdzic wczytane karty
     if (m_sDeal.isEmpty()) { m_sErrors += "Brak tagu deal. "; }
     //m_sErrors += "B³êdne karty. ";
+    //TODO check if 52 cards
 
     if (m_sErrors.isEmpty()) { m_sErrors = null; }
     return (m_bOk = (m_sErrors == null));
