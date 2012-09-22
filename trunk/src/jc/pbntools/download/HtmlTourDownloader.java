@@ -295,7 +295,8 @@ abstract public class HtmlTourDownloader
     setLocalDir();
     if (m_remoteUrl.getProtocol().equals("file")) {
       m_localUrl = m_remoteUrl;
-      m_sSourceDir = getBaseUrl(m_localUrl.getFile());
+      m_sSourceDir = getBaseUrl(m_localUrl.getFile());
+
       if (m_sSourceDir.endsWith("/"))
         m_sSourceDir = m_sSourceDir.substring(0, m_sSourceDir.length() - 1);
       m_sSourceDir = new File(m_sSourceDir).getAbsolutePath();

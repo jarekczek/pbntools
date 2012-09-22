@@ -185,7 +185,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
       DlgPobierzPary d = new DlgPobierzPary(null,true);
       d.setVisible(true);
       if (d.rv==2) {
-        PbnTools.pobierzPary(d.m_sLink, true);
+        PbnTools.pobierzPary(d.m_sLink, true, false);
         }
     }//GEN-LAST:event_pbPobierzParyActionPerformed
 

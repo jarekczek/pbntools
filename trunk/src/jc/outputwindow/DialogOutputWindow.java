@@ -133,6 +133,7 @@ public class DialogOutputWindow extends OutputWindow {
   {
     m_closeAction.setEnabled(true);
     m_stopAction.setEnabled(false);
+    super.threadFinished();
   }
 }
 

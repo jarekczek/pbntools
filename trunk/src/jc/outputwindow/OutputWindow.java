@@ -65,9 +65,11 @@ public abstract class OutputWindow {
     public void setOutputWindow(OutputWindow ow) {};
   }
   
-  /** Override this method to react on thread finishing */
-  public void threadFinished()
+  /** Override this method to react on thread finishing, but call
+    * also super. */
+  public synchronized void threadFinished()
   {
+    notifyAll();
   }
   
   /** Override if can set title */
