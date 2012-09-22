@@ -543,7 +543,7 @@
   </jar>
 </target>
 
-<target name="junit-html" depends="junit-jar, jar" >
+<target name="junit" depends="junit-jar, jar" >
   <junit fork="yes" haltonfailure="yes">
     <test name="jc.pbntools.PbnToolsTests" />
     <formatter type="plain" usefile="false" />
