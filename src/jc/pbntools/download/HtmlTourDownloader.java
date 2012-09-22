@@ -491,25 +491,6 @@ abstract public class HtmlTourDownloader
     }
   } //}}}
 
-  public class VerifyFailedException extends JCException //{{{
-  {
-    VerifyFailedException(String sMessage, boolean bPrint) {
-      super(sMessage);
-      if (bPrint) { m_ow.addLine(sMessage); }
-    }
-    
-    VerifyFailedException(String sMessage) { super(sMessage); }
-    
-    VerifyFailedException(Throwable t)
-    {
-      super(t);
-      m_ow.addLine(t.getMessage());
-      if (f.isDebugMode()) {
-        t.printStackTrace(new PrintWriter(new OutputWindowWriter(m_ow)));
-      }
-    }
-  } //}}}
-
   /** A helper function to make error messages code shorter. */
   void throwElemNotFound(String sElem)
     throws DownloadFailedException
