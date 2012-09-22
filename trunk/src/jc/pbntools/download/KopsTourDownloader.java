@@ -104,7 +104,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
       m_remoteUrl = proxy.getUrl();
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e);
+      throw new VerifyFailedException(e, m_ow);
     }
     m_ow.addLine(PbnTools.m_res.getString("msg.documentLoaded"));
 
@@ -133,7 +133,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
       m_docRoz = proxy.getDocument(getBaseUrl(m_sLink) + "roz.html");
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e);
+      throw new VerifyFailedException(e, m_ow);
     }
     
     // default title, as <title> tag does not work well for kops
@@ -187,7 +187,9 @@ public class KopsTourDownloader extends HtmlTourDownloader
   {
     String sLinksFile = createIndexFile();
       
-    String sCmdLine = "wget -p -k -nH -nd -nc -w 1 --random-wait -E -e robots=off";
+    String sCmdLine = "wget -p -k -nH -nd -nc --random-wait -E -e robots=off";
+    if (m_remoteUrl.toString().indexOf("localhost") < 0)
+      sCmdLine += "-w 1";
     ArrayList<String> asCmdLine = new ArrayList<String>(Arrays.asList(sCmdLine.split(" ")));
     asCmdLine.add("--directory-prefix=" + m_sLocalDir);
     asCmdLine.add("--input-file=" + sLinksFile);
