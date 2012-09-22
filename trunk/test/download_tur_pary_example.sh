@@ -25,6 +25,7 @@
 
 mkdir -p tur_pary_example
 cd tur_pary_example
+# data=120802 - deal 10 - TD and PASS
 data=120802
 wars=http://warsbrydz.pl/wyniki/wob
 wget -p -k -nH -nd -r -l 3 -w 1 --random-wait -e robots=off \
