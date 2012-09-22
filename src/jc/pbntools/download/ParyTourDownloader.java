@@ -182,11 +182,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
     String sLinksFile = new File(m_sLocalDir, "links.txt").getAbsolutePath();
     m_ow.addLine(PbnTools.getStr("tourDown.msg.creatingIndex", sLinksFile));
     try {
-      if (!(new File(m_sLocalDir).mkdir())) {
-        throw new DownloadFailedException(
-          PbnTools.getStr(
-            "error.unableToCreateDir", m_sLocalDir), m_ow, true);
-      }
+      createLocalDir();
       BufferedWriter fw = new BufferedWriter(new FileWriter(sLinksFile));
       fw.write(m_remoteUrl.toString());
       fw.newLine();
@@ -215,7 +211,10 @@ public class ParyTourDownloader extends HtmlTourDownloader
   {
     String sLinksFile = createIndexFile();
       
-    String sCmdLine = "wget -p -k -nH -nd -nc -w 1 --random-wait -E -e robots=off";
+    String sCmdLine = "wget -p -k -nH -nd -nc --random-wait -E -e robots=off";
+    // download slowly if not from localhost
+    if (m_remoteUrl.toString().indexOf("localhost") < 0)
+      sCmdLine += "-w 1";
     ArrayList<String> asCmdLine = new ArrayList<String>(Arrays.asList(sCmdLine.split(" ")));
     asCmdLine.add("--directory-prefix=" + m_sLocalDir);
     asCmdLine.add("--input-file=" + sLinksFile);

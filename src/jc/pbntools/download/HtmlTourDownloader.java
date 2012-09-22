@@ -64,7 +64,14 @@ abstract public class HtmlTourDownloader
   protected URL m_localUrl;
   public String m_sTitle;
   public String m_sDirName;
+  /** The local directory to which output files will be saved */
   public String m_sLocalDir;
+  /** The local source directory, from which files will be read.
+    * If the tournament is downloaded from net, it will be the same as
+    * <code>m_sLocalDir</code>. In case of downloading from a file link,
+    * it would be a different directory, because the files are not copied
+    * to output directory. */
+  public String m_sSourceDir;
   protected OutputWindow m_ow;
   protected Document m_doc;
   public int m_cDeals;
@@ -80,7 +87,7 @@ abstract public class HtmlTourDownloader
   protected void clear() {
     m_sLink = "";
     m_remoteUrl = null; m_localUrl = null;
-    m_sTitle = ""; m_sDirName = ""; m_sLocalDir = "";
+    m_sTitle = ""; m_sDirName = ""; m_sLocalDir = ""; m_sSourceDir = "";
     m_ow = null;
     m_doc = null;
     m_cDeals = 0;
@@ -213,20 +220,46 @@ abstract public class HtmlTourDownloader
     m_ow.addLine(m_sDirName);
     
   }
-  
-  /** Checks whether the tournament is already downloaded. Sets the member
-    * <code>m_sLocalDir</code> */
-  protected boolean isDownloaded()
+
+  /** Sets m_sLocalDir member, based on m_sDirName and current
+    * configuration. */
+  protected void setLocalDir()
   {
     File fWork = new File(PbnTools.getWorkDir());
     File fDir = new File(fWork, m_sDirName);
+    
     m_sLocalDir = fDir.getAbsolutePath();
     try { m_sLocalDir = fDir.getCanonicalPath(); }
     catch (Exception e) {}
-    return fDir.exists();
+  }
+
+  protected void createLocalDir() throws DownloadFailedException
+  {
+    File fDir = new File(m_sLocalDir);
+    if (fDir.exists())
+      return;
+    if (!(fDir.mkdir())) {
+      throw new DownloadFailedException(
+        PbnTools.getStr(
+          "error.unableToCreateDir", m_sLocalDir), m_ow, true);
+    }
   }
   
-  /** Verify whether link points to a valid data in this format */
+  /** Checks whether the tournament is already downloaded. */
+  protected boolean isDownloaded()
+  {
+    File fDir = new File(m_sLocalDir);
+    return fDir.exists();
+  }
+
+  /**
+   * Verify whether link points to a valid data in this format.
+   * Sets the following members:
+   * <ul><li>m_sTitle
+   * <li>m_sDirName
+   * <li>m_cDeals
+   * </ul>
+   */
   abstract protected boolean verify(boolean bSilent) throws VerifyFailedException;
   
   abstract protected void wget() throws DownloadFailedException;
@@ -259,16 +292,16 @@ abstract public class HtmlTourDownloader
     * converting (locally) to pbns */
   public boolean fullDownload() throws DownloadFailedException
   {
+    setLocalDir();
     if (m_remoteUrl.getProtocol().equals("file")) {
       m_localUrl = m_remoteUrl;
-      m_sLocalDir = getBaseUrl(m_localUrl.getFile());
-      if (m_sLocalDir.endsWith("/"))
-        m_sLocalDir = m_sLocalDir.substring(0, m_sLocalDir.length() - 1);
-      m_sLocalDir = new File(m_sLocalDir).getAbsolutePath();
+      m_sSourceDir = getBaseUrl(m_localUrl.getFile());
+      if (m_sSourceDir.endsWith("/"))
+        m_sSourceDir = m_sSourceDir.substring(0, m_sSourceDir.length() - 1);
+      m_sSourceDir = new File(m_sSourceDir).getAbsolutePath();
       m_ow.addLine(PbnTools.getStr("tourDown.msg.localLink", m_sLocalDir));
     } else {
-      boolean bDownloaded = isDownloaded();
-
+      m_sSourceDir = m_sLocalDir;
       // constructing local url after isDownloaded set m_sLocalDir
       String sFileName = m_remoteUrl.toString().replaceFirst("^.*/", "");
       if (sFileName.indexOf('.')<0) { sFileName = "index.html"; }
@@ -279,7 +312,7 @@ abstract public class HtmlTourDownloader
       }
       m_ow.addLine("local url: " + m_localUrl);
       
-      if (!bDownloaded) {
+      if (!isDownloaded()) {
         m_ow.addLine(PbnTools.getStr("tourDown.msg.willWget", m_sLocalDir));
         wget();
         m_ow.addLine(PbnTools.getStr("tourDown.msg.wgetDone", m_sLocalDir));
@@ -288,7 +321,8 @@ abstract public class HtmlTourDownloader
       }
     }
 
-    Deal[] aDeal = readDealsFromDir(m_sLocalDir);
+    Deal[] aDeal = readDealsFromDir(m_sSourceDir);
+    createLocalDir();
     String sPbnFile = saveDealsAsPbn(aDeal, m_sLocalDir);
     int nUnique = Deal.getUniqueCount(aDeal);
     String sAver = "0";
@@ -328,7 +362,7 @@ abstract public class HtmlTourDownloader
     
   }
 
-  /** Returns the local file in <code>m_sLocalDir</code> resembling
+  /** Returns the local file in <code>m_sSourceDir</code> resembling
     * <code>sRemoteLink</code>.
     */
   protected String getLocalFile(String sRemoteLink)
@@ -336,10 +370,10 @@ abstract public class HtmlTourDownloader
     if (sRemoteLink.endsWith("/"))
       throw new IllegalArgumentException("file link: " + sRemoteLink);
     String sRemoteFile = sRemoteLink.replaceFirst("^.*/([^/]+)$", "$1");
-    String sLocalFile = m_sLocalDir + "/" + sRemoteFile;
+    String sLocalFile = m_sSourceDir + "/" + sRemoteFile;
     if (f.isDebugMode()) {
       System.out.println("getLocalFile(" + sRemoteLink + ") = " + sLocalFile);
-      System.out.println("m_sLocalDir:" + m_sLocalDir);
+      System.out.println("m_sSourceDir:" + m_sSourceDir);
       System.out.println("sRemoteFile:" + sRemoteFile);
     }
     return sLocalFile;
