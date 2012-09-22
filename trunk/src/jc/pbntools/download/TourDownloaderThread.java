@@ -21,6 +21,7 @@
 
 package jc.pbntools.download;
 
+import java.io.File;
 import jc.f;
 import jc.JCException;
 import jc.outputwindow.OutputWindow;
@@ -60,7 +61,14 @@ public class TourDownloaderThread extends OutputWindow.Client
     m_ow.setTitle(f.extractTextAndMnem(PbnTools.getRes(), "pobierzPary")[0]);
     if (!m_sLink.matches("^[a-zA-Z]+:.*$")) {
       // if no protocol at the beginning of link, treat it as a file
-      m_sLink = "file://" + m_sLink;
+      File f = new File(m_sLink);
+      try {
+        m_sLink = f.toURI().toURL().toString();
+      }
+      catch (java.net.MalformedURLException e) {
+        // fallback
+        m_sLink = "file://" + m_sLink;
+      }
       m_ow.addLine(PbnTools.getStr("tourDown.msg.protocolSetToFile"));
     }
     m_dloader.setLink(m_sLink);
@@ -71,17 +79,17 @@ public class TourDownloaderThread extends OutputWindow.Client
       m_dloader.fullDownload();
       m_bSuccess = true;
     }
-    catch (HtmlTourDownloader.VerifyFailedException e) {
-      m_ow.addLine(e.toString() + ": " + e.getMessage());
+    catch (VerifyFailedException e) {
+      m_ow.addLine(e.getMessage());
     }
     catch (DownloadFailedException e) {
-      m_ow.addLine(e.toString());
+      m_ow.addLine(e.getMessage());
       //TODO: added for debugging purposes, should be switchable
       e.printStackTrace();
       }
     catch (Throwable e) {
       e.printStackTrace();
-      m_ow.addLine(e.toString() + ": " + e.getMessage());
+      m_ow.addLine(e.getMessage());
     }
     m_ow.threadFinished();
   } //}}}
