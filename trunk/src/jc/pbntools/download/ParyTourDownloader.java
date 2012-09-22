@@ -87,12 +87,13 @@ public class ParyTourDownloader extends HtmlTourDownloader
     String sExpectedSrc = m_sDirName.toLowerCase() + "001.html";
     Element frame = getOneTag(doc, sFrameTag, false);
     if (frame == null) {
-      throw new VerifyFailedException(PbnTools.getStr("error.getNumberOfDeals"), !bSilent);
+      throw new VerifyFailedException(
+        PbnTools.getStr("error.getNumberOfDeals"), m_ow, !bSilent);
     }
     String sFoundSrc = frame.attr("src");
     if (!sFoundSrc.equalsIgnoreCase(sExpectedSrc)) {
       throw new VerifyFailedException(PbnTools.getStr("error.invalidTagValue",
-                  sFrameTag, sExpectedSrc, sFoundSrc), true);
+                  sFrameTag, sExpectedSrc, sFoundSrc), m_ow, true);
     }
     assert(m_sDealPrefix.matches("*001.html"));
     m_sDealPrefix = sFoundSrc.replaceFirst("001.html$", "");
@@ -105,15 +106,17 @@ public class ParyTourDownloader extends HtmlTourDownloader
       SoupProxy proxy = new SoupProxy();
       doc1 = proxy.getDocument(sLink1);
     }
-    catch (JCException e) { throw new VerifyFailedException(e); }
+    catch (JCException e) { throw new VerifyFailedException(e, m_ow); }
     
     // look for a link to the last one
     if (doc1.body() == null) {
-      throw new VerifyFailedException(PbnTools.getStr("error.noBody"), !bSilent);
+      throw new VerifyFailedException(PbnTools.getStr("error.noBody"),
+                                      m_ow, !bSilent);
     }
     Element elemLast = getOneTag(doc1.body(), "a[title=ostatnie]", false);
     if (elemLast == null) {
-      throw new VerifyFailedException(PbnTools.getStr("error.getNumberOfDeals"), !bSilent);
+      throw new VerifyFailedException(
+        PbnTools.getStr("error.getNumberOfDeals"), m_ow, !bSilent);
     }
     
     // parse the link to get the deal number
@@ -125,7 +128,8 @@ public class ParyTourDownloader extends HtmlTourDownloader
       m_cDeals = Integer.parseInt(sNoLast);
     } catch (java.lang.NumberFormatException e) {} 
     if (m_cDeals == 0) {
-      throw new VerifyFailedException(PbnTools.getStr("tourDown.error.parseNumber", sLast), !bSilent);
+      throw new VerifyFailedException(
+        PbnTools.getStr("tourDown.error.parseNumber", sLast), m_ow, !bSilent);
     }
   }
 
@@ -142,7 +146,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
       m_remoteUrl = proxy.getUrl();
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e);
+      throw new VerifyFailedException(e, m_ow);
     }
     m_ow.addLine(PbnTools.m_res.getString("msg.documentLoaded"));
 
@@ -184,6 +188,8 @@ public class ParyTourDownloader extends HtmlTourDownloader
             "error.unableToCreateDir", m_sLocalDir), m_ow, true);
       }
       BufferedWriter fw = new BufferedWriter(new FileWriter(sLinksFile));
+      fw.write(m_remoteUrl.toString());
+      fw.newLine();
       for (iDeal=1; iDeal<=m_cDeals; iDeal++) {
         String sDealLink = getLinkForDeal(iDeal); 
         fw.write(sDealLink);
