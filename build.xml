@@ -544,6 +544,7 @@
 </target>
 
 <target name="junit" depends="junit-jar, jar" >
+  <delete dir="work/junit-tmp" quiet="true" />
   <junit fork="yes" haltonfailure="yes">
     <test name="jc.pbntools.PbnToolsTests" />
     <formatter type="plain" usefile="false" />

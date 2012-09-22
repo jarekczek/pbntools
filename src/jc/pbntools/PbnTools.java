@@ -31,6 +31,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import jc.f;
 import jc.SoupProxy;
+import jc.outputwindow.OutputWindow;
 import jc.outputwindow.DialogOutputWindow;
 import jc.outputwindow.StandardOutputWindow;
 import jc.pbntools.*;
@@ -212,14 +213,22 @@ public class PbnTools {
       }
     } //}}}
   
-  static void pobierzPary(String sLink, boolean bGui) {
+  static void pobierzPary(String sLink, boolean bGui, boolean bBlock) {
     if (getWorkDir()==null) { return; }
     TourDownloaderThread thr = new TourDownloaderThread(sLink, new ParyTourDownloader());
+    OutputWindow ow;
     if (bGui) {
-      DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, thr, m_res);
-      ow.setVisible(true);
+      ow =  new DialogOutputWindow(m_dlgMain, thr, m_res);
+      ((DialogOutputWindow)ow).setVisible(true);
     } else {
-      StandardOutputWindow ow =  new StandardOutputWindow(thr, m_res);
+      ow =  new StandardOutputWindow(thr, m_res);
+    }
+    if (bBlock) {
+      synchronized(ow) {
+        try {
+          ow.wait();
+      } catch (InterruptedException e) {}
+      }
     }
   }
     
@@ -293,7 +302,7 @@ public class PbnTools {
         m_bRunMainDialog = false;
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
-        pobierzPary(args[i], false);
+        pobierzPary(args[i], false, true);
       }
     }
   }

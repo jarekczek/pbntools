@@ -19,6 +19,8 @@
 
 package jc.pbntools;
 
+import java.io.File;
+import java.io.PrintStream;
 import jc.f;
 import jc.pbntools.download.HtmlTourDownloader;
 import org.junit.*;
@@ -26,6 +28,8 @@ import static org.junit.Assert.*;
 
 public class PbnToolsTests
 {
+
+private static PrintStream origOut;
 
 @Test public void checkUpdateTest()
              throws java.io.IOException, jc.SoupProxy.Exception
@@ -56,5 +60,17 @@ public class PbnToolsTests
   assertEquals("getBaseUrl(" + sUrl,
                sUrl, HtmlTourDownloader.getBaseUrl(sUrl));
 }
+
+@Test public void pobierzParyTest()
+  throws java.io.IOException
+{
+  File fTempDir = new File("work/junit-tmp");
+  fTempDir.mkdir();
+  System.setProperty("jc.debug", "0");
+  PbnTools.m_props.setProperty("workDir", fTempDir.toString());
+  PbnTools.pobierzPary("test/test_1_pary/WB120802/wb120802.html",
+                       false, true);
   
+}
+
 }
