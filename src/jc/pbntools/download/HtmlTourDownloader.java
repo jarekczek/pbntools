@@ -291,9 +291,11 @@ abstract public class HtmlTourDownloader
     Deal[] aDeal = readDealsFromDir(m_sLocalDir);
     String sPbnFile = saveDealsAsPbn(aDeal, m_sLocalDir);
     int nUnique = Deal.getUniqueCount(aDeal);
+    String sAver = "0";
+    if (nUnique != 0)
+      sAver = String.format("%.3f", aDeal.length * 1.0 / nUnique);
     m_ow.addLine(PbnTools.getStr("tourDown.msg.dealsSaved", sPbnFile,
-      aDeal.length, nUnique,
-      String.format("%.3f", aDeal.length * 1.0 / nUnique)));
+      aDeal.length, nUnique, sAver));
 
     return true;
   }
