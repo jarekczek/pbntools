@@ -165,9 +165,11 @@ public class Deal implements Cloneable {
   public void setDeclarer(int nDeclarer) { m_nDeclarer = nDeclarer; }
   public int getDeclarer() { return m_nDeclarer; }
   public void setContractHeight(int h) { m_nContractHeight = h; }
+  /** 0 - NT */
   public void setContractColor(int c) { m_nContractColor = c; }
   public void setContractDouble(int d) { m_nContractDouble = d; }
   public int getContractHeight() { return m_nContractHeight; }
+  /** 0 - NT */
   public int getContractColor() { return m_nContractColor; }
   public int getContractDouble() { return m_nContractDouble; }
 
