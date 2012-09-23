@@ -68,9 +68,7 @@ private static PrintStream origOut;
   fTempDir.mkdir();
   System.setProperty("jc.debug", "0");
   PbnTools.m_props.setProperty("workDir", fTempDir.toString());
-  PbnTools.pobierzPary("test/test_1_pary/WB120802/wb120802.html",
-                       false, true);
-  
+  PbnTools.pobierzPary("test/test_1_pary/WB120802/wb120802.html", false);
 }
 
 }
