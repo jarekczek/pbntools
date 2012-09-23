@@ -213,7 +213,7 @@ public class PbnTools {
       }
     } //}}}
   
-  static void pobierzPary(String sLink, boolean bGui, boolean bBlock) {
+  static void pobierzPary(String sLink, boolean bGui) {
     if (getWorkDir()==null) { return; }
     TourDownloaderThread thr = new TourDownloaderThread(sLink, new ParyTourDownloader());
     OutputWindow ow;
@@ -223,13 +223,8 @@ public class PbnTools {
     } else {
       ow =  new StandardOutputWindow(thr, m_res);
     }
-    if (bBlock) {
-      synchronized(ow) {
-        try {
-          ow.wait();
-      } catch (InterruptedException e) {}
-      }
-    }
+    if (!bGui)
+      ow.waitFor();
   }
     
   static void pobierzBbo(String sLink) {
@@ -302,7 +297,7 @@ public class PbnTools {
         m_bRunMainDialog = false;
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
-        pobierzPary(args[i], false, true);
+        pobierzPary(args[i], false);
       }
     }
   }

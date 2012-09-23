@@ -19,6 +19,7 @@
 
 package jc.outputwindow;
 
+import java.util.concurrent.CountDownLatch;
 import java.io.InputStream;
 import java.lang.ProcessBuilder;
 import java.util.ResourceBundle;
@@ -37,6 +38,7 @@ public abstract class OutputWindow {
   protected Client m_cli;
   protected Thread m_thr;
   protected boolean m_bStop;
+  private CountDownLatch m_runLatch;
   
   protected ResourceBundle m_res;
 
@@ -50,6 +52,7 @@ public abstract class OutputWindow {
     m_cli.setOutputWindow(this);
     m_thr = new Thread(m_cli);
     m_thr.setName("OutputWindow-client");
+    m_runLatch = new CountDownLatch(1);
   }
   
   /** Adds a line of text */
@@ -67,9 +70,31 @@ public abstract class OutputWindow {
   
   /** Override this method to react on thread finishing, but call
     * also super. */
-  public synchronized void threadFinished()
+  public void threadFinished()
   {
-    notifyAll();
+    m_runLatch.countDown();
+  }
+  
+  /** Has the thread finished running? */
+  public boolean isFinished()
+  {
+    return m_runLatch.getCount() == 0;
+  }
+  
+  /** Waits until the thread finishes */
+  public void waitFor()
+  {
+    boolean interrupted = false;
+    while (m_runLatch.getCount() != 0) {
+      try {
+        m_runLatch.await();
+      }
+      catch (InterruptedException ie) {
+        interrupted = true;
+      }
+    }
+    if (interrupted)
+      Thread.currentThread().interrupt();
   }
   
   /** Override if can set title */
