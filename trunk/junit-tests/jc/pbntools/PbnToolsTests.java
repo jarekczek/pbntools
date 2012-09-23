@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.PrintStream;
 import jc.f;
 import jc.pbntools.download.HtmlTourDownloader;
+import junitx.framework.FileAssert;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -62,13 +63,16 @@ private static PrintStream origOut;
 }
 
 @Test public void pobierzParyTest()
-  throws java.io.IOException
+  throws java.io.FileNotFoundException, java.io.IOException
 {
   File fTempDir = new File("work/junit-tmp");
   fTempDir.mkdir();
   System.setProperty("jc.debug", "0");
   PbnTools.m_props.setProperty("workDir", fTempDir.toString());
   PbnTools.pobierzPary("test/test_1_pary/WB120802/wb120802.html", false);
+  FileAssert.assertEquals("Resulting pbn files",
+    new File("test/test_1_pary/WB120802/wb120802.pbn"),
+    new File(fTempDir, "WB120802/wb120802.pbn"));
 }
 
 }
