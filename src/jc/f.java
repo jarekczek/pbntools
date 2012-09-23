@@ -24,7 +24,9 @@
 package jc;
 
 import java.awt.Component;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.net.URI;
 import java.util.Locale;
 import java.util.Properties;
@@ -317,4 +319,19 @@ public class f {
 
     return char1.length - char2.length;
   } //}}}
+
+  // String readFile(String) method {{{
+  /** Reads file contents and returns string */
+  public static String readFile(String sFile)
+    throws java.io.FileNotFoundException, java.io.IOException
+  {
+    BufferedReader br = new BufferedReader(new FileReader(sFile));
+    String sLine;
+    StringBuilder sb = new StringBuilder();
+    while ((sLine = br.readLine()) != null)
+      sb.append(sLine);
+    br.close();
+    return sb.toString();
+  } //}}}
+
 }

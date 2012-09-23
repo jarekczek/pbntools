@@ -132,7 +132,7 @@
 </target>
 
 <target name="ivy-libs">
-  <ivy:cachepath pathid="ivy.path" conf="build" />
+  <ivy:cachepath pathid="ivy.path" conf="build" log="download-only" />
 </target>
 
 <target name="jar" depends="comp">
@@ -533,6 +533,7 @@
   <javac verbose="no" classpath="${basedir}/src;${basedir}/lib/jl1.0.1.jar;
                                  ${basedir}/lib/jsoup-1.6.1.jar;
                                  ${basedir}/work/comp"
+         classpathref="ivy.path"
          srcdir="${basedir}/junit-tests" destdir="${compDirTest}"
          includes="**/*.java"
          debug="true" debuglevel="lines,vars,source"
@@ -543,7 +544,7 @@
   </jar>
 </target>
 
-<target name="junit" depends="junit-jar, jar" >
+<target name="junit" depends="ivy-libs, junit-jar, jar" >
   <delete dir="work/junit-tmp" quiet="true" />
   <junit fork="yes" haltonfailure="yes">
     <test name="jc.pbntools.PbnToolsTests" />
@@ -551,6 +552,7 @@
     <classpath path="${basedir}/work/PbnToolsTests.jar;
                      ${basedir}/work/release/PbnTools.jar;
                      ${basedir}/lib/jsoup-1.6.1.jar" />
+    <classpath refid="ivy.path" />
   </junit>
 </target>
 
