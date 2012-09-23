@@ -469,19 +469,27 @@ abstract public class HtmlTourDownloader
       d.setContractHeight(0);
     } else {
       try {
+        int nDoublePos = 1; // starting position for x marks (double)
         int nHeight = Integer.parseInt(contrElem.text().substring(0,1));
         d.setContractHeight(nHeight);
-        Element img = getOneTag(contrElem, "img", true);
-        if (img == null) {
-          throw new DownloadFailedException(PbnTools.getStr(
-            "tourDown.error.noImgInContr", d.getNumber(), contrElem.html()));
+        if (contrElem.text().length() >= 3
+            && contrElem.text().substring(1,3).equals("NT")) {
+          nDoublePos = 3;
+          d.setContractColor(0);
         }
-        d.setContractColor(getImgColorOrNt(img));
+        else {
+          Element img = getOneTag(contrElem, "img", true);
+          if (img == null) {
+            throw new DownloadFailedException(PbnTools.getStr(
+              "tourDown.error.noImgInContr", d.getNumber(), contrElem.html()));
+          }
+          d.setContractColor(getImgColorOrNt(img));
+        }
 
-        String sDoubles = contrElem.text().substring(1);
+        String sDoubles = contrElem.text().substring(nDoublePos);
         int nDouble = 0;
         for (int i=0; i<2; i++) {
-          if (sDoubles.startsWith("×")) {
+          if (sDoubles.startsWith("×") || sDoubles.startsWith("x")) {
             nDouble++;
             sDoubles = sDoubles.substring(1);
           } else {

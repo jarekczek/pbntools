@@ -239,6 +239,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
     m_sCurFile = sUrl;
     m_bSilent = bSilent;
     
+    resetErrors();
     Deal deal = new Deal();
     try {
       SoupProxy proxy = new SoupProxy();
@@ -333,14 +334,13 @@ public class KopsTourDownloader extends HtmlTourDownloader
     boolean bOk;
     String sScoring = null;
     ArrayList<Deal> ad = new ArrayList<Deal>();
-    Elements elems = doc.select("div#pro tr");
-    if (elems.size() >= 2) {
-      // potrzebny nam jest drugi wiersz tabelki, nag³ówkowy
-      Elements tds = elems.get(1).select("td");
+    Elements elems = doc.select("tr.nagl");
+    if (elems.size() > 0) {
+      // first header contains scoring in 7 column (out of 8)
+      Elements tds = elems.get(0).select("td");
       if (tds.size() == 8) {
-        // musi mieæ 8 kolumn, pierwsza jest niewidoczna
-        if ("numery".equals(tds.get(1).text())) {
-          sScoring = tds.get(7).text();
+        if ("numery".equalsIgnoreCase(tds.get(0).text())) {
+          sScoring = tds.get(6).text();
         }
       }
     }
@@ -358,41 +358,37 @@ public class KopsTourDownloader extends HtmlTourDownloader
     throws DownloadFailedException
   {
     ArrayList<Deal> ad = new ArrayList<Deal>();
-    Elements elems = doc.select("div#pro tr");
-    if (elems.size() < 1) { throwElemNotFound("div#pro tr"); }
+    Elements elems = doc.select("tr.niep, tr.parz");
+    if (elems.size() < 1) { throwElemNotFound("tr.niep, tr.parz"); }
     for (Element tr: elems) {
       Elements tds = tr.select("td");
-      // 1st column is invisible (index 0)
-      // w 2. kolumnie powinien byæ numer pary, wiêc tylko te wiersze
-      // bêdziemy czytaæ
       boolean bValidContract = false;
       // valid deals have pair numbers in columns 1 and 2
       if (tds.size() >= 8
-          && tds.get(1).text().matches("[0-9]+")
-          && tds.get(2).text().matches("[0-9]+")) {
+          && tds.get(0).text().matches("[0-9]+")
+          && tds.get(1).text().matches("[0-9]+")) {
         bValidContract = true;
       }
       // columns 7 and 8 contain plain result in contract points
       // valid deals have digits in one of these columns, even PASS deal
       if (bValidContract
-          && !tds.get(7).text().matches("[0-9]+")
-          && !tds.get(8).text().matches("[0-9]+")) {
+          && !tds.get(6).text().matches("[0-9]+")
+          && !tds.get(7).text().matches("[-0-9]+")) {
         bValidContract = false;
       }
       
-      // if ("TD".equals(tds.get(3).text())) {
-        // rozdanie bez wyniku
-        // bValidContract = false;
-      // }
       if (bValidContract) {
         Deal d = deal0.clone();
-        d.setIdentField("North", "Para-" + tds.get(1).text());
-        d.setIdentField("South", "Para-" + tds.get(1).text());
-        d.setIdentField("East", "Para-" + tds.get(2).text());
-        d.setIdentField("West", "Para-" + tds.get(2).text());
-        d.setDeclarer(Deal.person(tds.get(4).text()));
-        processContract(d, tds.get(3));
-        processResult(d, tds.get(6).text());
+        d.setIdentField("North", "Para-" + tds.get(0).text());
+        d.setIdentField("South", "Para-" + tds.get(0).text());
+        d.setIdentField("East", "Para-" + tds.get(1).text());
+        d.setIdentField("West", "Para-" + tds.get(1).text());
+        d.setDeclarer(Deal.person(tds.get(3).text()));
+        processContract(d, tds.get(2));
+        processResult(d, tds.get(5).text());
+        if (!d.isOk()) {
+          reportErrors(d.getErrors());
+        }
         ad.add(d);
       }
     }
