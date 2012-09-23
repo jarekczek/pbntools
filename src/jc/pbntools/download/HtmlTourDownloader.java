@@ -32,7 +32,9 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -79,6 +81,10 @@ abstract public class HtmlTourDownloader
   protected String m_sCurFile;
   /** Whether to show error messages. */ 
   protected boolean m_bSilent;
+  /** Errors for the current hand. The same error set is reused for
+    * all the results for a given hand. Strings in the set must be
+    * interned. */
+  protected Set<String> m_setErr = new HashSet<String>();
   
   /** set the window to which output messages will be directed */
   abstract public void setOutputWindow(OutputWindow ow);
@@ -288,6 +294,25 @@ abstract public class HtmlTourDownloader
     return sPath;
   }
 
+  /** Adds errors to error set for the current hand. New errors
+    * are reported. */
+  public void reportErrors(String asErr[])
+  {
+    for (String sErr: asErr) {
+      sErr = sErr.intern();
+      if (!m_setErr.contains(sErr)) {
+        m_ow.addLine(sErr);
+        m_setErr.add(sErr);
+      }
+    }
+  }
+
+  /** Resets error set, when a new hand is being processed. */
+  public void resetErrors()
+  {
+    m_setErr.clear();
+  }
+  
   /** performs 2 operations: downloading (if required) from internet and
     * converting (locally) to pbns */
   public boolean fullDownload() throws DownloadFailedException

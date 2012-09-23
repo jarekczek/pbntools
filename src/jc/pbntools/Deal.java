@@ -23,6 +23,7 @@ package jc.pbntools;
 
 import java.io.*;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.regex.*;
 import java.util.*;
 import jc.f;
@@ -68,7 +69,7 @@ public class Deal implements Cloneable {
   /** Number of tricks taken */
   private int m_nResult;
   
-  String m_sErrors;
+  ArrayList<String> m_asErrors;
   boolean m_bEof;
   boolean m_bEmpty;
   boolean m_bOk;
@@ -99,7 +100,7 @@ public class Deal implements Cloneable {
   }
   
   public Deal() {
-    m_anCards = new int[Card.MAX_KOD+1];
+    m_anCards = new int[Card.MAX_CODE + 1];
     zeruj();
     }
 
@@ -125,7 +126,7 @@ public class Deal implements Cloneable {
     for (int i=0; i<m_aHands.length; i++) {
       m_aHands[i] = new Hand();
     }
-    m_sErrors = null;
+    m_asErrors = null;
     m_bEof = true;
     m_bEmpty = true;
     m_bOk = false;
@@ -190,32 +191,74 @@ public class Deal implements Cloneable {
 
   // isOk method {{{
   /** Performs deal validation.
-   * <ul><li>Sets <code>m_sErrors</code> when errors met, <code>null</code>
+   * <ul><li>Sets <code>m_asErrors</code> when errors met, <code>null</code>
    *         otherwise.
    * <li>Corrects some non-standard wording, like vulnerability
    *     <code>Love</code> instead of <code>None</code>.
    * @return Whether the deal is valid.
    */
   public boolean isOk() {
-    m_sErrors = "";
-    if (m_nNr<=0) { m_sErrors += String.format("Brak numeru rozdania. "); }
-    if (m_nDealer<0) { m_sErrors += String.format("Brak rozdaj¹cego. "); }
+    m_asErrors = new ArrayList<String>();
+    if (m_nNr<=0) { m_asErrors.add(String.format("Brak numeru rozdania. ")); }
+    if (m_nDealer<0) { m_asErrors.add(String.format("Brak rozdaj¹cego. ")); }
     
     // vulnerability
     if (m_sVulner.equals("Love")) { m_sVulner = "None"; }
     if (m_sVulner.equals("-")) { m_sVulner = "None"; }
     if (m_sVulner.equals("Both")) { m_sVulner = "All"; }
-    if (m_sVulner.equals("?")) { m_sErrors += String.format("Brak za³o¿eñ. "); }
-    else if (!f.stringIn(m_sVulner, m_asPossVulner)) { m_sErrors += String.format("Nieprawid³owe za³o¿enia: "+m_sVulner+". "); }
+    if (m_sVulner.equals("?"))
+      m_asErrors.add(String.format("Brak za³o¿eñ. "));
+    else if (!f.stringIn(m_sVulner, m_asPossVulner))
+      m_asErrors.add(String.format("Nieprawid³owe za³o¿enia: "+m_sVulner+". "));
     
     // trzeba sprawdzic wczytane karty
-    if (m_sDeal.isEmpty()) { m_sErrors += "Brak tagu deal. "; }
-    //m_sErrors += "B³êdne karty. ";
-    //TODO check if 52 cards
+    if (m_sDeal.isEmpty()) { m_asErrors.add("Brak tagu deal. "); }
+    
+    Card c = Card.firstCard();
+    int cDealt = 0;
+    Card cardMiss = null;
+    while (c != null) {
+      if (m_anCards[c.getCode()] < 0) {
+        cardMiss = c;
+      } else {
+        cDealt++;
+      }
+      c = c.nextCard();
+    }
+    if (cDealt != 52) {
+      m_asErrors.add(PbnTools.getStr("error.pbn.notAllCards",
+        52 - cDealt, 52, cardMiss.toString()));
+    }
 
-    if (m_sErrors.isEmpty()) { m_sErrors = null; }
-    return (m_bOk = (m_sErrors == null));
+    if (m_asErrors.size() == 0) { m_asErrors = null; }
+    return (m_bOk = (m_asErrors == null));
     } //}}}
+
+  /** Returns errors detected by #isOk.
+    * @return <code>null</code> if no errors. */
+  public String[] getErrors()
+  {
+    if (m_asErrors == null)
+      return null;
+    return m_asErrors.toArray(new String[0]);
+  }
+
+  /** Returns all errors concatenated to a single string, using
+    * given separator.
+    * @return Error string, never <code>null</code>.
+    */
+  public String getErrorsStr(String sSep)
+  {
+    StringBuilder sb = new StringBuilder();
+    if (m_asErrors != null) {
+      for (String sErr: m_asErrors) {
+        if (sb.length() != 0)
+          sb.append(sSep);
+        sb.append(sErr);
+      }
+    }
+    return sb.toString();
+  }
 
   /** fillHands method {{{
     * Fills <code>m_aHands</code> with the cards from

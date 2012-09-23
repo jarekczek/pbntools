@@ -67,7 +67,7 @@ public class PbnFile  {
           f temp;
           System.err.print(
             PbnTools.m_res.getString("pbnFile.errorReadingDeal")
-            + " " + r.getNumber() + ": " + r.m_sErrors + f.sLf);
+            + " " + r.getNumber() + ": " + r.getErrorsStr(" ") + f.sLf);
           }
         if (r.m_bOk) {
           if (!m_setBoardNrs.contains(r.getNumber())) {

@@ -29,11 +29,20 @@ public class Card implements Comparable<Card> {
   public static final int CLUB = 4;
   static final String m_asKolAng[] = { "S", "H", "D", "C" };
   static final char m_achRank[] = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
-  private int m_nCode;  // 16*color(1-4) + wysokosc karty(2-14); czyli od 18 (S2) do 78 (CA)
-  static final int MAX_KOD = 78;
+  /** 16*color(1-4) + rank(2-14), that is from 18 (S2) up to 78 (CA),
+    * excluding some numbers from the range */
+  private int m_nCode;
+  static final int MIN_CODE = 18;
+  static final int MAX_CODE = 78;
+  public static final int MIN_RANK = 2;
+  public static final int MAX_RANK = 14;
 
   public Card() { clear(); }
   public Card(int nCode) { clear(); setCode(nCode); }
+  public Card(int nColor, int nRank)
+  {
+    clear(); setRank(nRank); setColor(nColor);
+  }
   
   public static int rank(char ch) {
     if (ch>='2' && ch <='9') {
@@ -58,6 +67,9 @@ public class Card implements Comparable<Card> {
   
   public static char rankChar(int nWys) { return nWys>=2 && nWys<=14 ? m_achRank[nWys-2] : '?'; }
   public static char colorChar(int nColor) { return nColor>=1 && nColor<=4 ? m_asKolAng[nColor-1].charAt(0) : '?'; }
+  public boolean isOk() { return m_nCode >= MIN_CODE && m_nCode <= MAX_CODE
+                                 && m_nCode%16 >= MIN_RANK
+                                 && m_nCode%16 <= MAX_RANK; }
 
   public static int color(char ch) {
     int i;
@@ -65,6 +77,33 @@ public class Card implements Comparable<Card> {
     return 0;
     }
   static int nextColor(int nColor) { return (nColor<=0) ? 0 : (nColor%4)+1; }
+  
+  /** Returns first card to allow enumerating all 52 cards,
+    * together with #nextCard function. */
+  public static Card firstCard()
+  {
+    return new Card(MIN_CODE);
+  }
+  
+  /** Returns next card, to allow enumerating 52 cards. See also
+    * #firstCard */
+  public Card nextCard()
+  {
+    if (!isOk())
+      return null;
+    int nRank = getRank();
+    int nColor = getColor();
+    Card c;
+    if (nRank == MAX_RANK) {
+      if (nColor == 4)
+        return null;
+      else
+        c = new Card(nColor + 1, MIN_RANK);
+    } else {
+      c = new Card(nColor, nRank + 1);
+    }
+    return c;
+  }
   
   static int kod(int nColor, int nWys) { return (nColor>=1 && nColor<=4 && nWys>=2 && nWys<=14) ? 16*nColor+nWys : 0; }
 
@@ -77,7 +116,6 @@ public class Card implements Comparable<Card> {
   public void setRank(String sRank) { setRank(rank(sRank)); }
   public void setRankCh(char chRank) { setRank(rank(chRank)); }
   public void set(int nColor, int nWys) { m_nCode = kod(nColor, nWys); }
-  public boolean isOk() { return m_nCode>0 && m_nCode<=MAX_KOD; }
   
   static int kod(String sCard) {
     if (sCard.length()!=2) { return 0; }

@@ -264,6 +264,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
     m_sCurFile = sUrl;
     m_bSilent = bSilent;
     
+    resetErrors();
     Deal deal = new Deal();
     try {
       SoupProxy proxy = new SoupProxy();
@@ -415,6 +416,9 @@ public class ParyTourDownloader extends HtmlTourDownloader
         d.setDeclarer(Deal.person(tds.get(4).text()));
         processContract(d, tds.get(3));
         processResult(d, tds.get(6).text());
+        if (!d.isOk()) {
+          reportErrors(d.getErrors());
+        }
         ad.add(d);
       }
     }
