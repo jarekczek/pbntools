@@ -188,6 +188,7 @@ public class PbnTools {
       ow.setVisible(true);
     } else {
       StandardOutputWindow ow =  new StandardOutputWindow(thr, m_res);
+      ow.waitFor();
     }
   } //}}}
 
