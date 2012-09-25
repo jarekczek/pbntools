@@ -281,7 +281,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
         deal.setDealer(Deal.person(sText.substring(0,1)));
         
         // second word - vulnerability
-        String sVulner = sText.replaceFirst("^. (\\S+) .*", "$1");
+        String sVulner = sText.replaceFirst("^. (\\S+)$", "$1");
         sVulner = sVulner.replace("obie", "all");
         sVulner = sVulner.replace("nikt", "none");
         deal.setVulner(sVulner);
