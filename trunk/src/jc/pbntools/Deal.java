@@ -209,12 +209,9 @@ public class Deal implements Cloneable {
     if (m_sVulner.equals("-")) { m_sVulner = "None"; }
     if (m_sVulner.equals("Both")) { m_sVulner = "All"; }
     if (m_sVulner.equals("?"))
-      m_asErrors.add(String.format("Brak za³o¿eñ. "));
+      m_asErrors.add(PbnTools.getStr("error.pbn.noVuln"));
     else if (!f.stringIn(m_sVulner, m_asPossVulner))
-      m_asErrors.add(String.format("Nieprawid³owe za³o¿enia: "+m_sVulner+". "));
-    
-    // trzeba sprawdzic wczytane karty
-    if (m_sDeal.isEmpty()) { m_asErrors.add("Brak tagu deal. "); }
+      m_asErrors.add(PbnTools.getStr("error.pbn.wrongVuln", m_sVulner));
     
     Card c = Card.firstCard();
     int cDealt = 0;

@@ -293,7 +293,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
         nPerson = Deal.W; break;
       case 5:
         nPerson = Deal.E; break;
-      case 6:
+      case 7:
         nPerson = Deal.S; break;
       }
       
