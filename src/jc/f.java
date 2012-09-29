@@ -326,10 +326,10 @@ public class f {
     throws java.io.FileNotFoundException, java.io.IOException
   {
     BufferedReader br = new BufferedReader(new FileReader(sFile));
-    String sLine;
+    int ch;
     StringBuilder sb = new StringBuilder();
-    while ((sLine = br.readLine()) != null)
-      sb.append(sLine);
+    while ((ch = br.read()) >= 0)
+      sb.append((char)ch);
     br.close();
     return sb.toString();
   } //}}}
