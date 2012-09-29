@@ -84,15 +84,38 @@ private static PrintStream origOut;
 void makePbnNakedAsFromBash(File file)
   throws java.io.IOException
 {
+  String asTagsToRemove[] = new String[] { "Event", "West", "East", "North",
+    "South", "Scoring" };
   String sCont = f.readFile(file.toString());
-  sCont = sCont.replaceAll("^\\[Event.*$\n", "");
-  Writer bw = new FileWriter(file.toString()+"x");
+  String sTags = "(";
+  for (String sTag: asTagsToRemove) {
+    if (sTags.length() > 1)
+      sTags += "|";
+    sTags += "(" + sTag + ")";
+  }
+  sTags += ")";
+  sCont = sCont.replaceAll("\\[" + sTags + ".*[\r\n]+", "");
+  sCont = sCont.replaceAll("(\\[Board \")([0-9]\")", "$10$2");
+  // swap order of Declared and Contract
+  sCont = sCont.replaceAll(
+    "\\[Declarer (\".*\")\\]([\r\n]+)\\[Contract (\".*\")\\]",
+    "[Contract $3]$2[Declarer $1]");
+  // bash used lowercase x for double
+  sCont = sCont.replaceAll("Contract \"(.*)(XX)\"", "Contract \"$1xx\"");
+  sCont = sCont.replaceAll("Contract \"(.*)(X)\"", "Contract \"$1x\"");
+  // bash started cards always from N
+  sCont = sCont.replaceAll("Deal \"E:(.*) (.*) (.*) (.*)\"",
+    "Deal \"N:$4 $1 $2 $3\"");
+  sCont = sCont.replaceAll("Deal \"S:(.*) (.*) (.*) (.*)\"",
+    "Deal \"N:$3 $4 $1 $2\"");
+  sCont = sCont.replaceAll("Deal \"W:(.*) (.*) (.*) (.*)\"",
+    "Deal \"N:$2 $3 $4 $1\"");
+  // vulnerability - different wording
+  sCont = sCont.replaceAll("Vulnerable \"All\"", "Vulnerable \"Both\"");
+
+  Writer bw = new FileWriter(file.toString());
   bw.write(sCont);
-  bw.flush();
   bw.close();
-  try {
-    Thread.sleep(1000);
-  } catch (InterruptedException ie) {}
 }
 
 @Test public void pobierzKopsTest()
@@ -104,8 +127,18 @@ void makePbnNakedAsFromBash(File file)
   PbnTools.m_props.setProperty("workDir", fTempDir.toString());
   PbnTools.pobierzKops("test/test_2_kops/PCH1003/index.html", false);
   makePbnNakedAsFromBash(new File(fTempDir, "PCH1003/pch1003.pbn"));
+  
+  // the pbn file from bash also needs adjusting, so copying it
+  File fOrig = new File("test/test_2_kops/PCH1003/PCH1003.pbn");
+  File fOrig2 = new File(fTempDir, "PCH1003/pch1003_0.pbn");
+  String sOrigCont = f.readFile(fOrig.toString());
+  BufferedWriter bw = new BufferedWriter(new FileWriter(fOrig2));
+  bw.write(sOrigCont);
+  bw.close();
+  makePbnNakedAsFromBash(fOrig2);
+
   FileAssert.assertEquals("Resulting pbn files",
-    new File("test/test_2_kops/PCH1003/PCH1003.pbn"),
+    fOrig2,
     new File(fTempDir, "PCH1003/pch1003.pbn"));
 } //}}}
 
