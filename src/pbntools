@@ -1,3 +1,2 @@
 #!/bin/bash
-exec java -jar `dirname $0`/PbnTools.jar
-
+exec java -jar `dirname $0`/PbnTools.jar "$@"

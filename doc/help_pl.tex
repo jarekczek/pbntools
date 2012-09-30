@@ -240,9 +240,9 @@ to znaczy gracz N to "jeden", E to "dwa" itd.
   Okaza³o siê, ¿e król kier ma króla karo we w³osach, a dok³adniej jego kod. 
   Trzeba wiêc by³o w³oski trochê przemalowaæ, mazakiem. I odt±d ju¿ by³o dobrze.
   
-\end{description}
+\end{description} %}}}
 
-\subsection{Konfiguracja} \label{konfig}
+\subsection{Konfiguracja} \label{konfig} %{{{
 
 \begin{description}
 \item[Katalog roboczy]
@@ -255,6 +255,40 @@ to znaczy gracz N to "jeden", E to "dwa" itd.
 
 \end{description}
 %}}}
+
+\subsection{Opcje linii poleceñ} \label{commLine} %{{{
+
+Czê¶æ funkcjonalno¶ci programu dostêpna jest w trybie linii poleceñ,
+czyli bez uruchamiania graficznego interfejsu u¿ytkownika (okienek
+dialogowych). Na przyk³ad pobraæ turniej mo¿na albo uruchamiaj±c program
+i nastêpnie klikaj±c {\em Pobierz turniej Kops}, albo uruchamiaj±c
+program w nastêpuj±cy sposób:
+
+\begin{verbatim}
+    pbntools -dtk http://www.strona-turniejow.pl/turniej999/index.html
+\end{verbatim}
+
+Z linii poleceñ dostêpne s± nastêpuj±ce opcje:
+
+\begin{description}
+\item[-h]
+  Wy¶wietla krótki opis wszystkich opcji.
+\item[--debug]
+  W³±cza tryb debuggowania, z wy¶wietlaniem informacji, które mog±
+  pomóc w diagnostyce nieprawid³owego dzia³ania programu.
+\item[--verbose]
+  Zwiêksza ilo¶æ informacji wy¶wietlanej przez program, np. podczas pobierania
+  turnieju.
+\item[-dtk <link>]
+  Pobiera turniej w formacie Kops ze wskazanego linku. Turniej
+  zapisywany jest w katalogu roboczym, tak samo jak przy u¿yciu interfejsu
+  graficznego.
+\item[-dtp <link>]
+  Pobiera wskazany turniej w formacie Pary.
+\end{description}
+
+%}}}
+
 %}}}
 
 %{{{ wymagania
