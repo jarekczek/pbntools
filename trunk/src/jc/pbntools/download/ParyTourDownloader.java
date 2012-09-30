@@ -24,7 +24,10 @@ package jc.pbntools.download;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -183,7 +186,8 @@ public class ParyTourDownloader extends HtmlTourDownloader
     m_ow.addLine(PbnTools.getStr("tourDown.msg.creatingIndex", sLinksFile));
     try {
       createLocalDir();
-      BufferedWriter fw = new BufferedWriter(new FileWriter(sLinksFile));
+      BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
+        new FileOutputStream(sLinksFile), "ISO-8859-1"));
       fw.write(m_remoteUrl.toString());
       fw.newLine();
       for (iDeal=1; iDeal<=m_cDeals; iDeal++) {
