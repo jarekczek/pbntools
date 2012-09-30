@@ -1,4 +1,1 @@
-- jsoup is needed, so: license file, about box, help, source to download
-- usage note
-- build.xml - allow for local target through import
-
+- consolidate download Kops and Pary tournament into one option
