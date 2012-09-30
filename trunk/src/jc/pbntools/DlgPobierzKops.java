@@ -20,6 +20,8 @@
 package jc.pbntools;
 
 import jc.f;
+import javax.swing.JCheckBox;
+import javax.swing.JRootPane;
 
 /*
  * To change this template, choose Tools | Templates
@@ -64,11 +66,15 @@ public class DlgPobierzKops extends javax.swing.JDialog {
         pbAnuluj = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Pobierz Kops");
+        setTitle(PbnTools.getStr("pobierzKops.title"));
 
-        jLabel1.setText(PbnTools.m_res.getString("kops.link"));
+        jLabel1.setText(PbnTools.getStr("pobierzKops.link.label"));
         ebLink.setText(PbnTools.m_props.getProperty("pobierzKops.link"));
         ebLink.selectAll();
+
+        chkVerb = new JCheckBox();
+        f.setTextAndMnem(chkVerb, PbnTools.getRes(), "button.verbose");
+        chkVerb.setSelected(PbnTools.getVerbos() != 0);
 
         f.setTextAndMnem(pbOk, PbnTools.getRes(), "download");
         pbOk.addActionListener(new java.awt.event.ActionListener() {
@@ -93,7 +99,8 @@ public class DlgPobierzKops extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ebLink, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(chkVerb))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(77, 77, 77)
@@ -109,6 +116,8 @@ public class DlgPobierzKops extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ebLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkVerb)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pbOk)
@@ -124,6 +133,8 @@ public class DlgPobierzKops extends javax.swing.JDialog {
       m_sLink = ebLink.getText();
       if (m_sLink.isEmpty()) { javax.swing.JOptionPane.showMessageDialog(null, PbnTools.m_res.getString("error.emptyLink")); return; }
       PbnTools.m_props.setProperty("pobierzKops.link", ebLink.getText());
+      PbnTools.setVerbos(chkVerb.isSelected() ? 1 : 0);
+      PbnTools.m_props.setProperty("verbosity", "" + PbnTools.getVerbos());
       rv = 2;
       dispose();
     }//GEN-LAST:event_pbOkActionPerformed
@@ -154,6 +165,7 @@ public class DlgPobierzKops extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ebLink;
     private javax.swing.JLabel jLabel1;
+    private JCheckBox chkVerb;
     private javax.swing.JButton pbAnuluj;
     private javax.swing.JButton pbOk;
     // End of variables declaration//GEN-END:variables
