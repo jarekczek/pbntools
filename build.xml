@@ -55,17 +55,14 @@
 
 <fileset id="fs.src" dir="${basedir}" 
          includes="src/**/*.java build.xml doc/*.tex src/**/*.sh test/*.sh src/pbntools
-                   src/README.SRC.txt src/script/*.awk src/**/*.properties
+                   src/README.SRC.txt src/**/*.properties
                    src/zbar_patches/* res/*"
          excludes="*.marks"/>
 
 <zipfileset id="fs.release.common.1" dir="${basedir}/doc" includes="help_*.html zbarcam.html" />
 <zipfileset id="fs.release.common.2" dir="${basedir}/work/release" includes="PbnTools.jar" />
 <zipfileset id="fs.release.common.3" dir="${basedir}/lib" includes="*.jar *.txt" />
-<zipfileset id="fs.release.common.4" dir="${basedir}/src/script" prefix="script"
-         includes="get_tur_bbo.sh get_tur_kops.sh kopswww_to_pbn.sh kopswww_to_pbn.awk tur_fun.sh"
-         filemode="755"
-         />
+<zipfileset id="fs.release.common.4" dir="${basedir}" includes="no_files.xxx" />
 <zipfileset id="fs.release.common.5" dir="${basedir}" includes="no_files.xxx" />
 <zipfileset id="fs.release.common.6" dir="${basedir}" includes="no_files.xxx" />
 <zipfileset id="fs.release.common.7" dir="${basedir}" includes="no_files.xxx" />
@@ -452,9 +449,7 @@
                               <param name="dir" value="res" /></antcall>
   <copy todir="${basedir}/work/release"><fileset dir="${basedir}/lib" includes="*.jar *.txt" /></copy>
   <copy todir="${basedir}/work/release"><fileset dir="${basedir}/doc" includes="*.html" /></copy>
-  <copy todir="${basedir}/work/release/script"><fileset dir="${basedir}/src/script" /></copy>
   <copy todir="${basedir}/work/release/bin"><fileset dir="${basedir}/lib" includes="zbarcam" /></copy>
-  <chmod dir="${basedir}/work/release/script" perm="a+x" includes="*.sh" />
   <chmod dir="${basedir}/work/release/bin" perm="a+x" includes="*" />
   <antcall target="release-linux" />
   <antcall target="release-windows" />
