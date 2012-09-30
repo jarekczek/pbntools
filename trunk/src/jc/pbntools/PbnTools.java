@@ -42,7 +42,6 @@ import org.jsoup.nodes.Element;
 
 public class PbnTools {
   static String m_sCurDir;
-  static String m_sScriptDir;
   static String m_sBinDir;
   public static boolean bLinux;
   public static boolean bWindows;
@@ -58,7 +57,6 @@ public class PbnTools {
   static {
     try { m_sCurDir = f.basePath(Class.forName("jc.pbntools.PbnTools")); }
     catch (ClassNotFoundException e) { throw new RuntimeException(e); }
-    m_sScriptDir = new File(m_sCurDir, "script").getAbsolutePath();
     m_sBinDir = new File(m_sCurDir, "bin").getAbsolutePath();
     //System.getProperties().getProperty("user.dir");
     m_sSlash = System.getProperties().getProperty("file.separator");
@@ -68,8 +66,6 @@ public class PbnTools {
     bLinux = System.getProperty("os.name").equals("Linux");
     bWindows = System.getProperty("os.name").startsWith("Windows");
     m_bVerbose = false;
-    f.trace(1, "curDir=" + m_sCurDir + ", binDir=" + m_sBinDir
-            + ", scriptDir=" + m_sScriptDir);
 
     if (m_sCurDir.indexOf(' ') >= 0) {
       f.msg(m_res.getString("error.installedWithSpaces"));
