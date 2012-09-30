@@ -322,6 +322,25 @@ public class f {
     return char1.length - char2.length;
   } //}}}
 
+  // file and path string operations {{{
+
+  // getFileName(String) method {{{
+  /** Extracts the file name (stripping the path) from a link/file.
+    * Both slashes are treated as path separators. */
+  public static String getFileName(String sPath)
+  {
+    return sPath.replaceFirst("^.*[/\\\\]", "");
+  } //}}}
+  
+  // getFileExt(String) method {{{
+  /** Return the extension of the file, the part after the last dot. */
+  public static String getFileExt(String sPath)
+  {
+    return sPath.replaceFirst("^.*\\.", "");
+  } //}}}
+  
+  // }}} file and path operations
+  
   // String readFile(String) method {{{
   /** Reads file contents and returns string */
   public static String readFile(String sFile)

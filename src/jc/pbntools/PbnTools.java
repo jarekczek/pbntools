@@ -213,6 +213,21 @@ public class PbnTools {
     //RunProcess.runCmd((JDialog)m_dlgMain, "sh" + (bLinux ? "" : " --login") + " "+m_sCurDir+m_sSlash+"get_tur_bbo.sh " + sLink);
     }
 
+  // convert method {{{
+  /** Converts deals from <code>sLink</code> and saves them as pbn file,
+    * <code>sOutFile</code>.
+    * @param sLink Url or local filename.
+    * @param sOutFile May be <code>null</code>, in which case a new filename
+    * is constructed in working directory. */
+  static void convert(String sLink, String sOutFile)
+  {
+    if (sOutFile == null) {
+      sOutFile = new File(getWorkDir(), f.getFileName(sLink)).toString();
+    }
+    if (getVerbos() > 0)
+      f.out(getStr("msg.converting", sLink, sOutFile));
+  } //}}}
+    
   public static void setWindowIcons(java.awt.Window wnd) {
     String asSuff[] = { "48", "32", "24", "16" };
     ArrayList<java.awt.Image> ai = new ArrayList<java.awt.Image>();
@@ -257,29 +272,47 @@ public class PbnTools {
     
   static void parseCommandLine(String args[]) {
     m_bRunMainDialog = true;
+    ArrayList<String> asFileArgs = new ArrayList<String>();
+    String sOutFile = null;
+
     for (int i=0; i<args.length; i++) {
       if (args[i].equals("--debug")) {
         System.setProperty("jc.debug", "1");
-      }
-      if (args[i].equals("--verbose")) {
+      } else if (args[i].equals("--verbose")) {
         setVerbos(1);
-      }
-      if (args[i].equals("-h") || args[i].equals("--help") || args[i].equals("/?")) {
+      } else if (args[i].equals("-h")
+                 || args[i].equals("--help") || args[i].equals("/?")) {
         printUsage();
         System.exit(0);
-      }
-      if (args[i].equals("-dtk")) {
+      } else if (args[i].equals("-dtk")) {
         m_bRunMainDialog = false;
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
         pobierzKops(args[i], false);
-      }
-      if (args[i].equals("-dtp")) {
+      } else if (args[i].equals("-dtp")) {
         m_bRunMainDialog = false;
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
         pobierzPary(args[i], false);
+      } else if (args[i].equals("-o")) {
+        ++i;
+        if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
+        sOutFile = args[i];
+      } else if (args[i].startsWith("-")) {
+        m_bRunMainDialog = false;
+        System.err.println(getStr("error.invSwitch", args[i]));
+      } else {
+        // non-switch argument
+        asFileArgs.add(args[i]);
       }
+    }
+    
+    if (asFileArgs.size() > 0) {
+      m_bRunMainDialog = false;
+      if (asFileArgs.size() > 1) {
+        f.err(getStr("error.wrongArgCount", asFileArgs.size()));
+      }
+      convert(asFileArgs.get(0), sOutFile);
     }
   }
     
