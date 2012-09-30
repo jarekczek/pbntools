@@ -227,7 +227,9 @@ public class PbnTools {
   static void convert(String sLink, String sOutFile)
   {
     if (sOutFile == null) {
-      sOutFile = new File(getWorkDir(false), f.getFileName(sLink)).toString();
+      String sFile = f.getFileNameNoExt(sLink);
+      sOutFile = new File(getWorkDir(false),
+                          f.getFileNameNoExt(sLink) + ".pbn").toString();
     }
     if (getVerbos() > 0)
       f.out(getStr("msg.converting", sLink, sOutFile));
