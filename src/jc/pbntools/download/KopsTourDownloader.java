@@ -24,6 +24,8 @@ package jc.pbntools.download;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -138,7 +140,8 @@ public class KopsTourDownloader extends HtmlTourDownloader
           PbnTools.getStr(
             "error.unableToCreateDir", m_sLocalDir), m_ow, true);
       }
-      BufferedWriter fw = new BufferedWriter(new FileWriter(sLinksFile));
+      BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
+        new FileOutputStream(sLinksFile), "ISO-8859-1"));
       for (iDeal=1; iDeal<=m_cDeals; iDeal++) {
         String sDealLink = getLinkForDeal(iDeal); 
         fw.write(sDealLink);

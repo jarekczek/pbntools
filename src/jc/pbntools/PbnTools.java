@@ -20,7 +20,13 @@
 package jc.pbntools;
 
 import java.awt.Window;
-import java.io.*;
+import java.io.InputStreamReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.*;
@@ -287,7 +293,8 @@ public class PbnTools {
   {
     m_sPropsFile = System.getProperty("user.home") + System.getProperty("file.separator") + "PbnTools.props";
     try {
-      m_props.load(new FileReader(m_sPropsFile));
+      m_props.load(new InputStreamReader(
+        new FileInputStream(m_sPropsFile), "ISO-8859-1"));
       m_bPropsRead = true;
       f.trace(1, "Properties read from file " + m_sPropsFile);
     }
@@ -310,7 +317,9 @@ public class PbnTools {
   {
     try {
       if (m_bPropsRead) {
-        m_props.store(new FileWriter(m_sPropsFile), null);
+        m_props.store(new OutputStreamWriter(
+          new FileOutputStream(m_sPropsFile), "ISO-8859-1"),
+          null);
         f.trace(1, "Properties stored in file " + m_sPropsFile);
       }
     }

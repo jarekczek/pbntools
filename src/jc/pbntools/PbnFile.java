@@ -22,6 +22,7 @@
 package jc.pbntools;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
 import javax.swing.*;
 import jc.pbntools.*;
@@ -59,7 +60,9 @@ public class PbnFile  {
     m_sPlik = sPlik;
     File plik = new File(sPlik);
     try {
-      BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(plik)));
+      BufferedReader br = new BufferedReader(
+        new InputStreamReader(new FileInputStream(plik),
+          Charset.forName("ISO-8859-1")));
       Deal r;
       do {
         r = new Deal();

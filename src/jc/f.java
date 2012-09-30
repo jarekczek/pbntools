@@ -26,7 +26,9 @@ package jc;
 import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.Locale;
 import java.util.Properties;
@@ -325,7 +327,8 @@ public class f {
   public static String readFile(String sFile)
     throws java.io.FileNotFoundException, java.io.IOException
   {
-    BufferedReader br = new BufferedReader(new FileReader(sFile));
+    BufferedReader br = new BufferedReader(
+      new InputStreamReader(new FileInputStream(sFile), "ISO-8859-1"));
     int ch;
     StringBuilder sb = new StringBuilder();
     while ((ch = br.read()) >= 0)

@@ -70,7 +70,8 @@ public class DealLabel {
 
   public static void main(String args[]) throws java.io.IOException {
     int iDiag;
-    FileWriter fw = new FileWriter("/tmp/deal.tex");
+    Writer fw = new OutputStreamWriter(
+      new FileOutputStream("/tmp/deal.tex"), "ISO-8859-1");
     fw.write("\\documentclass{article}" + f.sLf);
     fw.write("\\usepackage{pstricks}" + f.sLf);
     fw.write("\\begin{document}" + f.sLf);
