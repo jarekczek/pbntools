@@ -192,28 +192,6 @@ public class PbnTools {
     }
   } //}}}
 
-  static void pobierzKopsOld(String sLink) { //{{{
-    int rv;
-    String sWorkDir = getWorkDir();
-    if (sWorkDir==null) { return; }
-    // msys needs converting all path separators from \ to /
-    String sScript = (m_sScriptDir + m_sSlash + "get_tur_kops.sh").replaceAll("\\\\", "/");
-    String asArgs[] = { "-c",
-                        sScript
-                        + " -d \"" + sWorkDir.replaceAll("\\\\", "/") + "\" "
-                        + sLink };
-    if (bLinux) {
-      rv = RunProcess.runCmd(m_dlgMain, "bash", asArgs, m_sScriptDir);
-      }
-    else {
-      String sMsysBin = m_sCurDir + m_sSlash + "bin" + m_sSlash + "msys" + m_sSlash + "bin";
-      String asPaths[] = { sMsysBin,
-                           m_sCurDir + m_sSlash + "bin" + m_sSlash + "wget" };
-      String sBash = sMsysBin + m_sSlash + "bash";
-      rv = RunProcess.runCmd(m_dlgMain, sBash, asArgs, m_sScriptDir, asPaths);
-      }
-    } //}}}
-  
   static void pobierzPary(String sLink, boolean bGui) {
     if (getWorkDir()==null) { return; }
     TourDownloaderThread thr = new TourDownloaderThread(sLink, new ParyTourDownloader());
