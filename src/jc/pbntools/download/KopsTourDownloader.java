@@ -172,8 +172,8 @@ public class KopsTourDownloader extends HtmlTourDownloader
             PbnTools.getStr("tourDown.error.convertExt", sDealLink, "html", "txt"),
             m_ow, true);
         }
-        // fw.write(sDealLinkTxt);
-        // fw.newLine();
+        fw.write(m_sLink);
+        fw.newLine();
       }
       fw.close();
     }
@@ -189,7 +189,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
       
     String sCmdLine = "wget -p -k -nH -nd -nc --random-wait -E -e robots=off";
     if (m_remoteUrl.toString().indexOf("localhost") < 0)
-      sCmdLine += "-w 1";
+      sCmdLine += " -w 1";
     ArrayList<String> asCmdLine = new ArrayList<String>(Arrays.asList(sCmdLine.split(" ")));
     asCmdLine.add("--directory-prefix=" + m_sLocalDir);
     asCmdLine.add("--input-file=" + sLinksFile);
@@ -205,10 +205,6 @@ public class KopsTourDownloader extends HtmlTourDownloader
       p.exec(asCmdLine.toArray(new String[0]));
     } catch (JCException e) {
       throw new DownloadFailedException(e, m_ow, m_bSilent);
-    }
-    
-    for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
-      ajaxFile(getLinkForDeal(iDeal), true);
     }
   }
 
@@ -346,6 +342,8 @@ public class KopsTourDownloader extends HtmlTourDownloader
     }
     if ("%".equals(sScoring)) {
       deal.setScoring("MP");
+    } else if ("PUNKTY".equals(sScoring)) {
+      deal.setScoring("IMP");
     } else {
       if (PbnTools.getVerbos() > 0) {
         m_ow.addLine("Unknown scoring header: " + sScoring);
