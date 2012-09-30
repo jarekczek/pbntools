@@ -59,18 +59,6 @@ public class KopsTourDownloader extends HtmlTourDownloader
     m_ow = ow;
   }
 
-  /** Redirect to url without W- */
-  protected boolean redirect() throws VerifyFailedException
-  {
-    if (m_sLink.matches("^.*/W-[^/]*$")) {
-      m_sLink = m_sLink.replaceFirst("/W-([^/]*)$", "/$1");
-      m_ow.addLine(PbnTools.getStr("tourDown.msg.redir", m_sLink));  
-      return true;
-    }
-    else
-      return false;
-  }
-
   /** Gets remote link for the deal with the given number */
   protected String getLinkForDeal(int iDeal) {
     String sLink = getBaseUrl(m_sLink) + "p" + iDeal + ".html";
@@ -92,9 +80,8 @@ public class KopsTourDownloader extends HtmlTourDownloader
   }
 
   /** Verifies whether link points to a valid data in this format.
-    * Sets m_sTitle and m_sDirName members. Leaves m_doc filled.
-    */ //{{{
-  protected boolean verifyDirect(boolean bSilent) throws VerifyFailedException
+    * Sets m_sTitle and m_sDirName members. Leaves m_doc filled. */
+  public boolean verify(boolean bSilent) throws VerifyFailedException
   {
     Document doc;
     try {
@@ -114,16 +101,6 @@ public class KopsTourDownloader extends HtmlTourDownloader
       throw new VerifyFailedException("frame[src=wyn.html]");
     if (getOneTag(doc, "frame[src=roz.html]", bSilent) == null)
       throw new VerifyFailedException("frame[src=roz.html]");
-    return true;
-  } //}}}
-  
-  public boolean verify(boolean bSilent) throws VerifyFailedException
-  {
-    boolean bRedirected = true;
-    while (bRedirected) {
-      if (!verifyDirect(bSilent)) { return false; }
-      bRedirected = redirect();
-    }
     getTitleAndDir();
 
     // download 2 frames
@@ -254,7 +231,6 @@ public class KopsTourDownloader extends HtmlTourDownloader
     dealElem = tables.get(0);
     extractHands(deal, dealElem);
     readScoring(deal, doc);
-    //TODO isOk()
     return processResults(deal, doc);
   }
   
