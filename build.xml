@@ -542,6 +542,7 @@
   <delete dir="work/junit-tmp" quiet="true" />
   <junit fork="yes" haltonfailure="yes">
     <test name="jc.pbntools.PbnToolsTests" />
+    <test name="jc.fTests" />
     <formatter type="plain" usefile="false" />
     <classpath path="${basedir}/work/PbnToolsTests.jar;
                      ${basedir}/work/release/PbnTools.jar;

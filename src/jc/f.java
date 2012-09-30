@@ -333,10 +333,31 @@ public class f {
   } //}}}
   
   // getFileExt(String) method {{{
-  /** Return the extension of the file, the part after the last dot. */
+  /** Returns the extension of the file, the part after the last dot.
+    * @return <code>null</code> if there is no extension. */
   public static String getFileExt(String sPath)
   {
-    return sPath.replaceFirst("^.*\\.", "");
+    String sExt = sPath.replaceFirst("^.*\\.([^\\./\\\\]*)$", "$1");
+    if (sExt.equals(sPath)) {
+      // no extension was actually found
+      return null;
+    }
+    else
+      return sExt;
+  } //}}}
+  
+  // getFileNameNoExt(String) method {{{
+  /** Returns the file name, stripping the path and the extension */
+  public static String getFileNameNoExt(String sPath)
+  {
+    return getFileName(sPath).replaceFirst("\\.[^\\.]*$", "");
+  } //}}}
+  
+  // getDirOfFile(String) method {{{
+  /** Returns the directory name, with the trailing slash */
+  public static String getDirOfFile(String sPath)
+  {
+    return sPath.replaceFirst("([/\\\\])[^/\\\\]+$", "$1");
   } //}}}
   
   // }}} file and path operations

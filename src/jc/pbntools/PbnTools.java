@@ -110,11 +110,16 @@ public class PbnTools {
     return nOldVerb;
   }
 
-  public static String getWorkDir()
+  public static String getWorkDir(boolean bGui)
   {
     String sWorkDir = PbnTools.m_props.getProperty("workDir");
     if (sWorkDir==null || sWorkDir.length()==0) {
-      f.msg(PbnTools.m_res.getString("error.noWorkDir"));
+      if (bGui) {
+        f.msg(PbnTools.m_res.getString("error.noWorkDir"));
+      } else {
+        throw new RuntimeException(
+          PbnTools.m_res.getString("error.noWorkDir"));
+      }
       return null;
     }
     return sWorkDir;
@@ -182,7 +187,7 @@ public class PbnTools {
   
   static void pobierzKops(String sLink, boolean bGui) //{{{
   {
-    if (getWorkDir() == null) { return; }
+    if (getWorkDir(bGui) == null) { return; }
     TourDownloaderThread thr =
       new TourDownloaderThread(sLink, new KopsTourDownloader());
     if (bGui) {
@@ -195,7 +200,7 @@ public class PbnTools {
   } //}}}
 
   static void pobierzPary(String sLink, boolean bGui) {
-    if (getWorkDir()==null) { return; }
+    if (getWorkDir(bGui)==null) { return; }
     TourDownloaderThread thr = new TourDownloaderThread(sLink, new ParyTourDownloader());
     OutputWindow ow;
     if (bGui) {
@@ -222,7 +227,7 @@ public class PbnTools {
   static void convert(String sLink, String sOutFile)
   {
     if (sOutFile == null) {
-      sOutFile = new File(getWorkDir(), f.getFileName(sLink)).toString();
+      sOutFile = new File(getWorkDir(false), f.getFileName(sLink)).toString();
     }
     if (getVerbos() > 0)
       f.out(getStr("msg.converting", sLink, sOutFile));

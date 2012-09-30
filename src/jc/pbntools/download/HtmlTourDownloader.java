@@ -231,9 +231,9 @@ abstract public class HtmlTourDownloader
     * configuration. */
   protected void setLocalDir()
   {
-    File fWork = new File(PbnTools.getWorkDir());
+    File fWork = new File(PbnTools.getWorkDir(false));
     File fDir = new File(fWork, m_sDirName);
-    
+
     m_sLocalDir = fDir.getAbsolutePath();
     try { m_sLocalDir = fDir.getCanonicalPath(); }
     catch (Exception e) {}
