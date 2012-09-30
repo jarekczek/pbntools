@@ -95,7 +95,8 @@ public class DlgPbnToolsAbout extends javax.swing.JDialog {
         });
 
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
-        jLabel3.setText("<html>Software included:<br>JLayer, JSoup, ZBar, Msys, wget - details in Help<br>");
+        jLabel3.setText("<html>Software included:<br>"
+           + "JLayer, JSoup, ZBar, wget - details in Help<br>");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

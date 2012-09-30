@@ -445,7 +445,6 @@
   <antcall target="checkLib"><param name="lib" value="zbarcam.exe" /></antcall>
   <antcall target="checkLib"><param name="lib" value="zbar_LICENSE.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="wget_COPYING.txt" /></antcall>
-  <antcall target="checkLib"><param name="lib" value="msys" /></antcall>
   <antcall target="checkLib"><param name="lib" value="wget" /></antcall>
   <antcall target="checkFile"><param name="lib" value="zbarcam.html" />
                               <param name="dir" value="doc" /></antcall>
@@ -493,7 +492,7 @@
     <zipfileset refid="fs.release.common.7" />
     <zipfileset refid="fs.release.common.8" />
     <zipfileset refid="fs.release.common.9" />
-    <zipfileset dir="${basedir}/lib" includes="zbarcam.exe msys/**/* wget/**/*" prefix="bin" />
+    <zipfileset dir="${basedir}/lib" includes="zbarcam.exe wget/**/*" prefix="bin" />
     <zipfileset dir="${basedir}/work/release" includes="PbnTools.exe" prefix="" />
   </zip>
 </target>
