@@ -98,7 +98,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
       throw new VerifyFailedException(e, m_ow);
     }
     if (!bSilent)
-      m_ow.addLine(PbnTools.m_res.getString("msg.documentLoaded"));
+      println(PbnTools.m_res.getString("msg.documentLoaded"));
 
     if (!checkGenerator(doc, "KoPS2www, JFR 2005", bSilent))
       throw new VerifyFailedException("generator");
@@ -127,7 +127,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
     m_sTitle = title.text();
 
     getNumberOfDeals(m_doc, bSilent);
-    if (!bSilent) { m_ow.addLine(PbnTools.getStr("msg.tourFound", m_sTitle, m_cDeals)); }
+    if (!bSilent) { println(PbnTools.getStr("msg.tourFound", m_sTitle, m_cDeals)); }
 
     return true;
   }
@@ -136,7 +136,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
   {
     int iDeal;
     String sLinksFile = new File(m_sLocalDir, "links.txt").getAbsolutePath();
-    m_ow.addLine(PbnTools.getStr("tourDown.msg.creatingIndex", sLinksFile));
+    println(PbnTools.getStr("tourDown.msg.creatingIndex", sLinksFile));
     try {
       if (!(new File(m_sLocalDir).mkdir())) {
         throw new DownloadFailedException(
@@ -203,7 +203,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
           deals.add(d);
         }
         if (PbnTools.getVerbos() > 0) {
-          m_ow.addLine(PbnTools.getStr("tourDown.msg.readOne",
+          println(PbnTools.getStr("tourDown.msg.readOne",
             iDeal, ad.length));
         }
       }
@@ -328,7 +328,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
       deal.setScoring("IMP");
     } else {
       if (PbnTools.getVerbos() > 0) {
-        m_ow.addLine("Unknown scoring header: " + sScoring);
+        println("Unknown scoring header: " + sScoring);
       }
     }
   } //}}}

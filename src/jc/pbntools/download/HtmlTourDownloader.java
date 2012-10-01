@@ -104,6 +104,13 @@ abstract public class HtmlTourDownloader
   public void setLink(String sLink) {
     m_sLink = sLink;
   }
+  
+  /** Allows a reader/downloader to output information during processing. */
+  protected void println(String sLine)
+  {
+    if (m_ow != null)
+      println(sLine);
+  }
 
   /** Returns the url which may be used as base url for links from inside
     * the given url. That is <code>http://aaa.com/start/</code> for both
@@ -122,13 +129,13 @@ abstract public class HtmlTourDownloader
     Elements elems = parent.select(sTag);
     if (elems.size()==0) {
       if (!bSilent) {
-        m_ow.addLine(PbnTools.getStr("error.tagNotFound", sTag));
+        println(PbnTools.getStr("error.tagNotFound", sTag));
       }
       return null;
     }
     if (elems.size()>1) {
       if (!bSilent) {
-        m_ow.addLine(PbnTools.getStr("error.onlyOneTagAllowed", sTag));
+        println(PbnTools.getStr("error.onlyOneTagAllowed", sTag));
       }
       return null;
     }
@@ -181,13 +188,13 @@ abstract public class HtmlTourDownloader
     String sFound = elem.attr("content");
     if (sFound.isEmpty()) {
       if (!bSilent) {
-        m_ow.addLine(PbnTools.getStr("error.tagNotFound", "<meta name=\"GENERATOR\" content="));
+        println(PbnTools.getStr("error.tagNotFound", "<meta name=\"GENERATOR\" content="));
         return false;
       }
     }
     if (!sFound.equals(sExpValue)) {
       if (!bSilent) {
-        m_ow.addLine(PbnTools.getStr("error.invalidTagValue", "<meta name=\"GENERATOR\" content=",
+        println(PbnTools.getStr("error.invalidTagValue", "<meta name=\"GENERATOR\" content=",
                                      sExpValue, sFound));
         return false;
       }
@@ -203,7 +210,7 @@ abstract public class HtmlTourDownloader
     String sText = elem.text();
     sText = sText.replace('\u00a0', ' ');
     if (!sText.matches(sTextReg)) {
-      m_ow.addLine(PbnTools.getStr("error.invalidTagValue", sTag, sTextReg, elem.text()));
+      println(PbnTools.getStr("error.invalidTagValue", sTag, sTextReg, elem.text()));
       return false;
     }
     return true;
@@ -215,7 +222,7 @@ abstract public class HtmlTourDownloader
     m_sTitle=""; m_sDirName="";
     Elements elems = m_doc.head().select("title");
     if (elems.size()>0) { m_sTitle = elems.get(0).text(); }
-    m_ow.addLine(m_sTitle);
+    println(m_sTitle);
     String sPath = m_remoteUrl.getPath();
     String sLast = sPath.replaceFirst("^.*/", "");
     if (sLast.indexOf('.')>=0) {
@@ -223,7 +230,7 @@ abstract public class HtmlTourDownloader
     } else {
       m_sDirName = sLast;
     }
-    m_ow.addLine(m_sDirName);
+    println(m_sDirName);
     
   }
 
@@ -302,7 +309,7 @@ abstract public class HtmlTourDownloader
     for (String sErr: asErr) {
       sErr = sErr.intern();
       if (!m_setErr.contains(sErr)) {
-        m_ow.addLine(sErr);
+        println(sErr);
         m_setErr.add(sErr);
       }
     }
@@ -326,7 +333,7 @@ abstract public class HtmlTourDownloader
       if (m_sSourceDir.endsWith("/"))
         m_sSourceDir = m_sSourceDir.substring(0, m_sSourceDir.length() - 1);
       m_sSourceDir = new File(m_sSourceDir).getAbsolutePath();
-      m_ow.addLine(PbnTools.getStr("tourDown.msg.localLink", m_sLocalDir));
+      println(PbnTools.getStr("tourDown.msg.localLink", m_sLocalDir));
     } else {
       m_sSourceDir = m_sLocalDir;
       // constructing local url after isDownloaded set m_sLocalDir
@@ -337,14 +344,14 @@ abstract public class HtmlTourDownloader
       } catch (Exception e) {
         throw new DownloadFailedException(e, m_ow, m_bSilent);
       }
-      m_ow.addLine("local url: " + m_localUrl);
+      println("local url: " + m_localUrl);
       
       if (!isDownloaded()) {
-        m_ow.addLine(PbnTools.getStr("tourDown.msg.willWget", m_sLocalDir));
+        println(PbnTools.getStr("tourDown.msg.willWget", m_sLocalDir));
         wget();
-        m_ow.addLine(PbnTools.getStr("tourDown.msg.wgetDone", m_sLocalDir));
+        println(PbnTools.getStr("tourDown.msg.wgetDone", m_sLocalDir));
       } else {
-        m_ow.addLine(PbnTools.getStr("tourDown.msg.alreadyWgetted", m_sLocalDir));
+        println(PbnTools.getStr("tourDown.msg.alreadyWgetted", m_sLocalDir));
       }
     }
 
@@ -355,7 +362,7 @@ abstract public class HtmlTourDownloader
     String sAver = "0";
     if (nUnique != 0)
       sAver = String.format("%.3f", aDeal.length * 1.0 / nUnique);
-    m_ow.addLine(PbnTools.getStr("tourDown.msg.dealsSaved", sPbnFile,
+    println(PbnTools.getStr("tourDown.msg.dealsSaved", sPbnFile,
       aDeal.length, nUnique, sAver));
 
     return true;
@@ -433,12 +440,12 @@ abstract public class HtmlTourDownloader
     String sAjaxCmd = docLocal.body().attr("onload");
     if (sAjaxCmd.isEmpty()) {
       // nothing to do, no onload handler
-      if (bWarn) { m_ow.addLine(PbnTools.getStr("tourDown.msg.noOnLoad", sLocalFile)); }
+      if (bWarn) { println(PbnTools.getStr("tourDown.msg.noOnLoad", sLocalFile)); }
       return;
     }
     Matcher m = Pattern.compile("^initAjax\\('([^']+)','([^']+)'.*$").matcher(sAjaxCmd);
     if (!m.matches()) {
-      if (bWarn) { m_ow.addLine(PbnTools.getStr("tourDown.msg.noInitAjax", sLocalFile)); }
+      if (bWarn) { println(PbnTools.getStr("tourDown.msg.noInitAjax", sLocalFile)); }
       return;
     }
     String sContentFile = m.group(1);
@@ -498,7 +505,7 @@ abstract public class HtmlTourDownloader
           }
         }
         if (sDoubles.length() > 0) {
-          m_ow.addLine(sDoubles);
+          println(sDoubles);
           // after reading doubles (if present) the string should be empty
           throw new DownloadFailedException(PbnTools.getStr(
             "tourDown.error.wrongDblContr", d.getNumber(), contrElem.html()));
