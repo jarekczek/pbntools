@@ -36,6 +36,7 @@ import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import jc.f;
+import jc.JCException;
 import jc.SoupProxy;
 import jc.outputwindow.OutputWindow;
 import jc.outputwindow.DialogOutputWindow;
@@ -185,6 +186,15 @@ public class PbnTools {
     f.desktopBrowse(parent, getStr("homepage") + "#download");
   }
   
+  /** Returns all supported deal readers. */
+  public static DealReader[] getDealReaders()
+  {
+    return new DealReader[] {
+      new KopsTourDownloader(),
+      new ParyTourDownloader()
+    };
+  }
+  
   static void pobierzKops(String sLink, boolean bGui) //{{{
   {
     if (getWorkDir(bGui) == null) { return; }
@@ -225,14 +235,28 @@ public class PbnTools {
     * @param sOutFile May be <code>null</code>, in which case a new filename
     * is constructed in working directory. */
   static void convert(String sLink, String sOutFile)
+    throws VerifyFailedException
   {
     if (sOutFile == null) {
       String sFile = f.getFileNameNoExt(sLink);
       sOutFile = new File(getWorkDir(false),
                           f.getFileNameNoExt(sLink) + ".pbn").toString();
     }
+
     if (getVerbos() > 0)
       f.out(getStr("msg.converting", sLink, sOutFile));
+    boolean bRightReader = false;
+    for (DealReader dr: getDealReaders()) {
+      try {
+        if (dr.verify(sLink, true)) {
+          bRightReader = true;
+          break;
+        }
+      } catch (VerifyFailedException vfe) {}
+    }
+    if (!bRightReader) {
+      throw new VerifyFailedException(getStr("msg.noDealReader"));
+    }
   } //}}}
     
   public static void setWindowIcons(java.awt.Window wnd) {
@@ -319,7 +343,14 @@ public class PbnTools {
       if (asFileArgs.size() > 1) {
         f.err(getStr("error.wrongArgCount", asFileArgs.size()));
       }
-      convert(asFileArgs.get(0), sOutFile);
+      try {
+        convert(asFileArgs.get(0), sOutFile);
+      } catch (JCException e) {
+        if (f.isDebugMode())
+          e.printStackTrace();
+        else
+          System.err.println(e.toString());
+      }
     }
   }
     

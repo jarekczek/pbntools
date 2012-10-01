@@ -83,8 +83,10 @@ public class KopsTourDownloader extends HtmlTourDownloader
 
   /** Verifies whether link points to a valid data in this format.
     * Sets m_sTitle and m_sDirName members. Leaves m_doc filled. */
-  public boolean verify(boolean bSilent) throws VerifyFailedException
+  public boolean verify(String sLink, boolean bSilent)
+    throws VerifyFailedException
   {
+    setLink(sLink);
     Document doc;
     try {
       SoupProxy proxy = new SoupProxy();
@@ -95,7 +97,8 @@ public class KopsTourDownloader extends HtmlTourDownloader
     catch (JCException e) {
       throw new VerifyFailedException(e, m_ow);
     }
-    m_ow.addLine(PbnTools.m_res.getString("msg.documentLoaded"));
+    if (!bSilent)
+      m_ow.addLine(PbnTools.m_res.getString("msg.documentLoaded"));
 
     if (!checkGenerator(doc, "KoPS2www, JFR 2005", bSilent))
       throw new VerifyFailedException("generator");
