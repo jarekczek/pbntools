@@ -21,6 +21,7 @@
 
 package jc.pbntools.download;
 
+import jc.outputwindow.OutputWindow;
 import jc.pbntools.Deal;
 
 public interface DealReader
@@ -31,4 +32,7 @@ public interface DealReader
   /** Verifies if the <code>sUrl</code> contains valid data in this format */
   public boolean verify(String sUrl, boolean bSilent)
     throws VerifyFailedException;
+    
+  /** Sets the window to which output messages will be directed */
+  abstract public void setOutputWindow(OutputWindow ow);
 }
