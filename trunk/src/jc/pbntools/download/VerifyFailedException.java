@@ -33,14 +33,14 @@ import jc.outputwindow.OutputWindowWriter;
  */
 public class VerifyFailedException extends JCException
 {
-  VerifyFailedException(String sMessage, OutputWindow ow, boolean bPrint) {
+  public VerifyFailedException(String sMessage, OutputWindow ow, boolean bPrint) {
     super(sMessage);
     if (bPrint) { ow.addLine(sMessage); }
   }
   
-  VerifyFailedException(String sMessage) { super(sMessage); }
+  public VerifyFailedException(String sMessage) { super(sMessage); }
   
-  VerifyFailedException(Throwable t, OutputWindow ow)
+  public VerifyFailedException(Throwable t, OutputWindow ow)
   {
     super(t);
     ow.addLine(t.getMessage());

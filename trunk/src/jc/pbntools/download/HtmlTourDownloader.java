@@ -266,7 +266,8 @@ abstract public class HtmlTourDownloader
    * <li>m_cDeals
    * </ul>
    */
-  abstract protected boolean verify(boolean bSilent) throws VerifyFailedException;
+  abstract public boolean verify(String sLink, boolean bSilent)
+    throws VerifyFailedException;
   
   abstract protected void wget() throws DownloadFailedException;
   

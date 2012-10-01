@@ -151,7 +151,8 @@ public class ParyTourDownloader extends HtmlTourDownloader
     catch (JCException e) {
       throw new VerifyFailedException(e, m_ow);
     }
-    m_ow.addLine(PbnTools.m_res.getString("msg.documentLoaded"));
+    if (!bSilent)
+      m_ow.addLine(PbnTools.m_res.getString("msg.documentLoaded"));
 
     if (!checkGenerator(doc, "JFR 2005", bSilent)) { throw new VerifyFailedException("generator"); }
     if (doc.body() != null) {
@@ -165,8 +166,10 @@ public class ParyTourDownloader extends HtmlTourDownloader
     return true;
   } //}}}
   
-  public boolean verify(boolean bSilent) throws VerifyFailedException
+  public boolean verify(String sLink, boolean bSilent)
+    throws VerifyFailedException
   {
+    setLink(sLink);
     boolean bRedirected = true;
     while (bRedirected) {
       if (!verifyDirect(bSilent)) { return false; }

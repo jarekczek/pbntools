@@ -27,4 +27,8 @@ public interface DealReader
 {
   public Deal[] readDeals(String sUrl, boolean bSilent)
     throws DownloadFailedException;
+
+  /** Verifies if the <code>sUrl</code> contains valid data in this format */
+  public boolean verify(String sUrl, boolean bSilent)
+    throws VerifyFailedException;
 }
