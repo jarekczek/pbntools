@@ -86,7 +86,7 @@ abstract public class HtmlTourDownloader
     * interned. */
   protected Set<String> m_setErr = new HashSet<String>();
   
-  /** set the window to which output messages will be directed */
+  @Override
   abstract public void setOutputWindow(OutputWindow ow);
   
   /** Not called from anywhere yet. Default constructor is sufficient. */
