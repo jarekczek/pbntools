@@ -35,7 +35,7 @@ public class VerifyFailedException extends JCException
 {
   public VerifyFailedException(String sMessage, OutputWindow ow, boolean bPrint) {
     super(sMessage);
-    if (bPrint) { ow.addLine(sMessage); }
+    if (bPrint && ow != null) { ow.addLine(sMessage); }
   }
   
   public VerifyFailedException(String sMessage) { super(sMessage); }
@@ -43,7 +43,7 @@ public class VerifyFailedException extends JCException
   public VerifyFailedException(Throwable t, OutputWindow ow)
   {
     super(t);
-    ow.addLine(t.getMessage());
+    if (ow != null) ow.addLine(t.getMessage());
     // if (!System.getProperty("jc.debug", "0").equals("0")) {
       // t.printStackTrace(new PrintWriter(new OutputWindowWriter(ow)));
     // }

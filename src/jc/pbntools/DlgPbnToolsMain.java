@@ -27,6 +27,8 @@ import java.util.*;
 import javax.swing.GroupLayout;
 import javax.swing.SwingConstants;
 import jc.f;
+import jc.JCException;
+import jc.pbntools.download.VerifyFailedException;
 
 public class DlgPbnToolsMain extends javax.swing.JFrame {
 
@@ -48,6 +50,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
       
         pbPobierzKops = new javax.swing.JButton();
         pbPobierzPary = new javax.swing.JButton();
+        pbConvert = new javax.swing.JButton();
         // pbPobierzBbo = new javax.swing.JButton();
         pbKonfig = new javax.swing.JButton();
         pbZakoncz = new javax.swing.JButton();
@@ -70,6 +73,13 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
         pbPobierzPary.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbPobierzParyActionPerformed(evt);
+            }
+        });
+
+        f.setTextAndMnem(pbConvert, PbnTools.getRes(), "convertToPbn");
+        pbConvert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pbConvertActionPerformed(evt);
             }
         });
 
@@ -132,6 +142,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
                     // .addComponent(pbPobierzBbo, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(pbPobierzKops, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(pbPobierzPary, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                    .addComponent(pbConvert, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(pbOtworzPbn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(5*cxChar))
         );
@@ -148,6 +159,8 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
                 .addComponent(pbPobierzKops)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pbPobierzPary)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pbConvert)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 // .addComponent(pbPobierzBbo)
                 // .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -169,25 +182,33 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         DlgPbnToolsConf d = new DlgPbnToolsConf(this, true);
         d.setVisible(true);
-    }//GEN-LAST:event_pbKonfigActionPerformed
+    }
 
-    private void pbPobierzKopsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbPobierzKopsActionPerformed
-      // TODO add your handling code here:
+    private void pbPobierzKopsActionPerformed(java.awt.event.ActionEvent evt) {
       DlgPobierzKops d = new DlgPobierzKops(null,true);
       d.setVisible(true);
       if (d.rv==2) {
         PbnTools.pobierzKops(d.m_sLink, true);
         }
-    }//GEN-LAST:event_pbPobierzParyActionPerformed
+    }
 
-    private void pbPobierzParyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbPobierzParyActionPerformed
-      // TODO add your handling code here:
+    private void pbPobierzParyActionPerformed(java.awt.event.ActionEvent evt) {
       DlgPobierzPary d = new DlgPobierzPary(null,true);
       d.setVisible(true);
       if (d.rv==2) {
         PbnTools.pobierzPary(d.m_sLink, true);
         }
-    }//GEN-LAST:event_pbPobierzParyActionPerformed
+    }
+
+    private void pbConvertActionPerformed(java.awt.event.ActionEvent evt) {
+      DlgConvert d = new DlgConvert(null,true);
+      d.setVisible(true);
+      if (d.rv==2) {
+        try {
+          PbnTools.convert(d.m_sLink, null, true);
+        } catch (VerifyFailedException dfe) { /* no problem */ }
+      }
+    }
 
     private void pbPobierzBboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbPobierzBboActionPerformed
         // TODO add your handling code here:
@@ -249,6 +270,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
     private javax.swing.JButton pbPobierzBbo;
     private javax.swing.JButton pbPobierzKops;
     private javax.swing.JButton pbPobierzPary;
+    private javax.swing.JButton pbConvert;
     private javax.swing.JButton pbPomoc;
     private javax.swing.JButton pbZakoncz;
     // End of variables declaration//GEN-END:variables
