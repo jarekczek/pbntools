@@ -63,6 +63,8 @@ public abstract class OutputWindow {
   
   public boolean isStopped() { return m_bStop; }
   
+  /** <code>run</code> must call <code>ow.threadFinished()</code>
+    * when finishes. */
   public static abstract class Client implements Runnable
   {
     public void setOutputWindow(OutputWindow ow) {};

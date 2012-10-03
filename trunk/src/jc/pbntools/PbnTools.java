@@ -234,29 +234,51 @@ public class PbnTools {
     * @param sLink Url or local filename.
     * @param sOutFile May be <code>null</code>, in which case a new filename
     * is constructed in working directory. */
-  static void convert(String sLink, String sOutFile)
+  static void convert(final String sLink, final String sOutFile0,
+                      boolean bGui)
     throws VerifyFailedException
   {
-    if (sOutFile == null) {
-      String sFile = f.getFileNameNoExt(sLink);
-      sOutFile = new File(getWorkDir(false),
-                          f.getFileNameNoExt(sLink) + ".pbn").toString();
+    OutputWindow.Client thr = new OutputWindow.Client() {
+      private OutputWindow m_ow;
+
+      public void setOutputWindow(OutputWindow ow) {
+        m_ow = ow;
+      }
+        
+      public void run() {
+        String sOutFile = sOutFile0;
+        if (sOutFile == null) {
+          String sFile = f.getFileNameNoExt(sLink);
+          sOutFile = new File(getWorkDir(false),
+                              f.getFileNameNoExt(sLink) + ".pbn").toString();
+        }
+
+        if (getVerbos() > 0)
+          f.out(getStr("msg.converting", sLink, sOutFile));
+        boolean bRightReader = false;
+        for (DealReader dr: getDealReaders()) {
+          try {
+            dr.setOutputWindow(m_ow);
+            if (dr.verify(sLink, true)) {
+              bRightReader = true;
+              break;
+            }
+          } catch (VerifyFailedException vfe) {}
+        }
+        if (!bRightReader) {
+          m_ow.addLine(getStr("msg.noDealReader"));
+        }
+        m_ow.threadFinished();
+    }};
+    
+    if (bGui) {
+      DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, thr, m_res);
+      ow.setVisible(true);
+    } else {
+      StandardOutputWindow ow =  new StandardOutputWindow(thr, m_res);
+      ow.waitFor();
     }
 
-    if (getVerbos() > 0)
-      f.out(getStr("msg.converting", sLink, sOutFile));
-    boolean bRightReader = false;
-    for (DealReader dr: getDealReaders()) {
-      try {
-        if (dr.verify(sLink, true)) {
-          bRightReader = true;
-          break;
-        }
-      } catch (VerifyFailedException vfe) {}
-    }
-    if (!bRightReader) {
-      throw new VerifyFailedException(getStr("msg.noDealReader"));
-    }
   } //}}}
     
   public static void setWindowIcons(java.awt.Window wnd) {
@@ -344,7 +366,7 @@ public class PbnTools {
         f.err(getStr("error.wrongArgCount", asFileArgs.size()));
       }
       try {
-        convert(asFileArgs.get(0), sOutFile);
+        convert(asFileArgs.get(0), sOutFile, false);
       } catch (JCException e) {
         if (f.isDebugMode())
           e.printStackTrace();
