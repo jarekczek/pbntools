@@ -91,7 +91,6 @@ public class TourDownloaderThread extends OutputWindow.Client
       e.printStackTrace();
       m_ow.addLine(e.getMessage());
     }
-    m_ow.threadFinished();
   } //}}}
   
 }

@@ -109,7 +109,7 @@ abstract public class HtmlTourDownloader
   protected void println(String sLine)
   {
     if (m_ow != null)
-      println(sLine);
+      m_ow.addLine(sLine);
   }
 
   /** Returns the url which may be used as base url for links from inside

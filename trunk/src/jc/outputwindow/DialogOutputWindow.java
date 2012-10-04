@@ -87,7 +87,7 @@ public class DialogOutputWindow extends OutputWindow {
     
     
     m_dlg.pack();
-    m_thr.start();
+    runClient();
   }
   
   public void setVisible(boolean bVisible) { m_dlg.setVisible(bVisible); }

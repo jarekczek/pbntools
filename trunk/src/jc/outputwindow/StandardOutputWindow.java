@@ -30,7 +30,7 @@ public class StandardOutputWindow extends OutputWindow {
   public StandardOutputWindow(Client cli, ResourceBundle res)
   {
     super(cli, res);
-    m_thr.start();
+    runClient();
   }
   
   /** Adds a line of text */
