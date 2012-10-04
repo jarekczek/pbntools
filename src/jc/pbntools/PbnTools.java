@@ -268,7 +268,6 @@ public class PbnTools {
         if (!bRightReader) {
           m_ow.addLine(getStr("msg.noDealReader"));
         }
-        m_ow.threadFinished();
     }};
     
     if (bGui) {

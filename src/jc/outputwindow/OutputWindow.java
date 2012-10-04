@@ -23,6 +23,7 @@ import java.util.concurrent.CountDownLatch;
 import java.io.InputStream;
 import java.lang.ProcessBuilder;
 import java.util.ResourceBundle;
+import javax.swing.SwingWorker;
 import jc.f;
 import jc.JCException;
 
@@ -36,13 +37,12 @@ public abstract class OutputWindow {
   protected StringBuffer m_sb;
   /** implements <code>Runnable</code> */
   protected Client m_cli;
-  protected Thread m_thr;
   protected boolean m_bStop;
   private CountDownLatch m_runLatch;
   
   protected ResourceBundle m_res;
 
-  /** Subclasses should run m_thr.run() at the end of the constructor */
+  /** Subclasses should invoke runClient() at the end of the constructor */
   public OutputWindow(Client cli, ResourceBundle res)
   {
     m_res = res;
@@ -50,8 +50,6 @@ public abstract class OutputWindow {
     m_bStop = false;
     m_cli = cli;
     m_cli.setOutputWindow(this);
-    m_thr = new Thread(m_cli);
-    m_thr.setName("OutputWindow-client");
     m_runLatch = new CountDownLatch(1);
   }
   
@@ -68,6 +66,25 @@ public abstract class OutputWindow {
   public static abstract class Client implements Runnable
   {
     public void setOutputWindow(OutputWindow ow) {};
+  }
+
+  // runClient method {{{
+  protected void runClient()
+  {
+    SwingWorker sw = new SwingWorker() {
+      @Override
+      public Object doInBackground()
+      {
+        m_cli.run();
+        return null;
+      }
+      @Override
+      protected void done()
+      {
+        threadFinished();
+      }
+    };
+    sw.execute();
   }
   
   /** Override this method to react on thread finishing, but call
