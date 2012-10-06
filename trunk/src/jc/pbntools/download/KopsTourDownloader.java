@@ -196,6 +196,8 @@ public class KopsTourDownloader extends HtmlTourDownloader
   {
     ArrayList<Deal> deals = new ArrayList<Deal>();
     for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
+      if (Thread.interrupted())
+        break;
       Deal ad[] = readDeals(getLocalLinkForDeal(iDeal), false);
       if (ad != null) {
         for (Deal d: ad) {
