@@ -124,7 +124,7 @@ public class DialogOutputWindow extends OutputWindow {
   class StopAction extends MyAction {
     StopAction(ResourceBundle res, String s) { super(res, s); }
     public void actionPerformed(java.awt.event.ActionEvent e) {
-      m_bStop = true;
+      stopClient();
       setEnabled(false);
     }
   }

@@ -37,8 +37,9 @@ public abstract class OutputWindow {
   protected StringBuffer m_sb;
   /** implements <code>Runnable</code> */
   protected Client m_cli;
-  protected boolean m_bStop;
+  private boolean m_bStop;
   private CountDownLatch m_runLatch;
+  private SwingWorker m_sw;
   
   protected ResourceBundle m_res;
 
@@ -60,6 +61,13 @@ public abstract class OutputWindow {
   public abstract void addText(String s);
   
   public boolean isStopped() { return m_bStop; }
+
+  /** Sets interrupted flag for the client thread. */
+  public void stopClient() {
+    m_bStop = true;
+    if (m_sw != null)
+      m_sw.cancel(true);
+  }
   
   /** <code>run</code> must call <code>ow.threadFinished()</code>
     * when finishes. */
@@ -71,7 +79,7 @@ public abstract class OutputWindow {
   // runClient method {{{
   protected void runClient()
   {
-    SwingWorker sw = new SwingWorker() {
+    m_sw = new SwingWorker() {
       @Override
       public Object doInBackground()
       {
@@ -84,7 +92,8 @@ public abstract class OutputWindow {
         threadFinished();
       }
     };
-    sw.execute();
+    if (!m_bStop)
+      m_sw.execute();
   }
   
   /** Override this method to react on thread finishing, but call
