@@ -36,6 +36,7 @@ import javax.swing.JDialog;
 import jc.f;
 import jc.JCException;
 import jc.outputwindow.OutputWindow;
+import jc.outputwindow.SimplePrinter;
 import jc.SoupProxy;
 import jc.pbntools.Card;
 import jc.pbntools.Deal;
@@ -56,7 +57,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
   protected Document m_docRoz;
   
 
-  public void setOutputWindow(OutputWindow ow)
+  public void setOutputWindow(SimplePrinter ow)
   {
     m_ow = ow;
   }

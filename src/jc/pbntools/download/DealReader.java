@@ -21,7 +21,7 @@
 
 package jc.pbntools.download;
 
-import jc.outputwindow.OutputWindow;
+import jc.outputwindow.SimplePrinter;
 import jc.pbntools.Deal;
 
 public interface DealReader
@@ -34,5 +34,5 @@ public interface DealReader
     throws VerifyFailedException;
     
   /** Sets the window to which output messages will be directed */
-  abstract public void setOutputWindow(OutputWindow ow);
+  abstract public void setOutputWindow(SimplePrinter sp);
 }
