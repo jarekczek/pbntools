@@ -2,7 +2,7 @@
 
 Copyright (C) 2011-2012 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
-jedit settings: :folding=explicit:indentSize=2:noTabs=true:
+jedit settings: :folding=explicit:indentSize=2:noTabs=true:collapseFolds=1:
 
 The MIT License (MIT)
 
@@ -53,14 +53,39 @@ public class f {
     m_res = ResourceBundle.getBundle("jc.f", Locale.getDefault());
 
     String sDebugLevel = System.getProperty("debug.level");
-    if (sDebugLevel != null) {
+    if (sDebugLevel == null)
+      sDebugLevel = System.getProperty("jc.debug");
+    setDebugLevel(sDebugLevel);
+  }
+
+  // setDebugLevel methods {{{
+  /** Sets debug level.<p>
+   * If the level is not set explicitly, <code>f</code> tries to parse
+   * properties <code>debug.level</code> and <code>jc.debug</code>
+   * and sets the level appropriately (at class static startup).
+   * @param sNewLevel If not number, 1 is assumed.
+   * @return Old level.
+   */
+  public static int setDebugLevel(String sNewLevel)
+  {
+    int nOldLevel = nDebugLevel;
+    if (sNewLevel != null) {
       try {
-        nDebugLevel = Integer.parseInt(sDebugLevel);
+        nDebugLevel = Integer.parseInt(sNewLevel);
       } catch (NumberFormatException nfe) {
         nDebugLevel = 1;
       }
     }
+    return nOldLevel;
   }
+
+  public static int setDebugLevel(int nNew)
+  {
+    int nOld = nDebugLevel;
+    nDebugLevel = nNew;
+    return nOld;
+  }
+  // }}}
     
   public static boolean stringIn(String s, String as[]) {
     int i;
@@ -88,7 +113,7 @@ public class f {
   }
 
   public static boolean isDebugMode() {
-    return !System.getProperty("jc.debug", "0").equals("0");
+    return nDebugLevel > 0;
   }
 
   public static String basePath(Class c) { //{{{

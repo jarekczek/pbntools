@@ -84,8 +84,8 @@ public class TourDownloaderThread extends OutputWindow.Client
     }
     catch (DownloadFailedException e) {
       m_ow.addLine(e.getMessage());
-      //TODO: added for debugging purposes, should be switchable
-      e.printStackTrace();
+      if (f.isDebugMode())
+        e.printStackTrace();
       }
     catch (Throwable e) {
       e.printStackTrace();
