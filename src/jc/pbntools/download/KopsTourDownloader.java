@@ -171,7 +171,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
     String sLinksFile = createIndexFile();
       
     String sCmdLine = "wget -p -k -nH -nd -nc --random-wait -E -e robots=off";
-    if (m_remoteUrl.toString().indexOf("localhost") < 0)
+    if (m_remoteUrl.toString().indexOf("localhost") < 100)
       sCmdLine += " -w 1";
     ArrayList<String> asCmdLine = new ArrayList<String>(Arrays.asList(sCmdLine.split(" ")));
     asCmdLine.add("--directory-prefix=" + m_sLocalDir);
