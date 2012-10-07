@@ -349,7 +349,8 @@ abstract public class HtmlTourDownloader
       if (!isDownloaded()) {
         println(PbnTools.getStr("tourDown.msg.willWget", m_sLocalDir));
         wget();
-        println(PbnTools.getStr("tourDown.msg.wgetDone", m_sLocalDir));
+        if (!Thread.currentThread().isInterrupted())
+          println(PbnTools.getStr("tourDown.msg.wgetDone", m_sLocalDir));
       } else {
         println(PbnTools.getStr("tourDown.msg.alreadyWgetted", m_sLocalDir));
       }
