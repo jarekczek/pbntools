@@ -129,11 +129,14 @@ public abstract class OutputWindow implements SimplePrinter {
 
   /** A class to enable running of external processes and having their output
   * in our window. */
-  public class Process {
+  public static class Process {
     
     public boolean m_bShowCommand = true;
+    protected SimplePrinter m_sp;
     
-    protected Process() {}
+    public Process(SimplePrinter sp) {
+      m_sp = sp;
+    }
     
     public boolean stillRunning(java.lang.Process p) {
       try {
@@ -146,7 +149,7 @@ public abstract class OutputWindow implements SimplePrinter {
     }
     
     public int exec(String as[]) throws JCException {
-      if (m_bShowCommand) { addLine(f.toSpacedString(as)); }
+      if (m_bShowCommand) { m_sp.addLine(f.toSpacedString(as)); }
       ProcessBuilder pb = new ProcessBuilder(as);
       pb.redirectErrorStream(true);
       java.lang.Process p = null;
@@ -154,7 +157,7 @@ public abstract class OutputWindow implements SimplePrinter {
       try {
         p = pb.start();
         InputStream is = p.getInputStream();
-        sct = new StreamCopyThread(is, OutputWindow.this);
+        sct = new StreamCopyThread(is, m_sp);
         sct.start();
         p.waitFor();
       }
@@ -162,11 +165,10 @@ public abstract class OutputWindow implements SimplePrinter {
         throw new JCException(eio);
       }
       catch (InterruptedException ie) {
-        assert(m_bStop);
         // no problem, but we must pass the flag further
         Thread.currentThread().interrupt();
       }
-      if (m_bStop) {
+      if (Thread.currentThread().isInterrupted()) {
         p.destroy();
         sct.interrupt();
         return 128;
@@ -175,8 +177,4 @@ public abstract class OutputWindow implements SimplePrinter {
     }
   }
 
-  public Process createProcess() {
-    return new Process();
-  }
-    
 }

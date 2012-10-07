@@ -183,7 +183,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
       asCmdLine.set(0, sWget);
     }
     
-    OutputWindow.Process p = m_ow.createProcess();
+    OutputWindow.Process p = new OutputWindow.Process(m_ow);
     try {
       p.exec(asCmdLine.toArray(new String[0]));
     } catch (JCException e) {
