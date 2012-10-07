@@ -23,11 +23,15 @@ import java.awt.Dialog;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener; 
+import java.awt.event.WindowListener;
+import java.awt.EventQueue;
 import java.io.*;
 import java.util.*;
 import java.util.ResourceBundle;
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.PlainDocument;
 import jc.f;
 import jc.MyAction;
 
@@ -39,6 +43,12 @@ public class DialogOutputWindow extends OutputWindow {
   protected JTextArea m_ebOut;
   protected CloseAction m_closeAction;
   protected StopAction m_stopAction;
+  protected Document m_doc;
+  /** <code>true</code> when gui update scheduled. This flag is to avoid
+    * multiple overlapping updates, not to call
+    * <code>invokeLater</code> too frequently.
+    */
+  private volatile boolean m_bUpdScheduled;
   
   public DialogOutputWindow(Window parent, Client cli, ResourceBundle res)
   {
@@ -62,9 +72,11 @@ public class DialogOutputWindow extends OutputWindow {
     pbStop.setAction(m_stopAction);
     m_stopAction.setEnabled(true);
     
+    m_doc = new PlainDocument();
     m_ebOut = new javax.swing.JTextArea();
     m_ebOut.setColumns(80);
     m_ebOut.setRows(25);
+    m_ebOut.setDocument(m_doc);
     JScrollPane scrollPane = new javax.swing.JScrollPane();
     scrollPane.setViewportView(m_ebOut);
 
@@ -92,24 +104,43 @@ public class DialogOutputWindow extends OutputWindow {
   
   public void setVisible(boolean bVisible) { m_dlg.setVisible(bVisible); }
   
-  /** updates output window with current m_sb content */
+  /** Updates output window so that the last line be visible */
   protected void update()
   {
-    m_ebOut.setText(new String(m_sb));
-    m_ebOut.setCaretPosition(m_sb.length());
+    if (!m_bUpdScheduled) {
+      m_bUpdScheduled = true;
+      EventQueue.invokeLater(new Runnable() {
+          public void run() {
+            m_bUpdScheduled = false;
+            try {
+              m_ebOut.setCaretPosition(m_doc.getLength());
+            }
+            catch (IllegalArgumentException iae) {
+              // doc not in sync with text field - too bad
+            }
+          }
+      });
+    }
   }
 
   /** Adds a line of text */
   public void addLine(String s)
   {
-    m_sb.append(s);
-    m_sb.append('\n');
-    update();
+    addText(s + "\n");
   }
   
   /** Adds text without new line */
-  public void addText(String s)
+  public synchronized void addText(String s)
   {
+    try {
+      boolean bInterrupted = Thread.interrupted();
+      m_doc.insertString(m_doc.getLength(), s, null);
+      if (bInterrupted)
+        Thread.currentThread().interrupt();
+    }
+    catch (BadLocationException ble) {
+      throw new RuntimeException(ble);
+    }
     m_sb.append(s);
     update();
   }

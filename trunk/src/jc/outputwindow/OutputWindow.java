@@ -40,6 +40,7 @@ public abstract class OutputWindow {
   private boolean m_bStop;
   private CountDownLatch m_runLatch;
   private SwingWorker m_sw;
+  private InputStream m_is;
   
   protected ResourceBundle m_res;
 
@@ -54,17 +55,29 @@ public abstract class OutputWindow {
     m_runLatch = new CountDownLatch(1);
   }
   
-  /** Adds a line of text */
+  /** Adds a line of text. This method must be synchronized. */
   public abstract void addLine(String s);
   
-  /** Adds text without new line */
+  /** Adds text without new line. This method must be synchronized. */
   public abstract void addText(String s);
   
   public boolean isStopped() { return m_bStop; }
 
-  /** Sets interrupted flag for the client thread. */
-  public void stopClient() {
+  /** Sets interrupted flag for the client thread. This method is
+    * synchronized to not let the thread be interrupted while
+    * performing critical operations, for instance
+    * <code>Document.insertString</code> */
+  public synchronized void stopClient() {
     m_bStop = true;
+    if (m_is != null) {
+      try {
+        m_is.close();
+      }
+      catch (java.io.IOException ioe) {
+        if (f.isDebugMode())
+          addLine("stream closing failed");
+      }
+    }
     if (m_sw != null)
       m_sw.cancel(true);
   }
@@ -84,12 +97,12 @@ public abstract class OutputWindow {
       public Object doInBackground()
       {
         m_cli.run();
+        threadFinished();
         return null;
       }
       @Override
       protected void done()
       {
-        threadFinished();
       }
     };
     if (!m_bStop)
@@ -101,6 +114,8 @@ public abstract class OutputWindow {
   public void threadFinished()
   {
     m_runLatch.countDown();
+    if (f.isDebugMode())
+      System.out.println("Client thread finished.");
   }
   
   /** Has the thread finished running? */
@@ -148,10 +163,15 @@ public abstract class OutputWindow {
     
     protected void printStream(InputStream is) {
       try {
-        while (is.available() > 0) {
-          byte[] buf = new byte[is.available()];
-          is.read(buf);
-          addText(new String(buf));
+        int b;
+        while ( (b = is.read()) >= 0 ) {
+          StringBuilder sb = new StringBuilder(String.valueOf((char)b));
+          while (is.available() > 0) {
+            byte[] buf = new byte[is.available()];
+            is.read(buf);
+            sb.append(new String(buf));
+          }
+          addText(sb.toString());
         }
       }
       catch (java.io.IOException e) { }
@@ -162,24 +182,29 @@ public abstract class OutputWindow {
       ProcessBuilder pb = new ProcessBuilder(as);
       pb.redirectErrorStream(true);
       java.lang.Process p = null;
-      InputStream is = null;
+      m_is = null;
       try {
-        p = pb.start();
-        is = p.getInputStream();
-        while (stillRunning(p) && !m_bStop) {
-          printStream(is);
+        try {
+          p = pb.start();
+          m_is = p.getInputStream();
+          while (stillRunning(p) && !m_bStop) {
+            printStream(m_is);
+          }
         }
+        catch (java.io.IOException eio) {
+          throw new JCException(eio);
+        }
+        if (m_bStop) {
+          p.destroy();
+          printStream(m_is);
+          return 128;
+        }
+        printStream(m_is);
+        return p.exitValue();
       }
-      catch (java.io.IOException eio) {
-        throw new JCException(eio);
+      finally {
+        m_is = null;
       }
-      if (m_bStop) {
-        p.destroy();
-        printStream(is);
-        return 128;
-      }
-      printStream(is);
-      return p.exitValue();
     }
   }
 

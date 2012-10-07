@@ -221,7 +221,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
     String sCmdLine = "wget -p -k -nH -nd -nc --random-wait -E -e robots=off";
     // download slowly if not from localhost
     if (m_remoteUrl.toString().indexOf("localhost") < 0)
-      sCmdLine += "-w 1";
+      sCmdLine += " -w 1";
     ArrayList<String> asCmdLine = new ArrayList<String>(Arrays.asList(sCmdLine.split(" ")));
     asCmdLine.add("--directory-prefix=" + m_sLocalDir);
     asCmdLine.add("--input-file=" + sLinksFile);
@@ -238,6 +238,8 @@ public class ParyTourDownloader extends HtmlTourDownloader
     } catch (JCException e) {
       throw new DownloadFailedException(e, m_ow, m_bSilent);
     }
+    if (Thread.currentThread().isInterrupted())
+      return;
     
     for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
       ajaxFile(getLinkForDeal(iDeal), true);
@@ -249,8 +251,10 @@ public class ParyTourDownloader extends HtmlTourDownloader
   {
     ArrayList<Deal> deals = new ArrayList<Deal>();
     for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
-      if (Thread.interrupted())
+      if (Thread.interrupted()) {
+        println(PbnTools.getStr("msg.interrupted"));
         break;
+      }
       Deal ad[] = readDeals(getLocalLinkForDeal(iDeal), false);
       if (ad != null) {
         for (Deal d: ad) {

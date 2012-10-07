@@ -34,13 +34,13 @@ public class StandardOutputWindow extends OutputWindow {
   }
   
   /** Adds a line of text */
-  public void addLine(String s)
+  public synchronized void addLine(String s)
   {
     System.out.println(s);
   }
   
   /** Adds text without new line */
-  public void addText(String s)
+  public synchronized void addText(String s)
   {
     System.out.print(s);
   }
