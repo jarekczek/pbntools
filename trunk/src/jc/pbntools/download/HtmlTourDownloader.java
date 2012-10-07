@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
 
 import jc.f;
 import jc.JCException;
-import jc.outputwindow.OutputWindow;
+import jc.outputwindow.SimplePrinter;
 import jc.pbntools.Card;
 import jc.pbntools.Deal;
 import jc.pbntools.PbnFile;
@@ -73,7 +73,7 @@ abstract public class HtmlTourDownloader
     * it would be a different directory, because the files are not copied
     * to output directory. */
   public String m_sSourceDir;
-  protected OutputWindow m_ow;
+  protected SimplePrinter m_ow;
   protected Document m_doc;
   public int m_cDeals;
   /** Current file, to show in error messages */
@@ -86,7 +86,7 @@ abstract public class HtmlTourDownloader
   protected Set<String> m_setErr = new HashSet<String>();
   
   @Override
-  abstract public void setOutputWindow(OutputWindow ow);
+  abstract public void setOutputWindow(SimplePrinter ow);
   
   /** Not called from anywhere yet. Default constructor is sufficient. */
   protected void clear() {
