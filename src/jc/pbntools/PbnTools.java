@@ -36,6 +36,7 @@ import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import jc.f;
+import jc.fgpl;
 import jc.JCException;
 import jc.SoupProxy;
 import jc.outputwindow.OutputWindow;
@@ -158,7 +159,7 @@ public class PbnTools {
         getStr("checkUpd.title"), JOptionPane.WARNING_MESSAGE);
       return;
     }
-    if (f.compareStrings(sCurrentVer, sHtmlVer, true) < 0) {
+    if (fgpl.compareStrings(sCurrentVer, sHtmlVer, true) < 0) {
       Object options[] = { getStr("download.label"),
                            getStr("cancel.label") };
       int rv = JOptionPane.showOptionDialog(parent,
@@ -169,7 +170,7 @@ public class PbnTools {
         browseInstallPage(parent);
       }
     }
-    else if (f.compareStrings(sCurrentVer, sHtmlVer, true) > 0) {
+    else if (fgpl.compareStrings(sCurrentVer, sHtmlVer, true) > 0) {
       JOptionPane.showMessageDialog(parent,
         getStr("checkUpd.greater", sCurrentVer, sHtmlVer),
         getStr("checkUpd.title"), JOptionPane.PLAIN_MESSAGE);
