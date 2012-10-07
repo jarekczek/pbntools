@@ -154,10 +154,13 @@
 </target>
 
 <target name="run" depends="run-prereq">
+  <condition property="jvmdebug" value="-Djc.debug=${jc.debug}"
+    else="-Djc.debug=0" >
+    <isset property="jc.debug" />
+  </condition>
   <java jar="${runDir}/PbnTools.jar" fork="true" >
     <jvmarg value="-Duser.language=xx" />
-    <jvmarg value="-Ddebug.level=1" />
-    <jvmarg value="-Djc.debug=1" />
+    <jvmarg value="${jvmdebug}" />
     <arg line="" />
   </java>
 </target>

@@ -32,7 +32,7 @@ import jc.JCException;
     <code>create()</code>.
   */
 
-public abstract class OutputWindow {
+public abstract class OutputWindow implements SimplePrinter {
   
   protected StringBuffer m_sb;
   /** implements <code>Runnable</code> */
@@ -54,12 +54,6 @@ public abstract class OutputWindow {
     m_cli.setOutputWindow(this);
     m_runLatch = new CountDownLatch(1);
   }
-  
-  /** Adds a line of text. This method must be synchronized. */
-  public abstract void addLine(String s);
-  
-  /** Adds text without new line. This method must be synchronized. */
-  public abstract void addText(String s);
   
   public boolean isStopped() { return m_bStop; }
 
