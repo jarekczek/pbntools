@@ -41,7 +41,6 @@ import java.util.regex.Pattern;
 import jc.f;
 import jc.JCException;
 import jc.outputwindow.OutputWindow;
-import jc.outputwindow.OutputWindowWriter;
 import jc.pbntools.Card;
 import jc.pbntools.Deal;
 import jc.pbntools.PbnFile;

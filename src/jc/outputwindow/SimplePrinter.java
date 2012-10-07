@@ -1,8 +1,6 @@
 /* *****************************************************************************
 
-    jedit options: :folding=explicit:tabSize=2:noTabs=true:
-
-    Copyright (C) 2011-2 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
+    Copyright (C) 2012 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,29 +17,16 @@
    *****************************************************************************
 */
 
-package jc.pbntools.download;
+package jc.outputwindow;
 
-import java.io.PrintWriter;
+/** An interface to provide basic output methods.
+  */
 
-import jc.JCException;
-import jc.outputwindow.SimplePrinter;
-
-/**
- * An exception thrown when downloading tournaments, for example by class
- * {@link HtmlTourDownloader}
- */
-public class VerifyFailedException extends JCException
-{
-  public VerifyFailedException(String sMessage, SimplePrinter ow, boolean bPrint) {
-    super(sMessage);
-    if (bPrint && ow != null) { ow.addLine(sMessage); }
-  }
+public interface SimplePrinter {
   
-  public VerifyFailedException(String sMessage) { super(sMessage); }
+  /** Adds a line of text. This method must be synchronized. */
+  public void addLine(String s);
   
-  public VerifyFailedException(Throwable t, SimplePrinter ow)
-  {
-    super(t);
-    if (ow != null) ow.addLine(t.getMessage());
-  }
+  /** Adds text without new line. This method must be synchronized. */
+  public void addText(String s);
 }
