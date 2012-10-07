@@ -40,7 +40,6 @@ public abstract class OutputWindow implements SimplePrinter {
   private boolean m_bStop;
   private CountDownLatch m_runLatch;
   private SwingWorker m_sw;
-  private InputStream m_is;
   
   protected ResourceBundle m_res;
 
@@ -63,15 +62,6 @@ public abstract class OutputWindow implements SimplePrinter {
     * <code>Document.insertString</code> */
   public synchronized void stopClient() {
     m_bStop = true;
-    if (m_is != null) {
-      try {
-        m_is.close();
-      }
-      catch (java.io.IOException ioe) {
-        if (f.isDebugMode())
-          addLine("stream closing failed");
-      }
-    }
     if (m_sw != null)
       m_sw.cancel(true);
   }
@@ -155,50 +145,33 @@ public abstract class OutputWindow implements SimplePrinter {
       }
     }
     
-    protected void printStream(InputStream is) {
-      try {
-        int b;
-        while ( (b = is.read()) >= 0 ) {
-          StringBuilder sb = new StringBuilder(String.valueOf((char)b));
-          while (is.available() > 0) {
-            byte[] buf = new byte[is.available()];
-            is.read(buf);
-            sb.append(new String(buf));
-          }
-          addText(sb.toString());
-        }
-      }
-      catch (java.io.IOException e) { }
-    }
-    
     public int exec(String as[]) throws JCException {
       if (m_bShowCommand) { addLine(f.toSpacedString(as)); }
       ProcessBuilder pb = new ProcessBuilder(as);
       pb.redirectErrorStream(true);
       java.lang.Process p = null;
-      m_is = null;
+      StreamCopyThread sct = null; 
       try {
-        try {
-          p = pb.start();
-          m_is = p.getInputStream();
-          while (stillRunning(p) && !m_bStop) {
-            printStream(m_is);
-          }
-        }
-        catch (java.io.IOException eio) {
-          throw new JCException(eio);
-        }
-        if (m_bStop) {
-          p.destroy();
-          printStream(m_is);
-          return 128;
-        }
-        printStream(m_is);
-        return p.exitValue();
+        p = pb.start();
+        InputStream is = p.getInputStream();
+        sct = new StreamCopyThread(is, OutputWindow.this);
+        sct.start();
+        p.waitFor();
       }
-      finally {
-        m_is = null;
+      catch (java.io.IOException eio) {
+        throw new JCException(eio);
       }
+      catch (InterruptedException ie) {
+        assert(m_bStop);
+        // no problem, but we must pass the flag further
+        Thread.currentThread().interrupt();
+      }
+      if (m_bStop) {
+        p.destroy();
+        sct.interrupt();
+        return 128;
+      }
+      return p.exitValue();
     }
   }
 
