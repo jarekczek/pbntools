@@ -39,9 +39,11 @@ import jc.f;
 import jc.fgpl;
 import jc.JCException;
 import jc.SoupProxy;
-import jc.outputwindow.OutputWindow;
 import jc.outputwindow.DialogOutputWindow;
+import jc.outputwindow.OutputWindow;
+import jc.outputwindow.SimplePrinter;
 import jc.outputwindow.StandardOutputWindow;
+import jc.outputwindow.StandardSimplePrinter;
 import jc.pbntools.*;
 import jc.pbntools.download.*;
 import org.jsoup.Jsoup;
@@ -240,9 +242,9 @@ public class PbnTools {
     throws VerifyFailedException
   {
     OutputWindow.Client thr = new OutputWindow.Client() {
-      private OutputWindow m_ow;
+      private SimplePrinter m_ow;
 
-      public void setOutputWindow(OutputWindow ow) {
+      public void setOutputWindow(SimplePrinter ow) {
         m_ow = ow;
       }
         
@@ -275,8 +277,8 @@ public class PbnTools {
       DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, thr, m_res);
       ow.setVisible(true);
     } else {
-      StandardOutputWindow ow =  new StandardOutputWindow(thr, m_res);
-      ow.waitFor();
+      thr.setOutputWindow(new StandardSimplePrinter());
+      thr.run();
     }
 
   } //}}}

@@ -70,7 +70,7 @@ public abstract class OutputWindow implements SimplePrinter {
     * when finishes. */
   public static abstract class Client implements Runnable
   {
-    public void setOutputWindow(OutputWindow ow) {};
+    public void setOutputWindow(SimplePrinter ow) {};
   }
 
   // runClient method {{{
