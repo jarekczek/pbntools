@@ -21,11 +21,24 @@
 
 package jc.pbntools.download;
 
+import java.io.FileWriter;
+import java.io.Writer;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import jc.JCException;
 import jc.outputwindow.SimplePrinter;
 import jc.pbntools.Deal;
+import jc.pbntools.PbnTools;
+import jc.SoupProxy;
 
 public class LinReader implements DealReader
 {
+  protected SimplePrinter m_sp; 
+  
   public Deal[] readDeals(String sUrl, boolean bSilent)
     throws DownloadFailedException
   {
@@ -36,12 +49,36 @@ public class LinReader implements DealReader
   public boolean verify(String sUrl, boolean bSilent)
     throws VerifyFailedException
   {
-    return false;
+    // We should read lin file directly, but SoupProxy has a cache
+    // so it would be more network efficient to use it.
+    Document doc;
+    try {
+      SoupProxy proxy = new SoupProxy();
+      doc = proxy.getDocument(sUrl);
+    }
+    catch (JCException e) {
+      throw new VerifyFailedException(e, m_sp);
+    }
+    String sLin = doc.text();
+    for (int i=0; i<sLin.length(); i++) {
+      String sChar = sLin.substring(i, i+1);
+      if (!sChar.matches("[a-zA-Z0-9|, ]")) {
+        if (!bSilent)
+          m_sp.addLine(PbnTools.getStr("msg.unexpChar", sChar, i));
+        return false;
+      }
+    }
+    if (sLin.indexOf('|') < 0) {
+      if (!bSilent)
+        m_sp.addLine(PbnTools.getStr("msg.missChar", "|"));
+      return false;
+    }
+    return true;
   }
     
   /** Sets the window to which output messages will be directed */
   public void setOutputWindow(SimplePrinter sp)
   {
-    
+    m_sp = sp;
   }
 }

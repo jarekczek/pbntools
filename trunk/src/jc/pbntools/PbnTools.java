@@ -263,8 +263,10 @@ public class PbnTools {
         for (DealReader dr: getDealReaders()) {
           try {
             dr.setOutputWindow(m_ow);
-            if (dr.verify(sLink, true)) {
+            if (dr.verify(sLink, f.isDebugMode())) {
               bRightReader = true;
+              m_ow.addLine(
+                getStr("msg.readerFound", dr.getClass().getName()));
               break;
             }
           } catch (VerifyFailedException vfe) {}
