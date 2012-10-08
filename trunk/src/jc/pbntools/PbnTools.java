@@ -194,7 +194,8 @@ public class PbnTools {
   {
     return new DealReader[] {
       new KopsTourDownloader(),
-      new ParyTourDownloader()
+      new ParyTourDownloader(),
+      new LinReader()
     };
   }
   
