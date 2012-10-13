@@ -238,50 +238,17 @@ public class PbnTools {
     * @param sLink Url or local filename.
     * @param sOutFile May be <code>null</code>, in which case a new filename
     * is constructed in working directory. */
-  static void convert(final String sLink, final String sOutFile0,
+  static void convert(String sLink, String sOutFile0,
                       boolean bGui)
     throws VerifyFailedException
   {
-    OutputWindow.Client thr = new OutputWindow.Client() {
-      private SimplePrinter m_ow;
-
-      public void setOutputWindow(SimplePrinter ow) {
-        m_ow = ow;
-      }
-        
-      public void run() {
-        String sOutFile = sOutFile0;
-        if (sOutFile == null) {
-          String sFile = f.getFileNameNoExt(sLink);
-          sOutFile = new File(getWorkDir(false),
-                              f.getFileNameNoExt(sLink) + ".pbn").toString();
-        }
-
-        if (getVerbos() > 0)
-          f.out(getStr("msg.converting", sLink, sOutFile));
-        boolean bRightReader = false;
-        for (DealReader dr: getDealReaders()) {
-          try {
-            dr.setOutputWindow(m_ow);
-            if (dr.verify(sLink, f.isDebugMode())) {
-              bRightReader = true;
-              m_ow.addLine(
-                getStr("msg.readerFound", dr.getClass().getName()));
-              break;
-            }
-          } catch (VerifyFailedException vfe) {}
-        }
-        if (!bRightReader) {
-          m_ow.addLine(getStr("msg.noDealReader"));
-        }
-    }};
-    
+    Convert cnv = new Convert(sLink, sOutFile0, bGui);
     if (bGui) {
-      DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, thr, m_res);
+      DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, cnv, m_res);
       ow.setVisible(true);
     } else {
-      thr.setOutputWindow(new StandardSimplePrinter());
-      thr.run();
+      cnv.setOutputWindow(new StandardSimplePrinter());
+      cnv.run();
     }
 
   } //}}}
@@ -425,4 +392,51 @@ public class PbnTools {
     System.out.println("koniec");
   }
 
+  // Convert class {{{
+  /** Runs converters (DealReaders) for link. */
+  static class Convert extends OutputWindow.Client
+  {
+    private String m_sLink;
+    private String m_sOutFile0;
+    private boolean m_bGui;
+    private SimplePrinter m_ow;
+    
+    public Convert(String sLink, String sOutFile0, boolean bGui)
+    {
+      m_sLink = sLink;
+      m_sOutFile0 = sOutFile0;
+      m_bGui = bGui;
+    }
+
+    public void setOutputWindow(SimplePrinter ow) {
+      m_ow = ow;
+    }
+      
+    public void run() {
+      String sOutFile = m_sOutFile0;
+      if (sOutFile == null) {
+        String sFile = f.getFileNameNoExt(m_sLink);
+        sOutFile = new File(getWorkDir(false),
+                            f.getFileNameNoExt(m_sLink) + ".pbn").toString();
+      }
+
+      if (getVerbos() > 0)
+        f.out(getStr("msg.converting", m_sLink, sOutFile));
+      boolean bRightReader = false;
+      for (DealReader dr: getDealReaders()) {
+        try {
+          dr.setOutputWindow(m_ow);
+          if (dr.verify(m_sLink, f.isDebugMode())) {
+            bRightReader = true;
+            m_ow.addLine(
+              getStr("msg.readerFound", dr.getClass().getName()));
+            break;
+          }
+        } catch (VerifyFailedException vfe) {}
+      }
+      if (!bRightReader) {
+        m_ow.addLine(getStr("msg.noDealReader"));
+      }
+    }
+  } //}}}
 }
