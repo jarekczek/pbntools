@@ -46,7 +46,7 @@ public class LinReader implements DealReader
   {
     assert(m_doc != null);
     String sLin = m_doc.text();
-    m_sp.addLine(sLin);
+    // m_sp.addLine(sLin);
     Scanner sc = new Scanner(sLin).useDelimiter("\\|");
     while (sc.hasNext()) {
       String sComm = sc.next();
@@ -59,7 +59,7 @@ public class LinReader implements DealReader
          PbnTools.getStr("lin.error.noArg", sComm));
       }
       String sArg = sc.next();
-      m_sp.addLine("Command: " + sComm + ", arg: " + sArg);
+      // m_sp.addLine("Command: " + sComm + ", arg: " + sArg);
     }
     return null;
   }
