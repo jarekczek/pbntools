@@ -195,6 +195,7 @@ public class PbnTools {
     return new DealReader[] {
       new KopsTourDownloader(),
       new ParyTourDownloader(),
+      new BboTourDownloader(),
       new LinReader()
     };
   }
@@ -303,6 +304,7 @@ public class PbnTools {
     for (int i=0; i<args.length; i++) {
       if (args[i].equals("--debug")) {
         System.setProperty("jc.debug", "1");
+        f.setDebugLevel(1);
       } else if (args[i].equals("--verbose")) {
         setVerbos(1);
       } else if (args[i].equals("-h")
@@ -425,8 +427,10 @@ public class PbnTools {
       boolean bRightReader = false;
       for (DealReader dr: getDealReaders()) {
         try {
+          if (f.isDebugMode())
+            m_ow.addLine("Trying reader: " + dr.getClass().getName()); 
           dr.setOutputWindow(m_ow);
-          if (dr.verify(m_sLink, f.isDebugMode())) {
+          if (dr.verify(m_sLink, !f.isDebugMode())) {
             bRightReader = true;
             m_ow.addLine(
               getStr("msg.readerFound", dr.getClass().getName()));
