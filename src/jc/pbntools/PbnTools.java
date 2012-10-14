@@ -430,6 +430,13 @@ public class PbnTools {
             bRightReader = true;
             m_ow.addLine(
               getStr("msg.readerFound", dr.getClass().getName()));
+            try {
+              Deal deals[] = dr.readDeals(m_sLink, false);
+            }
+            catch (DownloadFailedException dfe) {
+              m_ow.addLine(dfe.toString());
+              bRightReader = false;
+            }
             break;
           }
         } catch (VerifyFailedException vfe) {}
