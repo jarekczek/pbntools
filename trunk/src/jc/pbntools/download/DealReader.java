@@ -26,6 +26,7 @@ import jc.pbntools.Deal;
 
 public interface DealReader
 {
+  /** First <code>verify</code> must be called as it caches some data. */
   public Deal[] readDeals(String sUrl, boolean bSilent)
     throws DownloadFailedException;
 
