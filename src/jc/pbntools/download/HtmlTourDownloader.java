@@ -154,6 +154,34 @@ abstract public class HtmlTourDownloader
     return elems.get(0);
   }
   
+  /** Checks if text of first <code>sTag</code> starts with the given text.
+    * If not, throws exception.
+    * @throws DownloadFailedException */
+  protected void firstTagStartsWith(Element parent, String sTag,
+    String sStart, boolean bSilent)
+    throws DownloadFailedException
+  {
+    Element first = getFirstTag(parent, sTag, bSilent);
+    if (!first.text().startsWith(sStart))
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.tagStarts", sTag, sStart, first.text()),
+        m_ow, !bSilent);
+  }
+  
+  /** Checks if text of first <code>sTag</code> starts with the given text.
+    * If not, throws exception.
+    * @throws DownloadFailedException */
+  protected void firstTagMatches(Element parent, String sTag,
+    String sMatch, boolean bSilent)
+    throws DownloadFailedException
+  {
+    Element first = getFirstTag(parent, sTag, bSilent);
+    if (!first.text().matches(sMatch))
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.tagMatches", sTag, sMatch, first.text()),
+        m_ow, !bSilent);
+  }
+  
   /** Returns the card color corresponding to the given img tag element. 
     * @param img <code>img</code> Element. Its <code>src</code> attribute
     * denotes the card color. This version also accepts NT.

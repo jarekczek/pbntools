@@ -92,14 +92,14 @@ public class BboTourDownloader extends HtmlTourDownloader
     if (!bSilent)
       println(PbnTools.m_res.getString("msg.documentLoaded"));
     try {
-      Element th = getFirstTag(doc, "thh", bSilent);
-      m_ow.addLine(th.text());
+      firstTagStartsWith(doc, "th", "Tourney ", bSilent);
+      firstTagMatches(doc, "td.board", "Board [0-9]+ traveller", bSilent);
     }
     catch (DownloadFailedException dfe) {
       throw new VerifyFailedException(dfe);
     }
 
-    return false;
+    return true;
   }
 
   protected String createIndexFile() throws DownloadFailedException
