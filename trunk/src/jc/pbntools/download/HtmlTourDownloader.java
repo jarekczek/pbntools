@@ -141,6 +141,19 @@ abstract public class HtmlTourDownloader
     return elems.get(0);
   }
   
+  /** Returns first <code>sTag</code>, throws exception if not tag
+    * found. */
+  protected Element getFirstTag(Element parent, String sTag, boolean bSilent)
+    throws DownloadFailedException
+  {
+    Elements elems = parent.select(sTag);
+    if (elems.size()==0) {
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.tagNotFound", sTag), m_ow, !bSilent);
+    }
+    return elems.get(0);
+  }
+  
   /** Returns the card color corresponding to the given img tag element. 
     * @param img <code>img</code> Element. Its <code>src</code> attribute
     * denotes the card color. This version also accepts NT.
@@ -296,7 +309,7 @@ abstract public class HtmlTourDownloader
       pbnFile.save(file.getAbsolutePath());
     }
     catch (IOException ioe) {
-      throw new DownloadFailedException(ioe, m_ow, m_bSilent);
+      throw new DownloadFailedException(ioe, m_ow, !m_bSilent);
     }
     return sPath;
   }
@@ -341,7 +354,7 @@ abstract public class HtmlTourDownloader
       try {
         m_localUrl = new File(new File(m_sLocalDir, "html"), sFileName).toURI().toURL();
       } catch (Exception e) {
-        throw new DownloadFailedException(e, m_ow, m_bSilent);
+        throw new DownloadFailedException(e, m_ow, !m_bSilent);
       }
       println("local url: " + m_localUrl);
       
@@ -389,9 +402,9 @@ abstract public class HtmlTourDownloader
       w.close();
     }
     catch (MalformedURLException mue) {
-      throw new DownloadFailedException(mue, m_ow, m_bSilent); 
+      throw new DownloadFailedException(mue, m_ow, !m_bSilent); 
     } catch (IOException ioe) {
-      throw new DownloadFailedException(ioe, m_ow, m_bSilent); 
+      throw new DownloadFailedException(ioe, m_ow, !m_bSilent); 
     }
     
   }
@@ -428,7 +441,7 @@ abstract public class HtmlTourDownloader
       docLocal = proxy.getDocumentFromFile(sLocalFile);
     }
     catch (JCException e) {
-      throw new DownloadFailedException(e, m_ow, m_bSilent);
+      throw new DownloadFailedException(e, m_ow, !m_bSilent);
     }
     
     if (docLocal.body() == null) {

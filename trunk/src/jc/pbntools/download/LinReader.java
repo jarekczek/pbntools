@@ -76,7 +76,7 @@ public class LinReader implements DealReader
       m_doc = proxy.getDocument(sUrl);
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e, m_sp);
+      throw new VerifyFailedException(e, m_sp, !bSilent);
     }
     String sLin = m_doc.text();
     for (int i=0; i<sLin.length(); i++) {

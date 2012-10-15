@@ -87,10 +87,17 @@ public class BboTourDownloader extends HtmlTourDownloader
       m_remoteUrl = proxy.getUrl();
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e, m_ow);
+      throw new VerifyFailedException(e, m_ow, !bSilent);
     }
     if (!bSilent)
       println(PbnTools.m_res.getString("msg.documentLoaded"));
+    try {
+      Element th = getFirstTag(doc, "thh", bSilent);
+      m_ow.addLine(th.text());
+    }
+    catch (DownloadFailedException dfe) {
+      throw new VerifyFailedException(dfe);
+    }
 
     return false;
   }
@@ -124,7 +131,7 @@ public class BboTourDownloader extends HtmlTourDownloader
       fw.close();
     }
     catch (java.io.IOException ioe) {
-      throw new DownloadFailedException(ioe, m_ow, m_bSilent);
+      throw new DownloadFailedException(ioe, m_ow, !m_bSilent);
     }
     return sLinksFile;
   }
@@ -150,7 +157,7 @@ public class BboTourDownloader extends HtmlTourDownloader
     try {
       p.exec(asCmdLine.toArray(new String[0]));
     } catch (JCException e) {
-      throw new DownloadFailedException(e, m_ow, m_bSilent);
+      throw new DownloadFailedException(e, m_ow, !m_bSilent);
     }
   }
 
@@ -192,7 +199,7 @@ public class BboTourDownloader extends HtmlTourDownloader
       doc = proxy.getDocument(sUrl);
     }
     catch (JCException e) {
-      throw new DownloadFailedException(e, m_ow, m_bSilent);
+      throw new DownloadFailedException(e, m_ow, !m_bSilent);
     }
 
     return processResults(deal, doc);
