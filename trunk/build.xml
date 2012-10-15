@@ -1,4 +1,4 @@
-<project name="PbnTools" default="run-test"
+<project name="PbnTools" default="run-test-debug"
   xmlns:ivy="antlib:org.apache.ivy.ant" >
 
 <!-- jedit properties: :folding=explicit:noTabs=true:indentSize=2: -->
@@ -173,6 +173,13 @@
   <!--specify testArgs in local.properties file-->
   <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=xx" />
     <arg line="${testArgs}" />
+  </java>
+</target>
+
+<target name="run-test-debug" depends="run-prereq">
+  <!--specify testArgs in local.properties file-->
+  <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=xx" />
+    <arg line="--debug ${testArgs}" />
   </java>
 </target>
 
