@@ -23,6 +23,7 @@ package jc.pbntools.download;
 
 import java.io.PrintWriter;
 
+import jc.f;
 import jc.JCException;
 import jc.outputwindow.SimplePrinter;
 
@@ -34,7 +35,8 @@ public class DownloadFailedException extends JCException
 {
   DownloadFailedException(String sMessage, SimplePrinter ow, boolean bPrint) {
     super(sMessage);
-    if (bPrint && ow != null) { ow.addLine(sMessage); }
+    if (ow != null && (bPrint || f.isDebugMode()))
+      ow.addLine(sMessage);
   }
   
   DownloadFailedException(String sMessage) { super(sMessage); }
@@ -42,6 +44,7 @@ public class DownloadFailedException extends JCException
   DownloadFailedException(Throwable t, SimplePrinter ow, boolean bPrint)
   {
     super(t);
-    if (bPrint && ow != null) ow.addLine(t.getMessage());
+    if (ow != null && (bPrint || f.isDebugMode()))
+      ow.addLine(t.getMessage());
   }
 }

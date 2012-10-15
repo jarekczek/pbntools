@@ -110,7 +110,9 @@ public class ParyTourDownloader extends HtmlTourDownloader
       SoupProxy proxy = new SoupProxy();
       doc1 = proxy.getDocument(sLink1);
     }
-    catch (JCException e) { throw new VerifyFailedException(e, m_ow); }
+    catch (JCException e) {
+      throw new VerifyFailedException(e, m_ow, !bSilent);
+    }
     
     // look for a link to the last one
     if (doc1.body() == null) {
@@ -150,7 +152,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
       m_remoteUrl = proxy.getUrl();
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e, m_ow);
+      throw new VerifyFailedException(e, m_ow, !bSilent);
     }
     if (!bSilent)
       println(PbnTools.m_res.getString("msg.documentLoaded"));
@@ -210,7 +212,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
       fw.close();
     }
     catch (java.io.IOException ioe) {
-      throw new DownloadFailedException(ioe, m_ow, m_bSilent);
+      throw new DownloadFailedException(ioe, m_ow, !m_bSilent);
     }
     return sLinksFile;
   }
@@ -237,7 +239,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
     try {
       p.exec(asCmdLine.toArray(new String[0]));
     } catch (JCException e) {
-      throw new DownloadFailedException(e, m_ow, m_bSilent);
+      throw new DownloadFailedException(e, m_ow, !m_bSilent);
     }
     if (Thread.currentThread().isInterrupted())
       return;
@@ -285,7 +287,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
       doc = proxy.getDocument(sUrl);
     }
     catch (JCException e) {
-      throw new DownloadFailedException(e, m_ow, m_bSilent);
+      throw new DownloadFailedException(e, m_ow, !m_bSilent);
     }
 
     // locate tbody with deal definition without results

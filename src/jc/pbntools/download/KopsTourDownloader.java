@@ -96,7 +96,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
       m_remoteUrl = proxy.getUrl();
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e, m_ow);
+      throw new VerifyFailedException(e, m_ow, !bSilent);
     }
     if (!bSilent)
       println(PbnTools.m_res.getString("msg.documentLoaded"));
@@ -116,7 +116,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
       m_docRoz = proxy.getDocument(getBaseUrl(m_sLink) + "roz.html");
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e, m_ow);
+      throw new VerifyFailedException(e, m_ow, !bSilent);
     }
     
     // default title, as <title> tag does not work well for kops
@@ -162,7 +162,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
       fw.close();
     }
     catch (java.io.IOException ioe) {
-      throw new DownloadFailedException(ioe, m_ow, m_bSilent);
+      throw new DownloadFailedException(ioe, m_ow, !m_bSilent);
     }
     return sLinksFile;
   }
@@ -188,7 +188,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
     try {
       p.exec(asCmdLine.toArray(new String[0]));
     } catch (JCException e) {
-      throw new DownloadFailedException(e, m_ow, m_bSilent);
+      throw new DownloadFailedException(e, m_ow, !m_bSilent);
     }
   }
 
@@ -230,7 +230,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
       doc = proxy.getDocument(sUrl);
     }
     catch (JCException e) {
-      throw new DownloadFailedException(e, m_ow, m_bSilent);
+      throw new DownloadFailedException(e, m_ow, !m_bSilent);
     }
 
     readNumber(deal, doc);
