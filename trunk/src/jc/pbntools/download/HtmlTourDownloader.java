@@ -127,13 +127,13 @@ abstract public class HtmlTourDownloader
   protected Element getOneTag(Element parent, String sTag, boolean bSilent) {
     Elements elems = parent.select(sTag);
     if (elems.size()==0) {
-      if (!bSilent) {
+      if (!bSilent || f.isDebugMode()) {
         println(PbnTools.getStr("error.tagNotFound", sTag));
       }
       return null;
     }
     if (elems.size()>1) {
-      if (!bSilent) {
+      if (!bSilent || f.isDebugMode()) {
         println(PbnTools.getStr("error.onlyOneTagAllowed", sTag));
       }
       return null;
@@ -227,13 +227,13 @@ abstract public class HtmlTourDownloader
     if (elem==null) { return false; }
     String sFound = elem.attr("content");
     if (sFound.isEmpty()) {
-      if (!bSilent) {
+      if (!bSilent || f.isDebugMode()) {
         println(PbnTools.getStr("error.tagNotFound", "<meta name=\"GENERATOR\" content="));
         return false;
       }
     }
     if (!sFound.equals(sExpValue)) {
-      if (!bSilent) {
+      if (!bSilent || f.isDebugMode()) {
         println(PbnTools.getStr("error.invalidTagValue", "<meta name=\"GENERATOR\" content=",
                                      sExpValue, sFound));
         return false;
@@ -313,8 +313,7 @@ abstract public class HtmlTourDownloader
    * <li>m_cDeals
    * </ul>
    */
-  abstract public boolean verify(String sLink, boolean bSilent)
-    throws VerifyFailedException;
+  abstract public boolean verify(String sLink, boolean bSilent);
   
   abstract protected void wget() throws DownloadFailedException;
   

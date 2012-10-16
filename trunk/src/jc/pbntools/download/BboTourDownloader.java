@@ -69,14 +69,13 @@ public class BboTourDownloader extends HtmlTourDownloader
   /** @param doc Document after redirection, containing 2 frames.
     *  */
   protected void getNumberOfDeals(Document doc, boolean bSilent)
-    throws VerifyFailedException {
+    throws DownloadFailedException {
     m_cDeals = 0;
   }
 
   /** Verifies whether link points to a valid data in this format.
     * Sets m_sTitle and m_sDirName members. Leaves m_doc filled. */
   public boolean verify(String sLink, boolean bSilent)
-    throws VerifyFailedException
   {
     setLink(sLink);
     Document doc;
@@ -87,7 +86,8 @@ public class BboTourDownloader extends HtmlTourDownloader
       m_remoteUrl = proxy.getUrl();
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e, m_ow, !bSilent);
+      m_ow.addLine(e.getMessage());
+      return false;
     }
     if (!bSilent)
       println(PbnTools.m_res.getString("msg.documentLoaded"));
@@ -96,7 +96,7 @@ public class BboTourDownloader extends HtmlTourDownloader
       firstTagMatches(doc, "td.board", "Board [0-9]+ traveller", bSilent);
     }
     catch (DownloadFailedException dfe) {
-      throw new VerifyFailedException(dfe);
+      return false;
     }
 
     return true;

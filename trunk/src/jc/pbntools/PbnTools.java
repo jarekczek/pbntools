@@ -241,7 +241,7 @@ public class PbnTools {
     * is constructed in working directory. */
   static void convert(String sLink, String sOutFile0,
                       boolean bGui)
-    throws VerifyFailedException
+    throws DownloadFailedException
   {
     Convert cnv = new Convert(sLink, sOutFile0, bGui);
     if (bGui) {
@@ -426,24 +426,22 @@ public class PbnTools {
         f.out(getStr("msg.converting", m_sLink, sOutFile));
       boolean bRightReader = false;
       for (DealReader dr: getDealReaders()) {
-        try {
-          if (f.isDebugMode())
-            m_ow.addLine("Trying reader: " + dr.getClass().getName()); 
-          dr.setOutputWindow(m_ow);
-          if (dr.verify(m_sLink, !f.isDebugMode())) {
-            bRightReader = true;
-            m_ow.addLine(
-              getStr("msg.readerFound", dr.getClass().getName()));
-            try {
-              Deal deals[] = dr.readDeals(m_sLink, false);
-            }
-            catch (DownloadFailedException dfe) {
-              m_ow.addLine(dfe.toString());
-              bRightReader = false;
-            }
-            break;
+        if (f.isDebugMode())
+          m_ow.addLine("Trying reader: " + dr.getClass().getName()); 
+        dr.setOutputWindow(m_ow);
+        if (dr.verify(m_sLink, !f.isDebugMode())) {
+          bRightReader = true;
+          m_ow.addLine(
+            getStr("msg.readerFound", dr.getClass().getName()));
+          try {
+            Deal deals[] = dr.readDeals(m_sLink, false);
           }
-        } catch (VerifyFailedException vfe) {}
+          catch (DownloadFailedException dfe) {
+            m_ow.addLine(dfe.toString());
+            bRightReader = false;
+          }
+          break;
+        }
       }
       if (!bRightReader) {
         m_ow.addLine(getStr("msg.noDealReader"));

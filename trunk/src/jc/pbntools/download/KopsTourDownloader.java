@@ -78,14 +78,14 @@ public class KopsTourDownloader extends HtmlTourDownloader
   /** @param doc Document after redirection, containing 2 frames.
     *  */
   protected void getNumberOfDeals(Document doc, boolean bSilent)
-    throws VerifyFailedException {
+    throws DownloadFailedException
+  {
     m_cDeals = m_docRoz.select("tr").size();
   }
 
   /** Verifies whether link points to a valid data in this format.
     * Sets m_sTitle and m_sDirName members. Leaves m_doc filled. */
   public boolean verify(String sLink, boolean bSilent)
-    throws VerifyFailedException
   {
     setLink(sLink);
     Document doc;
@@ -96,17 +96,18 @@ public class KopsTourDownloader extends HtmlTourDownloader
       m_remoteUrl = proxy.getUrl();
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e, m_ow, !bSilent);
+      m_ow.addLine(e.getMessage());
+      return false;
     }
     if (!bSilent)
       println(PbnTools.m_res.getString("msg.documentLoaded"));
 
     if (!checkGenerator(doc, "KoPS2www, JFR 2005", bSilent))
-      throw new VerifyFailedException("generator");
+      return false;
     if (getOneTag(doc, "frame[src=wyn.html]", bSilent) == null)
-      throw new VerifyFailedException("frame[src=wyn.html]");
+      return false;
     if (getOneTag(doc, "frame[src=roz.html]", bSilent) == null)
-      throw new VerifyFailedException("frame[src=roz.html]");
+      return false;
     getTitleAndDir();
 
     // download 2 frames
@@ -116,18 +117,26 @@ public class KopsTourDownloader extends HtmlTourDownloader
       m_docRoz = proxy.getDocument(getBaseUrl(m_sLink) + "roz.html");
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e, m_ow, !bSilent);
+      m_ow.addLine(e.getMessage());
+      return false;
     }
     
     // default title, as <title> tag does not work well for kops
     // an internal path is given there, so we get a better title
     Element title = getOneTag(m_docWyn, "h4", bSilent);
-    if (title == null)
-      throw new VerifyFailedException(
-        PbnTools.getStr("error.oneTagExpected", "h4", " (wyn.html)"));
+    if (title == null) {
+      if (!bSilent || f.isDebugMode())
+        m_ow.addLine(
+          PbnTools.getStr("error.oneTagExpected", "h4", " (wyn.html)"));
+    }
     m_sTitle = title.text();
 
-    getNumberOfDeals(m_doc, bSilent);
+    try {
+      getNumberOfDeals(m_doc, bSilent);
+    }
+    catch (DownloadFailedException dfe) {
+      return false;
+    }
     if (!bSilent) { println(PbnTools.getStr("msg.tourFound", m_sTitle, m_cDeals)); }
 
     return true;

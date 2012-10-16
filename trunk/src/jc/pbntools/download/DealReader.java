@@ -31,8 +31,7 @@ public interface DealReader
     throws DownloadFailedException;
 
   /** Verifies if the <code>sUrl</code> contains valid data in this format */
-  public boolean verify(String sUrl, boolean bSilent)
-    throws VerifyFailedException;
+  public boolean verify(String sUrl, boolean bSilent);
     
   /** Sets the window to which output messages will be directed */
   abstract public void setOutputWindow(SimplePrinter sp);
