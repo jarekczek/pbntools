@@ -62,7 +62,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
   }
 
   /** Redirect to url without W- */
-  protected boolean redirect() throws VerifyFailedException
+  protected boolean redirect()
   {
     if (m_sLink.matches("^.*/W-[^/]*$")) {
       m_sLink = m_sLink.replaceFirst("/W-([^/]*)$", "/$1");
@@ -86,18 +86,20 @@ public class ParyTourDownloader extends HtmlTourDownloader
   
   /** @param doc Document after redirection, containing 2 frames.
     *  */
-  protected void getNumberOfDeals(Document doc, boolean bSilent) throws VerifyFailedException {
+  protected void getNumberOfDeals(Document doc, boolean bSilent)
+    throws DownloadFailedException {
     String sFrameTag = "frameset > frame[name=lewa]";
     String sExpectedSrc = m_sDirName.toLowerCase() + "001.html";
     Element frame = getOneTag(doc, sFrameTag, false);
     if (frame == null) {
-      throw new VerifyFailedException(
+      throw new DownloadFailedException(
         PbnTools.getStr("error.getNumberOfDeals"), m_ow, !bSilent);
     }
     String sFoundSrc = frame.attr("src");
     if (!sFoundSrc.equalsIgnoreCase(sExpectedSrc)) {
-      throw new VerifyFailedException(PbnTools.getStr("error.invalidTagValue",
-                  sFrameTag, sExpectedSrc, sFoundSrc), m_ow, true);
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.invalidTagValue",
+                        sFrameTag, sExpectedSrc, sFoundSrc), m_ow, true);
     }
     assert(m_sDealPrefix.matches("*001.html"));
     m_sDealPrefix = sFoundSrc.replaceFirst("001.html$", "");
@@ -111,17 +113,17 @@ public class ParyTourDownloader extends HtmlTourDownloader
       doc1 = proxy.getDocument(sLink1);
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e, m_ow, !bSilent);
+      throw new DownloadFailedException(e, m_ow, !bSilent);
     }
     
     // look for a link to the last one
     if (doc1.body() == null) {
-      throw new VerifyFailedException(PbnTools.getStr("error.noBody"),
+      throw new DownloadFailedException(PbnTools.getStr("error.noBody"),
                                       m_ow, !bSilent);
     }
     Element elemLast = getOneTag(doc1.body(), "a[title=ostatnie]", false);
     if (elemLast == null) {
-      throw new VerifyFailedException(
+      throw new DownloadFailedException(
         PbnTools.getStr("error.getNumberOfDeals"), m_ow, !bSilent);
     }
     
@@ -134,7 +136,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
       m_cDeals = Integer.parseInt(sNoLast);
     } catch (java.lang.NumberFormatException e) {} 
     if (m_cDeals == 0) {
-      throw new VerifyFailedException(
+      throw new DownloadFailedException(
         PbnTools.getStr("tourDown.error.parseNumber", sLast), m_ow, !bSilent);
     }
   }
@@ -142,7 +144,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
   /** Verifies whether link points to a valid data in this format.
     * Sets m_sTitle and m_sDirName members. Leaves m_doc filled.
     */ //{{{
-  protected boolean verifyDirect(boolean bSilent) throws VerifyFailedException
+  protected boolean verifyDirect(boolean bSilent)
   {
     Document doc;
     try {
@@ -152,17 +154,18 @@ public class ParyTourDownloader extends HtmlTourDownloader
       m_remoteUrl = proxy.getUrl();
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e, m_ow, !bSilent);
+      m_ow.addLine(e.getMessage());
+      return false;
     }
     if (!bSilent)
       println(PbnTools.m_res.getString("msg.documentLoaded"));
 
-    if (!checkGenerator(doc, "JFR 2005", bSilent)) { throw new VerifyFailedException("generator"); }
+    if (!checkGenerator(doc, "JFR 2005", bSilent)) return false;
     if (doc.body() != null) {
       // only W- link has body
       // direct link has frames which should be read instead
       if (!checkTagText(doc.body(), "p.f", "^\\sPary\\..*$", bSilent)) {
-        throw new VerifyFailedException("p.f");
+        return false;
       }
     }
 
@@ -170,7 +173,6 @@ public class ParyTourDownloader extends HtmlTourDownloader
   } //}}}
   
   public boolean verify(String sLink, boolean bSilent)
-    throws VerifyFailedException
   {
     setLink(sLink);
     boolean bRedirected = true;
@@ -179,7 +181,12 @@ public class ParyTourDownloader extends HtmlTourDownloader
       bRedirected = redirect();
     }
     getTitleAndDir();
-    getNumberOfDeals(m_doc, bSilent);
+    try {
+      getNumberOfDeals(m_doc, bSilent);
+    }
+    catch (DownloadFailedException dfe) {
+      return false;
+    }
     if (!bSilent) { println(PbnTools.getStr("msg.tourFound", m_sTitle, m_cDeals)); }
 
     return true;

@@ -30,6 +30,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import jc.f;
 import jc.JCException;
 import jc.outputwindow.SimplePrinter;
 import jc.pbntools.Deal;
@@ -66,7 +67,6 @@ public class LinReader implements DealReader
 
   /** Verifies if the <code>sUrl</code> contains valid data in this format */
   public boolean verify(String sUrl, boolean bSilent)
-    throws VerifyFailedException
   {
     // We should read lin file directly, but SoupProxy has a cache
     // so it would be more network efficient to use it.
@@ -76,19 +76,20 @@ public class LinReader implements DealReader
       m_doc = proxy.getDocument(sUrl);
     }
     catch (JCException e) {
-      throw new VerifyFailedException(e, m_sp, !bSilent);
+      m_sp.addLine(e.getMessage());
+      return false;
     }
     String sLin = m_doc.text();
     for (int i=0; i<sLin.length(); i++) {
       String sChar = sLin.substring(i, i+1);
       if (!sChar.matches("[a-zA-Z0-9|, ]")) {
-        if (!bSilent)
+        if (!bSilent || f.isDebugMode())
           m_sp.addLine(PbnTools.getStr("msg.unexpChar", sChar, i));
         return false;
       }
     }
     if (sLin.indexOf('|') < 0) {
-      if (!bSilent)
+      if (!bSilent || f.isDebugMode())
         m_sp.addLine(PbnTools.getStr("msg.missChar", "|"));
       return false;
     }

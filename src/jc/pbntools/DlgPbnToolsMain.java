@@ -28,7 +28,7 @@ import javax.swing.GroupLayout;
 import javax.swing.SwingConstants;
 import jc.f;
 import jc.JCException;
-import jc.pbntools.download.VerifyFailedException;
+import jc.pbntools.download.DownloadFailedException;
 
 public class DlgPbnToolsMain extends javax.swing.JFrame {
 
@@ -205,8 +205,10 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
       d.setVisible(true);
       if (d.rv==2) {
         try {
-          PbnTools.convert(d.m_sLink, null, true);
-        } catch (VerifyFailedException dfe) { /* no problem */ }
+          PbnTools.convert(d.m_sLink, null, false);
+        } catch (DownloadFailedException dfe) {
+          /* problems already reported due to bSilent==false */
+        }
       }
     }
 
