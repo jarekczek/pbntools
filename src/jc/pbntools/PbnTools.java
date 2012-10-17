@@ -209,23 +209,21 @@ public class PbnTools {
       DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, thr, m_res);
       ow.setVisible(true);
     } else {
-      StandardOutputWindow ow =  new StandardOutputWindow(thr, m_res);
-      ow.waitFor();
+      thr.setOutputWindow(new StandardSimplePrinter());
+      thr.run();
     }
   } //}}}
 
   static void pobierzPary(String sLink, boolean bGui) {
     if (getWorkDir(bGui)==null) { return; }
     TourDownloaderThread thr = new TourDownloaderThread(sLink, new ParyTourDownloader());
-    OutputWindow ow;
     if (bGui) {
-      ow =  new DialogOutputWindow(m_dlgMain, thr, m_res);
-      ((DialogOutputWindow)ow).setVisible(true);
+      DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, thr, m_res);
+      ow.setVisible(true);
     } else {
-      ow =  new StandardOutputWindow(thr, m_res);
+      thr.setOutputWindow(new StandardSimplePrinter());
+      thr.run();
     }
-    if (!bGui)
-      ow.waitFor();
   }
     
   static void pobierzBbo(String sLink) {

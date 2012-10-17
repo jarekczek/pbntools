@@ -25,6 +25,7 @@ import java.io.File;
 import jc.f;
 import jc.JCException;
 import jc.outputwindow.OutputWindow;
+import jc.outputwindow.SimplePrinter;
 import jc.SoupProxy;
 import jc.pbntools.PbnTools;
 import org.jsoup.Jsoup;
@@ -36,7 +37,7 @@ public class TourDownloaderThread extends OutputWindow.Client
 {
 
   protected String m_sLink;
-  protected OutputWindow m_ow;
+  protected SimplePrinter m_ow;
   protected HtmlTourDownloader m_dloader;
   public boolean m_bSuccess;
   
@@ -48,7 +49,7 @@ public class TourDownloaderThread extends OutputWindow.Client
     m_bSuccess = false;
   } //}}}
   
-  public void setOutputWindow(OutputWindow ow)
+  public void setOutputWindow(SimplePrinter ow)
   {
     m_ow = ow;
     m_dloader.setOutputWindow(m_ow);
@@ -58,7 +59,7 @@ public class TourDownloaderThread extends OutputWindow.Client
   public void run()
   {
     m_bSuccess = false;
-    m_ow.setTitle(f.extractTextAndMnem(PbnTools.getRes(), "pobierzPary")[0]);
+    // m_ow.setTitle(f.extractTextAndMnem(PbnTools.getRes(), "pobierzPary")[0]);
     if (!m_sLink.matches("^[a-zA-Z]+:.*$")) {
       // if no protocol at the beginning of link, treat it as a file
       File f = new File(m_sLink);

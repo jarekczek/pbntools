@@ -551,9 +551,9 @@
 
 <target name="junit" depends="ivy-libs, junit-jar, jar" >
   <delete dir="work/junit-tmp" quiet="true" />
-  <junit fork="yes" haltonfailure="yes">
-    <test name="jc.pbntools.PbnToolsTests" />
+  <junit fork="yes" haltonfailure="yes" timeout="5000" showoutput="false">
     <test name="jc.fTests" />
+    <test name="jc.pbntools.PbnToolsTests" />
     <formatter type="plain" usefile="false" />
     <classpath path="${basedir}/work/PbnToolsTests.jar;
                      ${basedir}/work/release/PbnTools.jar;
