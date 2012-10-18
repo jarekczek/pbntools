@@ -59,7 +59,8 @@ public class TourDownloaderThread extends OutputWindow.Client
   public void run()
   {
     m_bSuccess = false;
-    // m_ow.setTitle(f.extractTextAndMnem(PbnTools.getRes(), "pobierzPary")[0]);
+    m_ow.setTitle(f.extractTextAndMnem(PbnTools.getRes(),
+      "pobierz" + m_dloader.getName() + ".title")[0]);
     if (!m_sLink.matches("^[a-zA-Z]+:.*$")) {
       // if no protocol at the beginning of link, treat it as a file
       File f = new File(m_sLink);

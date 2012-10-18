@@ -88,6 +88,8 @@ abstract public class HtmlTourDownloader
   @Override
   abstract public void setOutputWindow(SimplePrinter ow);
   
+  abstract public String getName();
+  
   /** Not called from anywhere yet. Default constructor is sufficient. */
   protected void clear() {
     m_sLink = "";

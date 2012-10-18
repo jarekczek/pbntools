@@ -55,6 +55,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
   /** each deal is in file m_sDealPrefix + "nnn.html" */
   private String m_sDealPrefix = "";
   
+  public String getName() { return "Pary"; }
 
   public void setOutputWindow(SimplePrinter ow)
   {

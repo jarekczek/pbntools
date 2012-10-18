@@ -56,6 +56,7 @@ public class KopsTourDownloader extends HtmlTourDownloader
   /** Subdocument (frame contents), roz.html */
   protected Document m_docRoz;
   
+  public String getName() { return "Kops"; }
 
   public void setOutputWindow(SimplePrinter ow)
   {

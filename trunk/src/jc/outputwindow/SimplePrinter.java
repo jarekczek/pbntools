@@ -29,4 +29,7 @@ public interface SimplePrinter {
   
   /** Adds text without new line. This method must be synchronized. */
   public void addText(String s);
+  
+  /** Set title if possible */
+  public void setTitle(String sTitle);
 }
