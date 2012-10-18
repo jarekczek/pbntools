@@ -124,12 +124,14 @@ public class DialogOutputWindow extends OutputWindow {
   }
 
   /** Adds a line of text */
+  @Override
   public void addLine(String s)
   {
     addText(s + "\n");
   }
   
   /** Adds text without new line */
+  @Override
   public synchronized void addText(String s)
   {
     try {
@@ -143,6 +145,14 @@ public class DialogOutputWindow extends OutputWindow {
     }
     m_sb.append(s);
     update();
+  }
+  
+  @Override
+  public void setTitle(final String sTitle)
+  {
+    EventQueue.invokeLater(new Runnable() { public void run() {
+        m_dlg.setTitle(sTitle);
+    }});
   }
   
   class CloseAction extends MyAction {

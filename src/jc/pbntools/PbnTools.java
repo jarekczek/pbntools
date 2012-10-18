@@ -42,7 +42,6 @@ import jc.SoupProxy;
 import jc.outputwindow.DialogOutputWindow;
 import jc.outputwindow.OutputWindow;
 import jc.outputwindow.SimplePrinter;
-import jc.outputwindow.StandardOutputWindow;
 import jc.outputwindow.StandardSimplePrinter;
 import jc.pbntools.*;
 import jc.pbntools.download.*;

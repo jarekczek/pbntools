@@ -35,4 +35,7 @@ public class StandardSimplePrinter implements SimplePrinter {
   {
     System.out.print(s);
   }
+
+  /** This printer cannot set title */
+  public void setTitle(String sTitle) {}
 }

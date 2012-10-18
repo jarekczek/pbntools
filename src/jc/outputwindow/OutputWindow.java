@@ -124,9 +124,6 @@ public abstract class OutputWindow implements SimplePrinter {
       Thread.currentThread().interrupt();
   }
   
-  /** Override if can set title */
-  public void setTitle(String sTitle) {}
-
   /** A class to enable running of external processes and having their output
   * in our window. */
   public static class Process {

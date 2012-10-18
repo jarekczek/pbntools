@@ -51,6 +51,8 @@ import org.jsoup.select.Elements;
 public class BboTourDownloader extends HtmlTourDownloader
 {
 
+  public String getName() { return "Bbo"; }
+  
   public void setOutputWindow(SimplePrinter ow)
   {
     m_ow = ow;
