@@ -49,7 +49,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
         PbnTools.setWindowIcons(this);
       
         pbPobierzKops = new javax.swing.JButton();
-        pbPobierzPary = new javax.swing.JButton();
+        pbDownTour = new javax.swing.JButton();
         pbConvert = new javax.swing.JButton();
         // pbPobierzBbo = new javax.swing.JButton();
         pbKonfig = new javax.swing.JButton();
@@ -69,10 +69,10 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
             }
         });
 
-        f.setTextAndMnem(pbPobierzPary, PbnTools.getRes(), "pobierzPary");
-        pbPobierzPary.addActionListener(new java.awt.event.ActionListener() {
+        f.setTextAndMnem(pbDownTour, PbnTools.getRes(), "downTour");
+        pbDownTour.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pbPobierzParyActionPerformed(evt);
+                pbDownTourActionPerformed(evt);
             }
         });
 
@@ -141,7 +141,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
                     .addComponent(pbOProgramie, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     // .addComponent(pbPobierzBbo, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(pbPobierzKops, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                    .addComponent(pbPobierzPary, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                    .addComponent(pbDownTour, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(pbConvert, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(pbOtworzPbn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(5*cxChar))
@@ -158,7 +158,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
                 .addGap(67, 67, 67)
                 .addComponent(pbPobierzKops)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pbPobierzPary)
+                .addComponent(pbDownTour)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pbConvert)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -192,11 +192,11 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
         }
     }
 
-    private void pbPobierzParyActionPerformed(java.awt.event.ActionEvent evt) {
-      DlgPobierzPary d = new DlgPobierzPary(null,true);
+    private void pbDownTourActionPerformed(java.awt.event.ActionEvent evt) {
+      DlgDownTour d = new DlgDownTour(null,true);
       d.setVisible(true);
       if (d.rv==2) {
-        PbnTools.pobierzPary(d.m_sLink, true);
+        //TODO PbnTools.pobierzPary(d.m_sLink, true);
         }
     }
 
@@ -211,16 +211,6 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
         }
       }
     }
-
-    private void pbPobierzBboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbPobierzBboActionPerformed
-        // TODO add your handling code here:
-      DlgPobierzBbo d = new DlgPobierzBbo(null,true);
-      d.setVisible(true);
-      if (d.rv==2) {
-        PbnTools.pobierzBbo(d.m_sLink);
-        }
-
-    }//GEN-LAST:event_pbPobierzBboActionPerformed
 
     private void pbPomocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbPomocActionPerformed
         // TODO add your handling code here:
@@ -271,7 +261,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
     private javax.swing.JButton pbOtworzPbn;
     private javax.swing.JButton pbPobierzBbo;
     private javax.swing.JButton pbPobierzKops;
-    private javax.swing.JButton pbPobierzPary;
+    private javax.swing.JButton pbDownTour;
     private javax.swing.JButton pbConvert;
     private javax.swing.JButton pbPomoc;
     private javax.swing.JButton pbZakoncz;
