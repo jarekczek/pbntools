@@ -89,6 +89,7 @@ abstract public class HtmlTourDownloader
   abstract public void setOutputWindow(SimplePrinter ow);
   
   abstract public String getName();
+  public String toString() { return getName(); }
   
   /** Not called from anywhere yet. Default constructor is sufficient. */
   protected void clear() {
