@@ -154,19 +154,22 @@
 </target>
 
 <target name="run" depends="run-prereq">
+  <property name="gui.language" value="xx" />
   <condition property="jvmdebug" value="-Djc.debug=${jc.debug}"
     else="-Djc.debug=0" >
     <isset property="jc.debug" />
   </condition>
   <java jar="${runDir}/PbnTools.jar" fork="true" >
-    <jvmarg value="-Duser.language=xx" />
+    <jvmarg value="-Duser.language=${gui.language}" />
     <jvmarg value="${jvmdebug}" />
+    <jvmarg value="-ea" />
     <arg line="" />
   </java>
 </target>
 
 <target name="run-pl" depends="run-prereq">
-  <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=pl" /> </java>
+  <property name="gui.language" value="pl" />
+  <antcall target="run" />
 </target>
 
 <target name="run-test" depends="run-prereq">

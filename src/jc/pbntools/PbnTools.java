@@ -188,13 +188,20 @@ public class PbnTools {
     f.desktopBrowse(parent, getStr("homepage") + "#download");
   }
   
+  /** Returns all supported tournament downloaders. */
+  public static HtmlTourDownloader[] getTourDownloaders()
+  {
+    return new HtmlTourDownloader[] {
+      new KopsTourDownloader(),
+      new ParyTourDownloader(),
+      new BboTourDownloader()
+    };
+  }
+  
   /** Returns all supported deal readers. */
   public static DealReader[] getDealReaders()
   {
     return new DealReader[] {
-      new KopsTourDownloader(),
-      new ParyTourDownloader(),
-      new BboTourDownloader(),
       new LinReader()
     };
   }

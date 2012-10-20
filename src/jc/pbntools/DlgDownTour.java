@@ -20,8 +20,14 @@
 package jc.pbntools;
 
 import jc.f;
+import jc.pbntools.download.HtmlTourDownloader;
+import javax.swing.GroupLayout;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JRootPane;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle;
 
 public class DlgDownTour extends javax.swing.JDialog {
   int rv;
@@ -46,9 +52,16 @@ public class DlgDownTour extends javax.swing.JDialog {
     setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     setTitle(PbnTools.getStr("downTour.title"));
     
-    jLabel1.setText(PbnTools.getStr("downTour.link.label"));
+    f.setTextAndMnem(jLabel1, PbnTools.getRes(), "downTour.link.label");
+    jLabel1.setLabelFor(ebLink);
     ebLink.setText(PbnTools.m_props.getProperty("downTour.link"));
     ebLink.selectAll();
+    
+    labType = new JLabel();
+    cbType = new JComboBox();
+    f.setTextAndMnem(labType, PbnTools.getRes(), "downTour.type.label");
+    labType.setLabelFor(cbType);
+    zaladujTypyTurniejow();
     
     chkVerb = new JCheckBox();
     f.setTextAndMnem(chkVerb, PbnTools.getRes(), "button.verbose");
@@ -72,38 +85,57 @@ public class DlgDownTour extends javax.swing.JDialog {
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(ebLink, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addComponent(chkVerb))
-            .addContainerGap())
-        .addGroup(layout.createSequentialGroup()
-            .addGap(77, 77, 77)
-            .addComponent(pbOk)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
-            .addComponent(pbAnuluj)
-            .addGap(85, 85, 85))
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(layout.createSequentialGroup()
+        .addContainerGap()
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(ebLink, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+          .addComponent(jLabel1)
+          .addGroup(layout.createSequentialGroup()
+            .addComponent(labType)
+            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(cbType))
+          .addComponent(chkVerb))
+        .addContainerGap())
+      .addGroup(layout.createSequentialGroup()
+        .addGap(77, 77, 77)
+        .addComponent(pbOk)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+        .addComponent(pbAnuluj)
+        .addGap(85, 85, 85))
     );
     layout.setVerticalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jLabel1)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(ebLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(chkVerb)
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(pbOk)
-                .addComponent(pbAnuluj))
-            .addContainerGap(20, Short.MAX_VALUE))
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(layout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(jLabel1)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(ebLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+          .addComponent(labType)
+          .addComponent(cbType))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        .addComponent(chkVerb)
+        .addGap(18, 18, 18)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+          .addComponent(pbOk)
+          .addComponent(pbAnuluj))
+        .addContainerGap(20, Short.MAX_VALUE))
     );
 
     pack();
+  }
+
+  private void zaladujTypyTurniejow()
+  {
+    String sLastTour = PbnTools.m_props.getProperty("downTour.type");
+    cbType.addItem("<" + PbnTools.getStr("auto-detect") + ">");
+    for (HtmlTourDownloader dr: PbnTools.getTourDownloaders()) {
+      cbType.addItem(dr);
+      if (dr.getName().equals(sLastTour))
+        cbType.setSelectedItem(cbType.getItemAt(cbType.getItemCount() - 1));
+    }
   }
 
   private void pbOkActionPerformed(java.awt.event.ActionEvent evt)
@@ -115,6 +147,8 @@ public class DlgDownTour extends javax.swing.JDialog {
       return;
     }
     PbnTools.m_props.setProperty("downTour.link", ebLink.getText());
+    PbnTools.m_props.setProperty(
+      "downTour.type", cbType.getSelectedItem().toString());
     PbnTools.setVerbos(chkVerb.isSelected() ? 1 : 0);
     PbnTools.m_props.setProperty("verbosity", "" + PbnTools.getVerbos());
     rv = 2;
@@ -129,6 +163,8 @@ public class DlgDownTour extends javax.swing.JDialog {
 
   private javax.swing.JTextField ebLink;
   private javax.swing.JLabel jLabel1;
+  private JLabel labType;
+  private JComboBox cbType;
   private JCheckBox chkVerb;
   private javax.swing.JButton pbAnuluj;
   private javax.swing.JButton pbOk;
