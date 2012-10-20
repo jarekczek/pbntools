@@ -72,6 +72,14 @@ public abstract class OutputWindow implements SimplePrinter {
   {
     abstract public void setOutputWindow(SimplePrinter ow);
   }
+  
+  public void printStackTrace(Throwable t)
+  {
+    addLine(t.toString());
+    for (StackTraceElement ste: t.getStackTrace()) {
+      addLine(ste.toString());
+    }
+  }
 
   // runClient method {{{
   protected void runClient()
@@ -80,8 +88,18 @@ public abstract class OutputWindow implements SimplePrinter {
       @Override
       public Object doInBackground()
       {
-        m_cli.run();
-        threadFinished();
+        try {
+          m_cli.run();
+        }
+        catch (Throwable t) {
+          if (f.isDebugMode())
+            printStackTrace(t);
+          else
+            addLine(t.toString());
+        }
+        finally {
+          threadFinished();
+        }
         return null;
       }
       @Override
