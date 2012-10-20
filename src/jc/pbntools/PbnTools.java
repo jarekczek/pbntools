@@ -206,16 +206,26 @@ public class PbnTools {
     };
   }
   
+  /**
+   * Downloads a tournament, using given downloader.
+   * @param dloader If <code>null</code>, then all downloaders are tried,
+   * auto-detection.
+   */
   static void downTour(String sLink, HtmlTourDownloader dloader, boolean bGui)
   {
     if (getWorkDir(bGui) == null) { return; }
-    TourDownloaderThread thr = new TourDownloaderThread(sLink, dloader);
+    HtmlTourDownloader dloaders[];
+    if (dloader == null)
+      dloaders = getTourDownloaders();
+    else
+      dloaders = new HtmlTourDownloader[] { dloader };
+    Download dwn = new Download(sLink, dloaders, bGui);
     if (bGui) {
-      DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, thr, m_res);
+      DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, dwn, m_res);
       ow.setVisible(true);
     } else {
-      thr.setOutputWindow(new StandardSimplePrinter());
-      thr.run();
+      dwn.setOutputWindow(new StandardSimplePrinter());
+      dwn.run();
     }
   }
     
@@ -237,7 +247,6 @@ public class PbnTools {
       cnv.setOutputWindow(new StandardSimplePrinter());
       cnv.run();
     }
-
   } //}}}
     
   public static void setWindowIcons(java.awt.Window wnd) {
@@ -434,4 +443,68 @@ public class PbnTools {
       }
     }
   } //}}}
+
+  // Download class {{{
+  /** Runs tour downloaders (HtmlTourDownloader) for link. */
+  static class Download extends OutputWindow.Client
+  {
+    private String m_sLink;
+    private boolean m_bGui;
+    private SimplePrinter m_ow;
+    private HtmlTourDownloader[] m_dloaders;
+    
+    /**
+     * 1 or more downloaders may be given in the array. If there's only
+     * one, it is run with output (<code>bSilent = true</code>).
+     * If there is more than one downloader, they are sequentially tried
+     * (<code>verify</code>) and first matching is used.
+     */
+    public Download(String sLink, HtmlTourDownloader dloaders[], boolean bGui)
+    {
+      m_sLink = sLink;
+      m_dloaders = dloaders;
+      m_bGui = bGui;
+    }
+
+    public void setOutputWindow(SimplePrinter ow) {
+      m_ow = ow;
+    }
+      
+    public void run() {
+      HtmlTourDownloader dloader = null;
+      if (m_dloaders.length == 1) {
+        dloader = m_dloaders[0];
+        if (!dloader.verify(m_sLink, true)) {
+          return;
+        }
+      }
+      else {
+        for (HtmlTourDownloader dr: m_dloaders) {
+          if (f.isDebugMode())
+            m_ow.addLine("Trying reader: " + dr.getClass().getName()); 
+          dr.setOutputWindow(m_ow);
+          if (dr.verify(m_sLink, !f.isDebugMode())) {
+            m_ow.addLine(
+              getStr("msg.readerFound", dr.getClass().getName()));
+            dloader = dr; 
+            break;
+          }
+        }
+      }
+      if (dloader == null) {
+        m_ow.addLine(getStr("msg.noDealReader"));
+      }
+      try {
+        dloader.fullDownload();
+      }
+      catch (DownloadFailedException e) {
+        m_ow.addLine(e.getMessage());
+        if (f.isDebugMode())
+          e.printStackTrace();
+      }
+    }
+  } //}}}
+
 }
+
+//:folding=explicit:collapseFolds=1:tabSize=2:indentSize=2:
