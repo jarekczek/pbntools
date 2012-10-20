@@ -48,7 +48,6 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
 
         PbnTools.setWindowIcons(this);
       
-        pbPobierzKops = new javax.swing.JButton();
         pbDownTour = new javax.swing.JButton();
         pbConvert = new javax.swing.JButton();
         // pbPobierzBbo = new javax.swing.JButton();
@@ -61,13 +60,6 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new CloseHandler());
         setTitle("Pbn Tools " + PbnTools.m_res.getString("wersja"));
-
-        f.setTextAndMnem(pbPobierzKops, PbnTools.getRes(), "pobierzKops");
-        pbPobierzKops.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pbPobierzKopsActionPerformed(evt);
-            }
-        });
 
         f.setTextAndMnem(pbDownTour, PbnTools.getRes(), "downTour");
         pbDownTour.addActionListener(new java.awt.event.ActionListener() {
@@ -140,7 +132,6 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
                     .addComponent(pbPomoc, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(pbOProgramie, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     // .addComponent(pbPobierzBbo, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                    .addComponent(pbPobierzKops, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(pbDownTour, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(pbConvert, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(pbOtworzPbn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -156,8 +147,6 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pbKonfig)
                 .addGap(67, 67, 67)
-                .addComponent(pbPobierzKops)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pbDownTour)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pbConvert)
@@ -184,19 +173,11 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
         d.setVisible(true);
     }
 
-    private void pbPobierzKopsActionPerformed(java.awt.event.ActionEvent evt) {
-      DlgPobierzKops d = new DlgPobierzKops(null,true);
-      d.setVisible(true);
-      if (d.rv==2) {
-        PbnTools.pobierzKops(d.m_sLink, true);
-        }
-    }
-
     private void pbDownTourActionPerformed(java.awt.event.ActionEvent evt) {
       DlgDownTour d = new DlgDownTour(null,true);
       d.setVisible(true);
       if (d.rv==2) {
-        //TODO PbnTools.pobierzPary(d.m_sLink, true);
+        PbnTools.downTour(d.m_sLink, d.getDownloader(), true);
         }
     }
 
@@ -260,7 +241,6 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
     private javax.swing.JButton pbOProgramie;
     private javax.swing.JButton pbOtworzPbn;
     private javax.swing.JButton pbPobierzBbo;
-    private javax.swing.JButton pbPobierzKops;
     private javax.swing.JButton pbDownTour;
     private javax.swing.JButton pbConvert;
     private javax.swing.JButton pbPomoc;

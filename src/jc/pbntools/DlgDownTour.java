@@ -29,14 +29,33 @@ import javax.swing.JRootPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 
+/**
+ * This class presents a dialog before downloading a tournament.
+ * User is presented all possible downloaders, but may also choose
+ * auto-detection.
+ * After returning from the modal dialog use {@link #getDownloader}
+ * to read users choice. But first assure that {@link #rv} is equal to 2,
+ * which means ok was pressed.
+ */
+
 public class DlgDownTour extends javax.swing.JDialog {
   int rv;
   String m_sLink;
+  private HtmlTourDownloader m_dloader;
 
   public DlgDownTour(java.awt.Frame parent, boolean modal) {
     super(parent, modal);
     rv = 0;
     initComponents();
+  }
+  
+  /** Returns the chosed downloader.
+   * @return <code>null</code> for auto-detection
+   */
+  public HtmlTourDownloader getDownloader()
+  {
+    assert(rv == 2);
+    return m_dloader;
   }
 
   private void initComponents()
@@ -146,6 +165,12 @@ public class DlgDownTour extends javax.swing.JDialog {
         null, PbnTools.m_res.getString("error.emptyLink"));
       return;
     }
+    
+    if (cbType.getSelectedItem() instanceof HtmlTourDownloader)
+      m_dloader = (HtmlTourDownloader)cbType.getSelectedItem();
+    else
+      m_dloader = null;
+    
     PbnTools.m_props.setProperty("downTour.link", ebLink.getText());
     PbnTools.m_props.setProperty(
       "downTour.type", cbType.getSelectedItem().toString());
