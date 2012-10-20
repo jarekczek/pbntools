@@ -206,23 +206,10 @@ public class PbnTools {
     };
   }
   
-  static void pobierzKops(String sLink, boolean bGui) //{{{
+  static void downTour(String sLink, HtmlTourDownloader dloader, boolean bGui)
   {
     if (getWorkDir(bGui) == null) { return; }
-    TourDownloaderThread thr =
-      new TourDownloaderThread(sLink, new KopsTourDownloader());
-    if (bGui) {
-      DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, thr, m_res);
-      ow.setVisible(true);
-    } else {
-      thr.setOutputWindow(new StandardSimplePrinter());
-      thr.run();
-    }
-  } //}}}
-
-  static void pobierzPary(String sLink, boolean bGui) {
-    if (getWorkDir(bGui)==null) { return; }
-    TourDownloaderThread thr = new TourDownloaderThread(sLink, new ParyTourDownloader());
+    TourDownloaderThread thr = new TourDownloaderThread(sLink, dloader);
     if (bGui) {
       DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, thr, m_res);
       ow.setVisible(true);
@@ -232,11 +219,6 @@ public class PbnTools {
     }
   }
     
-  static void pobierzBbo(String sLink) {
-    if (sLink==null) { sLink = "owm"; }
-    //RunProcess.runCmd((JDialog)m_dlgMain, "sh" + (bLinux ? "" : " --login") + " "+m_sCurDir+m_sSlash+"get_tur_bbo.sh " + sLink);
-    }
-
   // convert method {{{
   /** Converts deals from <code>sLink</code> and saves them as pbn file,
     * <code>sOutFile</code>.
@@ -319,12 +301,12 @@ public class PbnTools {
         m_bRunMainDialog = false;
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
-        pobierzKops(args[i], false);
+        downTour(args[i], new KopsTourDownloader(), false);
       } else if (args[i].equals("-dtp")) {
         m_bRunMainDialog = false;
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
-        pobierzPary(args[i], false);
+        downTour(args[i], new ParyTourDownloader(), false);
       } else if (args[i].equals("-o")) {
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
