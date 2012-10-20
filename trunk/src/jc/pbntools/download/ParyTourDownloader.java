@@ -102,7 +102,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
         PbnTools.getStr("error.invalidTagValue",
                         sFrameTag, sExpectedSrc, sFoundSrc), m_ow, true);
     }
-    assert(m_sDealPrefix.matches("*001.html"));
+    assert(sFoundSrc.matches(".*001.html"));
     m_sDealPrefix = sFoundSrc.replaceFirst("001.html$", "");
     
     // download page with the first deal
