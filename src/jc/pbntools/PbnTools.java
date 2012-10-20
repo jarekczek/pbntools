@@ -306,6 +306,11 @@ public class PbnTools {
                  || args[i].equals("--help") || args[i].equals("/?")) {
         printUsage();
         System.exit(0);
+      } else if (args[i].equals("-dtb")) {
+        m_bRunMainDialog = false;
+        ++i;
+        if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
+        downTour(args[i], new BboTourDownloader(), false);
       } else if (args[i].equals("-dtk")) {
         m_bRunMainDialog = false;
         ++i;
@@ -474,6 +479,7 @@ public class PbnTools {
       HtmlTourDownloader dloader = null;
       if (m_dloaders.length == 1) {
         dloader = m_dloaders[0];
+        dloader.setOutputWindow(m_ow);
         if (!dloader.verify(m_sLink, true)) {
           return;
         }
