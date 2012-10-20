@@ -151,14 +151,14 @@
     <fileset dir="${basedir}/lib" includes="*.jar" />
     <fileset dir="${basedir}/work/release" includes="PbnTools.jar" />
   </copy>  
-</target>
-
-<target name="run" depends="run-prereq">
-  <property name="gui.language" value="xx" />
   <condition property="jvmdebug" value="-Djc.debug=${jc.debug}"
     else="-Djc.debug=0" >
     <isset property="jc.debug" />
   </condition>
+</target>
+
+<target name="run" depends="run-prereq">
+  <property name="gui.language" value="xx" />
   <java jar="${runDir}/PbnTools.jar" fork="true" >
     <jvmarg value="-Duser.language=${gui.language}" />
     <jvmarg value="${jvmdebug}" />
@@ -174,8 +174,12 @@
 
 <target name="run-test" depends="run-prereq">
   <!--specify testArgs in local.properties file-->
-  <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=xx" />
+  <property name="gui.language" value="xx" />
+  <java jar="${runDir}/PbnTools.jar" fork="true" >
     <arg line="${testArgs}" />
+    <jvmarg value="-Duser.language=${gui.language}" />
+    <jvmarg value="${jvmdebug}" />
+    <jvmarg value="-ea" />
   </java>
 </target>
 

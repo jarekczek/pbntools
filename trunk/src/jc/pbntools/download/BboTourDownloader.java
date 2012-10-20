@@ -50,6 +50,8 @@ import org.jsoup.select.Elements;
 
 public class BboTourDownloader extends HtmlTourDownloader
 {
+  /** Overall turney results document */
+  protected Document m_docRes; 
 
   public String getName() { return "Bbo"; }
   
@@ -75,6 +77,28 @@ public class BboTourDownloader extends HtmlTourDownloader
     m_cDeals = 0;
   }
 
+  /**
+   * Tries to fetch overall results of the tourney, where the descriptive
+   * title is given. If any of the steps fails it just returns, without
+   * complaining about problems.
+   */
+  protected void getBetterTitle()
+  {
+    try {
+      String sLinkRes = "http://webutil.bridgebase.com/v2/tview.php?t="
+        + m_sTitle;
+      SoupProxy proxy = new SoupProxy();
+      m_docRes = proxy.getDocument(sLinkRes);
+      Element title = getFirstTag(m_docRes, ".bbo_tlv", !f.isDebugMode());
+      m_sTitle = title.text();
+    }
+    catch (DownloadFailedException dfe) {
+    }
+    catch (JCException e) {
+      if (f.isDebugMode()) m_ow.addLine(e.toString());
+    }
+  }
+
   /** Verifies whether link points to a valid data in this format.
     * Sets m_sTitle and m_sDirName members. Leaves m_doc filled. */
   public boolean verify(String sLink, boolean bSilent)
@@ -88,7 +112,7 @@ public class BboTourDownloader extends HtmlTourDownloader
       m_remoteUrl = proxy.getUrl();
     }
     catch (JCException e) {
-      m_ow.addLine(e.getMessage());
+      m_ow.addLine(e.toString());
       return false;
     }
     if (!bSilent)
@@ -96,12 +120,19 @@ public class BboTourDownloader extends HtmlTourDownloader
     try {
       firstTagStartsWith(doc, "th", "Tourney ", bSilent);
       firstTagMatches(doc, "td.board", "Board [0-9]+ traveller", bSilent);
+      // as a fallback construct the title from the link - tourney=xxx
+      m_sTitle = f.getFileNameNoExt(m_sLink);
+      m_sTitle = m_sTitle.replaceFirst(".*[\\?&]tourney=", "");
+      m_sTitle = m_sTitle.replaceFirst("[\\?&].*", "");
+      m_sTitle = m_sTitle.replaceFirst("-$", "");
+      getBetterTitle();
+      if (f.isDebugMode()) m_ow.addLine(m_sTitle);
     }
     catch (DownloadFailedException dfe) {
       return false;
     }
 
-    return true;
+    return false;
   }
 
   protected String createIndexFile() throws DownloadFailedException
