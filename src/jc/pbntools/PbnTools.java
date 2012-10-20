@@ -493,6 +493,7 @@ public class PbnTools {
       }
       if (dloader == null) {
         m_ow.addLine(getStr("msg.noDealReader"));
+        return;
       }
       try {
         dloader.fullDownload();
