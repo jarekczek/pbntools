@@ -95,8 +95,14 @@ public class BboTourDownloader extends HtmlTourDownloader
         + sLinkRes);
       try {
         m_docRes = proxy.getDocument(sLinkRes);
-        Element title = getFirstTag(m_docRes, ".bbo_tlv", !f.isDebugMode());
-        m_sTitle = title.text();
+        Elements titles = m_docRes.select(".bbo_tlv");
+        if (titles == null)
+          throw new DownloadFailedException(
+            PbnTools.getStr("error.tagNotFound", ".bbo_tlv"), m_ow, true);
+        if (titles.size() < 2)
+          // first 2 tags are Title, Host - we need both
+          continue;
+        m_sTitle = titles.get(1).text() + " " + titles.get(0).text();
         // on success leave the loop
         break;
       }

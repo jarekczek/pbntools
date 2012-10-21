@@ -64,6 +64,8 @@ abstract public class HtmlTourDownloader
   protected URL m_remoteUrl;
   protected URL m_localUrl;
   public String m_sTitle;
+  /** Not the whole path, but only the name of one directory, to which
+    * the tournament should be saved */
   public String m_sDirName;
   /** The local directory to which output files will be saved */
   public String m_sLocalDir;
