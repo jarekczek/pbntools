@@ -27,6 +27,7 @@ import java.io.FileWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -67,13 +68,19 @@ public class BboTourDownloader extends HtmlTourDownloader
     throws DownloadFailedException 
   {
     Element a = getNthTag(m_doc, ".board > a", iDeal, false);
-    String sLink = a.attr("href");
-    if (sLink.length() == 0)
+    String sRelativeLink = a.attr("href");
+    if (sRelativeLink.length() == 0)
       throw new DownloadFailedException(
         PbnTools.getStr("error.noAttr", "href", "a"), m_ow, false);
     // attr() return relative url, we need absolutu
-    sLink = a.absUrl("href");
-    return sLink;
+    String sLink = a.absUrl("href");
+    assert(sLink != null);
+    // jsoup doesn't give a good abs url for file locations, so workarounding
+    if (sLink.length() == 0) {
+      sLink = getBaseUrl(a.baseUri()) + sRelativeLink;
+    }
+    // wget does not convert & and ? to %xx, so we need the decoded url
+    return URLDecoder.decode(sLink);
   }
   
   /** Gets local link for the deal with the given number */
