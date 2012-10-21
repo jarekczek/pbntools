@@ -480,7 +480,7 @@ public class PbnTools {
       if (m_dloaders.length == 1) {
         dloader = m_dloaders[0];
         dloader.setOutputWindow(m_ow);
-        if (!dloader.verify(m_sLink, true)) {
+        if (!dloader.verify(m_sLink, false)) {
           return;
         }
       }
