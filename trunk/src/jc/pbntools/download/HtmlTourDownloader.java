@@ -86,11 +86,33 @@ abstract public class HtmlTourDownloader
     * all the results for a given hand. Strings in the set must be
     * interned. */
   protected Set<String> m_setErr = new HashSet<String>();
-  
+
+  // abstract methods {{{  
   @Override
   abstract public void setOutputWindow(SimplePrinter ow);
   
   abstract public String getName();
+  /**
+   * Verifies whether link points to a valid data in this format.
+   * Sets the following members:
+   * <ul><li>m_sTitle
+   * <li>m_sDirName
+   * <li>m_cDeals
+   * </ul>
+   * Prints the title and dirname.
+   */
+  abstract public boolean verify(String sLink, boolean bSilent);
+  
+  abstract protected void wget() throws DownloadFailedException;
+  
+  abstract protected Deal[] readDealsFromDir(String sDir)
+    throws DownloadFailedException;
+
+  /** Reads deals from the given url. */
+  abstract public Deal[] readDeals(String sUrl, boolean bSilent)
+    throws DownloadFailedException;
+  //}}} abstract
+
   public String toString() { return getName(); }
   
   /** Not called from anywhere yet. Default constructor is sufficient. */
@@ -128,6 +150,8 @@ abstract public class HtmlTourDownloader
     return sUrl;
   }
 
+  //{{{ JSoup helper methods
+  
   /** select <code>sTag</code> but require exactly one match */
   protected Element getOneTag(Element parent, String sTag, boolean bSilent) {
     Elements elems = parent.select(sTag);
@@ -186,6 +210,7 @@ abstract public class HtmlTourDownloader
         PbnTools.getStr("error.tagMatches", sTag, sMatch, first.text()),
         m_ow, !bSilent);
   }
+  // }}} JSoup methods
   
   /** Returns the card color corresponding to the given img tag element. 
     * @param img <code>img</code> Element. Its <code>src</code> attribute
@@ -317,26 +342,6 @@ abstract public class HtmlTourDownloader
     File fDir = new File(m_sLocalDir);
     return fDir.exists();
   }
-
-  /**
-   * Verifies whether link points to a valid data in this format.
-   * Sets the following members:
-   * <ul><li>m_sTitle
-   * <li>m_sDirName
-   * <li>m_cDeals
-   * </ul>
-   * Prints the title and dirname.
-   */
-  abstract public boolean verify(String sLink, boolean bSilent);
-  
-  abstract protected void wget() throws DownloadFailedException;
-  
-  abstract protected Deal[] readDealsFromDir(String sDir)
-    throws DownloadFailedException;
-
-  /** Reads deals from the given url. */
-  abstract public Deal[] readDeals(String sUrl, boolean bSilent)
-    throws DownloadFailedException;
 
   protected String saveDealsAsPbn(Deal[] aDeal, String sDir)
     throws DownloadFailedException
