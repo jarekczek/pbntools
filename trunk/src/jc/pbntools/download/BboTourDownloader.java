@@ -139,10 +139,10 @@ public class BboTourDownloader extends HtmlTourDownloader
     try {
       firstTagStartsWith(doc, "th", "Tourney ", bSilent);
       firstTagMatches(doc, "td.board", "Board [0-9]+ traveller", bSilent);
-      // as a fallback construct the title from the link - tourney=xxx
-      m_sTitle = f.getFileNameNoExt(m_sLink);
-      m_sTitle = m_sTitle.replaceFirst(".*[\\?&]tourney=", "");
-      m_sTitle = m_sTitle.replaceFirst("[\\?&].*", "");
+      // as a fallback get the numeric title
+      Element th = getFirstTag(doc, "th", true);
+      m_sTitle = th.text();
+      m_sTitle = m_sTitle.replaceFirst("Tourney ", "");
       m_sTitle = m_sTitle.replaceFirst("-$", "");
       getBetterTitle();
       if (f.isDebugMode()) m_ow.addLine(m_sTitle);
