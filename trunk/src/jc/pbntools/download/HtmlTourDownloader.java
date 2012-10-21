@@ -276,9 +276,17 @@ abstract public class HtmlTourDownloader
       m_sDirName = sLast;
     }
     println(m_sDirName);
-    
   }
 
+  protected void setDirNameFromTitle()
+  {
+    // leaving only characters accepted by uri syntax, rfc 3986 2.3
+    m_sDirName = m_sTitle.replaceAll("[^-_.~a-zA-Z0-9]", " ");
+    m_sDirName = m_sDirName.replaceAll(" +", " ");
+    m_sDirName = m_sDirName.trim();
+    m_sDirName = m_sDirName.replaceAll(" ", "_");
+  }
+  
   /** Sets m_sLocalDir member, based on m_sDirName and current
     * configuration. */
   protected void setLocalDir()
@@ -311,12 +319,13 @@ abstract public class HtmlTourDownloader
   }
 
   /**
-   * Verify whether link points to a valid data in this format.
+   * Verifies whether link points to a valid data in this format.
    * Sets the following members:
    * <ul><li>m_sTitle
    * <li>m_sDirName
    * <li>m_cDeals
    * </ul>
+   * Prints the title and dirname.
    */
   abstract public boolean verify(String sLink, boolean bSilent);
   
