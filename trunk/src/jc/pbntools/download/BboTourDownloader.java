@@ -133,8 +133,13 @@ public class BboTourDownloader extends HtmlTourDownloader
     * because we don't support javascript */
   public static String addOffset(String sLink)
   {
-    if (!sLink.matches(".*\\.php?.*")) return sLink;
-    if (sLink.matches("[&?]offset=")) return sLink;
+    // only add offset if this is a php link
+    if (!sLink.matches(".*\\.php\\?.*")) return sLink;
+    // must not end with *.htm*
+    if (sLink.matches(".*\\.htm(l?)")) return sLink;
+    // maybe already has offset given?
+    if (sLink.matches(".*[&\\?]offset=.*")) return sLink;
+    // need to add if after all
     return sLink + "&offset=0";
   } //}}}
   
