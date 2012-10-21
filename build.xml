@@ -42,6 +42,7 @@
 <property name="doxygen" value="doxygen" />
 <property name="launch4jJar" location="/usr/local/lib/launch4j/launch4j.jar" />
 <property name="latex2html" value="latex2html" />
+<property name="jsoupVersion" value="1.7.1" />
 
 <property name="compDir" location="${basedir}/work/comp" />
 <property name="compDirTest" location="${basedir}/work/comp-test" />
@@ -120,7 +121,7 @@
            uri="antlib:org.apache.ivy.ant" /> 
            <!-- classpathref="ivy.jar.path"/> -->
   <ivy:retrieve inline="true" organisation="org.jsoup"
-                module="jsoup" type="jar" revision="1.7.1"
+                module="jsoup" type="jar" revision="${jsoupVersion}"
                 pattern="${basedir}/lib/[artifact]-[revision].[ext]"
                 log="download-only" />
   <!-- only 1.0 on maven, we may consider switching to 1.0 
@@ -141,7 +142,7 @@
     <manifest>
       <attribute name="Manifest-Version" value="1.0" />
       <attribute name="Main-Class" value="jc.pbntools.PbnTools" />
-      <attribute name="Class-Path" value="jl1.0.1.jar jsoup-1.6.1.jar" />
+      <attribute name="Class-Path" value="jl1.0.1.jar jsoup-${jsoupVersion}.jar" />
     </manifest>
   </jar>
 </target>
@@ -454,7 +455,7 @@
   <antcall target="checkLib"><param name="lib" value="jl1.0.1.jar" /></antcall>
   <antcall target="checkLib"><param name="lib" value="jlayer_LICENSE.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="jlayer_README.txt" /></antcall>
-  <antcall target="checkLib"><param name="lib" value="jsoup-1.6.1.jar" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="jsoup-${jsoupVersion}.jar" /></antcall>
   <antcall target="checkLib"><param name="lib" value="jsoup_LICENSE.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="zbarcam" /></antcall>
   <antcall target="checkLib"><param name="lib" value="zbarcam.exe" /></antcall>
