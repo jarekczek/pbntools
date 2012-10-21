@@ -141,6 +141,9 @@ public class BboTourDownloader extends HtmlTourDownloader
       m_sTitle = m_sTitle.replaceFirst("-$", "");
       getBetterTitle();
       if (f.isDebugMode()) m_ow.addLine(m_sTitle);
+      setDirNameFromTitle();
+      m_ow.addLine(PbnTools.getStr("tourDown.msg.title",
+        m_sTitle, m_sDirName));
     }
     catch (DownloadFailedException dfe) {
       return false;
