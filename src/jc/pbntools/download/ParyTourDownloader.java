@@ -228,27 +228,8 @@ public class ParyTourDownloader extends HtmlTourDownloader
   protected void wget() throws DownloadFailedException
   {
     String sLinksFile = createIndexFile();
-      
-    String sCmdLine = "wget -p -k -nH -nd -nc --random-wait -E -e robots=off";
-    // download slowly if not from localhost
-    if (m_remoteUrl.toString().indexOf("localhost") < 0)
-      sCmdLine += " -w 1";
-    ArrayList<String> asCmdLine = new ArrayList<String>(Arrays.asList(sCmdLine.split(" ")));
-    asCmdLine.add("--directory-prefix=" + m_sLocalDir);
-    asCmdLine.add("--input-file=" + sLinksFile);
+    wgetLinks(sLinksFile);
     
-    if (PbnTools.bWindows) {
-      // on Windows we need to point our wget.exe
-      String sWget = PbnTools.getWgetPath();
-      asCmdLine.set(0, sWget);
-    }
-    
-    OutputWindow.Process p = new OutputWindow.Process(m_ow);
-    try {
-      p.exec(asCmdLine.toArray(new String[0]));
-    } catch (JCException e) {
-      throw new DownloadFailedException(e, m_ow, !m_bSilent);
-    }
     if (Thread.currentThread().isInterrupted())
       return;
     

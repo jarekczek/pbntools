@@ -1,6 +1,6 @@
 /* *****************************************************************************
 
-    jedit options: :folding=explicit:tabSize=2:noTabs=true:
+    jedit options: :folding=explicit:tabSize=2:noTabs=true:collapseFolds=1:
 
     Copyright (C) 2011 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
@@ -32,6 +32,8 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -40,6 +42,7 @@ import java.util.regex.Pattern;
 
 import jc.f;
 import jc.JCException;
+import jc.outputwindow.OutputWindow;
 import jc.outputwindow.SimplePrinter;
 import jc.pbntools.Card;
 import jc.pbntools.Deal;
@@ -378,6 +381,35 @@ abstract public class HtmlTourDownloader
   {
     m_setErr.clear();
   }
+  
+  // wgetLinks method {{{
+  /** Downloads files contained in the <code>sLinksFile</code>
+   *  into <code>m_sLocalDir</code>
+   */
+  protected void wgetLinks(String sLinksFile)
+    throws DownloadFailedException
+  {
+    String sCmdLine = "wget -p -k -nH -nd -nc --random-wait -E -e robots=off";
+    if (m_remoteUrl.toString().indexOf("localhost") < 0)
+      sCmdLine += " -w 1";
+    ArrayList<String> asCmdLine = new ArrayList<String>(
+      Arrays.asList(sCmdLine.split(" ")));
+    asCmdLine.add("--directory-prefix=" + m_sLocalDir);
+    asCmdLine.add("--input-file=" + sLinksFile);
+    
+    if (PbnTools.bWindows) {
+      // on Windows we need to point our wget.exe
+      String sWget = PbnTools.getWgetPath();
+      asCmdLine.set(0, sWget);
+    }
+    
+    OutputWindow.Process p = new OutputWindow.Process(m_ow);
+    try {
+      p.exec(asCmdLine.toArray(new String[0]));
+    } catch (JCException e) {
+      throw new DownloadFailedException(e, m_ow, !m_bSilent);
+    }
+  } //}}}
   
   /** performs 2 operations: downloading (if required) from internet and
     * converting (locally) to pbns */
