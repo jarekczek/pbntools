@@ -51,7 +51,9 @@ import org.jsoup.select.Elements;
 public class BboTourDownloader extends HtmlTourDownloader
 {
   /** Overall turney results document */
-  protected Document m_docRes; 
+  protected Document m_docRes;
+  /** Overall turney results link */
+  protected String m_sResLink;
 
   public String getName() { return "Bbo"; }
   
@@ -86,6 +88,7 @@ public class BboTourDownloader extends HtmlTourDownloader
   {
     ArrayList<String> asLinkRes = new ArrayList<String>();
     String sLastPart = "tview.php?t=" + m_sTitle;
+    asLinkRes.add(getBaseUrl(m_sLink) + "tview.html");
     asLinkRes.add(getBaseUrl(m_sLink) + sLastPart);
     asLinkRes.add(getBaseUrl(m_sLink) + sLastPart + ".html");
     asLinkRes.add("http://webutil.bridgebase.com/v2/" + sLastPart);
@@ -103,6 +106,7 @@ public class BboTourDownloader extends HtmlTourDownloader
           // first 2 tags are Title, Host - we need both
           continue;
         m_sTitle = titles.get(1).text() + " " + titles.get(0).text();
+        m_sResLink = sLinkRes;
         // on success leave the loop
         break;
       }
@@ -113,6 +117,7 @@ public class BboTourDownloader extends HtmlTourDownloader
     }
   }
 
+  // verify method {{{
   /** Verifies whether link points to a valid data in this format.
     * Sets m_sTitle and m_sDirName members. Leaves m_doc filled. */
   public boolean verify(String sLink, boolean bSilent)
@@ -149,8 +154,8 @@ public class BboTourDownloader extends HtmlTourDownloader
       return false;
     }
 
-    return false;
-  }
+    return true;
+  } //}}}
 
   protected String createIndexFile() throws DownloadFailedException
   {
@@ -165,17 +170,13 @@ public class BboTourDownloader extends HtmlTourDownloader
       }
       BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
         new FileOutputStream(sLinksFile), "ISO-8859-1"));
+      fw.write(m_sLink); fw.newLine();
+      if (m_docRes != null) {
+        fw.write(m_sResLink); fw.newLine();
+      }
       for (iDeal=1; iDeal<=m_cDeals; iDeal++) {
         String sDealLink = getLinkForDeal(iDeal); 
         fw.write(sDealLink);
-        fw.newLine();
-        String sDealLinkTxt = sDealLink.replace(".html", ".txt");
-        if (!sDealLinkTxt.endsWith(".txt")) {
-          throw new DownloadFailedException(
-            PbnTools.getStr("tourDown.error.convertExt", sDealLink, "html", "txt"),
-            m_ow, true);
-        }
-        fw.write(m_sLink);
         fw.newLine();
       }
       fw.close();
