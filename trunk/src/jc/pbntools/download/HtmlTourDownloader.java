@@ -186,6 +186,21 @@ abstract public class HtmlTourDownloader
     return elems.get(0);
   }
   
+  /** Returns n-th <code>sTag</code>, throws exception if not found.
+    * @param n Starting from 1. */
+  protected Element getNthTag(Element parent, String sTag, int n,
+                              boolean bSilent)
+    throws DownloadFailedException
+  {
+    Elements elems = parent.select(sTag);
+    if (elems.size() < n) {
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.tooFewTags", sTag, n, elems.size()),
+                        m_ow, !bSilent);
+    }
+    return elems.get(n - 1);
+  }
+  
   /** Checks if text of first <code>sTag</code> starts with the given text.
     * If not, throws exception.
     * @throws DownloadFailedException */

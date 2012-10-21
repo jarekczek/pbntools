@@ -63,12 +63,23 @@ public class BboTourDownloader extends HtmlTourDownloader
   }
 
   /** Gets remote link for the deal with the given number */
-  protected String getLinkForDeal(int iDeal) {
-    return null;
+  protected String getLinkForDeal(int iDeal)
+    throws DownloadFailedException 
+  {
+    Element a = getNthTag(m_doc, ".board > a", iDeal, false);
+    String sLink = a.attr("href");
+    if (sLink.length() == 0)
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.noAttr", "href", "a"), m_ow, false);
+    // attr() return relative url, we need absolutu
+    sLink = a.absUrl("href");
+    return sLink;
   }
   
   /** Gets local link for the deal with the given number */
-  protected String getLocalLinkForDeal(int iDeal) {
+  protected String getLocalLinkForDeal(int iDeal)
+    throws DownloadFailedException
+  {
     return getLocalFile(getLinkForDeal(iDeal));
   }
   
@@ -117,11 +128,22 @@ public class BboTourDownloader extends HtmlTourDownloader
     }
   }
 
+  // addOfset method{{{
+  /** Adds <code>&offset=0</code> parameter to php url, which is necessary
+    * because we don't support javascript */
+  public static String addOffset(String sLink)
+  {
+    if (!sLink.matches(".*\\.php?.*")) return sLink;
+    if (sLink.matches("[&?]offset=")) return sLink;
+    return sLink + "&offset=0";
+  } //}}}
+  
   // verify method {{{
   /** Verifies whether link points to a valid data in this format.
     * Sets m_sTitle and m_sDirName members. Leaves m_doc filled. */
   public boolean verify(String sLink, boolean bSilent)
   {
+    sLink = addOffset(sLink);
     setLink(sLink);
     Document doc;
     try {
@@ -147,8 +169,11 @@ public class BboTourDownloader extends HtmlTourDownloader
       getBetterTitle();
       if (f.isDebugMode()) m_ow.addLine(m_sTitle);
       setDirNameFromTitle();
+      // throw exception if not found:
+      getFirstTag(m_doc, ".board > a", true);
+      m_cDeals = m_doc.select(".board > a").size();
       m_ow.addLine(PbnTools.getStr("tourDown.msg.title",
-        m_sTitle, m_sDirName));
+        m_sTitle, m_sDirName, m_cDeals));
     }
     catch (DownloadFailedException dfe) {
       return false;
