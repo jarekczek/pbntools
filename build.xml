@@ -46,12 +46,14 @@
 <property name="compDir" location="${basedir}/work/comp" />
 <property name="compDirTest" location="${basedir}/work/comp-test" />
 <property name="zbarTag" value="0.10" />
-<property name="compileClasspath" value="${basedir}/src;
-                                         ${basedir}/lib/jl1.0.1.jar;
-                                         ${basedir}/lib/jsoup-1.6.1.jar" />
-<property name="runClasspath" value="${compileClasspath};
-                                     ${basedir}/work/comp" />
-
+<path id="compileClasspath">
+  <pathelement location="${basedir}/lib/jl1.0.1.jar" />
+  <fileset dir="${basedir}/lib" includes="jsoup*.jar" />
+</path>
+<path id="runClasspath">
+  <path refid="compileClasspath" />
+  <pathelement location="${basedir}/work/comp" />
+</path>
 
 <fileset id="fs.src" dir="${basedir}" 
          includes="src/**/*.java build.xml doc/*.tex src/**/*.sh test/*.sh src/pbntools
@@ -95,7 +97,7 @@
   <copy todir="${basedir}/work/comp/jc/pbntools/res">
     <fileset dir="${basedir}/res" includes="*" />
   </copy>
-  <javac verbose="no" classpath="${compileClasspath}"
+  <javac verbose="no" classpathref="compileClasspath"
          srcdir="${basedir}/src" destdir="${compDir}"
          includes="**/*.java" excludes="**/pbn_nb/**/*"
          debug="true" debuglevel="lines,vars,source"
@@ -104,7 +106,7 @@
 
 <target name="javadoc" depends="ivy-libs" >
   <property name="javadocDir" value="${basedir}/build/javadoc" />
-  <javadoc classpath="${compileClasspath}"
+  <javadoc classpathref="compileClasspath"
            sourcepath="${basedir}/src"
            destdir="${javadocDir}" />
   <script manager="bsf" language="beanshell" classpathref="ivy.path"><![CDATA[
@@ -118,7 +120,7 @@
            uri="antlib:org.apache.ivy.ant" /> 
            <!-- classpathref="ivy.jar.path"/> -->
   <ivy:retrieve inline="true" organisation="org.jsoup"
-                module="jsoup" type="jar" revision="1.6.1"
+                module="jsoup" type="jar" revision="1.7.1"
                 pattern="${basedir}/lib/[artifact]-[revision].[ext]"
                 log="download-only" />
   <!-- only 1.0 on maven, we may consider switching to 1.0 
@@ -207,8 +209,6 @@
   <java jar="work/release/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=pl" />
     <arg line="--help" />
   </java>
-<!--    <java classpath="${compDir}" fork="true" classname="PbnTools" />-->
-<!--    <java classpath="${compDir}" fork="true" classname="jarekczek.pbn.Rozdaj" />-->
 </target>
 <!-- //}}} -->
 
@@ -542,14 +542,14 @@
 <!-- //{{{ junit tests -->
 
 <target name="junit-jar" depends="comp">
-  <javac verbose="no" classpath="${basedir}/src;${basedir}/lib/jl1.0.1.jar;
-                                 ${basedir}/lib/jsoup-1.6.1.jar;
-                                 ${basedir}/work/comp"
-         classpathref="ivy.path"
+  <javac verbose="no"
          srcdir="${basedir}/junit-tests" destdir="${compDirTest}"
          includes="**/*.java"
          debug="true" debuglevel="lines,vars,source"
-         encoding="windows-1250" includeantruntime="false" />
+         encoding="windows-1250" includeantruntime="false">
+    <classpath refid="compileClasspath" />
+    <classpath refid="ivy.path" />
+  </javac>
   <jar destfile="${basedir}/work/PbnToolsTests.jar"
        basedir="${basedir}/work/comp-test" >
     <!--<fileset dir="${basedir}" includes="res/*" />-->
@@ -562,9 +562,8 @@
     <test name="jc.fTests" />
     <test name="jc.pbntools.PbnToolsTests" />
     <formatter type="plain" usefile="false" />
-    <classpath path="${basedir}/work/PbnToolsTests.jar;
-                     ${basedir}/work/release/PbnTools.jar;
-                     ${basedir}/lib/jsoup-1.6.1.jar" />
+    <classpath refid="runClasspath" />
+    <classpath path="${basedir}/work/PbnToolsTests.jar" />
     <classpath refid="ivy.path" />
   </junit>
 </target>
@@ -679,7 +678,7 @@
 </target>
 
 <target name="test" depends="comp">
-  <java classpath="${runClasspath}" classname="jc.pbntools.DlgPbnToolsAbout"
+  <java classpathref="runClasspath" classname="jc.pbntools.DlgPbnToolsAbout"
         dir="${basedir}" fork="yes" >
     <arg value="/jarek/www/jarek/brydz/test/p05.pbn"/>
   </java>
@@ -687,7 +686,6 @@
 
 <target name="test-rozdaj" depends="comp">
   <java classpath="${compDir};${basedir}/jl1.0.1.jar" classname="jc.pbntools.PlikPbn" dir="${basedir}" fork="yes" ><arg value="/jarek/www/jarek/brydz/test/p05.pbn"/> </java>
-<!--    <java classpath="${compDir}" classname="jc.pbntools.DlgPbn" ><arg value="/jarek/www/jarek/brydz/test/KM0420_wyn.pbn"/> </java>-->
 </target>
 
 <target name="test-www-linux">

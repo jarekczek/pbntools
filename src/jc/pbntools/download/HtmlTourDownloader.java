@@ -507,6 +507,7 @@ abstract public class HtmlTourDownloader
     */
   protected String getLocalFile(String sRemoteLink)
   {
+    assert(sRemoteLink != null && sRemoteLink.length() > 0);
     if (sRemoteLink.endsWith("/"))
       throw new IllegalArgumentException("file link: " + sRemoteLink);
     String sRemoteFile = sRemoteLink.replaceFirst("^.*/([^/]+)$", "$1");
