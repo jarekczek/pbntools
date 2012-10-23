@@ -517,6 +517,10 @@ abstract public class HtmlTourDownloader
       System.out.println("m_sSourceDir:" + m_sSourceDir);
       System.out.println("sRemoteFile:" + sRemoteFile);
     }
+    // local files come from wget with -k switch (add html extension)
+    // so we must add this extension if absent
+    if (!sLocalFile.matches(".*\\.htm(l?)"))
+      sLocalFile += ".html";
     return sLocalFile;
   }
   

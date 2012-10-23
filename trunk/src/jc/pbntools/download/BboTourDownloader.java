@@ -55,6 +55,9 @@ public class BboTourDownloader extends HtmlTourDownloader
   protected Document m_docRes;
   /** Overall turney results link */
   protected String m_sResLink;
+  /** Whether to download all the lins or only the first one from each
+      board */
+  protected boolean m_bAllLins;
 
   public String getName() { return "Bbo"; }
   
@@ -224,28 +227,50 @@ public class BboTourDownloader extends HtmlTourDownloader
     return sLinksFile;
   }
   
+  protected void downloadLins(String sLocalFile)
+    throws DownloadFailedException
+  {
+    Document docLocal = null;
+    try {
+      SoupProxy proxy = new SoupProxy();
+      docLocal = proxy.getDocumentFromFile(sLocalFile);
+    }
+    catch (JCException e) {
+      throw new DownloadFailedException(e, m_ow, !m_bSilent);
+    }
+    
+    if (docLocal.body() == null) {
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.noBody"), m_ow, true);
+    }
+    
+    m_ow.addLine(sLocalFile);
+    for (Element elem: docLocal.select("a:matches(Lin)")) {
+      m_ow.addLine(elem.attr("href"));
+      if (!m_bAllLins)
+        break;
+    }
+/*      sNewCont = sNewCont.replaceAll("\"images/", "\"");
+      elem.html(sNewCont);
+      Writer w = new OutputStreamWriter(new FileOutputStream(sOutputFile), doc.outputSettings().charset());
+      w.write(doc.html());
+      w.close();
+    }
+    catch (MalformedURLException mue) {
+      throw new DownloadFailedException(mue, m_ow, !m_bSilent); 
+    } catch (IOException ioe) {
+      throw new DownloadFailedException(ioe, m_ow, !m_bSilent); 
+    }
+    */
+  }
+
   protected void wget() throws DownloadFailedException
   {
     String sLinksFile = createIndexFile();
-      
-    String sCmdLine = "wget -p -k -nH -nd -nc --random-wait -E -e robots=off";
-    if (m_remoteUrl.toString().indexOf("localhost") < 0)
-      sCmdLine += " -w 1";
-    ArrayList<String> asCmdLine = new ArrayList<String>(Arrays.asList(sCmdLine.split(" ")));
-    asCmdLine.add("--directory-prefix=" + m_sLocalDir);
-    asCmdLine.add("--input-file=" + sLinksFile);
-    
-    if (PbnTools.bWindows) {
-      // on Windows we need to point our wget.exe
-      String sWget = PbnTools.getWgetPath();
-      asCmdLine.set(0, sWget);
-    }
-    
-    OutputWindow.Process p = new OutputWindow.Process(m_ow);
-    try {
-      p.exec(asCmdLine.toArray(new String[0]));
-    } catch (JCException e) {
-      throw new DownloadFailedException(e, m_ow, !m_bSilent);
+    wgetLinks(sLinksFile);
+    for (int i=1; i<m_cDeals; i++) {
+      downloadLins(getLocalLinkForDeal(i));
+      break; //TODO remove it
     }
   }
 
