@@ -25,11 +25,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.StringTokenizer;
 import javax.swing.JDialog;
@@ -241,26 +244,36 @@ public class BboTourDownloader extends HtmlTourDownloader
     
     if (docLocal.body() == null) {
       throw new DownloadFailedException(
-        PbnTools.getStr("error.noBody"), m_ow, true);
+        PbnTools.getStr("error.noBody"), m_ow, false);
     }
     
     m_ow.addLine(sLocalFile);
     for (Element elem: docLocal.select("a:matches(Lin)")) {
-      m_ow.addLine(elem.attr("href"));
+      String sLinLink = elem.attr("href");
+      Matcher m =
+        Pattern.compile("^.*[?&]id=([0-9]+)([?&].*)?$").matcher(sLinLink);
+      if (!m.matches())
+        throw new DownloadFailedException(PbnTools.getStr("error.linLinkId",
+          sLinLink), m_ow, false);
+      String sId = m.group(1);
+      String sFileName = sId + ".lin";
+      elem.attr("href", sFileName);
+      try {
+        f.saveUrlAsFile(sLinLink, new File(sFileName, m_sLocalDir));
+        Writer w = new OutputStreamWriter(new FileOutputStream(sLocalFile),
+          docLocal.outputSettings().charset());
+        w.write(docLocal.html());
+        w.close();
+      } catch (IOException ioe) {
+        throw new DownloadFailedException(ioe, m_ow, !m_bSilent); 
+      }
       if (!m_bAllLins)
         break;
     }
 /*      sNewCont = sNewCont.replaceAll("\"images/", "\"");
-      elem.html(sNewCont);
-      Writer w = new OutputStreamWriter(new FileOutputStream(sOutputFile), doc.outputSettings().charset());
-      w.write(doc.html());
-      w.close();
     }
     catch (MalformedURLException mue) {
       throw new DownloadFailedException(mue, m_ow, !m_bSilent); 
-    } catch (IOException ioe) {
-      throw new DownloadFailedException(ioe, m_ow, !m_bSilent); 
-    }
     */
   }
 
