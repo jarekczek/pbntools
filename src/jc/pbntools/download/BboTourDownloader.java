@@ -61,6 +61,8 @@ public class BboTourDownloader extends HtmlTourDownloader
   /** Whether to download all the lins or only the first one from each
       board */
   protected boolean m_bAllLins = true;
+  /** Number of generated lins. */
+  protected int m_cLins;
 
   public String getName() { return "Bbo"; }
   
@@ -239,7 +241,7 @@ public class BboTourDownloader extends HtmlTourDownloader
    * @param elemLin The <code>a</link> element with a Lin link.
    */
   protected void saveLinFromMovie(Element elemLin, File outFile)
-    throws DownloadFailedException
+    throws DownloadFailedException, java.io.IOException
   {
     Element td = elemLin.parent();
     Elements elems = td.select("a:matches(Movie)");
@@ -256,7 +258,7 @@ public class BboTourDownloader extends HtmlTourDownloader
       throw new DownloadFailedException(PbnTools.getStr("error.onClickNotRec",
         sOnClick), m_ow, false);
     String sLin = f.decodeUrl(m.group(1));
-    m_ow.addLine("lin:" + sLin);
+    f.writeToFile(sLin, outFile);
   } //}}}
   
   protected void downloadLins(String sLocalFile) //{{{
@@ -299,6 +301,7 @@ public class BboTourDownloader extends HtmlTourDownloader
         // f.saveUrlAsFile(sLinLink, outFile);
         // f.sleepUnint(1000);
         saveLinFromMovie(elem, outFile);
+        m_cLins += 1;
         Writer w = new OutputStreamWriter(new FileOutputStream(sLocalFile),
           docLocal.outputSettings().charset());
         try {
@@ -317,12 +320,13 @@ public class BboTourDownloader extends HtmlTourDownloader
 
   protected void wget() throws DownloadFailedException //{{{
   {
+    m_cLins = 0;
     String sLinksFile = createIndexFile();
     wgetLinks(sLinksFile);
     for (int i=1; i<m_cDeals; i++) {
       downloadLins(getLocalLinkForDeal(i));
-      break; //TODO remove it
     }
+    m_ow.addLine(PbnTools.getStr("tourDown.msg.linsSaved", m_cLins)); 
   } //}}}
 
   protected Deal[] readDealsFromDir(String sDir) //{{{

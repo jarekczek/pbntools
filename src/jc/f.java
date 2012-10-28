@@ -38,6 +38,8 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -310,6 +312,8 @@ public class f {
   } //}}}
   
   // }}} file and path operations
+
+  // I/O functions //{{{
   
   // String readFile(String) method {{{
   /** Reads file contents and returns string */
@@ -326,32 +330,74 @@ public class f {
     return sb.toString();
   } //}}}
 
-  // saveUrlAsFile method //{{{
-  public static void saveUrlAsFile(String sUrl, File file)
-    throws java.net.MalformedURLException, java.io.IOException
+  // copyStream method //{{{
+  /** Copies streams. Always closes both streams.
+    * @throws java.io.IOException */
+  public static void copyStream(InputStream is, OutputStream os)
+    throws java.io.IOException
   {
-    URL url = new URL(sUrl);
-    InputStream is = url.openStream();
     try {
-      OutputStream os = new FileOutputStream(file);
+      int b;
+      while (true) {
+        b = is.read();
+        if (b < 0)
+          break;
+        os.write(b);
+      }
+    }
+    finally {
       try {
-        int b;
-        while (true) {
-          b = is.read();
-          if (b < 0)
-            break;
-          os.write(b);
-        }
+        is.close();
       }
       finally {
         os.close();
       }
     }
-    finally {
-      is.close();
+  } //}}}
+  
+  // saveUrlAsFile method //{{{
+  public static void saveUrlAsFile(String sUrl, File file)
+    throws java.net.MalformedURLException, java.io.IOException
+  {
+    URL url = new URL(sUrl);
+    // may throw ioe and return
+    InputStream is = url.openStream();
+    OutputStream os = null;
+    try {
+      os = new FileOutputStream(file);
     }
+    catch (java.io.IOException ioe1) {
+      is.close();
+      throw ioe1;
+    }
+    copyStream(is, os);
   } //}}}
 
+  // writeToFile method //{{{
+  public static void writeToFile(String sWhat, File file)
+    throws java.io.IOException
+  {
+    Writer w = null;
+    try {
+    w = new OutputStreamWriter(
+      new FileOutputStream(file), "ISO-8859-1");
+    }
+    catch (java.io.UnsupportedEncodingException uee) {
+      throw new RuntimeException(uee);
+    }
+    catch (java.io.FileNotFoundException fnfe) {
+      throw new java.io.IOException(fnfe);
+    }
+    try {
+      w.write(sWhat);
+    }
+    finally {
+      w.close();
+    }
+  } //}}}
+  
+   //}}} IO functions
+  
   // sleepUnint method  //{{{
   /**
    * Uninterruptable sleep. The implementation is not perfect.
