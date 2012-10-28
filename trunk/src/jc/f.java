@@ -40,6 +40,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -369,6 +370,21 @@ public class f {
       }
       catch (InterruptedException ie2) {}
       Thread.currentThread().interrupt();
+    }
+  } //}}}
+
+  // decodeUrl method //{{{
+  /**
+   * Uses URLDecoder to convert percent escapes to regular characters.
+   */
+  public static String decodeUrl(String sUrl)
+  {
+    try {
+      return URLDecoder.decode(sUrl, "UTF-8");
+    }
+    catch (java.io.UnsupportedEncodingException e) {
+      // Actually it is not thrown, even with incorrect encoding name
+      throw new RuntimeException(e);
     }
   } //}}}
 }
