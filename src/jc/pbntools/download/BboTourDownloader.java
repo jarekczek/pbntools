@@ -87,7 +87,7 @@ public class BboTourDownloader extends HtmlTourDownloader
       sLink = getBaseUrl(a.baseUri()) + sRelativeLink;
     }
     // wget does not convert & and ? to %xx, so we need the decoded url
-    return URLDecoder.decode(sLink);
+    return f.decodeUrl(sLink);
   } //}}}
   
   // getLocalLinkForDeal method //{{{
@@ -233,6 +233,31 @@ public class BboTourDownloader extends HtmlTourDownloader
     }
     return sLinksFile;
   } //}}}
+
+  // saveLinFromMovie method //{{{
+  /** Saves lin to the file.
+   * @param elemLin The <code>a</link> element with a Lin link.
+   */
+  protected void saveLinFromMovie(Element elemLin, File outFile)
+    throws DownloadFailedException
+  {
+    Element td = elemLin.parent();
+    Elements elems = td.select("a:matches(Movie)");
+    if (elems.size() == 0)
+      throw new DownloadFailedException(PbnTools.getStr("error.noMovie",
+        td.html()), m_ow, false);
+    Element movieElem = elems.get(0);
+    String sOnClick = movieElem.attr("onclick");
+    if (sOnClick.length() == 0)
+      throw new DownloadFailedException(PbnTools.getStr("error.noAttr",
+        "onclick", movieElem.outerHtml()), m_ow, false);
+    Matcher m = Pattern.compile("^.*lin\\('(.*)'\\);.*$").matcher(sOnClick);
+    if (!m.matches())
+      throw new DownloadFailedException(PbnTools.getStr("error.onClickNotRec",
+        sOnClick), m_ow, false);
+    String sLin = f.decodeUrl(m.group(1));
+    m_ow.addLine("lin:" + sLin);
+  } //}}}
   
   protected void downloadLins(String sLocalFile) //{{{
     throws DownloadFailedException
@@ -252,7 +277,11 @@ public class BboTourDownloader extends HtmlTourDownloader
     }
     
     m_ow.addLine(sLocalFile);
-    for (Element elem: docLocal.select("a:matches(Lin)")) {
+    Elements elems = docLocal.select("a:matches(Lin)");
+    if (elems.size() == 0)
+      throw new DownloadFailedException(PbnTools.getStr("error.tagNotFound",
+        "a:matches(Lin)"));
+    for (Element elem: elems) {
       String sLinLink = elem.attr("href");
       Matcher m =
         Pattern.compile("^.*[?&]id=([0-9]+)([?&].*)?$").matcher(sLinLink);
@@ -267,8 +296,9 @@ public class BboTourDownloader extends HtmlTourDownloader
         if (PbnTools.getVerbos() > 0)
           m_ow.addLine(PbnTools.getStr("tourDown.msg.savingLin",
             outFile, sLinLink));
-        f.saveUrlAsFile(sLinLink, outFile);
-        f.sleepUnint(1000);
+        // f.saveUrlAsFile(sLinLink, outFile);
+        // f.sleepUnint(1000);
+        saveLinFromMovie(elem, outFile);
         Writer w = new OutputStreamWriter(new FileOutputStream(sLocalFile),
           docLocal.outputSettings().charset());
         try {
@@ -291,7 +321,7 @@ public class BboTourDownloader extends HtmlTourDownloader
     wgetLinks(sLinksFile);
     for (int i=1; i<m_cDeals; i++) {
       downloadLins(getLocalLinkForDeal(i));
-      // break; //TODO remove it
+      break; //TODO remove it
     }
   } //}}}
 
