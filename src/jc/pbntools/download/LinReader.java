@@ -37,6 +37,28 @@ import jc.pbntools.Deal;
 import jc.pbntools.PbnTools;
 import jc.SoupProxy;
 
+/**
+<h1>Lin specification</h1>
+
+<dl>
+<dt>ah - deal label</dt>
+<dt>mb - a bid</dt>
+<dt>md - hands</dt>
+<dt>pc - play card</dt>
+<dt>pg - pause game. This is done in lin files downloaded directly,
+      after bidding and every 4 cards</dt>
+<dt>pn - player names, comma separated</dt>
+<dt>rh</dt>
+<dt>st</dt>
+<dt>sv</dt>
+<dt></dt>
+<dt></dt>
+<dt></dt>
+<dt></dt>
+</dl>
+
+*/
+
 public class LinReader implements DealReader
 {
   protected Document m_doc;
