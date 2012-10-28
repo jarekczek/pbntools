@@ -33,9 +33,13 @@ import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URI;
+import java.net.URL;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -321,4 +325,50 @@ public class f {
     return sb.toString();
   } //}}}
 
+  // saveUrlAsFile method //{{{
+  public static void saveUrlAsFile(String sUrl, File file)
+    throws java.net.MalformedURLException, java.io.IOException
+  {
+    URL url = new URL(sUrl);
+    InputStream is = url.openStream();
+    try {
+      OutputStream os = new FileOutputStream(file);
+      try {
+        int b;
+        while (true) {
+          b = is.read();
+          if (b < 0)
+            break;
+          os.write(b);
+        }
+      }
+      finally {
+        os.close();
+      }
+    }
+    finally {
+      is.close();
+    }
+  } //}}}
+
+  // sleepUnint method  //{{{
+  /**
+   * Uninterruptable sleep. The implementation is not perfect.
+   * If interrupted once, it may sleep up to 2*milis.
+   * If interrupted twice, it may not sleep at all.
+   */
+  public static void sleepUnint(long milis)
+  {
+    try {
+      Thread.sleep(milis);
+    }
+    catch (InterruptedException ie) {
+      // let's try once more, maybe this time it won't interrupt
+      try {
+        Thread.sleep(milis);
+      }
+      catch (InterruptedException ie2) {}
+      Thread.currentThread().interrupt();
+    }
+  } //}}}
 }

@@ -60,7 +60,7 @@ public class BboTourDownloader extends HtmlTourDownloader
   protected String m_sResLink;
   /** Whether to download all the lins or only the first one from each
       board */
-  protected boolean m_bAllLins;
+  protected boolean m_bAllLins = true;
 
   public String getName() { return "Bbo"; }
   
@@ -263,22 +263,26 @@ public class BboTourDownloader extends HtmlTourDownloader
       String sFileName = sId + ".lin";
       elem.attr("href", sFileName);
       try {
-        f.saveUrlAsFile(sLinLink, new File(sFileName, m_sLocalDir));
+        File outFile = new File(m_sLocalDir, sFileName);
+        if (PbnTools.getVerbos() > 0)
+          m_ow.addLine(PbnTools.getStr("tourDown.msg.savingLin",
+            outFile, sLinLink));
+        f.saveUrlAsFile(sLinLink, outFile);
+        f.sleepUnint(1000);
         Writer w = new OutputStreamWriter(new FileOutputStream(sLocalFile),
           docLocal.outputSettings().charset());
-        w.write(docLocal.html());
-        w.close();
+        try {
+          w.write(docLocal.html());
+        }
+        finally {
+          w.close();
+        }
       } catch (IOException ioe) {
         throw new DownloadFailedException(ioe, m_ow, !m_bSilent); 
       }
       if (!m_bAllLins)
         break;
     }
-/*      sNewCont = sNewCont.replaceAll("\"images/", "\"");
-    }
-    catch (MalformedURLException mue) {
-      throw new DownloadFailedException(mue, m_ow, !m_bSilent); 
-    */
   } //}}}
 
   protected void wget() throws DownloadFailedException //{{{
@@ -287,7 +291,7 @@ public class BboTourDownloader extends HtmlTourDownloader
     wgetLinks(sLinksFile);
     for (int i=1; i<m_cDeals; i++) {
       downloadLins(getLocalLinkForDeal(i));
-      break; //TODO remove it
+      // break; //TODO remove it
     }
   } //}}}
 
