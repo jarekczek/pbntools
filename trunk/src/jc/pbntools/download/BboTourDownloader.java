@@ -64,11 +64,12 @@ public class BboTourDownloader extends HtmlTourDownloader
 
   public String getName() { return "Bbo"; }
   
-  public void setOutputWindow(SimplePrinter ow)
+  public void setOutputWindow(SimplePrinter ow) //{{{
   {
     m_ow = ow;
-  }
+  } //}}}
 
+  // getLinkForDeal method //{{{
   /** Gets remote link for the deal with the given number */
   protected String getLinkForDeal(int iDeal)
     throws DownloadFailedException 
@@ -87,22 +88,25 @@ public class BboTourDownloader extends HtmlTourDownloader
     }
     // wget does not convert & and ? to %xx, so we need the decoded url
     return URLDecoder.decode(sLink);
-  }
+  } //}}}
   
+  // getLocalLinkForDeal method //{{{
   /** Gets local link for the deal with the given number */
   protected String getLocalLinkForDeal(int iDeal)
     throws DownloadFailedException
   {
     return getLocalFile(getLinkForDeal(iDeal));
-  }
+  } //}}}
   
+  // getNumberOfDeals method //{{{
   /** @param doc Document after redirection, containing 2 frames.
     *  */
   protected void getNumberOfDeals(Document doc, boolean bSilent)
     throws DownloadFailedException {
     m_cDeals = 0;
-  }
+  } //}}}
 
+  // getBetterTitle method //{{{
   /**
    * Tries to fetch overall results of the tourney, where the descriptive
    * title is given. If any of the steps fails it just returns, without
@@ -139,7 +143,7 @@ public class BboTourDownloader extends HtmlTourDownloader
         continue;
       }
     }
-  }
+  } //}}}
 
   // addOfset method{{{
   /** Adds <code>&offset=0</code> parameter to php url, which is necessary
@@ -200,7 +204,7 @@ public class BboTourDownloader extends HtmlTourDownloader
     return true;
   } //}}}
 
-  protected String createIndexFile() throws DownloadFailedException
+  protected String createIndexFile() throws DownloadFailedException //{{{
   {
     int iDeal;
     String sLinksFile = new File(m_sLocalDir, "links.txt").getAbsolutePath();
@@ -228,9 +232,9 @@ public class BboTourDownloader extends HtmlTourDownloader
       throw new DownloadFailedException(ioe, m_ow, !m_bSilent);
     }
     return sLinksFile;
-  }
+  } //}}}
   
-  protected void downloadLins(String sLocalFile)
+  protected void downloadLins(String sLocalFile) //{{{
     throws DownloadFailedException
   {
     Document docLocal = null;
@@ -275,9 +279,9 @@ public class BboTourDownloader extends HtmlTourDownloader
     catch (MalformedURLException mue) {
       throw new DownloadFailedException(mue, m_ow, !m_bSilent); 
     */
-  }
+  } //}}}
 
-  protected void wget() throws DownloadFailedException
+  protected void wget() throws DownloadFailedException //{{{
   {
     String sLinksFile = createIndexFile();
     wgetLinks(sLinksFile);
@@ -285,9 +289,9 @@ public class BboTourDownloader extends HtmlTourDownloader
       downloadLins(getLocalLinkForDeal(i));
       break; //TODO remove it
     }
-  }
+  } //}}}
 
-  protected Deal[] readDealsFromDir(String sDir)
+  protected Deal[] readDealsFromDir(String sDir) //{{{
     throws DownloadFailedException
   {
     ArrayList<Deal> deals = new ArrayList<Deal>();
@@ -309,9 +313,9 @@ public class BboTourDownloader extends HtmlTourDownloader
       }
     }
     return deals.toArray(new Deal[0]);
-  }
+  } //}}}
 
-  public Deal[] readDeals(String sUrl, boolean bSilent)
+  public Deal[] readDeals(String sUrl, boolean bSilent) //{{{
     throws DownloadFailedException
   {
     Document doc;
@@ -329,8 +333,9 @@ public class BboTourDownloader extends HtmlTourDownloader
     }
 
     return processResults(deal, doc);
-  }
+  } //}}}
   
+  // extractHands method //{{{
   /** Extracts hands from the given element and saves them to
     * <code>deal</code>.
     * @param dealElem tbody with deal definition without results */
@@ -338,7 +343,7 @@ public class BboTourDownloader extends HtmlTourDownloader
     throws DownloadFailedException
   {
     //throw new DownloadFailedException("dosc", true);
-  }
+  } //}}}
 
   /** readNumber method {{{
    * Reads deal number from <code>doc</code> and
@@ -357,6 +362,7 @@ public class BboTourDownloader extends HtmlTourDownloader
   {
   } //}}}
 
+  // processResults method //{{{
   /** Multiplies given <code>deal</code> by the number of results. */
   private Deal[] processResults(Deal deal0, Document doc)
     throws DownloadFailedException
@@ -364,5 +370,5 @@ public class BboTourDownloader extends HtmlTourDownloader
     ArrayList<Deal> ad = new ArrayList<Deal>();
     
     return ad.toArray(new Deal[0]);
-  }
+  } //}}}
 }

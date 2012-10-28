@@ -47,7 +47,7 @@ public class f {
   public static int nDebugLevel = 0;
   private static ResourceBundle m_res;
   
-  static {
+  static { //{{{
     sLf = System.getProperty("line.separator");
     sDirSep = System.getProperty("file.separator");
     m_res = ResourceBundle.getBundle("jc.f", Locale.getDefault());
@@ -56,7 +56,7 @@ public class f {
     if (sDebugLevel == null)
       sDebugLevel = System.getProperty("jc.debug");
     setDebugLevel(sDebugLevel);
-  }
+  } //}}}
 
   // setDebugLevel methods {{{
   /** Sets debug level.<p>
@@ -87,34 +87,35 @@ public class f {
   }
   // }}}
     
-  public static boolean stringIn(String s, String as[]) {
+  public static boolean stringIn(String s, String as[]) { //{{{
     int i;
     for (i=0; i<as.length; i++) { if (s.equals(as[i])) return true; }
     return false;
-    }
+  } //}}}
     
-  public static String getResStr(Object o, String sKey) {
+  public static String getResStr(Object o, String sKey) { //{{{
     return java.util.ResourceBundle.getBundle(o.getClass().getName()).getString(sKey);
-    }
+  } //}}}
     
-  public static void out(String s) {
+  public static void out(String s) { //{{{
     System.out.println(s);
-  }
+  } //}}}
   
+  // trace method {{{
   /** Output text if current debug level is suitable */
   public static void trace(int nLevel, String s) {
     if (nLevel <= nDebugLevel) {
       System.out.println(s);
     }
-  }
+  } //}}}
 
-  public static void err(String s) {
+  public static void err(String s) { //{{{
     System.err.println(s);
-  }
+  } //}}}
 
-  public static boolean isDebugMode() {
+  public static boolean isDebugMode() { //{{{
     return nDebugLevel > 0;
-  }
+  } //}}}
 
   public static String basePath(Class c) { //{{{
     String sPath = c.getResource("").getPath();
