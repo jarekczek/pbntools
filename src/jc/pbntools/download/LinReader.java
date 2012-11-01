@@ -42,15 +42,28 @@ import jc.SoupProxy;
 
 <dl>
 <dt>ah - deal label</dt>
+<dt>an - bid explanation (for the previous bid)
 <dt>mb - a bid</dt>
-<dt>md - hands</dt>
+<dt>mc - claim, number of tricks
+<dt>md - dealer and hands
+  <ul>
+  <li>First goes a digit denoting the dealer 1 for S, 2 = W, 3 = N, 4 = S
+  <li>Right after the dealer digit come dealers cards,
+      color and cards</li>
+  <li>Commas separate cards of consecutive players, only 3 hands are given
+      </li>
+  </ul>
+  For example:
+  <code>3S8QKHJD8TJKC2349J,S23459TAH368DC68K,S67JH45QKD357QC7A,</code>
+</dt>
 <dt>pc - play card</dt>
 <dt>pg - pause game. This is done in lin files downloaded directly,
       after bidding and every 4 cards</dt>
 <dt>pn - player names, comma separated</dt>
-<dt>rh</dt>
-<dt>st</dt>
-<dt>sv</dt>
+<dt>rh - ? (seen empty)</dt>
+<dt>st - ? (seen empty)</dt>
+<dt>sv - vulnerability, n = None, b = Both, n = NS, e = EW
+    (<code>o</code> also found to denote None)</dt>
 <dt></dt>
 <dt></dt>
 <dt></dt>
@@ -85,9 +98,10 @@ public class LinReader implements DealReader
          PbnTools.getStr("lin.error.noArg", sComm));
       }
       String sArg = sc.next();
-      // m_sp.addLine("Command: " + sComm + ", arg: " + sArg);
+      if (false && !sComm.equals("pc") && !sComm.equals("mb"))
+        m_sp.addLine("Command: " + sComm + ", arg: " + sArg);
     }
-    return null;
+    return new Deal[] { new Deal() };
   } //}}}
   
   public Deal[] readDeals(String sUrl, boolean bSilent)
