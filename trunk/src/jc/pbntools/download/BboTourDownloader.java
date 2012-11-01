@@ -356,18 +356,28 @@ public class BboTourDownloader extends HtmlTourDownloader
     if (PbnTools.getVerbos() > 0)
       m_ow.addLine(PbnTools.getStr("msg.processing", sUrl));
     resetErrors();
-    Deal deal = new Deal();
+    Deal deal = null;
     try {
       SoupProxy proxy = new SoupProxy();
       doc = proxy.getDocument(sUrl);
+      for (Element aLin: doc.select("a:matches(Lin)")) {
+        String sFile = SoupProxy.absUrl(aLin, "href");
+        m_ow.addLine("wanna process " + sFile);
+          String sLin = f.readFile(sFile);
+        LinReader linReader = new LinReader();
+        linReader.setOutputWindow(m_ow);
+        deal = linReader.readLin(sLin, m_bSilent)[0];
+        // we read only first lin file, the rest comes from results table
+        // break;
+      }
     }
     catch (JCException e) {
       throw new DownloadFailedException(e, m_ow, !m_bSilent);
     }
-    for (Element aLin: doc.select("a:matches(Lin)")) {
-      m_ow.addLine("wanna process " + SoupProxy.absUrl(aLin, "href"));
-      // m_ow.addLine("wanna process " + aLin.outerHtml());
+    catch (java.io.IOException ioe) {
+      throw new DownloadFailedException(ioe, m_ow, !m_bSilent);
     }
+    assert(deal != null);
 
     return processResults(deal, doc);
   } //}}}
