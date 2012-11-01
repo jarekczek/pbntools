@@ -28,6 +28,7 @@ import java.util.LinkedList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 
 /**
  * <code>SoupProxy</code> class retrieves an html page through
@@ -203,6 +204,38 @@ public class SoupProxy
     assert(iChild == c);
     return as;
   }
+
+  // getBaseUrl method {{{  
+  /** Returns the url which may be used as base url for links from inside
+    * the given url. That is <code>http://aaa.com/start/</code> for both
+    * <code>http://aaa.com/start/page.htm</code>
+    * and <code>http://aaa.com/start</code>. */
+  public static String getBaseUrl(String sUrl)
+  {
+    sUrl = sUrl.replaceFirst("/[^/]+\\.[a-zA-Z]+$", "/");
+    if (!sUrl.endsWith("/"))
+      sUrl += "/";
+    return sUrl;
+  } //}}}
+
+  // absUrl method {{{
+  /*
+   * A wrapper for <code>Node.absUrl</code> which fails for local
+   * files (uris without a protocol).
+   */
+  public static String absUrl(Node node, String sAttrName)
+  {
+    String sRelativeLink = node.attr(sAttrName);
+    if (sRelativeLink.length() == 0)
+      return "";
+    String sLink = node.absUrl(sAttrName);
+    assert(sLink != null);
+    // jsoup doesn't give a good abs url for file locations, so workarounding
+    if (sLink.length() == 0) {
+      sLink = getBaseUrl(node.baseUri()) + sRelativeLink;
+    }
+    return sLink;
+  } //}}}
   
   public static class Exception extends JCException
   {

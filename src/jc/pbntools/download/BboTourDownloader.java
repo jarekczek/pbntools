@@ -77,17 +77,10 @@ public class BboTourDownloader extends HtmlTourDownloader
     throws DownloadFailedException 
   {
     Element a = getNthTag(m_doc, ".board > a", iDeal, false);
-    String sRelativeLink = a.attr("href");
-    if (sRelativeLink.length() == 0)
+    String sLink = SoupProxy.absUrl(a, "href");
+    if (sLink.length() == 0)
       throw new DownloadFailedException(
         PbnTools.getStr("error.noAttr", "href", "a"), m_ow, false);
-    // attr() return relative url, we need absolutu
-    String sLink = a.absUrl("href");
-    assert(sLink != null);
-    // jsoup doesn't give a good abs url for file locations, so workarounding
-    if (sLink.length() == 0) {
-      sLink = getBaseUrl(a.baseUri()) + sRelativeLink;
-    }
     // wget does not convert & and ? to %xx, so we need the decoded url
     return f.decodeUrl(sLink);
   } //}}}
@@ -323,7 +316,7 @@ public class BboTourDownloader extends HtmlTourDownloader
     m_cLins = 0;
     String sLinksFile = createIndexFile();
     wgetLinks(sLinksFile);
-    for (int i=1; i<m_cDeals; i++) {
+    for (int i=1; i <= m_cDeals; i++) {
       downloadLins(getLocalLinkForDeal(i));
     }
     m_ow.addLine(PbnTools.getStr("tourDown.msg.linsSaved", m_cLins)); 
@@ -360,6 +353,8 @@ public class BboTourDownloader extends HtmlTourDownloader
     m_sCurFile = sUrl;
     m_bSilent = bSilent;
     
+    if (PbnTools.getVerbos() > 0)
+      m_ow.addLine(PbnTools.getStr("msg.processing", sUrl));
     resetErrors();
     Deal deal = new Deal();
     try {
@@ -368,6 +363,10 @@ public class BboTourDownloader extends HtmlTourDownloader
     }
     catch (JCException e) {
       throw new DownloadFailedException(e, m_ow, !m_bSilent);
+    }
+    for (Element aLin: doc.select("a:matches(Lin)")) {
+      m_ow.addLine("wanna process " + SoupProxy.absUrl(aLin, "href"));
+      // m_ow.addLine("wanna process " + aLin.outerHtml());
     }
 
     return processResults(deal, doc);
