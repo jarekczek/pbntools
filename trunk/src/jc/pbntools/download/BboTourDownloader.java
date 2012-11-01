@@ -334,7 +334,8 @@ public class BboTourDownloader extends HtmlTourDownloader
       Deal ad[] = readDeals(getLocalLinkForDeal(iDeal), false);
       if (ad != null) {
         for (Deal d: ad) {
-          d.setIdentField("Event", m_sTitle);
+          if (m_sTitle != null)
+            d.setIdentField("Event", m_sTitle);
           deals.add(d);
         }
         if (PbnTools.getVerbos() > 0) {
@@ -368,7 +369,7 @@ public class BboTourDownloader extends HtmlTourDownloader
         linReader.setOutputWindow(m_ow);
         deal = linReader.readLin(sLin, m_bSilent)[0];
         // we read only first lin file, the rest comes from results table
-        // break;
+        break;
       }
     }
     catch (JCException e) {
@@ -392,15 +393,6 @@ public class BboTourDownloader extends HtmlTourDownloader
     //throw new DownloadFailedException("dosc", true);
   } //}}}
 
-  /** readNumber method {{{
-   * Reads deal number from <code>doc</code> and
-   * sets it in <code>deal</code>.
-   */
-  private void readNumber(Deal deal, Document doc)
-    throws DownloadFailedException
-  {
-  } //}}}
-
   /** readScoring method {{{
    * Reads scoring type of the deal from <code>doc</code> and
    * sets it in <code>deal</code>.
@@ -415,6 +407,9 @@ public class BboTourDownloader extends HtmlTourDownloader
     throws DownloadFailedException
   {
     ArrayList<Deal> ad = new ArrayList<Deal>();
+    ad.add(deal0);
+    if (!deal0.isOk())
+      reportErrors(deal0.getErrors());
     
     return ad.toArray(new Deal[0]);
   } //}}}

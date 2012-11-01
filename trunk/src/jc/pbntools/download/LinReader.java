@@ -76,7 +76,44 @@ public class LinReader implements DealReader
 {
   protected Document m_doc;
   protected SimplePrinter m_sp;
+  protected boolean m_bSilent = true;
   
+  /** readNumber method {{{
+   * Reads deal number from <code>Board xx</code> text.
+   */
+  private void readNumber(Deal deal, String sBoard)
+    throws DownloadFailedException
+  {
+    sBoard = sBoard.replaceFirst("^.*([0-9]+).*$", "$1");
+    try {
+      deal.setNumber(Integer.valueOf(sBoard));
+    } catch (NumberFormatException nfe) {}
+  } //}}}
+
+  private void readPlayers(Deal deal, String sPlayers)
+    throws DownloadFailedException
+  {
+    String asPlayers[] = sPlayers.split(",");
+    if (asPlayers.length != 4)
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.incNumberNames", asPlayers.length, sPlayers),
+        m_sp, !m_bSilent);
+    deal.setIdentField("South",asPlayers[0]); 
+    deal.setIdentField("West",asPlayers[1]); 
+    deal.setIdentField("North",asPlayers[2]); 
+    deal.setIdentField("East",asPlayers[3]); 
+  } //}}}
+
+  private void readHands(Deal deal, String sArg)
+    throws DownloadFailedException
+  {
+    if (sArg.length() < 1)
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.linCmdShort", "md", sArg),
+        m_sp, !m_bSilent);
+    m_nDealer = getPerson( check if first char is valid person );
+  } //}}}
+
   // readLin method {{{
   /**
    * Reads deals from a lin contents.
@@ -86,6 +123,8 @@ public class LinReader implements DealReader
     throws DownloadFailedException
   {
     // m_sp.addLine(sLin);
+    m_bSilent = bSilent;
+    Deal d = new Deal();
     Scanner sc = new Scanner(sLin).useDelimiter("\\|");
     while (sc.hasNext()) {
       String sComm = sc.next();
@@ -100,8 +139,14 @@ public class LinReader implements DealReader
       String sArg = sc.next();
       if (false && !sComm.equals("pc") && !sComm.equals("mb"))
         m_sp.addLine("Command: " + sComm + ", arg: " + sArg);
+      if (sComm.equals("ah"))
+        readNumber(d, sArg);
+      else if (sComm.equals("pn"))
+        readPlayers(d, sArg);
+      else if (sComm.equals("md"))
+        readHands(d, sArg);
     }
-    return new Deal[] { new Deal() };
+    return new Deal[] { d };
   } //}}}
   
   public Deal[] readDeals(String sUrl, boolean bSilent)

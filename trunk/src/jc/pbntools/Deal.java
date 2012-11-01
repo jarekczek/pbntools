@@ -201,8 +201,8 @@ public class Deal implements Cloneable {
    */
   public boolean isOk() {
     m_asErrors = new ArrayList<String>();
-    if (m_nNr<=0) { m_asErrors.add(String.format("Brak numeru rozdania. ")); }
-    if (m_nDealer<0) { m_asErrors.add(String.format("Brak rozdaj¹cego. ")); }
+    if (m_nNr<=0) m_asErrors.add(PbnTools.getStr("error.pbn.noDealNumber"));
+    if (m_nDealer<0) m_asErrors.add(PbnTools.getStr("error.pbn.noDealer"));
     
     // vulnerability
     if (m_sVulner.equals("Love")) { m_sVulner = "None"; }
