@@ -62,13 +62,16 @@ import jc.SoupProxy;
 public class LinReader implements DealReader
 {
   protected Document m_doc;
-  protected SimplePrinter m_sp; 
+  protected SimplePrinter m_sp;
   
-  public Deal[] readDeals(String sUrl, boolean bSilent)
+  // readLin method {{{
+  /**
+   * Reads deals from a lin contents.
+   * @param sLin Lin contents
+   */
+  public Deal[] readLin(String sLin, boolean bSilent)
     throws DownloadFailedException
   {
-    assert(m_doc != null);
-    String sLin = m_doc.text();
     // m_sp.addLine(sLin);
     Scanner sc = new Scanner(sLin).useDelimiter("\\|");
     while (sc.hasNext()) {
@@ -85,6 +88,14 @@ public class LinReader implements DealReader
       // m_sp.addLine("Command: " + sComm + ", arg: " + sArg);
     }
     return null;
+  } //}}}
+  
+  public Deal[] readDeals(String sUrl, boolean bSilent)
+    throws DownloadFailedException
+  {
+    assert(m_doc != null);
+    String sLin = m_doc.text();
+    return readLin(sLin, bSilent);
   }
 
   /** Verifies if the <code>sUrl</code> contains valid data in this format */
