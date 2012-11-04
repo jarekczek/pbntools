@@ -24,6 +24,8 @@ package jc.pbntools.download;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -33,6 +35,7 @@ import org.jsoup.select.Elements;
 import jc.f;
 import jc.JCException;
 import jc.outputwindow.SimplePrinter;
+import jc.pbntools.Card;
 import jc.pbntools.Deal;
 import jc.pbntools.PbnTools;
 import jc.SoupProxy;
@@ -104,7 +107,29 @@ public class LinReader implements DealReader
     deal.setIdentField("East",asPlayers[3]); 
   } //}}}
 
-  private void readHands(Deal deal, String sArg)
+  // setCards method
+  /**
+   * Sets cards of given color and given person.
+   * @param sArg Whole argument being processed, to show in error message
+   */
+  private void setCards(Deal deal, int nPerson, int nColor,
+    String sCards, String sArg)
+    throws DownloadFailedException
+  {
+    for (int i=0; i < sCards.length(); i++) {
+      char chCard = sCards.charAt(i);
+      Card card = new Card();
+      card.setColor(nColor);
+      card.setRankCh(chCard);
+      if (card.getRank() == 0)
+        throw new DownloadFailedException(
+          PbnTools.getStr("error.linUnrecognCard", chCard, sArg),
+          m_sp, !m_bSilent);
+      deal.setCard(card, nPerson);
+    }
+  } //}}}
+
+  private void readHands(Deal deal, String sArg) //{{{
     throws DownloadFailedException
   {
     if (sArg.length() < 2)
@@ -113,6 +138,28 @@ public class LinReader implements DealReader
         m_sp, !m_bSilent);
     String sLinDealer = sArg.substring(0, 1);
     deal.setDealer(getPerson(sLinDealer));
+    
+    String sHands = sArg.substring(1);
+    String asHand[] = sHands.split(",");
+    if (asHand.length != 3 && asHand.length != 4)
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.linHandCount", "3/4", asHand.length, sArg),
+        m_sp, !m_bSilent);
+    int nPerson = deal.getDealer();
+    for (String sHand: asHand) {
+      m_sp.addLine("" + Deal.personChar(nPerson) + ":" + sHand);
+      Matcher m = Pattern.compile("^S(.*)H(.*)D(.*)C(.*)$").matcher(sHand);
+      if (!m.matches())
+        throw new DownloadFailedException(
+          PbnTools.getStr("error.linUnrecognCards", Deal.personChar(nPerson),
+            "S...H...D...C...", sHand), m_sp, !m_bSilent);
+      setCards(deal, nPerson, Card.SPADE, m.group(1), sArg);
+      setCards(deal, nPerson, Card.HEART, m.group(2), sArg);
+      setCards(deal, nPerson, Card.DIAMOND, m.group(3), sArg);
+      setCards(deal, nPerson, Card.CLUB, m.group(4), sArg);
+      nPerson = Deal.nextPerson(nPerson);
+    }
+      
   } //}}}
 
   // getPerson

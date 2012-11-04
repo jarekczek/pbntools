@@ -21,7 +21,10 @@
 
 package jc.pbntools;
 
-/** color: 1-4 (SHDC). */  
+/**
+ * color: 1-4 (SHDC).<br>
+ * rank: 0 = invalid
+ */  
 public class Card implements Comparable<Card> {
   public static final int SPADE = 1;
   public static final int HEART = 2;
