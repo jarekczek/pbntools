@@ -140,16 +140,28 @@ public class Deal implements Cloneable {
     
     } //}}}
 
-  static char personChar(int nPerson) { return nPerson>=0 && nPerson<=3 ? m_asPersons[nPerson].charAt(0) : '?'; }
+  public static char personChar(int nPerson)
+  {
+    return nPerson>=0 && nPerson<=3 ? m_asPersons[nPerson].charAt(0) : '?';
+  }
+  
   String dealerToString(int nDealer) { return nDealer<0 ? "?" : m_asPersons[nDealer]; }
   static int person(char ch) {
     for (int i=0; i<m_asPersons.length; i++) { if (m_asPersons[i].charAt(0)==ch) { return i; } }
     return -1;
     }
+
   /** Returns person number.
     * @param sPerson Must be of length 1. */
-  public static int person(String sPerson) { return (sPerson.length()!=1) ? -1 : person(sPerson.charAt(0)); }
-  static int nextPerson(int nPerson) { return nPerson<0 ? nPerson : ((nPerson+1)%4); }
+  public static int person(String sPerson)
+  {
+    return (sPerson.length()!=1) ? -1 : person(sPerson.charAt(0));
+  }
+  
+  public static int nextPerson(int nPerson)
+  {
+    return nPerson<0 ? nPerson : ((nPerson+1) % 4);
+  }
 
   public void setIdentField(String sField, String sValue) {
     String sFieldNorm = m_mIdentFieldNames.get(sField.toUpperCase());
@@ -161,6 +173,7 @@ public class Deal implements Cloneable {
   
   public void setNumber(int nNr) { m_nNr = nNr; }
   public int getNumber() { return m_nNr; }
+  public int getDealer() { return m_nDealer; }
   public void setDealer(int nDealer) { m_nDealer = nDealer; }
   public void setDeclarer(int nDeclarer) { m_nDeclarer = nDeclarer; }
   public int getDeclarer() { return m_nDeclarer; }
