@@ -124,7 +124,7 @@ public class BboTourDownloader extends HtmlTourDownloader
         Elements titles = m_docRes.select(".bbo_tlv");
         if (titles == null)
           throw new DownloadFailedException(
-            PbnTools.getStr("error.tagNotFound", ".bbo_tlv"), m_ow, true);
+            PbnTools.getStr("error.tagNotFound", ".bbo_tlv"), m_ow, false);
         if (titles.size() < 2)
           // first 2 tags are Title, Host - we need both
           continue;
@@ -208,7 +208,7 @@ public class BboTourDownloader extends HtmlTourDownloader
       if (!(new File(m_sLocalDir).mkdir())) {
         throw new DownloadFailedException(
           PbnTools.getStr(
-            "error.unableToCreateDir", m_sLocalDir), m_ow, true);
+            "error.unableToCreateDir", m_sLocalDir), m_ow, !m_bSilent);
       }
       BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
         new FileOutputStream(sLinksFile), "ISO-8859-1"));
@@ -275,7 +275,7 @@ public class BboTourDownloader extends HtmlTourDownloader
     Elements elems = docLocal.select("a:matches(Lin)");
     if (elems.size() == 0)
       throw new DownloadFailedException(PbnTools.getStr("error.tagNotFound",
-        "a:matches(Lin)"));
+        "a:matches(Lin)"), m_ow, !m_bSilent);
     for (Element elem: elems) {
       String sLinLink = elem.attr("href");
       Matcher m =
@@ -331,7 +331,7 @@ public class BboTourDownloader extends HtmlTourDownloader
         println(PbnTools.getStr("msg.interrupted"));
         break;
       }
-      Deal ad[] = readDeals(getLocalLinkForDeal(iDeal), false);
+      Deal ad[] = readDeals(getLocalLinkForDeal(iDeal), m_bSilent);
       if (ad != null) {
         for (Deal d: ad) {
           if (m_sTitle != null)
@@ -350,7 +350,7 @@ public class BboTourDownloader extends HtmlTourDownloader
   public Deal[] readDeals(String sUrl, boolean bSilent) //{{{
     throws DownloadFailedException
   {
-    Document doc;
+    Document doc = null;
     m_sCurFile = sUrl;
     m_bSilent = bSilent;
     
@@ -371,6 +371,10 @@ public class BboTourDownloader extends HtmlTourDownloader
         // we read only first lin file, the rest comes from results table
         break;
       }
+    }
+    catch (DownloadFailedException e) {
+      // bPrint = false, because rethrowing
+      throw new DownloadFailedException(e, m_ow, false);
     }
     catch (JCException e) {
       throw new DownloadFailedException(e, m_ow, !m_bSilent);

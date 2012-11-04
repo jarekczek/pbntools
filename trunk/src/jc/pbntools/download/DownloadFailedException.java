@@ -35,8 +35,9 @@ public class DownloadFailedException extends JCException
 {
   DownloadFailedException(String sMessage, SimplePrinter ow, boolean bPrint) {
     super(sMessage);
-    if (ow != null && (bPrint || f.isDebugMode()))
+    if (ow != null && (bPrint || f.isDebugMode())) {
       ow.addLine(sMessage);
+    }
   }
   
   DownloadFailedException(String sMessage) { super(sMessage); }

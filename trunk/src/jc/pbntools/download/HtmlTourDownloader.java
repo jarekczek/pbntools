@@ -425,8 +425,10 @@ abstract public class HtmlTourDownloader
   
   /** performs 2 operations: downloading (if required) from internet and
     * converting (locally) to pbns */
-  public boolean fullDownload() throws DownloadFailedException
+  public boolean fullDownload(boolean bSilent)
+    throws DownloadFailedException
   {
+    m_bSilent = bSilent;
     setLocalDir();
     if (m_remoteUrl.getProtocol().equals("file")) {
       m_localUrl = m_remoteUrl;

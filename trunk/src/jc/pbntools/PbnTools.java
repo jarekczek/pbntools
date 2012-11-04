@@ -460,7 +460,8 @@ public class PbnTools {
     
     /**
      * 1 or more downloaders may be given in the array. If there's only
-     * one, it is run with output (<code>bSilent = true</code>).
+     * one, it is run with output (downloader should not report errors,
+     * they are reported on catch).
      * If there is more than one downloader, they are sequentially tried
      * (<code>verify</code>) and first matching is used.
      */
@@ -502,7 +503,7 @@ public class PbnTools {
         return;
       }
       try {
-        dloader.fullDownload();
+        dloader.fullDownload(true);
       }
       catch (DownloadFailedException e) {
         m_ow.addLine(e.getMessage());

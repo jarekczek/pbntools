@@ -107,12 +107,32 @@ public class LinReader implements DealReader
   private void readHands(Deal deal, String sArg)
     throws DownloadFailedException
   {
-    if (sArg.length() < 1)
+    if (sArg.length() < 2)
       throw new DownloadFailedException(
         PbnTools.getStr("error.linCmdShort", "md", sArg),
         m_sp, !m_bSilent);
-    m_nDealer = getPerson( check if first char is valid person );
+    String sLinDealer = sArg.substring(0, 1);
+    deal.setDealer(getPerson(sLinDealer));
   } //}}}
+
+  // getPerson
+  /**
+   * Gets a person (from {@link Deal} class, reading from lin char.
+   * @param sPerson A string, of which first character denotes person.
+   */
+  public int getPerson(String sPerson)
+    throws DownloadFailedException
+  {
+    char ch = sPerson.charAt(0);
+    switch (ch) {
+      case '1': return Deal.S;
+      case '2': return Deal.W;
+      case '3': return Deal.N;
+      case '4': return Deal.E;
+      default: throw new DownloadFailedException(
+        PbnTools.getStr("error.invalidPerson", sPerson), m_sp, !m_bSilent);
+    }
+  }
 
   // readLin method {{{
   /**
@@ -130,11 +150,12 @@ public class LinReader implements DealReader
       String sComm = sc.next();
       if (sComm.length() == 0) {
        throw new DownloadFailedException(
-         PbnTools.getStr("lin.error.emptyCmd", sc.match().start()));
+         PbnTools.getStr("lin.error.emptyCmd", sc.match().start()),
+           m_sp, !m_bSilent);
       }
       if (!sc.hasNext()) {
        throw new DownloadFailedException(
-         PbnTools.getStr("lin.error.noArg", sComm));
+         PbnTools.getStr("lin.error.noArg", sComm), m_sp, !m_bSilent);
       }
       String sArg = sc.next();
       if (false && !sComm.equals("pc") && !sComm.equals("mb"))

@@ -77,8 +77,8 @@ public class TourDownloaderThread extends OutputWindow.Client
     m_ow.addLine(String.format(PbnTools.m_res.getString("tourDown.msg.fetching"),
                         m_sLink));
     try {
-      if (m_dloader.verify(m_sLink, false)) {
-        m_dloader.fullDownload();
+      if (m_dloader.verify(m_sLink, true)) {
+        m_dloader.fullDownload(true);
         m_bSuccess = true;
       }
     }
