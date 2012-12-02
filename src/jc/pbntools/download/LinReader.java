@@ -93,7 +93,7 @@ public class LinReader implements DealReader
     } catch (NumberFormatException nfe) {}
   } //}}}
 
-  private void readPlayers(Deal deal, String sPlayers)
+  private void readPlayers(Deal deal, String sPlayers) //{{{
     throws DownloadFailedException
   {
     String asPlayers[] = sPlayers.split(",");
@@ -107,7 +107,7 @@ public class LinReader implements DealReader
     deal.setIdentField("East",asPlayers[3]); 
   } //}}}
 
-  // setCards method
+  // setCards method {{{
   /**
    * Sets cards of given color and given person.
    * @param sArg Whole argument being processed, to show in error message
@@ -147,7 +147,6 @@ public class LinReader implements DealReader
         m_sp, !m_bSilent);
     int nPerson = deal.getDealer();
     for (String sHand: asHand) {
-      m_sp.addLine("" + Deal.personChar(nPerson) + ":" + sHand);
       Matcher m = Pattern.compile("^S(.*)H(.*)D(.*)C(.*)$").matcher(sHand);
       if (!m.matches())
         throw new DownloadFailedException(
@@ -159,10 +158,10 @@ public class LinReader implements DealReader
       setCards(deal, nPerson, Card.CLUB, m.group(4), sArg);
       nPerson = Deal.nextPerson(nPerson);
     }
-      
+    deal.dealRemCards();
   } //}}}
 
-  // getPerson
+  // getPerson {{{
   /**
    * Gets a person (from {@link Deal} class, reading from lin char.
    * @param sPerson A string, of which first character denotes person.
@@ -179,7 +178,7 @@ public class LinReader implements DealReader
       default: throw new DownloadFailedException(
         PbnTools.getStr("error.invalidPerson", sPerson), m_sp, !m_bSilent);
     }
-  }
+  } //}}}
 
   // readLin method {{{
   /**
@@ -217,14 +216,15 @@ public class LinReader implements DealReader
     return new Deal[] { d };
   } //}}}
   
-  public Deal[] readDeals(String sUrl, boolean bSilent)
+  public Deal[] readDeals(String sUrl, boolean bSilent) //{{{
     throws DownloadFailedException
   {
     assert(m_doc != null);
     String sLin = m_doc.text();
     return readLin(sLin, bSilent);
-  }
+  } //}}}
 
+  // verify method {{{
   /** Verifies if the <code>sUrl</code> contains valid data in this format */
   public boolean verify(String sUrl, boolean bSilent)
   {
@@ -254,11 +254,12 @@ public class LinReader implements DealReader
       return false;
     }
     return true;
-  }
+  } //}}}
     
+  // setOutputWindow method {{{
   /** Sets the window to which output messages will be directed */
   public void setOutputWindow(SimplePrinter sp)
   {
     m_sp = sp;
-  }
+  } //}}}
 }

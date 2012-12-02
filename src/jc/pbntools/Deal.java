@@ -73,6 +73,8 @@ public class Deal implements Cloneable {
   boolean m_bEof;
   boolean m_bEmpty;
   boolean m_bOk;
+  /* For card code (0..Card.MAX_CODE inclusive) stores the person
+     (card holder). Initialized with -1. */
   int m_anCards[];
   protected HashMap<String, String> m_mIdentFields;
   
@@ -204,6 +206,51 @@ public class Deal implements Cloneable {
     m_anCards[c.getCode()] = nPerson;
   }
 
+  // dealRemCards method {{{
+  /**
+   * Deals the remaining cards. This call is legal only if there is
+   * 13 or less cards left and only one player has less than 13 cards.
+   * Does not require <code>fillHands</code> to be called before.
+   * If all cards are already dealt, does nothing.
+   * @throws IllegalArgumentException when the configuration of remaining
+   * cards and players is illegal.
+   */
+  public void dealRemCards()
+  {
+    int cLeft = 0;
+    int acPerson[] = new int[4]; // number of cards already dealt
+    for (Card c: Card.getIter()) {
+      if (m_anCards[c.getCode()] < 0)
+        cLeft++;
+      else {
+        acPerson[m_anCards[c.getCode()]]++;
+      }
+    }
+    if (cLeft > 13)
+      throw new IllegalArgumentException(
+        "More than 13 cards left to deal (" + cLeft + ")");
+    if (cLeft == 0)
+      // all cards dealt, that's fine
+      return;
+
+    int iFreePerson = -1;
+    for (int i=0; i<=3; i++) {
+      if (acPerson[i] < 13) {
+        if (iFreePerson >= 0) {
+          throw new IllegalArgumentException(
+            "More than one player has less than 13 cards");
+        }
+        iFreePerson = i;
+      }
+    }
+    
+    for (Card c: Card.getIter()) {
+      if (m_anCards[c.getCode()] < 0)
+        setCard(c, iFreePerson);
+    }
+    
+  } //}}}
+  
   // isOk method {{{
   /** Performs deal validation.
    * <ul><li>Sets <code>m_asErrors</code> when errors met, <code>null</code>
@@ -246,6 +293,7 @@ public class Deal implements Cloneable {
     return (m_bOk = (m_asErrors == null));
     } //}}}
 
+  // getErrors method {{{
   /** Returns errors detected by #isOk.
     * @return <code>null</code> if no errors. */
   public String[] getErrors()
@@ -253,8 +301,9 @@ public class Deal implements Cloneable {
     if (m_asErrors == null)
       return null;
     return m_asErrors.toArray(new String[0]);
-  }
+  } //}}}
 
+  // getErrorsStr method {{{
   /** Returns all errors concatenated to a single string, using
     * given separator.
     * @return Error string, never <code>null</code>.
@@ -270,7 +319,7 @@ public class Deal implements Cloneable {
       }
     }
     return sb.toString();
-  }
+  } //}}}
 
   /** fillHands method {{{
     * Fills <code>m_aHands</code> with the cards from
@@ -588,11 +637,4 @@ public class Deal implements Cloneable {
     w.write(sLf);
   } //}}}
   
-  public static void main(String args[]) {
-//    DlgRozdaj d = new DlgRozdaj(null, true);
-//    d.setVisible(true);
-    System.out.println("koniec");
-    }
-  }
-
 // tabSize=2:noTabs=true:folding=explicit:
