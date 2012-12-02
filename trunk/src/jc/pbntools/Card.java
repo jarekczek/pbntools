@@ -21,6 +21,9 @@
 
 package jc.pbntools;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 /**
  * color: 1-4 (SHDC).<br>
  * rank: 0 = invalid
@@ -81,15 +84,22 @@ public class Card implements Comparable<Card> {
     }
   static int nextColor(int nColor) { return (nColor<=0) ? 0 : (nColor%4)+1; }
   
-  /** Returns first card to allow enumerating all 52 cards,
-    * together with #nextCard function. */
+  // firstCard method {{{
+  /** 
+   * Returns the first card to allow enumerating all 52 cards,
+   * together with {@link #nextCard} function.
+   * See also {@link #getIter}.
+   */
   public static Card firstCard()
   {
     return new Card(MIN_CODE);
-  }
+  } //}}}
   
+  // nextCard method {{{
   /** Returns next card, to allow enumerating 52 cards. See also
-    * #firstCard */
+    * {@link #firstCard}.
+    * @returns <code>null</code> if the card invalid or the last one.
+    */
   public Card nextCard()
   {
     if (!isOk())
@@ -106,7 +116,7 @@ public class Card implements Comparable<Card> {
       c = new Card(nColor, nRank + 1);
     }
     return c;
-  }
+  } //}}}
   
   static int kod(int nColor, int nWys) { return (nColor>=1 && nColor<=4 && nWys>=2 && nWys<=14) ? 16*nColor+nWys : 0; }
 
@@ -142,6 +152,47 @@ public class Card implements Comparable<Card> {
     else { return false; }
     }
 
+  // getIter method {{{
+  protected static class AllCardsIterator
+    implements Iterable<Card>, Iterator<Card>
+  {
+    Card m_card = null;
+    
+    public boolean hasNext()
+    {
+      return m_card == null || m_card.nextCard() != null;
+    }
+    
+    public Card next()
+    {
+      Card nextCard;
+      if (m_card == null)
+        nextCard = firstCard();
+      else
+        nextCard = m_card.nextCard();
+      if (nextCard == null)
+        throw new NoSuchElementException();
+      m_card = nextCard;
+      return m_card;
+    }
+    
+    public void remove()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Iterator<Card> iterator()
+    {
+      return this;
+    }
+  }
+  
+  /** Returns an iterable object over 52 cards, to use in for(x: ...) */
+  public static Iterable<Card> getIter()
+  {
+    return new AllCardsIterator();
+  } //}}}
+    
   public String toString() { return "" + colorChar(getColor()) + rankChar(getRank()); }
   
   public int compareTo(Card c) {
