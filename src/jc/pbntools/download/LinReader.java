@@ -23,6 +23,8 @@ package jc.pbntools.download;
 
 import java.io.FileWriter;
 import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -65,7 +67,7 @@ import jc.SoupProxy;
 <dt>pn - player names, comma separated</dt>
 <dt>rh - ? (seen empty)</dt>
 <dt>st - ? (seen empty)</dt>
-<dt>sv - vulnerability, n = None, b = Both, n = NS, e = EW
+<dt>sv - vulnerability, o = None, b = Both, n = NS, e = EW
     (<code>o</code> also found to denote None)</dt>
 <dt></dt>
 <dt></dt>
@@ -105,6 +107,23 @@ public class LinReader implements DealReader
     deal.setIdentField("West",asPlayers[1]); 
     deal.setIdentField("North",asPlayers[2]); 
     deal.setIdentField("East",asPlayers[3]); 
+  } //}}}
+
+  private void readVulner(Deal deal, String sLinVulner) //{{{
+    throws DownloadFailedException
+  {
+    Map<String, String> msVul = new HashMap<String, String>();
+    msVul.put("o", "None");
+    msVul.put("b", "All");
+    msVul.put("n", "NS");
+    msVul.put("e", "EW");
+    String sVulner = msVul.get(sLinVulner);
+    if (sVulner == null) {
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.linUnrecognVulner", sLinVulner),
+        m_sp, !m_bSilent);
+    }
+    deal.setVulner(sVulner);
   } //}}}
 
   // setCards method {{{
@@ -212,6 +231,8 @@ public class LinReader implements DealReader
         readPlayers(d, sArg);
       else if (sComm.equals("md"))
         readHands(d, sArg);
+      else if (sComm.equals("sv"))
+        readVulner(d, sArg);
     }
     return new Deal[] { d };
   } //}}}
