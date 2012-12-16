@@ -188,6 +188,11 @@ public class Deal implements Cloneable {
   public int getContractColor() { return m_nContractColor; }
   public int getContractDouble() { return m_nContractDouble; }
 
+  // setVulner method {{{
+  /**
+   * Sets vulnerability.
+   * @param sVulner One of <code>"None", "NS", "EW", "All"</code>
+   */
   public void setVulner(String sVulner) {
     m_sVulner = "?";
     for (String sValid : m_asPossVulner) {
@@ -637,4 +642,5 @@ public class Deal implements Cloneable {
     w.write(sLf);
   } //}}}
   
+}
 // tabSize=2:noTabs=true:folding=explicit:
