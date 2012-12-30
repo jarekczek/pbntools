@@ -32,9 +32,10 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.StringTokenizer;
 import javax.swing.JDialog;
 
 import jc.f;
@@ -229,6 +230,36 @@ public class BboTourDownloader extends HtmlTourDownloader
     return sLinksFile;
   } //}}}
 
+  // correctLin method {{{
+  /** Does necessary corrections to supplied LIN contents:
+   *  Inserts `pg` commands (pause game).
+   */
+  String correctLin(String sLin0)
+  {
+    int cPc = 0;
+    StringBuilder sb = new StringBuilder();
+    Scanner sc = new Scanner(sLin0).useDelimiter("\\|");
+    while (sc.hasNext()) {
+      String sComm = sc.next();
+      String sArg = "";
+      if (sc.hasNext()) {
+        sArg = sc.next();
+      }
+      if (sComm.equals("pc")) {
+        if (cPc % 4 == 0) {
+          sb.append("pg||");
+        }
+        cPc++;
+      }
+      sb.append(sComm);
+      sb.append('|');
+      sb.append(sArg);
+      sb.append('|');
+    }
+    sb.append("pg||");
+    return sb.toString();
+  } //}}}
+  
   // saveLinFromMovie method //{{{
   /** Saves lin to the file.
    * @param elemLin The <code>a</link> element with a Lin link.
@@ -251,6 +282,7 @@ public class BboTourDownloader extends HtmlTourDownloader
       throw new DownloadFailedException(PbnTools.getStr("error.onClickNotRec",
         sOnClick), m_ow, false);
     String sLin = f.decodeUrl(m.group(1));
+    sLin = correctLin(sLin);
     f.writeToFile(sLin, outFile);
   } //}}}
   
