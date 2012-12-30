@@ -148,7 +148,7 @@ public class Deal implements Cloneable {
   }
   
   String dealerToString(int nDealer) { return nDealer<0 ? "?" : m_asPersons[nDealer]; }
-  static int person(char ch) {
+  public static int person(char ch) {
     for (int i=0; i<m_asPersons.length; i++) { if (m_asPersons[i].charAt(0)==ch) { return i; } }
     return -1;
     }
