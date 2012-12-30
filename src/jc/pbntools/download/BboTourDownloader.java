@@ -449,6 +449,7 @@ public class BboTourDownloader extends HtmlTourDownloader
       Element tr = num.parent();
 
       Deal d = deal0.clone();
+      d.setIdentField("Date", getOneTag(tr, "td:eq(1)", m_bSilent).text());
       d.setIdentField("North", getOneTag(tr, "td.north", m_bSilent).text());
       d.setIdentField("South", getOneTag(tr, "td.south", m_bSilent).text());
       d.setIdentField("East", getOneTag(tr, "td.east", m_bSilent).text());
