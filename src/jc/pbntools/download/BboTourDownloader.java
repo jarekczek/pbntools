@@ -443,10 +443,29 @@ public class BboTourDownloader extends HtmlTourDownloader
     throws DownloadFailedException
   {
     ArrayList<Deal> ad = new ArrayList<Deal>();
-    ad.add(deal0);
-    if (!deal0.isOk())
-      reportErrors(deal0.getErrors());
-    
+
+    Elements nums = getElems(doc, "td.handnum", m_bSilent);
+    for (Element num: nums) {
+      Element tr = num.parent();
+
+      Deal d = deal0.clone();
+      d.setIdentField("North", getOneTag(tr, "td.north", m_bSilent).text());
+      d.setIdentField("South", getOneTag(tr, "td.south", m_bSilent).text());
+      d.setIdentField("East", getOneTag(tr, "td.east", m_bSilent).text());
+      d.setIdentField("West", getOneTag(tr, "td.west", m_bSilent).text());
+      // d.setIdentField("North", "Para-" + tds.get(0).text());
+      // d.setIdentField("South", "Para-" + tds.get(0).text());
+      // d.setIdentField("East", "Para-" + tds.get(1).text());
+      // d.setIdentField("West", "Para-" + tds.get(1).text());
+      // d.setDeclarer(Deal.person(tds.get(3).text()));
+      // processContract(d, tds.get(2));
+      // processResult(d, tds.get(5).text());
+      if (!d.isOk()) {
+        reportErrors(d.getErrors());
+      }
+      ad.add(d);
+    }
+
     return ad.toArray(new Deal[0]);
   } //}}}
 }
