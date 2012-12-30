@@ -164,7 +164,7 @@ public class LinReader implements DealReader
       throw new DownloadFailedException(
         PbnTools.getStr("error.linHandCount", "3/4", asHand.length, sArg),
         m_sp, !m_bSilent);
-    int nPerson = deal.getDealer();
+    int nPerson = Deal.person('S');
     for (String sHand: asHand) {
       Matcher m = Pattern.compile("^S(.*)H(.*)D(.*)C(.*)$").matcher(sHand);
       if (!m.matches())
@@ -178,6 +178,7 @@ public class LinReader implements DealReader
       nPerson = Deal.nextPerson(nPerson);
     }
     deal.dealRemCards();
+    deal.fillHands();
   } //}}}
 
   // getPerson {{{
