@@ -437,6 +437,31 @@ public class BboTourDownloader extends HtmlTourDownloader
   {
   } //}}}
 
+  // processBboResult method {{{
+  /** Bbo result is a string <code>PASS</code> or of type
+   *  <code>2NTxE-2</code>.
+   */
+  public void processBboResult(Deal d, String sBboResult)
+    throws DownloadFailedException
+  {
+    if (sBboResult.equalsIgnoreCase("pass")) {
+      d.setContractHeight(0);
+      return;
+    }
+    Matcher m = Pattern.compile("^(.*)([NESW])((=)|([-+][0-9]+))$")
+      .matcher(sBboResult);
+    if (!m.matches()) {
+      throw new DownloadFailedException(PbnTools.getStr(
+        "tourDown.error.unrecognizedContract", d.getNumber(), sBboResult));
+    }
+    Element contractElem = m_doc.createElement("p");
+    contractElem.appendText(m.group(1));
+    m_ow.addLine(contractElem.text());
+    processContract(d, contractElem);
+    d.setDeclarer(Deal.person(m.group(2)));
+    processResult(d, m.group(3));
+  } //}}}
+
   // processResults method //{{{
   /** Multiplies given <code>deal</code> by the number of results. */
   private Deal[] processResults(Deal deal0, Document doc)
@@ -454,6 +479,7 @@ public class BboTourDownloader extends HtmlTourDownloader
       d.setIdentField("South", getOneTag(tr, "td.south", m_bSilent).text());
       d.setIdentField("East", getOneTag(tr, "td.east", m_bSilent).text());
       d.setIdentField("West", getOneTag(tr, "td.west", m_bSilent).text());
+      processBboResult(d, getOneTag(tr, "td.result", m_bSilent).text());
       // d.setIdentField("North", "Para-" + tds.get(0).text());
       // d.setIdentField("South", "Para-" + tds.get(0).text());
       // d.setIdentField("East", "Para-" + tds.get(1).text());

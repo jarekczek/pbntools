@@ -624,18 +624,29 @@ abstract public class HtmlTourDownloader
         int nDoublePos = 1; // starting position for x marks (double)
         int nHeight = Integer.parseInt(contrElem.text().substring(0,1));
         d.setContractHeight(nHeight);
-        if (contrElem.text().length() >= 3
-            && contrElem.text().substring(1,3).equals("NT")) {
+        if (contrElem.text().substring(1).startsWith("NT")) {
           nDoublePos = 3;
+          d.setContractColor(0);
+        } else if (contrElem.text().substring(1).startsWith("N")) {
+          nDoublePos = 2;
           d.setContractColor(0);
         }
         else {
-          Element img = getOneTag(contrElem, "img", true);
-          if (img == null) {
-            throw new DownloadFailedException(PbnTools.getStr(
-              "tourDown.error.noImgInContr", d.getNumber(), contrElem.html()));
+          // try to match next char as color (bbo style)
+          char chColor = contrElem.text().charAt(nDoublePos);
+          String sBboColors = "\u2660\u2665\u2666\u2663"; // S H D C
+          int iFound = sBboColors.indexOf(chColor);
+          if (iFound >= 0) {
+            d.setContractColor(iFound + Card.SPADE);
+            nDoublePos++;
+          } else {
+            Element img = getOneTag(contrElem, "img", true);
+            if (img == null) {
+              throw new DownloadFailedException(PbnTools.getStr(
+                "tourDown.error.noImgInContr", d.getNumber(), contrElem.html()));
+            }
+            d.setContractColor(getImgColorOrNt(img));
           }
-          d.setContractColor(getImgColorOrNt(img));
         }
 
         String sDoubles = contrElem.text().substring(nDoublePos);
