@@ -152,23 +152,57 @@ abstract public class HtmlTourDownloader
 
   //{{{ JSoup helper methods
   
-  /** select <code>sTag</code> but require exactly one match */
-  protected Element getOneTag(Element parent, String sTag, boolean bSilent) {
+  /** Selects <code>sTag</code>.
+   * @throws DownloadFailedException if tag not found.
+   */
+  public Elements getElems(Element parent, String sTag, boolean bSilent)
+    throws DownloadFailedException
+  {
     Elements elems = parent.select(sTag);
-    if (elems.size()==0) {
+    if (elems.size() == 0) {
       if (!bSilent || f.isDebugMode()) {
         println(PbnTools.getStr("error.tagNotFound", sTag));
       }
       return null;
     }
-    if (elems.size()>1) {
-      if (!bSilent || f.isDebugMode()) {
-        println(PbnTools.getStr("error.onlyOneTagAllowed", sTag));
-      }
-      return null;
+    return elems;
+  }
+  
+  // getOneTag methods {{{
+
+  /** Selects <code>sTag</code> but require exactly one match.
+   * @throws DownloadFailedException if not found.
+   */
+  protected Element getOneTagEx(Element parent, String sTag, boolean bSilent)
+    throws DownloadFailedException
+  {
+    Elements elems = parent.select(sTag);
+    if (elems.size() == 0) {
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.tagNotFound", sTag), m_ow, !bSilent);
+    }
+    if (elems.size() > 1) {
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.onlyOneTagAllowed", sTag), m_ow, !bSilent);
     }
     return elems.get(0);
   }
+
+  /** Selects <code>sTag</code> but require exactly one match.
+   * @return <code>null</code> if tag not found.
+   */
+  protected Element getOneTag(Element parent, String sTag, boolean bSilent)
+  {
+    try {
+      Element e = getOneTagEx(parent, sTag, bSilent);
+      return e;
+    }
+    catch (DownloadFailedException dfe) {
+      return null;
+    }
+  }
+  
+  // }}} getOneTag
   
   /** Returns first <code>sTag</code>, throws exception if not tag
     * found. */
