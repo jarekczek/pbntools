@@ -89,7 +89,7 @@ public class LinReader implements DealReader
   private void readNumber(Deal deal, String sBoard)
     throws DownloadFailedException
   {
-    sBoard = sBoard.replaceFirst("^.*([0-9]+).*$", "$1");
+    sBoard = sBoard.replaceFirst("^.*?([0-9]+).*$", "$1");
     try {
       deal.setNumber(Integer.valueOf(sBoard));
     } catch (NumberFormatException nfe) {}
