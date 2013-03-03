@@ -181,6 +181,17 @@ public class LinReader implements DealReader
     deal.fillHands();
   } //}}}
 
+  private void readCall(Deal d, String sArg) //{{{
+    throws DownloadFailedException
+  {
+    m_sp.addLine("reading call: " + sArg);
+    if (sArg.equals("p")) {
+      d.addCall("Pass");
+    } else {
+      d.addCall(sArg);
+    }
+  } //}}}
+
   // getPerson {{{
   /**
    * Gets a person (from {@link Deal} class, reading from lin char.
@@ -230,6 +241,8 @@ public class LinReader implements DealReader
         readNumber(d, sArg);
       else if (sComm.equals("pn"))
         readPlayers(d, sArg);
+      else if (sComm.equals("mb"))
+        readCall(d, sArg);
       else if (sComm.equals("md"))
         readHands(d, sArg);
       else if (sComm.equals("sv"))
