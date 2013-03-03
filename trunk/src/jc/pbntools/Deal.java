@@ -60,6 +60,7 @@ public class Deal implements Cloneable {
   private int m_nNr;
   public String m_sDeal;
   public Hand m_aHands[];
+  private ArrayList<String> m_asCalls;
   // Results:
   private int m_nDeclarer;
   private int m_nContractHeight;
@@ -128,6 +129,7 @@ public class Deal implements Cloneable {
     for (int i=0; i<m_aHands.length; i++) {
       m_aHands[i] = new Hand();
     }
+    m_asCalls = new ArrayList<String>();
     m_asErrors = null;
     m_bEof = true;
     m_bEmpty = true;
@@ -254,6 +256,11 @@ public class Deal implements Cloneable {
         setCard(c, iFreePerson);
     }
     
+  } //}}}
+  
+  public void addCall(String sCall) //{{{
+  {
+    m_asCalls.add(sCall);
   } //}}}
   
   // isOk method {{{
@@ -606,6 +613,27 @@ public class Deal implements Cloneable {
     writeField(w, "Result", sResult);
   } //}}}
 
+  // writeAuction method {{{
+  public void writeAuction(Writer w) throws java.io.IOException
+  {
+    if (m_asCalls.size() == 0)
+      return;
+    writeField(w, "Auction", "" + personChar(getDealer()));
+    int i = 0;
+    for(String sCall: m_asCalls) {
+      if (i != 0) {
+        if ((i % 4) == 0) {
+          w.write(sLf);
+        } else {
+          w.write(" ");
+        }
+      }
+      w.write(sCall);
+      i += 1;
+    }
+    w.write(sLf);
+  } //}}}
+
   public void savePbn(Writer w) throws java.io.IOException { //{{{
     // set fields in the map
     if (m_nNr > 0) { setIdentField("Board", "" + m_nNr); }
@@ -638,6 +666,7 @@ public class Deal implements Cloneable {
       writeField(w, "Declarer", "" + personChar(m_nDeclarer));
     writeContract(w);
     writeResult(w);
+    writeAuction(w);
 
     w.write(sLf);
   } //}}}
