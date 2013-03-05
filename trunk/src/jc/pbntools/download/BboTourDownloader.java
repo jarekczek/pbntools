@@ -462,7 +462,6 @@ public class BboTourDownloader extends HtmlTourDownloader
     }
     Element contractElem = m_doc.createElement("p");
     contractElem.appendText(m.group(1));
-    m_ow.addLine(contractElem.text());
     processContract(d, contractElem);
     d.setDeclarer(Deal.person(m.group(2)));
     processResult(d, m.group(3));
