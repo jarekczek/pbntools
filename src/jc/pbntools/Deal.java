@@ -60,7 +60,7 @@ public class Deal implements Cloneable {
   private int m_nNr;
   public String m_sDeal;
   public Hand m_aHands[];
-  private ArrayList<String> m_asCalls;
+  private ArrayList<String> m_asBids;
   // Results:
   private int m_nDeclarer;
   private int m_nContractHeight;
@@ -129,7 +129,7 @@ public class Deal implements Cloneable {
     for (int i=0; i<m_aHands.length; i++) {
       m_aHands[i] = new Hand();
     }
-    m_asCalls = new ArrayList<String>();
+    m_asBids = new ArrayList<String>();
     m_asErrors = null;
     m_bEof = true;
     m_bEmpty = true;
@@ -258,9 +258,9 @@ public class Deal implements Cloneable {
     
   } //}}}
   
-  public void addCall(String sCall) //{{{
+  public void addBid(String sBid) //{{{
   {
-    m_asCalls.add(sCall);
+    m_asBids.add(sBid);
   } //}}}
   
   // isOk method {{{
@@ -616,11 +616,11 @@ public class Deal implements Cloneable {
   // writeAuction method {{{
   public void writeAuction(Writer w) throws java.io.IOException
   {
-    if (m_asCalls.size() == 0)
+    if (m_asBids.size() == 0)
       return;
     writeField(w, "Auction", "" + personChar(getDealer()));
     int i = 0;
-    for(String sCall: m_asCalls) {
+    for(String sBid: m_asBids) {
       if (i != 0) {
         if ((i % 4) == 0) {
           w.write(sLf);
@@ -628,7 +628,7 @@ public class Deal implements Cloneable {
           w.write(" ");
         }
       }
-      w.write(sCall);
+      w.write(sBid);
       i += 1;
     }
     w.write(sLf);

@@ -181,14 +181,14 @@ public class LinReader implements DealReader
     deal.fillHands();
   } //}}}
 
-  private void readCall(Deal d, String sArg) //{{{
+  private void readBid(Deal d, String sArg) //{{{
     throws DownloadFailedException
   {
     m_sp.addLine("reading call: " + sArg);
     if (sArg.equals("p")) {
-      d.addCall("Pass");
+      d.addBid("Pass");
     } else {
-      d.addCall(sArg);
+      d.addBid(sArg);
     }
   } //}}}
 
@@ -242,7 +242,7 @@ public class LinReader implements DealReader
       else if (sComm.equals("pn"))
         readPlayers(d, sArg);
       else if (sComm.equals("mb"))
-        readCall(d, sArg);
+        readBid(d, sArg);
       else if (sComm.equals("md"))
         readHands(d, sArg);
       else if (sComm.equals("sv"))
