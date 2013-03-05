@@ -385,23 +385,29 @@ public class BboTourDownloader extends HtmlTourDownloader
     Document doc = null;
     m_sCurFile = sUrl;
     m_bSilent = bSilent;
+    ArrayList<Deal> aDeals = new ArrayList<Deal>();
     
     if (PbnTools.getVerbos() > 0)
       m_ow.addLine(PbnTools.getStr("msg.processing", sUrl));
     resetErrors();
-    Deal deal = null;
     try {
       SoupProxy proxy = new SoupProxy();
       doc = proxy.getDocument(sUrl);
-      for (Element aLin: doc.select("a:matches(Lin)")) {
+      Elements nums = getElems(doc, "td.handnum", m_bSilent);
+      for (Element num: nums) {
+        Element tr = num.parent();
+        Element aLin = getOneTagEx(tr, "a:matches(Lin)", m_bSilent);
         String sFile = SoupProxy.absUrl(aLin, "href");
         m_ow.addLine("wanna process " + sFile);
           String sLin = f.readFile(sFile);
         LinReader linReader = new LinReader();
         linReader.setOutputWindow(m_ow);
-        deal = linReader.readLin(sLin, m_bSilent)[0];
-        // we read only first lin file, the rest comes from results table
-        break;
+        Deal d = linReader.readLin(sLin, m_bSilent)[0];
+        processResults(d, tr);
+        if (!d.isOk()) {
+          reportErrors(d.getErrors());
+        }
+        aDeals.add(d);
       }
     }
     catch (DownloadFailedException e) {
@@ -414,9 +420,9 @@ public class BboTourDownloader extends HtmlTourDownloader
     catch (java.io.IOException ioe) {
       throw new DownloadFailedException(ioe, m_ow, !m_bSilent);
     }
-    assert(deal != null);
+    assert(aDeals.size() > 0);
 
-    return processResults(deal, doc);
+    return aDeals.toArray(new Deal[0]);
   } //}}}
   
   // extractHands method //{{{
@@ -463,36 +469,16 @@ public class BboTourDownloader extends HtmlTourDownloader
   } //}}}
 
   // processResults method //{{{
-  /** Multiplies given <code>deal</code> by the number of results. */
-  private Deal[] processResults(Deal deal0, Document doc)
+  /** Updates deal with the info found in results.
+   * @param tr Element containing results for this deal. */
+  private void processResults(Deal d, Element tr)
     throws DownloadFailedException
   {
-    ArrayList<Deal> ad = new ArrayList<Deal>();
-
-    Elements nums = getElems(doc, "td.handnum", m_bSilent);
-    for (Element num: nums) {
-      Element tr = num.parent();
-
-      Deal d = deal0.clone();
-      d.setIdentField("Date", getOneTag(tr, "td:eq(1)", m_bSilent).text());
-      d.setIdentField("North", getOneTag(tr, "td.north", m_bSilent).text());
-      d.setIdentField("South", getOneTag(tr, "td.south", m_bSilent).text());
-      d.setIdentField("East", getOneTag(tr, "td.east", m_bSilent).text());
-      d.setIdentField("West", getOneTag(tr, "td.west", m_bSilent).text());
-      processBboResult(d, getOneTag(tr, "td.result", m_bSilent).text());
-      // d.setIdentField("North", "Para-" + tds.get(0).text());
-      // d.setIdentField("South", "Para-" + tds.get(0).text());
-      // d.setIdentField("East", "Para-" + tds.get(1).text());
-      // d.setIdentField("West", "Para-" + tds.get(1).text());
-      // d.setDeclarer(Deal.person(tds.get(3).text()));
-      // processContract(d, tds.get(2));
-      // processResult(d, tds.get(5).text());
-      if (!d.isOk()) {
-        reportErrors(d.getErrors());
-      }
-      ad.add(d);
-    }
-
-    return ad.toArray(new Deal[0]);
+    d.setIdentField("Date", getOneTag(tr, "td:eq(1)", m_bSilent).text());
+    d.setIdentField("North", getOneTag(tr, "td.north", m_bSilent).text());
+    d.setIdentField("South", getOneTag(tr, "td.south", m_bSilent).text());
+    d.setIdentField("East", getOneTag(tr, "td.east", m_bSilent).text());
+    d.setIdentField("West", getOneTag(tr, "td.west", m_bSilent).text());
+    processBboResult(d, getOneTag(tr, "td.result", m_bSilent).text());
   } //}}}
 }
