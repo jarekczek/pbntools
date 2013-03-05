@@ -454,6 +454,9 @@ public class BboTourDownloader extends HtmlTourDownloader
       d.setContractHeight(0);
       return;
     }
+    if (sBboResult.matches("A[+-=][+-=]")) { /* A=+, A==, A+= */
+      return;
+    }
     Matcher m = Pattern.compile("^(.*)([NESW])((=)|([-+][0-9]+))$")
       .matcher(sBboResult);
     if (!m.matches()) {

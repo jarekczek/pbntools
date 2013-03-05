@@ -187,6 +187,7 @@ public class LinReader implements DealReader
     Map<String, String> m = new HashMap<String, String>();
     m.put("p", "Pass");
     m.put("d", "X");
+    m.put("d!", "X");
     m.put("r", "XX");
     if (m.containsKey(sArg)) {
       d.addBid(m.get(sArg));
