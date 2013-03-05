@@ -184,9 +184,12 @@ public class LinReader implements DealReader
   private void readBid(Deal d, String sArg) //{{{
     throws DownloadFailedException
   {
-    m_sp.addLine("reading call: " + sArg);
-    if (sArg.equals("p")) {
-      d.addBid("Pass");
+    Map<String, String> m = new HashMap<String, String>();
+    m.put("p", "Pass");
+    m.put("d", "X");
+    m.put("r", "XX");
+    if (m.containsKey(sArg)) {
+      d.addBid(m.get(sArg));
     } else {
       d.addBid(sArg);
     }
