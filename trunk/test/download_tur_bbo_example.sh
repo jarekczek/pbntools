@@ -19,7 +19,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-tour=2797-1361119500
+if [[ -z $1 ]]; then
+  tour="2797-1361119500"
+else
+  tour=$1
+fi
 mkdir -p tur_bbo_example_$tour
 cd tur_bbo_example_$tour
 wgetOpts="-p -k -nc -E --restrict-file-names=windows --wait=1"
