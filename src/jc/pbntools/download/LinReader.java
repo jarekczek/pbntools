@@ -184,6 +184,8 @@ public class LinReader implements DealReader
   private void readBid(Deal d, String sArg) //{{{
     throws DownloadFailedException
   {
+    sArg = sArg.replaceFirst("!$", "");
+    sArg = sArg.replaceFirst("N$", "NT");
     Map<String, String> m = new HashMap<String, String>();
     m.put("p", "Pass");
     m.put("d", "X");

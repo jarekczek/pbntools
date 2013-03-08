@@ -263,6 +263,18 @@ public class Deal implements Cloneable {
     m_asBids.add(sBid);
   } //}}}
   
+  // areBidsOk method {{{
+  /** Part of {@link #isOk} checks. */
+  protected void areBidsOk() {
+    Pattern pat = Pattern.compile("(Pass)|(X)|(XX)|([1-7]([CDHS]|(NT)))");
+    for (String sBid: m_asBids) {
+      Matcher m = pat.matcher(sBid);
+      if (!m.matches()) {
+        m_asErrors.add(PbnTools.getStr("error.pbn.wrongBid", sBid));
+      }
+    }
+  } //}}}
+
   // isOk method {{{
   /** Performs deal validation.
    * <ul><li>Sets <code>m_asErrors</code> when errors met, <code>null</code>
@@ -300,6 +312,8 @@ public class Deal implements Cloneable {
       m_asErrors.add(PbnTools.getStr("error.pbn.notAllCards",
         52 - cDealt, 52, cardMiss.toString()));
     }
+    
+    areBidsOk();
 
     if (m_asErrors.size() == 0) { m_asErrors = null; }
     return (m_bOk = (m_asErrors == null));

@@ -398,8 +398,7 @@ public class BboTourDownloader extends HtmlTourDownloader
         Element tr = num.parent();
         Element aLin = getOneTagEx(tr, "a:matches(Lin)", m_bSilent);
         String sFile = SoupProxy.absUrl(aLin, "href");
-        m_ow.addLine("wanna process " + sFile);
-          String sLin = f.readFile(sFile);
+        String sLin = f.readFile(sFile);
         LinReader linReader = new LinReader();
         linReader.setOutputWindow(m_ow);
         Deal d = linReader.readLin(sLin, m_bSilent)[0];
