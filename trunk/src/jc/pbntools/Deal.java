@@ -113,6 +113,7 @@ public class Deal implements Cloneable {
       Deal d = (Deal)super.clone();
       d.m_aHands = this.m_aHands.clone();
       d.m_anCards = this.m_anCards.clone();
+      d.m_asBids = (ArrayList<String>)this.m_asBids.clone();
       d.m_mIdentFields = (HashMap<String, String>)this.m_mIdentFields.clone();
       return d;
     }
