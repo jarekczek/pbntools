@@ -61,6 +61,7 @@ public class Deal implements Cloneable {
   public String m_sDeal;
   public Hand m_aHands[];
   private ArrayList<String> m_asBids;
+  private ArrayList<Card> m_aPlays; // cards played
   // Results:
   private int m_nDeclarer;
   private int m_nContractHeight;
@@ -114,6 +115,7 @@ public class Deal implements Cloneable {
       d.m_aHands = this.m_aHands.clone();
       d.m_anCards = this.m_anCards.clone();
       d.m_asBids = (ArrayList<String>)this.m_asBids.clone();
+      d.m_aPlays = (ArrayList<Card>)this.m_aPlays.clone();
       d.m_mIdentFields = (HashMap<String, String>)this.m_mIdentFields.clone();
       return d;
     }
@@ -131,6 +133,7 @@ public class Deal implements Cloneable {
       m_aHands[i] = new Hand();
     }
     m_asBids = new ArrayList<String>();
+    m_aPlays = new ArrayList<Card>();
     m_asErrors = null;
     m_bEof = true;
     m_bEmpty = true;
@@ -166,6 +169,15 @@ public class Deal implements Cloneable {
   public static int nextPerson(int nPerson)
   {
     return nPerson<0 ? nPerson : ((nPerson+1) % 4);
+  }
+
+  public static int prevPerson(int nPerson)
+  {
+    if (nPerson >= 0) {
+      nPerson--;
+      if (nPerson < 0) nPerson += 4;
+    }
+    return nPerson;
   }
 
   public void setIdentField(String sField, String sValue) {
@@ -264,6 +276,11 @@ public class Deal implements Cloneable {
     m_asBids.add(sBid);
   } //}}}
   
+  public void addPlay(Card card) //{{{
+  {
+    m_aPlays.add(card);
+  } //}}}
+  
   // areBidsOk method {{{
   /** Part of {@link #isOk} checks. */
   protected void areBidsOk() {
@@ -273,6 +290,24 @@ public class Deal implements Cloneable {
       if (!m.matches()) {
         m_asErrors.add(PbnTools.getStr("error.pbn.wrongBid", sBid));
       }
+    }
+  } //}}}
+
+  // arePlaysOk method {{{
+  /** Part of {@link #isOk} checks. */
+  protected void arePlaysOk() {
+    // maybe there are no cards to check at all?
+    if (m_aPlays.size() == 0) return;
+    int iPlayer = m_nDeclarer;
+    if (m_nDealer < 10) {
+      m_asErrors.add(PbnTools.getStr("error.pbn.playsButNoDeclarer",
+        m_aPlays.size()));
+      return;
+    }
+    
+    for (Card card: m_aPlays) {
+      m_asErrors.add(PbnTools.getStr("error.pbn.wrongPlay", card,
+        personChar(iPlayer)));
     }
   } //}}}
 
@@ -315,6 +350,7 @@ public class Deal implements Cloneable {
     }
     
     areBidsOk();
+    arePlaysOk();
 
     if (m_asErrors.size() == 0) { m_asErrors = null; }
     return (m_bOk = (m_asErrors == null));
@@ -644,6 +680,40 @@ public class Deal implements Cloneable {
         }
       }
       w.write(sBid);
+      i += 1;
+    }
+    w.write(sLf);
+  } //}}}
+
+  // writePlays method {{{
+  public void writePlays(Writer w) throws java.io.IOException
+  {
+    if (m_aPlays.size() == 0)
+      return;
+    if (getDeclarer() < 0) return;
+    int iPlayer = prevPerson(getDeclarer());
+    
+    writeField(w, "Play", "" + personChar(getDeclarer()));
+    
+    ArrayList<String> asPlays = new ArrayList<String>();
+    for(Card card: m_aPlays) {
+      asPlays.add("" + card);
+    }
+    // each trick must be full, at least of minuses
+    while ((asPlays.size() % 4) != 0) {
+      asPlays.add("-");
+    }
+    
+    int i = 0;
+    for(String sPlay: asPlays) {
+      if (i != 0) {
+        if ((i % 4) == 0) {
+          w.write(sLf);
+        } else {
+          w.write(" ");
+        }
+      }
+      w.write(sPlay);
       i += 1;
     }
     w.write(sLf);
