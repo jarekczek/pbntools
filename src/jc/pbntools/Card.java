@@ -45,6 +45,10 @@ public class Card implements Comparable<Card> {
 
   public Card() { clear(); }
   public Card(int nCode) { clear(); setCode(nCode); }
+  
+  /** The suggested constructor. For example call:
+   *  <code>new Card(Card.color(chColor), Card.rank(chRank))</code>
+   */
   public Card(int nColor, int nRank)
   {
     clear(); setRank(nRank); setColor(nColor);

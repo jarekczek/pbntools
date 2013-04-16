@@ -691,9 +691,9 @@ public class Deal implements Cloneable {
     if (m_aPlays.size() == 0)
       return;
     if (getDeclarer() < 0) return;
-    int iPlayer = prevPerson(getDeclarer());
+    int iPlayer = nextPerson(getDeclarer());
     
-    writeField(w, "Play", "" + personChar(getDeclarer()));
+    writeField(w, "Play", "" + personChar(iPlayer));
     
     ArrayList<String> asPlays = new ArrayList<String>();
     for(Card card: m_aPlays) {
@@ -717,6 +717,8 @@ public class Deal implements Cloneable {
       i += 1;
     }
     w.write(sLf);
+    if (asPlays.size() != 52)
+      w.write("*" + sLf);
   } //}}}
 
   public void savePbn(Writer w) throws java.io.IOException { //{{{
@@ -752,6 +754,7 @@ public class Deal implements Cloneable {
     writeContract(w);
     writeResult(w);
     writeAuction(w);
+    writePlays(w);
 
     w.write(sLf);
   } //}}}

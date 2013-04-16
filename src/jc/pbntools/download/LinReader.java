@@ -198,6 +198,21 @@ public class LinReader implements DealReader
     }
   } //}}}
 
+  // readPlay method {{{
+  /** Reads played card. */
+  private void readPlay(Deal d, String sArg)
+    throws DownloadFailedException
+  {
+    if (sArg.length() != 2)
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.pbn.wrongCard", sArg));
+    Card c = new Card(Card.color(sArg.charAt(0)), Card.rank(sArg.charAt(1)));
+    if (!c.isOk())
+      throw new DownloadFailedException(
+        PbnTools.getStr("error.pbn.wrongCard", sArg));
+    d.addPlay(c);
+  } //}}}
+
   // getPerson {{{
   /**
    * Gets a person (from {@link Deal} class, reading from lin char.
@@ -241,10 +256,17 @@ public class LinReader implements DealReader
          PbnTools.getStr("lin.error.noArg", sComm), m_sp, !m_bSilent);
       }
       String sArg = sc.next();
-      if (false && !sComm.equals("pc") && !sComm.equals("mb"))
-        m_sp.addLine("Command: " + sComm + ", arg: " + sArg);
       if (sComm.equals("ah"))
         readNumber(d, sArg);
+      else if (sComm.equals("pc"))
+        try {
+          readPlay(d, sArg);
+        } catch (DownloadFailedException dfe) {
+          // ignore played cards errors, as it's not the main functionality
+          m_sp.addLine(dfe.getMessage());
+        }
+      else if (sComm.equals("pg"))
+        {} // pause game, ignore it
       else if (sComm.equals("pn"))
         readPlayers(d, sArg);
       else if (sComm.equals("mb"))
@@ -253,6 +275,8 @@ public class LinReader implements DealReader
         readHands(d, sArg);
       else if (sComm.equals("sv"))
         readVulner(d, sArg);
+      else
+        m_sp.addLine("Command: " + sComm + ", arg: " + sArg);
     }
     return new Deal[] { d };
   } //}}}
