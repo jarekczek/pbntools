@@ -28,7 +28,7 @@ import java.util.NoSuchElementException;
  * color: 1-4 (SHDC).<br>
  * rank: 0 = invalid
  */  
-public class Card implements Comparable<Card> {
+public class Card implements Comparable<Card>, Cloneable {
   public static final int SPADE = 1;
   public static final int HEART = 2;
   public static final int DIAMOND = 3;
@@ -45,6 +45,17 @@ public class Card implements Comparable<Card> {
 
   public Card() { clear(); }
   public Card(int nCode) { clear(); setCode(nCode); }
+  
+  public Object clone()
+  {
+    Card c = null;
+    try {
+      c = (Card)super.clone();
+    } catch (CloneNotSupportedException e) {
+      throw new RuntimeException(e);
+    }
+    return c;
+  }
   
   /** The suggested constructor. For example call:
    *  <code>new Card(Card.color(chColor), Card.rank(chRank))</code>
