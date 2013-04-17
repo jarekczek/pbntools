@@ -61,7 +61,8 @@ public class Deal implements Cloneable {
   public String m_sDeal;
   public Hand m_aHands[];
   private ArrayList<String> m_asBids;
-  private ArrayList<Card> m_aPlays; // cards played
+  /** Cards played. Index is <code>(nTrick - 1) * 4 + nPerson</code> */
+  private Card[] m_aPlays; // cards played
   // Results:
   private int m_nDeclarer;
   private int m_nContractHeight;
@@ -115,7 +116,7 @@ public class Deal implements Cloneable {
       d.m_aHands = this.m_aHands.clone();
       d.m_anCards = this.m_anCards.clone();
       d.m_asBids = (ArrayList<String>)this.m_asBids.clone();
-      d.m_aPlays = (ArrayList<Card>)this.m_aPlays.clone();
+      d.m_aPlays = this.m_aPlays.clone();
       d.m_mIdentFields = (HashMap<String, String>)this.m_mIdentFields.clone();
       return d;
     }
@@ -133,7 +134,7 @@ public class Deal implements Cloneable {
       m_aHands[i] = new Hand();
     }
     m_asBids = new ArrayList<String>();
-    m_aPlays = new ArrayList<Card>();
+    m_aPlays = new Card[52];
     m_asErrors = null;
     m_bEof = true;
     m_bEmpty = true;
@@ -276,9 +277,10 @@ public class Deal implements Cloneable {
     m_asBids.add(sBid);
   } //}}}
   
-  public void addPlay(Card card) //{{{
+  public void addPlay(int nTrick, int nPerson, Card card) //{{{
   {
-    m_aPlays.add(card);
+    if (nPerson < 0) return;
+    m_aPlays[(nTrick-1) * 4 + nPerson] = (Card)card.clone();
   } //}}}
   
   // areBidsOk method {{{
@@ -297,17 +299,21 @@ public class Deal implements Cloneable {
   /** Part of {@link #isOk} checks. */
   protected void arePlaysOk() {
     // maybe there are no cards to check at all?
-    if (m_aPlays.size() == 0) return;
     int iPlayer = m_nDeclarer;
     if (m_nDealer < 10) {
-      m_asErrors.add(PbnTools.getStr("error.pbn.playsButNoDeclarer",
-        m_aPlays.size()));
+      // TODO count played cards here
+      m_asErrors.add(PbnTools.getStr("error.pbn.playsButNoDeclarer", 52));
       return;
     }
     
-    for (Card card: m_aPlays) {
-      m_asErrors.add(PbnTools.getStr("error.pbn.wrongPlay", card,
-        personChar(iPlayer)));
+    for (int nTrick = 1; nTrick <= 13; nTrick++) {
+      int nPerson = m_nDeclarer;
+      for (int iCard = 0; iCard < 4; iCard++) {
+        nPerson = Deal.nextPerson(nPerson);
+        Card card = m_aPlays[(nTrick-1)*4 + nPerson];
+        m_asErrors.add(PbnTools.getStr("error.pbn.wrongPlay", card,
+          personChar(iPlayer)));
+      }
     }
   } //}}}
 
@@ -688,37 +694,24 @@ public class Deal implements Cloneable {
   // writePlays method {{{
   public void writePlays(Writer w) throws java.io.IOException
   {
-    if (m_aPlays.size() == 0)
-      return;
     if (getDeclarer() < 0) return;
-    int iPlayer = nextPerson(getDeclarer());
-    
-    writeField(w, "Play", "" + personChar(iPlayer));
+    writeField(w, "Play", "" + nextPerson(getDeclarer()));
     
     ArrayList<String> asPlays = new ArrayList<String>();
-    for(Card card: m_aPlays) {
-      asPlays.add("" + card);
-    }
-    // each trick must be full, at least of minuses
-    while ((asPlays.size() % 4) != 0) {
-      asPlays.add("-");
-    }
-    
-    int i = 0;
-    for(String sPlay: asPlays) {
-      if (i != 0) {
-        if ((i % 4) == 0) {
-          w.write(sLf);
-        } else {
-          w.write(" ");
-        }
+    for (int nTrick = 1; nTrick <= 13; nTrick++) {
+      int nPerson = m_nDeclarer;
+      for (int iCard = 0; iCard < 4; iCard++) {
+        nPerson = Deal.nextPerson(nPerson);
+        Card card = m_aPlays[(nTrick-1)*4 + nPerson];
+        if (iCard != 0) w.write(" ");
+        if (card != null && card.isOk())
+          w.write("" + card);
+        else
+          w.write("-");
       }
-      w.write(sPlay);
-      i += 1;
+      w.write(sLf);
     }
-    w.write(sLf);
-    if (asPlays.size() != 52)
-      w.write("*" + sLf);
+    // TODO * if no more plays available
   } //}}}
 
   public void savePbn(Writer w) throws java.io.IOException { //{{{
