@@ -700,7 +700,7 @@ public class Deal implements Cloneable {
   public void writePlays(Writer w) throws java.io.IOException
   {
     if (getDeclarer() < 0) return;
-    writeField(w, "Play", "" + nextPerson(getDeclarer()));
+    writeField(w, "Play", "" + personChar(nextPerson(getDeclarer())));
     
     ArrayList<String> asPlays = new ArrayList<String>();
     for (int nTrick = 1; nTrick <= 13; nTrick++) {
