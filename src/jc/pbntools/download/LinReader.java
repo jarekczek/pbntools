@@ -83,7 +83,6 @@ public class LinReader implements DealReader
   protected SimplePrinter m_sp;
   protected boolean m_bSilent = true;
   protected int m_nCurCard = 0; // for gathering game play
-  protected int m_nCurPlayer = -1; // for gathering game play
   
   /** readNumber method {{{
    * Reads deal number from <code>Board xx</code> text.
@@ -214,12 +213,9 @@ public class LinReader implements DealReader
         PbnTools.getStr("error.pbn.wrongCard", sArg));
 
     m_nCurCard += 1;
-    if (m_nCurCard == 1) {
-      m_nCurPlayer = Deal.nextPerson(d.getDeclarer());
-    } else {
-      m_nCurPlayer = Deal.nextPerson(m_nCurPlayer);
-    }
-    d.addPlay((m_nCurCard - 1) / 4 + 1, m_nCurPlayer, c);
+    int nHolder = d.getCardHolder(c);
+    if (nHolder >= 0)
+      d.addPlay((m_nCurCard - 1) / 4 + 1, nHolder, c);
   } //}}}
 
   // getPerson {{{
@@ -252,7 +248,6 @@ public class LinReader implements DealReader
     // m_sp.addLine(sLin);
     m_bSilent = bSilent;
     m_nCurCard = 0;
-    m_nCurPlayer = -1;
     Deal d = new Deal();
     Scanner sc = new Scanner(sLin).useDelimiter("\\|");
     while (sc.hasNext()) {

@@ -227,6 +227,11 @@ public class Deal implements Cloneable {
     m_anCards[c.getCode()] = nPerson;
   }
 
+  /** Returns card holder or <code>-1</code> if not known. */
+  public int getCardHolder(Card c) {
+    return m_anCards[c.getCode()];
+  }
+
   // dealRemCards method {{{
   /**
    * Deals the remaining cards. This call is legal only if there is
