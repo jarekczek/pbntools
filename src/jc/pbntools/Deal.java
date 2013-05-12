@@ -24,8 +24,14 @@ package jc.pbntools;
 import java.io.*;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.regex.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import jc.f;
 import jc.pbntools.*;
 import javazoom.jl.player.Player;
@@ -40,6 +46,17 @@ class Hand { //{{{
     return m_lstCards.toArray(new Card[0]);
   }
   void add(Card c) { m_lstCards.add(c); }
+} //}}}
+
+class Bid { //{{{
+  String m_sBid;
+  String m_sAnno;
+
+  public Bid(String sBid)
+  {
+    m_sBid = sBid;
+    m_sAnno = null;
+  }
 } //}}}
 
 /**
@@ -60,7 +77,7 @@ public class Deal implements Cloneable {
   private int m_nNr;
   public String m_sDeal;
   public Hand m_aHands[];
-  private ArrayList<String> m_asBids;
+  private ArrayList<Bid> m_aBids;
   /** Cards played. Index is <code>(nTrick - 1) * 4 + nPerson</code> */
   private Card[] m_aPlays; // cards played
   // Results:
@@ -115,7 +132,7 @@ public class Deal implements Cloneable {
       Deal d = (Deal)super.clone();
       d.m_aHands = this.m_aHands.clone();
       d.m_anCards = this.m_anCards.clone();
-      d.m_asBids = (ArrayList<String>)this.m_asBids.clone();
+      d.m_aBids = (ArrayList<Bid>)this.m_aBids.clone();
       d.m_aPlays = this.m_aPlays.clone();
       d.m_mIdentFields = (HashMap<String, String>)this.m_mIdentFields.clone();
       return d;
@@ -133,7 +150,7 @@ public class Deal implements Cloneable {
     for (int i=0; i<m_aHands.length; i++) {
       m_aHands[i] = new Hand();
     }
-    m_asBids = new ArrayList<String>();
+    m_aBids = new ArrayList<Bid>();
     m_aPlays = new Card[52];
     m_asErrors = null;
     m_bEof = true;
@@ -279,7 +296,13 @@ public class Deal implements Cloneable {
   
   public void addBid(String sBid) //{{{
   {
-    m_asBids.add(sBid);
+    m_aBids.add(new Bid(sBid));
+  } //}}}
+  
+  public void annotateLastBid(String sAnno) //{{{
+  {  
+    if (m_aBids.size() > 0)
+      m_aBids.get(m_aBids.size()-1).m_sAnno = sAnno;
   } //}}}
   
   public void addPlay(int nTrick, int nPerson, Card card) //{{{
@@ -292,10 +315,10 @@ public class Deal implements Cloneable {
   /** Part of {@link #isOk} checks. */
   protected void areBidsOk() {
     Pattern pat = Pattern.compile("(Pass)|(X)|(XX)|([1-7]([CDHS]|(NT)))");
-    for (String sBid: m_asBids) {
-      Matcher m = pat.matcher(sBid);
+    for (Bid bid: m_aBids) {
+      Matcher m = pat.matcher(bid.m_sBid);
       if (!m.matches()) {
-        m_asErrors.add(PbnTools.getStr("error.pbn.wrongBid", sBid));
+        m_asErrors.add(PbnTools.getStr("error.pbn.wrongBid", bid.m_sBid));
       }
     }
   } //}}}
@@ -678,11 +701,13 @@ public class Deal implements Cloneable {
   // writeAuction method {{{
   public void writeAuction(Writer w) throws java.io.IOException
   {
-    if (m_asBids.size() == 0)
+    if (m_aBids.size() == 0)
       return;
+    Map<String, Integer> mAnno = new HashMap<String, Integer>();
+    ArrayList<String> asAnno = new ArrayList<String>();
     writeField(w, "Auction", "" + personChar(getDealer()));
     int i = 0;
-    for(String sBid: m_asBids) {
+    for(Bid bid: m_aBids) {
       if (i != 0) {
         if ((i % 4) == 0) {
           w.write(sLf);
@@ -690,10 +715,26 @@ public class Deal implements Cloneable {
           w.write(" ");
         }
       }
-      w.write(sBid);
+      w.write(bid.m_sBid);
+      if (bid.m_sAnno != null) {
+        Integer iAnno = mAnno.get(bid.m_sAnno);
+        if (iAnno == null) {
+          iAnno = mAnno.size() + 1;
+          mAnno.put(bid.m_sAnno, iAnno);
+          asAnno.add(bid.m_sAnno.replaceAll("\"", ""));
+        }
+        if (iAnno <= 32)
+          w.write(" =" + mAnno.get(bid.m_sAnno) + "=");
+      }
       i += 1;
     }
     w.write(sLf);
+    
+    if (asAnno.size() > 0) {
+      for (i = 0; i < asAnno.size(); i++) {
+        w.write("[Note \"" + (i+1) + ":" + asAnno.get(i) + "\"]" + sLf);
+      }
+    }
   } //}}}
 
   // writePlays method {{{

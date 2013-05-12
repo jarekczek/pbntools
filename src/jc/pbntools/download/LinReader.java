@@ -249,6 +249,7 @@ public class LinReader implements DealReader
     m_bSilent = bSilent;
     m_nCurCard = 0;
     Deal d = new Deal();
+    String sLastComm = "";
     Scanner sc = new Scanner(sLin).useDelimiter("\\|");
     while (sc.hasNext()) {
       String sComm = sc.next();
@@ -264,7 +265,9 @@ public class LinReader implements DealReader
       String sArg = sc.next();
       if (sComm.equals("ah"))
         readNumber(d, sArg);
-      else if (sComm.equals("pc"))
+      else if (sComm.equals("an") && sLastComm.equals("mb")) {
+        d.annotateLastBid(sArg);
+      } else if (sComm.equals("pc"))
         try {
           readPlay(d, sArg);
         } catch (DownloadFailedException dfe) {
@@ -283,6 +286,7 @@ public class LinReader implements DealReader
         readVulner(d, sArg);
       else
         m_sp.addLine("Command: " + sComm + ", arg: " + sArg);
+      sLastComm = sComm;
     }
     return new Deal[] { d };
   } //}}}
