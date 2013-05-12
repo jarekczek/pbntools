@@ -75,6 +75,7 @@ public class Deal implements Cloneable {
   public String m_sVulner;
   public String m_sScoring;
   private int m_nNr;
+  protected String m_sId;
   public String m_sDeal;
   public Hand m_aHands[];
   private ArrayList<Bid> m_aBids;
@@ -145,7 +146,7 @@ public class Deal implements Cloneable {
   public String toString() { return "" + m_nNr; }
 
   void zeruj() { //{{{
-    m_nDealer=-1; m_sVulner="?"; m_nNr=-1; m_sDeal="";
+    m_nDealer=-1; m_sVulner="?"; m_nNr=-1; m_sId=""; m_sDeal="";
     m_aHands = new Hand[4];
     for (int i=0; i<m_aHands.length; i++) {
       m_aHands[i] = new Hand();
@@ -207,6 +208,8 @@ public class Deal implements Cloneable {
   }
   
   public void setNumber(int nNr) { m_nNr = nNr; }
+  public void setId(String sId) { m_sId = sId; }
+  public String getId() { return m_sId; }
   public int getNumber() { return m_nNr; }
   public int getDealer() { return m_nDealer; }
   public void setDealer(int nDealer) { m_nDealer = nDealer; }
@@ -732,7 +735,7 @@ public class Deal implements Cloneable {
     
     if (asAnno.size() > 0) {
       for (i = 0; i < asAnno.size(); i++) {
-        w.write("[Note \"" + (i+1) + ":" + asAnno.get(i) + "\"]" + sLf);
+        writeField(w, "Note", "" + (i+1) + ":" + asAnno.get(i));
       }
     }
   } //}}}
@@ -760,6 +763,12 @@ public class Deal implements Cloneable {
     // TODO * if no more plays available
   } //}}}
 
+  public void writeSupplementalTags(Writer w) throws java.io.IOException //{{{
+  {
+    if (m_sId.length() > 0)
+      writeField(w, "DealId", m_sId);
+  } //}}}
+  
   public void savePbn(Writer w) throws java.io.IOException { //{{{
     // set fields in the map
     if (m_nNr > 0) { setIdentField("Board", "" + m_nNr); }
@@ -794,6 +803,7 @@ public class Deal implements Cloneable {
     writeResult(w);
     writeAuction(w);
     writePlays(w);
+    writeSupplementalTags(w);
 
     w.write(sLf);
   } //}}}

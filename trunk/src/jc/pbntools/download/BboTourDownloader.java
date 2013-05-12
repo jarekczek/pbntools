@@ -402,6 +402,7 @@ public class BboTourDownloader extends HtmlTourDownloader
         LinReader linReader = new LinReader();
         linReader.setOutputWindow(m_ow);
         Deal d = linReader.readLin(sLin, m_bSilent)[0];
+        d.setId(f.getFileName(sFile));
         processResults(d, tr);
         if (!d.isOk()) {
           reportErrors(d.getErrors());
