@@ -2,7 +2,7 @@
 
     jedit options: :folding=explicit:tabSize=2:indentSize=2:noTabs=true:
 
-    Copyright (C) 2011 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
+    Copyright (C) 2011-3 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -329,11 +329,14 @@ public class Deal implements Cloneable {
   // arePlaysOk method {{{
   /** Part of {@link #isOk} checks. */
   protected void arePlaysOk() {
-    // maybe there are no cards to check at all?
-    int iPlayer = m_nDeclarer;
-    if (m_nDealer < 10) {
-      // TODO count played cards here
-      m_asErrors.add(PbnTools.getStr("error.pbn.playsButNoDeclarer", 52));
+    // count played cards
+    int cCards = 0;
+    for(int iCard = 0; iCard < 52; iCard++) {
+      if (m_aPlays[iCard] != null) cCards++;
+    }
+
+    if (m_nDeclarer < 0 && cCards > 0) {
+      m_asErrors.add(PbnTools.getStr("error.pbn.playsButNoDeclarer", cCards));
       return;
     }
     
@@ -342,10 +345,14 @@ public class Deal implements Cloneable {
       for (int iCard = 0; iCard < 4; iCard++) {
         nPerson = Deal.nextPerson(nPerson);
         Card card = m_aPlays[(nTrick-1)*4 + nPerson];
-        m_asErrors.add(PbnTools.getStr("error.pbn.wrongPlay", card,
-          personChar(iPlayer)));
+        if (card == null) continue;
+        if (getCardHolder(card) != nPerson)
+          m_asErrors.add(PbnTools.getStr("error.pbn.wrongPlay", card,
+            personChar(nPerson)));
+        cCards++;
       }
     }
+
   } //}}}
 
   // isOk method {{{
