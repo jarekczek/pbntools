@@ -282,10 +282,18 @@ public class LinReader implements DealReader
         readBid(d, sArg);
       else if (sComm.equals("md"))
         readHands(d, sArg);
+      else if (sComm.equals("rh") || sComm.equals("st")) {
+        if (!sArg.isEmpty() && !m_bSilent)
+          m_sp.addLine(PbnTools.getStr("msg.interesting", sComm + sArg));
+      }
       else if (sComm.equals("sv"))
         readVulner(d, sArg);
-      else
-        m_sp.addLine("Command: " + sComm + ", arg: " + sArg);
+      else {
+        if (!m_bSilent) {
+          m_sp.addLine(PbnTools.getStr("msg.interesting",
+            "Command: " + sComm + ", arg: " + sArg));
+        }
+      }
       sLastComm = sComm;
     }
     return new Deal[] { d };
