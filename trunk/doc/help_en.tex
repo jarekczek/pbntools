@@ -43,6 +43,9 @@ Currently PbnTools has following funcionalities:
   Downloads tournaments in Kops format and saves it as PBN files.
 \item[Download Pary]
   Downloads tournaments in Pary format and saves it as PBN files.
+\item[Download Bbo]
+  Downloads tournaments from \bbolink
+  server and saves it as PBN files.
 \item[Deal cards]
   Help in manual duplication of bridge boards from pbn files.
   Requires an internet camera and barcoded playing cards.
@@ -133,6 +136,20 @@ Polish tournaments published in {\em Pary}
 format can be found on page
 \htmladdnormallink{warsbrydz}{http://www.warsbrydz.pl},
 {\em Wyniki, WOB, Stare}.
+%}}}
+
+%{{{ download Bbo
+\subsection{Download Bbo} \label{pobBbo}
+The link that should be pasted into {\em Download tournament} dialog
+should be obtained from \bbolonglink, then {\em Hand Records}, 
+{\em results of recent tournaments}, {\em Pairs}.
+The right link is under {\em Show boards} label.
+
+The PBN file obtained with this download contains also bidding and play
+information.
+
+Donwload process doesn't overload the server much, just like viewing
+all travellers.
 %}}}
 
 %{{{ deal cards

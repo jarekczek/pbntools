@@ -48,6 +48,10 @@ Obecnie PbnTools posiada nastêpuj±ce funkcjonalno¶ci:
   Pobiera z sieci turnieje bryd¿owe zapisane w formacie Pary
   i zapisuje je w formacie PBN. Szczegó³y: \ref{pobPary}.
 
+\item[Pobierz Bbo]
+  Pobiera z sieci turnieje bryd¿owe zapisane na serwerze \bbolink
+  i zapisuje je w formacie PBN. Szczegó³y: \ref{pobPary}.
+
 \item[Rozdaj]
   Po otwarciu dowolnego pliku PBN mo¿na go rozdaæ, czyli rozdzieliæ
   prawdziwe papierowe karty na 4 kupki, powielaj±c oryginalny uk³ad.
@@ -129,6 +133,11 @@ Kody ¼ród³owe dostêpne s± w dziale Pobieranie (\ref{downloadSrc}).
 
 %{{{ funkcjonalnosc
 \section{Funkcjonalno¶æ}
+
+Funkcjonalno¶ci {\em Pobierz...} dostêpne s± przez przycisk
+{\em Pobierz turniej}. Dalej mo¿emy wybraæ rodzaj turnieju lub tylko
+wpisaæ link i zostawiæ opcjê \verb!wykryj-automatycznie!.
+
 %{{{ pobierz kops
 \subsection{Pobierz Kops} \label{pobKops}
 
@@ -193,6 +202,44 @@ mo¿na potem wygodnie analizowaæ rozdania tu¿ po ich rozegraniu.
   cykl {\em WOB}. Linki otrzymujemy po wybraniu pseudoturnieju {\em Stare},
   a nastêpnie ju¿ normalnie - prawy przycisk,
   {\em Kopiuj adres odno¶nika}. %'
+  
+  Efektem dzia³ania tej opcji programu s± nastêpuj±ce pliki:
+  \begin{itemize}
+  \item \verb!XXX.pbn! - plik z rozdaniami i wynikami
+  \item \verb!AAyymmddnnn.html! - travellery poszczególnych rozdañ.
+        Ka¿dy z nich stanowi jednocze¶nie indeks umo¿liwiaj±cy przej¶cie do
+        pozosta³ych rozdañ turnieju.
+  \item \verb!link.html! - zawiera link do orygina³u turnieju, u³atwiaj±cy analizê porozdaniow±
+  \item inne pliki potrzebne dla prawid³owego wy¶wietlenia stron html
+  \end{itemize}
+%}}}
+
+%{{{ pobierz Bbo
+\subsection{Pobierz Bbo} \label{pobBbo}
+
+  \bbolonglink to najpopularniejszy serwer do sieciowej gry w bryd¿a.
+  Spotkaæ tam mo¿na ¶wiatowej klasy s³awy, równie¿ polsk± czo³ówkê.
+  Rozegrane turnieje czy rozdania mo¿na analizowaæ poprzez stronê www,
+  na której przechowywane s± wszystkie rozdania. K³opotliwe jest jednak
+  np. przeanalizowanie licytacji lub wistu na wszystkich sto³ach.
+  Dziêki ¶ci±gniêciu turnieju do pliku PBN, mo¿na wygodnie analizowaæ
+  turniej w swoim lokalnym programie bryd¿owym. Podczas otwierania takiego
+  pliku w Jacku, bardzo szybko mo¿na przejrzeæ te elementy (licytacja,
+  rozgrywka) na wszystkich
+  sto³ach.
+  
+  Innym zastosowaniem ¶ci±gniêtych z Bbo plików bêdzie rozegranie rozdañ
+  z turnieju, który odby³ siê w internecie. Jest to o tyle lepsze od
+  rozegrania turnieju z Kopsa, ¿e w pliku PBN bêdziemy mieæ tak¿e
+  licytacjê i rozgrywkê ze wszystkich sto³ów. Tak dok³adnej informacji
+  Kops nam nie dawa³.
+  
+  Który dok³adnie link wkleiæ do PbnTools? Na stronie Bbo wchodzimy
+  w {\em Hand Records}, nastêpnie {\em results of recent tournaments}.
+  Dalej np. {\em Pairs}. W³a¶ciwym linkiem jest {\em Show boards}.
+  
+  Obci±¿enie serwera Bbo przy zastosowaniu ¶ci±gania przez PbnTools jest
+  niewielkie. Tyle, co by¶my kliknêli po kolei w ka¿dego {\em travellera}.
   
   Efektem dzia³ania tej opcji programu s± nastêpuj±ce pliki:
   \begin{itemize}
