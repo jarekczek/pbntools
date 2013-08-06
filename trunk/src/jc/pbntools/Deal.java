@@ -334,6 +334,9 @@ public class Deal implements Cloneable {
     for(int iCard = 0; iCard < 52; iCard++) {
       if (m_aPlays[iCard] != null) cCards++;
     }
+    
+    // guess nothing to do without cards
+    if (cCards == 0) return;
 
     if (m_nDeclarer < 0 && cCards > 0) {
       m_asErrors.add(PbnTools.getStr("error.pbn.playsButNoDeclarer", cCards));
