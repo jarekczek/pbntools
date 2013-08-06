@@ -166,7 +166,7 @@
     <jvmarg value="-Duser.language=${gui.language}" />
     <jvmarg value="${jvmdebug}" />
     <jvmarg value="-ea" />
-    <arg line="" />
+    <arg line="${runArgs}" />
   </java>
 </target>
 
