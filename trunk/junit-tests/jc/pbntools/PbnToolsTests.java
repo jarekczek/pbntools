@@ -70,18 +70,35 @@ private static PrintStream origOut;
                sUrl, HtmlTourDownloader.getBaseUrl(sUrl));
 }
 
-@Test public void pobierzParyTest()
-  throws java.io.FileNotFoundException, java.io.IOException
+private void pobierzParyTestHelper(String sHtmlFile, String sPbnFileTemplate,
+  String sPbnFileTest)
 {
   File fTempDir = new File("work/junit-tmp");
   fTempDir.mkdir();
   System.setProperty("jc.debug", "0");
   PbnTools.m_props.setProperty("workDir", fTempDir.toString());
-  PbnTools.downTour("test/test_1_pary/WB120802/wb120802.html",
-    new ParyTourDownloader(), false);
+  PbnTools.downTour(sHtmlFile, new ParyTourDownloader(), false);
   FileAssert.assertEquals("Resulting pbn files",
-    new File("test/test_1_pary/WB120802/wb120802.pbn"),
-    new File(fTempDir, "WB120802/wb120802.pbn"));
+    new File(sPbnFileTemplate),
+    new File(fTempDir, sPbnFileTest));
+}
+
+@Test public void pobierzParyTest1()
+  throws java.io.FileNotFoundException, java.io.IOException
+{
+  pobierzParyTestHelper(
+    "test/test_1_pary/WB120802/wb120802.html",
+    "test/test_1_pary/WB120802/wb120802.pbn",
+    "WB120802/wb120802.pbn");
+}
+
+@Test public void pobierzParyTest3()
+  throws java.io.FileNotFoundException, java.io.IOException
+{
+  pobierzParyTestHelper(
+    "test/test_3_pary_20130801/WB130801/wb130801.html",
+    "test/test_3_pary_20130801/WB130801/wb130801.pbn",
+    "WB130801/wb130801.pbn");
 }
 
 // pobierzKopsTest {{{
