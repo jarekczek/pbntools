@@ -326,14 +326,19 @@ public class Deal implements Cloneable {
     }
   } //}}}
 
-  // arePlaysOk method {{{
-  /** Part of {@link #isOk} checks. */
-  protected void arePlaysOk() {
-    // count played cards
+  protected int countPlayedCards() //{{{
+  {
     int cCards = 0;
     for(int iCard = 0; iCard < 52; iCard++) {
       if (m_aPlays[iCard] != null) cCards++;
     }
+    return cCards;
+  } //}}}
+  
+  // arePlaysOk method {{{
+  /** Part of {@link #isOk} checks. */
+  protected void arePlaysOk() {
+    int cCards = countPlayedCards();
     
     // guess nothing to do without cards
     if (cCards == 0) return;
@@ -753,7 +758,7 @@ public class Deal implements Cloneable {
   // writePlays method {{{
   public void writePlays(Writer w) throws java.io.IOException
   {
-    if (getDeclarer() < 0) return;
+    if (getDeclarer() < 0 || countPlayedCards() == 0) return;
     writeField(w, "Play", "" + personChar(nextPerson(getDeclarer())));
     
     ArrayList<String> asPlays = new ArrayList<String>();
