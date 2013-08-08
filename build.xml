@@ -550,6 +550,7 @@
          encoding="windows-1250" includeantruntime="false">
     <classpath refid="compileClasspath" />
     <classpath refid="ivy.path" />
+    <classpath><pathelement path="${compDir}"/></classpath>
   </javac>
   <jar destfile="${basedir}/work/PbnToolsTests.jar"
        basedir="${basedir}/work/comp-test" >

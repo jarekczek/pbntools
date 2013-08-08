@@ -26,6 +26,8 @@ import java.io.PrintStream;
 import java.io.Writer;
 import jc.f;
 import jc.pbntools.download.HtmlTourDownloader;
+import jc.pbntools.download.KopsTourDownloader;
+import jc.pbntools.download.ParyTourDownloader;
 import junitx.framework.FileAssert;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -39,7 +41,10 @@ private static PrintStream origOut;
              throws java.io.IOException, jc.SoupProxy.Exception
   {
     String sCurrentVer = PbnTools.m_res.getString("wersja");
+    // when taking PbnTools classes directly from classes dir,
+    // we get path work/comp/jc here, so 3 times .. is needed
     String sHelpPath = f.basePath(this.getClass()) + f.sDirSep + ".."
+                       + f.sDirSep + ".." + f.sDirSep + ".."
                        + f.sDirSep + "doc" + f.sDirSep;
     String sHelpUrl = "file://" + sHelpPath + "help_pl.html";
     // System.out.println(sHelpUrl);
@@ -72,7 +77,8 @@ private static PrintStream origOut;
   fTempDir.mkdir();
   System.setProperty("jc.debug", "0");
   PbnTools.m_props.setProperty("workDir", fTempDir.toString());
-  PbnTools.pobierzPary("test/test_1_pary/WB120802/wb120802.html", false);
+  PbnTools.downTour("test/test_1_pary/WB120802/wb120802.html",
+    new ParyTourDownloader(), false);
   FileAssert.assertEquals("Resulting pbn files",
     new File("test/test_1_pary/WB120802/wb120802.pbn"),
     new File(fTempDir, "WB120802/wb120802.pbn"));
@@ -125,7 +131,8 @@ void makePbnNakedAsFromBash(File file)
   fTempDir.mkdir();
   System.setProperty("jc.debug", "0");
   PbnTools.m_props.setProperty("workDir", fTempDir.toString());
-  PbnTools.pobierzKops("test/test_2_kops/PCH1003/index.html", false);
+  PbnTools.downTour("test/test_2_kops/PCH1003/index.html",
+    new KopsTourDownloader(), false);
   makePbnNakedAsFromBash(new File(fTempDir, "PCH1003/pch1003.pbn"));
   
   // the pbn file from bash also needs adjusting, so copying it
