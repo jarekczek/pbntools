@@ -126,7 +126,8 @@ public class f {
 
   public static String basePath(Class c) { //{{{
     String sPath = c.getResource("").getPath();
-    sPath = sPath.substring(5);
+    if (sPath.startsWith("file:/"))
+      sPath = sPath.substring(5);
     sPath = sPath.replaceFirst("!.*$", "");
     File file = new File(sPath);
     return file.getParentFile().getAbsolutePath();
