@@ -633,7 +633,9 @@ abstract public class HtmlTourDownloader
         }
         else {
           // try to match next char as color (bbo style)
-          char chColor = contrElem.text().charAt(nDoublePos);
+          char chColor = 0;
+          if (contrElem.text().length() > 1)
+            chColor = contrElem.text().charAt(nDoublePos);
           String sBboColors = "\u2660\u2665\u2666\u2663"; // S H D C
           int iFound = sBboColors.indexOf(chColor);
           if (iFound >= 0) {
