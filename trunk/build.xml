@@ -580,7 +580,12 @@
 </target>
 
 <target name="junit-www" depends="junit-prereq">
-  <!-- makes tests that require local www server with test content -->
+  <!-- makes tests that require local www server with test content
+       tests with www inside should be available at http://localhost/pbntools
+  -->
+  <junitpreset>
+    <test name="jc.pbntools.PbnToolsWwwTests" />
+  </junitpreset>
 </target>
 
 <!-- //}}} -->
