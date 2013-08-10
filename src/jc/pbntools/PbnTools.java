@@ -295,14 +295,31 @@ public class PbnTools {
     m_bRunMainDialog = true;
     ArrayList<String> asFileArgs = new ArrayList<String>();
     String sOutFile = null;
+    Map<Integer, Boolean> mbArgOk = new HashMap<Integer, Boolean>();
 
+    // first process non-action params, that have global effect
     for (int i=0; i<args.length; i++) {
       if (args[i].equals("--debug")) {
         System.setProperty("jc.debug", "1");
         f.setDebugLevel(1);
+        mbArgOk.put(i, true);
       } else if (args[i].equals("--verbose")) {
         setVerbos(1);
-      } else if (args[i].equals("-h")
+        mbArgOk.put(i, true);
+      } else if (args[i].equals("-o")) {
+        mbArgOk.put(i, true); mbArgOk.put(i+1, true);
+        ++i;
+        if (i >= args.length) {
+          System.err.println(getStr("error.missingArg")); System.exit(1);
+        }
+        sOutFile = args[i];
+      }
+    }
+    
+    // then perform desired actions
+    for (int i=0; i<args.length; i++) {
+      if (mbArgOk.get(i) != null) continue;
+      if (args[i].equals("-h")
                  || args[i].equals("--help") || args[i].equals("/?")) {
         printUsage();
         System.exit(0);
@@ -321,10 +338,6 @@ public class PbnTools {
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
         downTour(args[i], new ParyTourDownloader(), false);
-      } else if (args[i].equals("-o")) {
-        ++i;
-        if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
-        sOutFile = args[i];
       } else if (args[i].startsWith("-")) {
         m_bRunMainDialog = false;
         System.err.println(getStr("error.invSwitch", args[i]));
