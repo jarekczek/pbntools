@@ -70,14 +70,15 @@ private static PrintStream origOut;
                sUrl, HtmlTourDownloader.getBaseUrl(sUrl));
 }
 
-private void pobierzParyTestHelper(String sHtmlFile, String sPbnFileTemplate,
+static void pobierzTestHelper(HtmlTourDownloader der,
+  String sHtmlFile, String sPbnFileTemplate,
   String sPbnFileTest)
 {
   File fTempDir = new File("work/junit-tmp");
   fTempDir.mkdir();
   System.setProperty("jc.debug", "0");
   PbnTools.m_props.setProperty("workDir", fTempDir.toString());
-  PbnTools.downTour(sHtmlFile, new ParyTourDownloader(), false);
+  PbnTools.downTour(sHtmlFile, der, false);
   FileAssert.assertEquals("Resulting pbn files",
     new File(sPbnFileTemplate),
     new File(fTempDir, sPbnFileTest));
@@ -86,7 +87,8 @@ private void pobierzParyTestHelper(String sHtmlFile, String sPbnFileTemplate,
 @Test public void pobierzParyTest1()
   throws java.io.FileNotFoundException, java.io.IOException
 {
-  pobierzParyTestHelper(
+  pobierzTestHelper(
+    new ParyTourDownloader(),
     "test/test_1_pary/WB120802/wb120802.html",
     "test/test_1_pary/WB120802/wb120802.pbn",
     "WB120802/wb120802.pbn");
@@ -95,7 +97,8 @@ private void pobierzParyTestHelper(String sHtmlFile, String sPbnFileTemplate,
 @Test public void pobierzParyTest3()
   throws java.io.FileNotFoundException, java.io.IOException
 {
-  pobierzParyTestHelper(
+  pobierzTestHelper(
+    new ParyTourDownloader(),
     "test/test_3_pary_20130801/WB130801/wb130801.html",
     "test/test_3_pary_20130801/WB130801/wb130801.pbn",
     "WB130801/wb130801.pbn");
