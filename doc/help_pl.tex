@@ -1,6 +1,6 @@
 %{{{ preambu³a
 \documentclass[polish,a4paper,11pt,oneside]{article}
-%:encoding=ISO-8859-2:folding=explicit:
+%:encoding=ISO-8859-2:folding=explicit:collapseFolds=1:
 \usepackage{html} 
 \usepackage{fullpage}
 \usepackage[latin2]{inputenc}
@@ -320,21 +320,30 @@ program w nastêpuj±cy sposób:
     pbntools -dtk http://www.strona-turniejow.pl/turniej999/index.html
 \end{verbatim}
 
+Opcje linii poleceñ mo¿na uruchamiaæ równie¿ poprzez bezpo¶rednie
+uruchomienie pliku {\em jar}, przyk³adowo:
+
+\begin{verbatim}
+    java -jar PbnTools.jar -dtk http://www.strona-turniejow.pl/turniej999/index.html
+\end{verbatim}
+
 Z linii poleceñ dostêpne s± nastêpuj±ce opcje:
 
 \begin{description}
 \item[-h]
   Wy¶wietla krótki opis wszystkich opcji.
-\item[--debug]
+\item[---debug]
   W³±cza tryb debuggowania, z wy¶wietlaniem informacji, które mog±
   pomóc w diagnostyce nieprawid³owego dzia³ania programu.
-\item[--verbose]
+\item[---verbose]
   Zwiêksza ilo¶æ informacji wy¶wietlanej przez program, np. podczas pobierania
   turnieju.
-\item[-dtk <link>]
-  Pobiera turniej w formacie Kops ze wskazanego linku. Turniej
+\item[-dtb <link>]
+  Pobiera turniej w formacie Bbo ze wskazanego linku. Turniej
   zapisywany jest w katalogu roboczym, tak samo jak przy u¿yciu interfejsu
   graficznego.
+\item[-dtk <link>]
+  Pobiera wskazany turniej w formacie Kops.
 \item[-dtp <link>]
   Pobiera wskazany turniej w formacie Pary.
 \end{description}

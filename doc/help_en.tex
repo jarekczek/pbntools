@@ -1,6 +1,6 @@
 %{{{ preambule
 \documentclass[polish,a4paper,11pt,oneside]{article}
-%:encoding=ISO-8859-2:folding=explicit:
+%:encoding=ISO-8859-2:folding=explicit:collapseFolds=1:
 \usepackage{html} 
 \usepackage{fullpage}
 %\usepackage{hyperref}
@@ -170,8 +170,9 @@ respectively for {\em N, E, S, W}. %'
   Cards licensed by \htmladdnormallink{Jannersten}{http://www.jannersten.se/}
   should be used, format \htmladdnormallink{WIN}{http://www.jannersten.se/html/win.html}.
 \end{description}
+% }}} deal cards
 
-\subsection{Configuration} \label{konfig}
+\subsection{Configuration} \label{konfig} %{{{
 
 \begin{description}
 \item[Working directory]
@@ -183,8 +184,33 @@ respectively for {\em N, E, S, W}. %'
 
 \end{description}
 
-%}}}
-%}}}
+%}}} configuration
+
+\subsection{Command line} \label{commLine} %{{{
+
+Part of the program functionality is available through command line
+interface. For example downloading tournaments.
+
+\begin{verbatim}
+    pbntools -dtk http://www.strona-turniejow.pl/turniej999/index.html
+\end{verbatim}
+
+Command line options may also be applied when calling {\em jar} file
+directly, for example:
+
+\begin{verbatim}
+    java -jar PbnTools.jar -dtk http://www.strona-turniejow.pl/turniej999/index.html
+\end{verbatim}
+
+For details on command line options please launch
+
+\begin{verbatim}
+    pbntools -h
+\end{verbatim}
+
+%}}} configuration
+
+%}}} functionality
 
 %{{{ requirements
 \section{Requirements}
