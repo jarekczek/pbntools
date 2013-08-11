@@ -152,7 +152,7 @@ public class Deal implements Cloneable {
       m_aHands[i] = new Hand();
     }
     m_aBids = new ArrayList<Bid>();
-    m_aPlays = new Card[52];
+    clearPlays();
     m_asErrors = null;
     m_bEof = true;
     m_bEmpty = true;
@@ -312,6 +312,11 @@ public class Deal implements Cloneable {
   {
     if (nPerson < 0) return;
     m_aPlays[(nTrick-1) * 4 + nPerson] = (Card)card.clone();
+  } //}}}
+  
+  public void clearPlays() //{{{
+  {
+    m_aPlays = new Card[52];
   } //}}}
   
   // areBidsOk method {{{

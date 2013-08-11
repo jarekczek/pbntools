@@ -407,6 +407,13 @@ public class BboTourDownloader extends HtmlTourDownloader
         d.setId(f.getFileName(sFile));
         processResults(d, tr);
         
+        // At this moment we have both contract (taken from traveller) and
+        // plays (from lin). But it can happen that the play is judged
+        // without contract (N/A) and the plays are present in the file.
+        // This is kind of contradiction, so let's remove play in such cases
+        if (d.getDeclarer() < 0)
+          d.clearPlays();
+
         if (!d.isOk()) {
           reportErrors(d.getErrors());
         }
