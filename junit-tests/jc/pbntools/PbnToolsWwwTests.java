@@ -47,4 +47,14 @@ private static PrintStream origOut;
     "SM0807/sm0807.pbn");
 }
 
+@Test public void pobierzParyWwwTest5()
+  throws java.io.FileNotFoundException, java.io.IOException
+{
+  PbnToolsTests.pobierzTestHelper(
+    new ParyTourDownloader(),
+    "http://localhost/pbntools/test_5_pary_www_20130808/WB130808/wb130808.html",
+    "test/test_5_pary_www_20130808/wb130808.pbn",
+    "WB130808/wb130808.pbn");
+}
+
 }
