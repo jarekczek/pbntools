@@ -1,0 +1,51 @@
+BODY { margin:3px; color: black; background: white; font-family: "helvetica neue",helvetica,sans-serif}
+td {
+padding-left:10px;
+}
+
+
+.highlight_old { 
+background-color:yellow ;
+}
+.highlight { 
+font-weight: bold;
+/* background-color:yellow ; */
+text-transform:uppercase;
+}
+.navtable  { width:100%; border:0; background-color: #c0ccee; color:#6595C5; font-size: 12px; font-family: "helvetica neue",helvetica,sans-serif }
+.nounderline {TEXT-DECORATION: none}
+
+.boxintro {
+border: 4px solid #FFFFFF; 
+padding: 10px;
+/* width:70%; */
+/* height:150px; */
+
+}
+
+ul.imp {
+list-style-type:none;
+display:block;
+/* width:80%; */
+}
+ul.imp li {
+padding: 5px;
+}
+
+
+.boximp{
+display:none;
+width:50%;
+/*border: 3px solid #C9E181;*/
+border: 3px solid #FFFF00;
+/* height:120px; */
+padding: 10px;
+/* margin:0 auto; */
+}
+
+.subtable {
+border: 3px solid #FFFFFF; 
+cell-padding: 10px;
+}
+
+

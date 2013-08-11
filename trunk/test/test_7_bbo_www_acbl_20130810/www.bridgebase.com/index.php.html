@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<Head>
+<Title>Bridge Base Online</Title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+<meta name="keywords" content="bridge, bridgebase, vugraph, vu-graph, free, bridge club, online bridge, online bridge club, acbl, wbf, rubber bridge, duplicate bridge, money bridge">
+<meta name="description" content="Free online bridge. Largest bridge site in the world. Duplicate, tournaments, money games, vugraph, more.">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<style>
+.ww_caption {
+width:100%;
+margin:0px;
+padding:3px;
+background:#CB0000;
+color:white;
+font-weight:bold;
+/*border: 1px solid #000000;*/
+/*overflow:hidden; */
+}
+.mobile {
+    display: none;
+}
+@media  handheld {
+		body {
+		font-size: 30px;
+		}
+}
+@media only screen and (orientation:portrait) and (min-device-width : 320px) and (min-device-width : 480px){
+		body {
+		font-size: 30px;
+		}
+}
+@media only screen and (orientation:portrait) and (min-device-width:768px) and (max-width:999px) {
+		body {
+		font-size: 30px;
+		}
+}
+@media only screen and (orientation:landscape) and (max-width:799px) {
+		body {
+		font-size: 30px;
+			}
+}
+
+</style>
+<script language="Javascript">
+var pw=null;
+function bbo_popup()
+{
+
+pw=null;
+if ( pw )
+{
+	if ( !pw.closed )
+	{
+		pw.focus();
+	}
+	else
+	{
+		pw = null;
+	}
+}
+
+if ( !pw )
+{
+
+var maxx= 1.0;
+var maxy= 1.0;
+var ar1x = .60;
+
+
+var w = screen.width * maxx ;
+var h = screen.height * maxy ;
+
+
+var aw;
+var ah;
+
+
+if ( w * ar1x > h )
+{
+	ah = h;
+	aw = h / ar1x;
+	
+}
+else
+{
+	aw = w;
+	ah = w * ar1x;
+}
+
+aw = w;
+ah = h;
+aw = Math.floor(aw);
+ah = Math.floor(ah);
+
+var l = (screen.width - aw) / 2;
+var t = (screen.height - ah) / 2;
+
+var randomnumber=Math.floor(Math.random()*10000);
+
+lang=gup("lang");
+if ( lang ) 
+{
+	langsuffix = "?lang=" + lang;
+}
+else
+{
+	langsuffix = "";
+}
+
+
+pw = window.open('http://www.bridgebase.com/client/client.php'+langsuffix,'bboTVa1'+randomnumber,'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width='+ aw +  ', height=' + ah + ',left=' + l + ',top=' + t);
+
+
+} 
+
+
+}
+function gup( name )
+
+{  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");  
+   
+   var regexS = "[\\?&]"+name+"=([^&#]*)";  
+   var regex = new RegExp( regexS );  
+   var results = regex.exec( window.location.href );  
+   if ( results == null )    
+        return "";  
+   else    
+        return results[1];
+}
+
+// Get PHP variables into Javascript
+var mobile = false, ios = null, android = false;
+
+function mobile_switch() {
+  $(".no_mobile, .mobile").toggle();
+}
+
+</script>
+
+<script type="text/javascript">
+
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-11095855-4']);
+ _gaq.push(['_setDomainName', 'bridgebase.com']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+ })();
+
+</script>
+</head>
+
+
+<body onload=bbo_loaded();>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td align="left"><img src="images/bbo_logo_bw.gif" alt="BBO Logo" /></td>
+    <td align="right">
+
+      <a href="mailto:support@bridgebase.com">support@bridgebase.com</a><br/>
+      (+1)-702-987-5223<br/>
+      (+1)-866-376-9867<br/>
+    </td>
+  </tr>
+</table>
+
+<div class="navtable">
+   &nbsp;<a href="http://www.bridgebase.com/">Home</a>
+
+   &nbsp;&nbsp;&nbsp;<a href="vugraph/schedule.php.html">Vugraph Schedule</a>
+   &nbsp;&nbsp;&nbsp;<a href="myhands/index.php.html">Hand Records</a>
+   &nbsp;&nbsp;&nbsp;<a href="points/index.php.html">Points</a>
+</div>
+
+
+<div class="boxintro">
+Bridge Base Online - BBO - is a free online bridge service.<br />
+</div>
+<div id="pb" style="margin-left:200px;margin-bottom:10px;margin-top:10px;" > 
+	<span class="no_mobile" style="background-color:yellow;overflow:hidden;font-size:larger;">
+	 <a href="http://www.bridgebase.com/client/client.php" onclick="javascript:bbo_popup();return false;">Play Bridge Now</a>
+	</span>
+	<div style="margin-top:10px;" class="no_mobile"><span style="background-color:yellow;overflow:hidden;font-size:smaller;">New!</span>&nbsp;<a href="http://www.bridgebase.com/doc/mobile_version_description.php">Play bridge on your Apple/Android mobile devices</a></div>
+<div class="mobile">Get the BBO App:<br>
+ <span class="android"><a href="http://play.google.com/store/apps/details?id=air.com.bridgebase.BridgeBase" target="new"> <img alt="Get it on Google Play" src="http://www.android.com/images/brand/get_it_on_play_logo_small.png" border="0"" /> </a></span>
+ <span class="ios"><a href="http://itunes.apple.com/app/bridgebase/id529258853" target="new"> <img alt="Available on the App Store" src="images/App_Store.gif" height="45" width="133" border="0"/> </a></span>
+ <span class="kindle"><a href="http://www.amazon.com/Bridge-Base-Online-Ltd/dp/B0088QTA72/ref=pd_rhf_gw_p_t_1" target="new"> <img alt="Available on the Amazon Appstore" src="http://g-ecx.images-amazon.com/images/G/01/gno/images/general/navAmazonLogoFooter._V169459313_.gif" border="0"/> </a></span>
+</div>
+        <span class="no_mobile"><br><a href="http://doc.bridgebase.com/Help/BBO_Shortcut_Installation_Guide">Download a shortcut to Bridge Base Online</a></span>
+        <div class="no_mobile"><br>Talk about Bridge and BBO at the <span style="font-weight: bold;"><a href="http://www.bridgebase.com/forums/">Bridge Base Forum</a>!</span> </div>
+        </div>
+
+	<table class="no_mobile" width=620px>
+	<tr>
+	<td>
+	<div style="border:1px black solid;text-align:center;width:300px;height:175px;margin-left:0px;margin-top=20px;padding:20px;">
+			<span style="font-weight:bold;">Free - Learn to play bridge (Windows) </span>
+			<br><br>
+			<a href="http://www.bridgebase.com/download/ltpb1setup.exe">Beginners: Learn bridge basics</a>
+			<br>
+			<a href="http://www.bridgebase.com/download/ltpb2setup.exe">Intermediates: Beyond the basics</a>
+			<br><br>
+			Click on the links above and select RUN when prompted to install these free programs.
+			<br><br>
+			Courtesy of the <a href="http://www.acbl.org">ACBL</a>
+	</div>
+	</td>
+        <td>
+	<div style="border:1px black solid;text-align:center;width:300px;height:175px;margin-left:0px;margin-top=20px;padding:20px;">
+			<span style="font-weight:bold;">Free - Play a quick game of Bridge </span>
+			<br><br>
+			<a href="http://www.bridgebase.com/client/vb1.php">Play Bridge - Video Poker style </a>
+			<br><br>
+			<a href="http://www.bridgebase.com/client/web4.php">Play Bridge - 4 hands </a>
+			<br><br>
+			Click on the links above to play a quick mini game. Suitable for all skill levels.
+			<br><br>
+			<a href="http://doc.bridgebase.com/Solitaire_Bridge/About_Solitaire_Bridge.html">More information</a>
+
+	</div>
+	</td>
+	</tr>
+	</table>
+	
+	
+</div>
+
+<br>
+
+<table class="subtable">
+<tr>
+	<td style="text-align:left;">
+		<a href="http://www.bridgebase.com/intro/introduction.php">More about BBO </a>
+	</td>
+	<td> 
+		An introduction to our community,  software and company. 
+	</td>
+	
+</tr>	
+
+<tr class="no_mobile">
+	<td style="text-align:left;">
+
+		<a href="http://www.bridgebase.com/intro/faq.php">FAQ</a>
+	</td>
+	<td> 
+		Common questions and straight answers
+	</td>
+	
+</tr>	
+<tr class="no_mobile">
+	<td style="text-align:left;">
+		<a href="http://www.bridgebase.com/intro/support.php">Support</a>
+
+	</td>
+	<td> 
+		How to get support when things go wrong
+	</td>
+	
+</tr>	
+<tr>
+	<td style="text-align:left;">
+		<a href="http://www.bridgebase.com/forums/">Forums</a>
+
+	</td>
+	<td> 
+		Communicate with other bridge players and BBO staff in the BBO Discussion Forums
+	</td>
+	
+</tr>	
+<tr class="no_mobile">
+	<td style="text-align:left;">
+		<a href="http://doc.bridgebase.com/advertise/advertise.shtml">Advertising</a>
+	</td>
+	<td> 
+		Advertise with BBO
+	</td>
+	
+</tr>		
+
+<tr class="no_mobile">
+	<td style="text-align:left;">
+		<a href="http://www.bridgebase.com/intro/privacy.php">Privacy</a>
+	</td>
+	<td> 
+		How we handle your privacy
+	</td>
+
+	
+</tr>	
+<tr class="no_mobile">
+	<td style="text-align:left;">
+		<a href="http://www.bridgebase.com/intro/links.php">Related Links</a>
+	</td>
+	<td> 
+		Vugraph schedules, discussion board, and other tidbits
+	</td>
+
+	
+</tr>		
+
+<tr class="no_mobile">
+	<td style="text-align:left;">
+		<a target="_blank" href="http://bbi.bridgebase.com/bbiindex.html">Bridge Base Inc.</a>
+	</td>
+	<td> 
+		Educational bridge software available from Bridge Base, Inc
+	</td>
+
+	
+</tr>		
+
+
+</table>
+
+                 
+
+<p />
+<div class="navtable" style="text-align:right">&copy; 1996-2013 All rights reserved&nbsp;</div>
+<script type="text/javascript">
+function bbo_loaded() {
+var bbo_desktop_link = gup("d");
+
+if (bbo_desktop_link=="y") {
+bbo_popup();
+}
+
+}
+</script>
+
+</body>
+</html> 
+

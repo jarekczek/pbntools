@@ -563,20 +563,23 @@
 <target name="junit-prereq" depends="ivy-libs, junit-jar, jar" >
   <presetdef name="junitpreset">
     <junit fork="yes" haltonfailure="yes" timeout="10000" showoutput="false"
-      outputtoformatters="false" >
-      <formatter type="plain" usefile="false" />
+      outputtoformatters="true">
+      <formatter type="plain" usefile="true" />
       <classpath refid="runClasspath" />
       <classpath path="${basedir}/work/PbnToolsTests.jar" />
       <classpath refid="ivy.path" />
     </junit>
   </presetdef>
   <delete dir="work/junit-tmp" quiet="true" />
+  <mkdir dir="work/junit-tmp" />
 </target>
 
 <target name="junit-local" depends="junit-prereq" >
   <junitpreset>
-    <test name="jc.fTests" />
-    <test name="jc.pbntools.PbnToolsTests" />
+    <test name="jc.fTests"
+          outfile="work/junit-tmp/test_log_f" />
+    <test name="jc.pbntools.PbnToolsTests"
+          outfile="work/junit-tmp/test_log_local" />
   </junitpreset>
 </target>
 
@@ -591,8 +594,9 @@
   <echo>junit-www tests, prerequisites:</echo>
   <echo>1. serve test/*www* directories at http://localhost/pbntools</echo>
   <echo>2. turn off internet (suggestion only)</echo>
-  <junitpreset>
-    <test name="jc.pbntools.PbnToolsWwwTests" />
+  <junitpreset timeout="20000" >
+    <test name="jc.pbntools.PbnToolsWwwTests"
+          outfile="work/junit-tmp/test_log_www" />
   </junitpreset>
 </target>
 

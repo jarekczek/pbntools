@@ -25,6 +25,7 @@ import java.io.FileWriter;
 import java.io.PrintStream;
 import java.io.Writer;
 import jc.f;
+import jc.pbntools.download.BboTourDownloader;
 import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
 import jc.pbntools.download.ParyTourDownloader;
@@ -55,6 +56,17 @@ private static PrintStream origOut;
     "http://localhost/pbntools/test_5_pary_www_20130808/WB130808/wb130808.html",
     "test/test_5_pary_www_20130808/wb130808.pbn",
     "WB130808/wb130808.pbn");
+}
+
+@Test public void pobierzBboWwwTest7()
+  throws java.io.FileNotFoundException, java.io.IOException
+{
+  f.setDebugLevel(1);
+  PbnToolsTests.pobierzTestHelper(
+    new BboTourDownloader(),
+    "http://localhost/pbntools/test_7_bbo_www_acbl_20130810/www.bridgebase.com/myhands/hands.php@tourney=1607-1376154000-&offset=0.html",
+    "test/test_7_bbo_www_acbl_20130810/acbl_1607_pairs_acbl_sat_1pm_speedball.pbn",
+    "ACBL_1607_Pairs_ACBL_Sat_1pm_Speedball/acbl_1607_pairs_acbl_sat_1pm_speedball.pbn");
 }
 
 }

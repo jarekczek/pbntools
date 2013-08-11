@@ -1,0 +1,515 @@
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<title>Bridge Base Online - Myhands</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="../stylesheets/general.css" type="text/css" />
+<link rel="stylesheet" href="../stylesheets/myhands.css" type="text/css" />
+</head>
+
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td align="left"><img src="../images/bbo_logo_bw.gif" alt="BBO Logo" /></td>
+    <td align="right">
+      <a href="mailto:support@bridgebase.com">support@bridgebase.com</a><br/>
+      (+1)-702-987-5223<br/>
+      (+1)-866-376-9867<br/>
+    </td>
+  </tr>
+</table>
+
+<div class="navtable">
+   &nbsp;<a href="../index.php.html">Home</a>
+   &nbsp;&nbsp;&nbsp;<a href="../vugraph/schedule.php.html">Vugraph Schedule</a>
+   &nbsp;&nbsp;&nbsp;<a href="index.php.html">Hand Records</a>
+   &nbsp;&nbsp;&nbsp;<a href="../points/index.php.html">Points</a>
+   &nbsp;&nbsp;&nbsp;<a href="../doc/gib_system_notes.php.html">GIB CC</a>
+</div>
+<p />
+<div style="text-align:center;margin 2px 2px 2px 2px">
+<a style="font-family:'Arial,Helvetica, sans-serif';padding: 4px 20px 6px 20px; border: 2px solid #FF0000"  href=http://www.bridgebase.com/tourneyhistory/>Click here for results of recent tournaments</a>
+</div>
+<div><br></div>
+
+
+<script type="text/javascript">
+//<![CDATA[
+function validate_myhands(frm) {
+  var value = '';
+  var errFlag = new Array();
+  var _qfGroups = {};
+  _qfMsg = '';
+
+  value = frm.elements['username'].value;
+  if (value == '' && !errFlag['username']) {
+    errFlag['username'] = true;
+    _qfMsg = _qfMsg + '\n - Please enter a valid username';
+  }
+
+  value = frm.elements['username'].value;
+  var regex = /^[^*]+$/;
+  if (value != '' && !regex.test(value) && !errFlag['username']) {
+    errFlag['username'] = true;
+    _qfMsg = _qfMsg + '\n - Username not valid';
+  }
+
+  if (_qfMsg != '') {
+    _qfMsg = 'Invalid information entered.' + _qfMsg;
+    _qfMsg = _qfMsg + '\nPlease correct these fields.';
+    alert(_qfMsg);
+    return false;
+  }
+  return true;
+}
+//]]>
+</script>
+<form  action="index.php.html" method="post" name="myhands" id="myhands" target="_self" onsubmit="try { var myValidator = validate_myhands; } catch(e) { return true; } return myValidator(this);">
+<table border="0" class="form" align="center"> 
+    <input name="_qf__myhands" type="hidden" value="" />
+ 
+     
+     
+        <tr> 
+            <th class="header" colspan="2"> 
+            <b>Get hands played by a user between two dates</b></td> 
+        </tr> 
+               
+         
+            		 
+                    <tr> 
+                     
+                        <td align="right" valign="top"> 
+                            <font color="red">*</font><b>Enter username:</b></td> 
+                        <td> 
+                      
+                     
+                     
+                        <input size="10" maxlength="10" name="username" type="text" value="" /> 
+                     
+                    </td> 
+                    </tr> 
+                 
+                
+         
+             
+              <tr> 
+    <td colspan="2">
+        <table border="1">
+            <td align="center">
+                    <b>
+                                        Enter the start date:                    </b> 
+            </td> 
+            <td align="center"> 
+                                        <select name="start_time[Y]">
+	<option value="2005">2005</option>
+	<option value="2006">2006</option>
+	<option value="2007">2007</option>
+	<option value="2008">2008</option>
+	<option value="2009">2009</option>
+	<option value="2010">2010</option>
+	<option value="2011">2011</option>
+	<option value="2012">2012</option>
+	<option value="2013" selected="selected">2013</option>
+	<option value="2014">2014</option>
+	<option value="2015">2015</option>
+	<option value="2016">2016</option>
+	<option value="2017">2017</option>
+	<option value="2018">2018</option>
+	<option value="2019">2019</option>
+	<option value="2020">2020</option>
+	<option value="2021">2021</option>
+	<option value="2022">2022</option>
+	<option value="2023">2023</option>
+	<option value="2024">2024</option>
+	<option value="2025">2025</option>
+	<option value="2026">2026</option>
+	<option value="2027">2027</option>
+	<option value="2028">2028</option>
+	<option value="2029">2029</option>
+	<option value="2030">2030</option>
+	<option value="2031">2031</option>
+	<option value="2032">2032</option>
+	<option value="2033">2033</option>
+	<option value="2034">2034</option>
+	<option value="2035">2035</option>
+	<option value="2036">2036</option>
+	<option value="2037">2037</option>
+	<option value="2038">2038</option>
+	<option value="2039">2039</option>
+	<option value="2040">2040</option>
+	<option value="2041">2041</option>
+	<option value="2042">2042</option>
+	<option value="2043">2043</option>
+	<option value="2044">2044</option>
+	<option value="2045">2045</option>
+	<option value="2046">2046</option>
+	<option value="2047">2047</option>
+	<option value="2048">2048</option>
+	<option value="2049">2049</option>
+	<option value="2050">2050</option>
+	<option value="2051">2051</option>
+	<option value="2052">2052</option>
+	<option value="2053">2053</option>
+	<option value="2054">2054</option>
+	<option value="2055">2055</option>
+	<option value="2056">2056</option>
+	<option value="2057">2057</option>
+	<option value="2058">2058</option>
+	<option value="2059">2059</option>
+	<option value="2060">2060</option>
+	<option value="2061">2061</option>
+	<option value="2062">2062</option>
+	<option value="2063">2063</option>
+	<option value="2064">2064</option>
+	<option value="2065">2065</option>
+	<option value="2066">2066</option>
+	<option value="2067">2067</option>
+	<option value="2068">2068</option>
+	<option value="2069">2069</option>
+	<option value="2070">2070</option>
+	<option value="2071">2071</option>
+	<option value="2072">2072</option>
+	<option value="2073">2073</option>
+	<option value="2074">2074</option>
+	<option value="2075">2075</option>
+	<option value="2076">2076</option>
+	<option value="2077">2077</option>
+	<option value="2078">2078</option>
+	<option value="2079">2079</option>
+	<option value="2080">2080</option>
+	<option value="2081">2081</option>
+	<option value="2082">2082</option>
+	<option value="2083">2083</option>
+	<option value="2084">2084</option>
+	<option value="2085">2085</option>
+	<option value="2086">2086</option>
+	<option value="2087">2087</option>
+	<option value="2088">2088</option>
+	<option value="2089">2089</option>
+	<option value="2090">2090</option>
+	<option value="2091">2091</option>
+	<option value="2092">2092</option>
+	<option value="2093">2093</option>
+	<option value="2094">2094</option>
+	<option value="2095">2095</option>
+	<option value="2096">2096</option>
+	<option value="2097">2097</option>
+	<option value="2098">2098</option>
+	<option value="2099">2099</option>
+	<option value="2100">2100</option>
+</select>&nbsp;-&nbsp;<select name="start_time[M]">
+	<option value="1">Jan</option>
+	<option value="2">Feb</option>
+	<option value="3">Mar</option>
+	<option value="4">Apr</option>
+	<option value="5">May</option>
+	<option value="6">Jun</option>
+	<option value="7">Jul</option>
+	<option value="8" selected="selected">Aug</option>
+	<option value="9">Sep</option>
+	<option value="10">Oct</option>
+	<option value="11">Nov</option>
+	<option value="12">Dec</option>
+</select>&nbsp;-&nbsp;<select name="start_time[d]">
+	<option value="1">01</option>
+	<option value="2">02</option>
+	<option value="3">03</option>
+	<option value="4">04</option>
+	<option value="5">05</option>
+	<option value="6">06</option>
+	<option value="7">07</option>
+	<option value="8">08</option>
+	<option value="9">09</option>
+	<option value="10">10</option>
+	<option value="11" selected="selected">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="23">23</option>
+	<option value="24">24</option>
+	<option value="25">25</option>
+	<option value="26">26</option>
+	<option value="27">27</option>
+	<option value="28">28</option>
+	<option value="29">29</option>
+	<option value="30">30</option>
+	<option value="31">31</option>
+</select> 
+            </td> 
+        </table>
+    </td> 
+</tr>
+                
+         
+             
+              <tr> 
+    <td colspan="2">
+        <table border="1">
+            <td align="center">
+                    <b>
+                                        Interval to retrieve:                    </b> 
+            </td> 
+            <td align="center"> 
+                                        <script type="text/javascript">
+//<![CDATA[
+function _hs_findOptions(ary, keys)
+{
+    if (ary == undefined) {
+        return {};
+    }
+    var key = keys.shift();
+    if (!key in ary) {
+        return {};
+    } else if (0 == keys.length) {
+        return ary[key];
+    } else {
+        return _hs_findOptions(ary[key], keys);
+    }
+}
+
+function _hs_findSelect(form, groupName, selectIndex)
+{
+    if (groupName+'['+ selectIndex +']' in form) {
+        return form[groupName+'['+ selectIndex +']']; 
+    } else {
+        return form[groupName+'['+ selectIndex +'][]']; 
+    }
+}
+
+function _hs_unescapeEntities(str)
+{
+    var div = document.createElement('div');
+    div.innerHTML = str;
+    return div.childNodes[0] ? div.childNodes[0].nodeValue : '';
+}
+
+function _hs_replaceOptions(ctl, options)
+{
+    var j = 0;
+    ctl.options.length = 0;
+    for (var i = 0; i < options.values.length; i++) {
+        ctl.options[i] = new Option(
+            (-1 == String(options.texts[i]).indexOf('&'))? options.texts[i]: _hs_unescapeEntities(options.texts[i]),
+            options.values[i], false, false
+        );
+    }
+}
+
+function _hs_setValue(ctl, value)
+{
+    var testValue = {};
+    if (value instanceof Array) {
+        for (var i = 0; i < value.length; i++) {
+            testValue[value[i]] = true;
+        }
+    } else {
+        testValue[value] = true;
+    }
+    for (var i = 0; i < ctl.options.length; i++) {
+        if (ctl.options[i].value in testValue) {
+            ctl.options[i].selected = true;
+        }
+    }
+}
+
+function _hs_swapOptions(form, groupName, selectIndex)
+{
+    var hsValue = [];
+    for (var i = 0; i <= selectIndex; i++) {
+        hsValue[i] = _hs_findSelect(form, groupName, i).value;
+    }
+
+    _hs_replaceOptions(_hs_findSelect(form, groupName, selectIndex + 1), 
+                       _hs_findOptions(_hs_options[groupName][selectIndex], hsValue));
+    if (selectIndex + 1 < _hs_options[groupName].length) {
+        _hs_swapOptions(form, groupName, selectIndex + 1);
+    }
+}
+
+function _hs_onReset(form, groupNames)
+{
+    for (var i = 0; i < groupNames.length; i++) {
+        try {
+            for (var j = 0; j <= _hs_options[groupNames[i]].length; j++) {
+                _hs_setValue(_hs_findSelect(form, groupNames[i], j), _hs_defaults[groupNames[i]][j]);
+                if (j < _hs_options[groupNames[i]].length) {
+                    _hs_replaceOptions(_hs_findSelect(form, groupNames[i], j + 1), 
+                                       _hs_findOptions(_hs_options[groupNames[i]][j], _hs_defaults[groupNames[i]].slice(0, j + 1)));
+                }
+            }
+        } catch (e) {
+            if (!(e instanceof TypeError)) {
+                throw e;
+            }
+        }
+    }
+}
+
+function _hs_setupOnReset(form, groupNames)
+{
+    setTimeout(function() { _hs_onReset(form, groupNames); }, 25);
+}
+
+function _hs_onReload()
+{
+    var ctl;
+    for (var i = 0; i < document.forms.length; i++) {
+        for (var j in _hs_defaults) {
+            if (ctl = _hs_findSelect(document.forms[i], j, 0)) {
+                for (var k = 0; k < _hs_defaults[j].length; k++) {
+                    _hs_setValue(_hs_findSelect(document.forms[i], j, k), _hs_defaults[j][k]);
+                }
+            }
+        }
+    }
+
+    if (_hs_prevOnload) {
+        _hs_prevOnload();
+    }
+}
+
+var _hs_prevOnload = null;
+if (window.onload) {
+    _hs_prevOnload = window.onload;
+}
+window.onload = _hs_onReload;
+
+var _hs_options = {};
+var _hs_defaults = {};
+
+_hs_options['time_interval'] = [
+[{'values':[1,2,3,4,5,6],'texts':[1,2,3,4,5,6]},{'values':[1,2,3,4],'texts':[1,2,3,4]},{'values':[1],'texts':[1]}]
+];
+_hs_defaults['time_interval'] = [0,2];
+//]]>
+</script><select name="time_interval[0]" onchange="_hs_swapOptions(this.form, 'time_interval', 0);">
+	<option value="0" selected="selected">day(s)</option>
+	<option value="1">week(s)</option>
+	<option value="2">month(s)</option>
+</select>&nbsp;<select name="time_interval[1]">
+	<option value="1">1</option>
+	<option value="2" selected="selected">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+	<option value="6">6</option>
+</select> 
+            </td> 
+        </table>
+    </td> 
+</tr>
+                
+         
+            		 
+                    <tr> 
+                     
+                        <td align="right" valign="top"> 
+                            <b>Interval direction:</b></td> 
+                        <td> 
+                      
+                     
+                     
+                         
+                             
+                            <input value="-" type="radio" id="qf_6626a9" name="time_arrow" checked="checked" /><label for="qf_6626a9">Backward</label>                                                     
+                             
+                            <input value="+" type="radio" id="qf_b51312" name="time_arrow" /><label for="qf_b51312">Forward</label>                                                     
+                     
+                    </td> 
+                    </tr> 
+                 
+                
+         
+             
+              <tr> 
+    <td colspan="2">
+        <table border="1">
+            <td align="center">
+                    <b>
+                                        Show summaries every:                    </b> 
+            </td> 
+            <td align="center"> 
+                                        <script type="text/javascript">
+//<![CDATA[
+
+_hs_options['summaries'] = [
+[{'values':[1,2,3,4,5,6],'texts':[1,2,3,4,5,6]},{'values':[1,2,3,4],'texts':[1,2,3,4]},{'values':[1],'texts':[1]},{'values':[0],'texts':['']}]
+];
+_hs_defaults['summaries'] = [3,0];
+//]]>
+</script><select name="summaries[0]" onchange="_hs_swapOptions(this.form, 'summaries', 0);">
+	<option value="0">day(s)</option>
+	<option value="1">week(s)</option>
+	<option value="2">month(s)</option>
+	<option value="3" selected="selected">Don't show</option>
+</select>&nbsp;<select name="summaries[1]">
+	<option value="0" selected="selected"></option>
+</select> 
+            </td> 
+        </table>
+    </td> 
+</tr>
+                
+         
+            		 
+                    <tr> 
+                     
+                        <td align="right" valign="top"> 
+                            <b></b></td> 
+                        <td> 
+                      
+                     
+                     
+                         
+                             
+                            <input value="Get hands" type="submit" />                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                         
+                             
+                            <input value="Reset" type="reset" />                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                         
+                     
+                    </td> 
+                    </tr> 
+                 
+                
+         
+                     <tr> 
+            <td>&nbsp;</td> 
+            <td valign="top"><span style="font-size:80%; color:#ff0000;">*</span><span style="font-size:80%;"> denotes required field</span></td> 
+        </tr> 
+         
+     
+    </table> 
+</form>    
+	<p><strong>Opening a Movie</strong> 
+	<br>
+	When you click on a Movie, your browser may ask you which program should be used to open the file. Select c:\Bridge Base Online\netbridgevu.exe. The MIME type of the download is <b>application/bbolin</b>.
+
+<p />
+<div class="navtable" style="text-align:right">&copy; 1996-2013 All rights reserved&nbsp;</div>
+<script type="text/javascript">
+
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-11095855-4']);
+ _gaq.push(['_setDomainName', 'bridgebase.com']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+ })();
+
+</script>
+
+</body>
+</html>

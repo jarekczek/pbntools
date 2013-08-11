@@ -115,6 +115,8 @@ public class BboTourDownloader extends HtmlTourDownloader
     asLinkRes.add(getBaseUrl(m_sLink) + "tview.html");
     asLinkRes.add(getBaseUrl(m_sLink) + sLastPart);
     asLinkRes.add(getBaseUrl(m_sLink) + sLastPart + ".html");
+    asLinkRes.add(getBaseUrl(m_sLink)
+                  + sLastPart.replace('?', '@') + ".html");
     asLinkRes.add("http://webutil.bridgebase.com/v2/" + sLastPart);
     SoupProxy proxy = new SoupProxy();
     for (String sLinkRes: asLinkRes) {
