@@ -1,0 +1,1463 @@
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:19"]
+[Board "1"]
+[West "GREGARI_"]
+[North "babjee4079"]
+[East "zmej"]
+[South "communicat"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:AT97.K653.98762. K4.QJ4.QT4.KT942 52.T97.A53.AJ753 QJ863.A82.KJ.Q86"]
+[Declarer "E"]
+[Contract "3NT"]
+[Result "7"]
+[Auction "N"]
+Pass 1C Pass 1S
+X XX 2C X
+2D 2NT Pass 3NT
+Pass Pass Pass
+[Play "S"]
+D3 DJ D2 D4
+S2 S3 S7 SK
+S5 SJ SA S4
+DA DK D6 DT
+D5 H2 D7 DQ
+C3 C6 H6 C9
+CA C8 H3 C2
+H9 HA H5 H4
+H7 SQ S9 C4
+C5 CQ D8 CT
+HT H8 HK HJ
+C7 S6 D9 CK
+CJ S8 ST HQ
+[DealId "20784109.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:18"]
+[Board "1"]
+[West "peter1959"]
+[North "GiB"]
+[East "asokefinan"]
+[South "thebestcyc"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:AT97.K653.98762. K4.QJ4.QT4.KT942 52.T97.A53.AJ753 QJ863.A82.KJ.Q86"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "7"]
+[Auction "N"]
+Pass Pass 1C =1= Pass
+1D =2= Pass Pass 1NT
+2D =3= 2NT Pass 3NT
+Pass Pass Pass
+[Note "1:Minor suit opening -- 3+ C; 11-21 HCP; 1"]
+[Note "2:One over one -- 4+ D; 11- HCP; 6-12 total points "]
+[Note "3:5+ D; 11- HCP; 6-12 total points "]
+[Play "N"]
+D6 D4 DA DJ
+D9 DT D3 DK
+SA S4 S2 S3
+D7 DQ D5 H2
+S7 SK S5 S6
+HK HQ H7 H8
+D8 C2 C3 C6
+D2 C4 C5 S8
+H3 H4 H9 HA
+S9 C9 HT SQ
+ST CT C7 SJ
+H5 CK CA C8
+H6 HJ CJ CQ
+[DealId "20784111.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:19"]
+[Board "1"]
+[West "mlang"]
+[North "gubben81"]
+[East "hzengin"]
+[South "k00la1d"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:AT97.K653.98762. K4.QJ4.QT4.KT942 52.T97.A53.AJ753 QJ863.A82.KJ.Q86"]
+[Declarer "E"]
+[Contract "3NT"]
+[Result "8"]
+[Auction "N"]
+Pass Pass Pass 1S
+Pass 3NT Pass Pass
+Pass
+[Play "S"]
+C3 C8 D9 C2
+S2 S3 S7 SK
+CJ CQ D2 C9
+S5 SQ SA S4
+DA DJ D6 D4
+D3 DK D7 DT
+C5 SJ S9 C4
+CA C6 H3 CK
+D5 S6 D8 DQ
+C7 S8 H5 CT
+H7 H2 HK HQ
+H9 H8 ST H4
+HT HA H6 HJ
+[DealId "20784110.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:21"]
+[Board "1"]
+[West "porsche33"]
+[North "GEM_Freddy"]
+[East "SC67"]
+[South "fernwood57"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:AT97.K653.98762. K4.QJ4.QT4.KT942 52.T97.A53.AJ753 QJ863.A82.KJ.Q86"]
+[Auction "N"]
+Pass 1C Pass 1S
+X 2C Pass 2S
+Pass Pass X Pass
+3D Pass Pass 3NT
+Pass Pass X Pass
+Pass Pass
+[DealId "20784108.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:25"]
+[Board "2"]
+[West "thebestcyc"]
+[North "hzengin"]
+[East "GiB"]
+[South "mlang"]
+[Dealer "E"]
+[Vulnerable "NS"]
+[Deal "E:KQT982.KJ.Q76.J3 J64.T.A543.K8764 3.A864.KJ82.AQT5 A75.Q97532.T9.92"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "9"]
+[Auction "E"]
+1S =1= Pass 2C =2= Pass
+2S =3= Pass 2NT =4= Pass
+3S =5= Pass 3NT =6= Pass
+Pass Pass
+[Note "1:Major suit opening -- 5+ S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- biddable C; 14+ "]
+[Note "3:Opener rebids suit -- 5+ S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "4:3- H; 2- S; biddable C; 14+ total points"]
+[Note "5:11-21 HCP; twice rebiddable S; 12-22 total points; forcing "]
+[Note "6:3- H; 2- S; 19- HCP; biddable C; 14+ tot"]
+[Play "N"]
+H5 HJ HT H4
+D9 D6 D3 DJ
+S5 SK S4 S3
+C2 CJ C4 C5
+C9 C3 C6 CT
+DT DQ DA D2
+H2 D7 D4 DK
+H3 HK D5 H6
+S7 S9 SJ D8
+SA S2 S6 H8
+H7 S8 C7 HA
+H9 ST C8 CA
+HQ SQ CK CQ
+[DealId "20784112.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:24"]
+[Board "2"]
+[West "k00la1d"]
+[North "zmej"]
+[East "gubben81"]
+[South "GREGARI_"]
+[Dealer "E"]
+[Vulnerable "NS"]
+[Deal "E:KQT982.KJ.Q76.J3 J64.T.A543.K8764 3.A864.KJ82.AQT5 A75.Q97532.T9.92"]
+[Declarer "E"]
+[Contract "4S"]
+[Result "10"]
+[Auction "E"]
+1S Pass 3NT Pass
+4S Pass Pass Pass
+[Play "S"]
+D3 D2 D9 DQ
+C4 C5 C2 CJ
+C6 CT C9 C3
+S4 S3 S5 SQ
+S6 H4 SA S8
+DA D8 DT D6
+D5 DJ S7 D7
+HT H6 H2 HK
+SJ H8 H3 SK
+- - - -
+- - - -
+- - - -
+- - - -
+[DealId "20784115.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:27"]
+[Board "2"]
+[West "fernwood57"]
+[North "babjee4079"]
+[East "GEM_Freddy"]
+[South "communicat"]
+[Dealer "E"]
+[Vulnerable "NS"]
+[Deal "E:KQT982.KJ.Q76.J3 J64.T.A543.K8764 3.A864.KJ82.AQT5 A75.Q97532.T9.92"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "10"]
+[Auction "E"]
+1S Pass 2C 2H
+2S Pass 3NT Pass
+Pass Pass
+[Play "N"]
+DT D6 D3 DK
+S5 SQ S4 S3
+C2 CJ C7 C5
+C9 C3 C8 CQ
+D9 DQ DA D2
+H3 D7 D4 DJ
+H2 S2 D5 D8
+H5 HJ HT H4
+H7 HK C4 H6
+S7 S8 SJ H8
+SA S9 S6 CT
+HQ - - -
+- - - -
+[DealId "20784113.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:26"]
+[Board "2"]
+[West "peter1959"]
+[North "SC67"]
+[East "asokefinan"]
+[South "porsche33"]
+[Dealer "E"]
+[Vulnerable "NS"]
+[Deal "E:KQT982.KJ.Q76.J3 J64.T.A543.K8764 3.A864.KJ82.AQT5 A75.Q97532.T9.92"]
+[Declarer "E"]
+[Contract "3NT"]
+[Result "11"]
+[Auction "E"]
+1S Pass 2D Pass
+2NT Pass 3NT Pass
+Pass Pass
+[Play "S"]
+C6 C5 C9 CJ
+S4 S3 S5 SK
+S6 H4 S7 SQ
+SJ H6 SA ST
+HT H8 H9 HJ
+D3 D2 H2 S9
+C4 CT H3 S8
+D4 CQ H5 S2
+D5 DJ DT D6
+DA D8 D9 DQ
+C7 - - -
+- - - -
+- - - -
+[DealId "20784114.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:31"]
+[Board "3"]
+[West "communicat"]
+[North "hzengin"]
+[East "babjee4079"]
+[South "mlang"]
+[Dealer "S"]
+[Vulnerable "EW"]
+[Deal "S:752.A2.8654.KQJ3 AKQ.JT965.AJ.872 T84.KQ4.KQ92.T54 J963.873.T73.A96"]
+[Declarer "W"]
+[Contract "4HX"]
+[Result "8"]
+[Auction "S"]
+Pass 1H 2D Pass
+3D Pass Pass 3H
+4D 4H Pass Pass
+X Pass Pass Pass
+[Play "N"]
+DK D3 D5 DA
+HQ H3 H2 H5
+D2 D7 D4 DJ
+H4 H7 HA H6
+C4 CA CK C2
+S4 S3 S2 SQ
+S8 S6 S5 SK
+HK H8 D6 H9
+CT C6 CJ C7
+C5 C9 CQ C8
+D9 DT D8 HT
+ST S9 C3 HJ
+DQ SJ S7 SA
+[DealId "20784119.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:32"]
+[Board "3"]
+[West "fernwood57"]
+[North "asokefinan"]
+[East "GEM_Freddy"]
+[South "peter1959"]
+[Dealer "S"]
+[Vulnerable "EW"]
+[Deal "S:752.A2.8654.KQJ3 AKQ.JT965.AJ.872 T84.KQ4.KQ92.T54 J963.873.T73.A96"]
+[Declarer "W"]
+[Contract "1NT"]
+[Result "6"]
+[Auction "S"]
+1D 1NT Pass Pass
+Pass
+[Play "N"]
+C4 C6 CJ C2
+D9 D3 D4 DA
+S4 S3 S2 SA
+S8 S6 S5 SK
+ST S9 S7 SQ
+H4 H3 HA H6
+DQ D7 D5 DJ
+DK DT D6 C7
+D2 H7 D8 H5
+HQ H8 H2 HJ
+HK C9 C3 H9
+C5 CA CQ C8
+CT SJ CK HT
+[DealId "20784118.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:31"]
+[Board "3"]
+[West "k00la1d"]
+[North "SC67"]
+[East "gubben81"]
+[South "porsche33"]
+[Dealer "S"]
+[Vulnerable "EW"]
+[Deal "S:752.A2.8654.KQJ3 AKQ.JT965.AJ.872 T84.KQ4.KQ92.T54 J963.873.T73.A96"]
+[Declarer "E"]
+[Contract "2S"]
+[Result "8"]
+[Auction "S"]
+Pass 1C Pass 1S
+Pass 2S Pass Pass
+Pass
+[Play "S"]
+HA H5 H4 H8
+H2 H6 HQ H3
+C3 C2 C5 CA
+S2 SQ S8 S3
+S5 SK ST S6
+S7 SA S4 S9
+D4 HJ HK H7
+CJ C7 C4 C6
+CQ C8 CT C9
+CK DJ DK SJ
+D5 DA D2 D3
+D6 H9 DQ D7
+D8 HT D9 DT
+[DealId "20784116.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:29"]
+[Board "3"]
+[West "GREGARI_"]
+[North "GiB"]
+[East "zmej"]
+[South "thebestcyc"]
+[Dealer "S"]
+[Vulnerable "EW"]
+[Deal "S:752.A2.8654.KQJ3 AKQ.JT965.AJ.872 T84.KQ4.KQ92.T54 J963.873.T73.A96"]
+[Declarer "W"]
+[Contract "1H"]
+[Result "9"]
+[Auction "S"]
+Pass 1H Pass Pass
+Pass
+[Play "N"]
+C4 CA C3 C2
+HQ H3 H2 H9
+C5 C6 CJ C7
+CT C9 CQ C8
+D9 D3 D4 DA
+HK H7 HA H5
+S4 S3 S2 SA
+S8 S6 S5 SK
+ST S9 S7 SQ
+H4 H8 D5 H6
+D2 SJ D6 DJ
+DQ D7 D8 HJ
+DK DT CK HT
+[DealId "20784117.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:36"]
+[Board "4"]
+[West "porsche33"]
+[North "GEM_Freddy"]
+[East "SC67"]
+[South "fernwood57"]
+[Dealer "W"]
+[Vulnerable "All"]
+[Deal "W:J9852.J93.84.KJ6 AKQ.K86.AKT53.T3 763.4.62.AQ87542 T4.AQT752.QJ97.9"]
+[Declarer "S"]
+[Contract "6H"]
+[Result "12"]
+[Auction "W"]
+Pass 1D Pass 1H
+Pass 2NT Pass 3D
+Pass 3H Pass 4NT
+Pass 5C X 6H
+Pass Pass Pass
+[Play "W"]
+C6 C3 CA C9
+CJ CT C5 HT
+H3 HK H4 H2
+H9 H6 C8 HA
+HJ H8 D6 HQ
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+[DealId "20784122.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:34"]
+[Board "4"]
+[West "GREGARI_"]
+[North "hzengin"]
+[East "zmej"]
+[South "mlang"]
+[Dealer "W"]
+[Vulnerable "All"]
+[Deal "W:J9852.J93.84.KJ6 AKQ.K86.AKT53.T3 763.4.62.AQ87542 T4.AQT752.QJ97.9"]
+[Declarer "S"]
+[Contract "4H"]
+[Result "12"]
+[Auction "W"]
+Pass 1D 2C 4H
+Pass Pass Pass
+[Play "W"]
+C6 C3 CA C9
+CK CT C2 H2
+H3 HK H4 H5
+H9 H6 C4 HA
+HJ H8 C5 HQ
+- - - HT
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+[DealId "20784120.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:35"]
+[Board "4"]
+[West "communicat"]
+[North "GiB"]
+[East "babjee4079"]
+[South "thebestcyc"]
+[Dealer "W"]
+[Vulnerable "All"]
+[Deal "W:J9852.J93.84.KJ6 AKQ.K86.AKT53.T3 763.4.62.AQ87542 T4.AQT752.QJ97.9"]
+[Declarer "S"]
+[Contract "4H"]
+[Result "12"]
+[Auction "W"]
+Pass 1D =1= 2C 2D =2=
+Pass 3C =3= X 4H =4=
+Pass Pass Pass
+[Note "1:Minor suit opening -- 3+ D; 11-21 HCP; 12-22 total points "]
+[Note "2:4+ D; 6-10 total points"]
+[Note "3:4+ D; 21- HCP; 19-22 total points; forcing to 3N "]
+[Note "4:4+ D; biddable H; 6-10 total points"]
+[Play "W"]
+CK C3 C5 C9
+CJ CT C2 H2
+H3 HK H4 H5
+H9 H6 C4 HA
+HJ H8 C7 HQ
+D4 D3 D2 DJ
+D8 - - HT
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+[DealId "20784123.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:35"]
+[Board "4"]
+[West "peter1959"]
+[North "gubben81"]
+[East "asokefinan"]
+[South "k00la1d"]
+[Dealer "W"]
+[Vulnerable "All"]
+[Deal "W:J9852.J93.84.KJ6 AKQ.K86.AKT53.T3 763.4.62.AQ87542 T4.AQT752.QJ97.9"]
+[Declarer "N"]
+[Contract "5D"]
+[Result "12"]
+[Auction "W"]
+Pass 1D 4C 4D
+Pass 5D Pass Pass
+Pass
+[Play "E"]
+CA C9 C6 C3
+H4 H2 H9 HK
+D2 D7 D4 DA
+D6 DQ D8 D3
+C2 HA H3 H6
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+[DealId "20784121.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:42"]
+[Board "5"]
+[West "peter1959"]
+[North "zmej"]
+[East "asokefinan"]
+[South "GREGARI_"]
+[Dealer "N"]
+[Vulnerable "NS"]
+[Deal "N:K7432.AKJ84..852 Q96.Q.AQ975.KJ76 AJT8.T973.84.AQ4 5.652.KJT632.T93"]
+[Declarer "N"]
+[Contract "5S"]
+[Result "13"]
+[Auction "N"]
+1S 1NT 4S 4NT
+X 5D X Pass
+5S Pass Pass Pass
+[Play "E"]
+D5 D4 DK S2
+S6 S8 S5 SK
+S9 ST D2 S3
+HQ H3 H2 HA
+SQ SA D3 S4
+D7 HT H5 H4
+D9 H9 H6 H8
+DQ H7 D6 HK
+C6 C4 DT HJ
+C7 CQ C3 C2
+CK CA C9 C5
+DA D8 DJ S7
+CJ SJ CT C8
+[DealId "20784126.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:42"]
+[Board "5"]
+[West "communicat"]
+[North "gubben81"]
+[East "babjee4079"]
+[South "k00la1d"]
+[Dealer "N"]
+[Vulnerable "NS"]
+[Deal "N:K7432.AKJ84..852 Q96.Q.AQ975.KJ76 AJT8.T973.84.AQ4 5.652.KJT632.T93"]
+[Declarer "N"]
+[Contract "4S"]
+[Result "12"]
+[Auction "N"]
+1S 2D 2S 3D
+4S Pass Pass Pass
+[Play "E"]
+C6 CQ C3 C2
+S6 SA S5 S2
+S9 SJ D2 SK
+HQ H3 H2 HA
+D7 HT H5 H4
+D5 H9 H6 H8
+SQ H7 D3 HK
+C7 CA C9 C5
+D9 D4 DT S3
+DQ C4 D6 HJ
+- - - -
+- - - -
+- - - -
+[DealId "20784127.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:39"]
+[Board "5"]
+[West "porsche33"]
+[North "GiB"]
+[East "SC67"]
+[South "thebestcyc"]
+[Dealer "N"]
+[Vulnerable "NS"]
+[Deal "N:K7432.AKJ84..852 Q96.Q.AQ975.KJ76 AJT8.T973.84.AQ4 5.652.KJT632.T93"]
+[Declarer "E"]
+[Contract "5DX"]
+[Result "9"]
+[Auction "N"]
+1S =1= Pass 2C =2= Pass
+2H =3= 3D 4S =4= 5D
+Pass Pass X =4= Pass
+Pass Pass
+[Note "1:Major suit opening -- 5+ S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- biddable C; 14+ "]
+[Note "3:New suit -- 4+ H; 5+ S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "4:3+ S; biddable C; 14-16 total points"]
+[Play "S"]
+H3 H2 HK HQ
+H7 H5 HA D7
+D4 D2 H4 DQ
+D8 DT S2 D5
+CQ CT C2 C6
+HT H6 HJ D9
+C4 C9 C8 C7
+CA C3 C5 CJ
+SA S5 S4 SQ
+S8 D3 S7 S6
+H9 D6 S3 DA
+ST DK H8 CK
+SJ DJ SK S9
+[DealId "20784125.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:40"]
+[Board "5"]
+[West "mlang"]
+[North "GEM_Freddy"]
+[East "hzengin"]
+[South "fernwood57"]
+[Dealer "N"]
+[Vulnerable "NS"]
+[Deal "N:K7432.AKJ84..852 Q96.Q.AQ975.KJ76 AJT8.T973.84.AQ4 5.652.KJT632.T93"]
+[Declarer "N"]
+[Contract "5S"]
+[Result "10"]
+[Auction "N"]
+1S 2D 3D 5D
+5H Pass 5S Pass
+Pass Pass
+[Play "E"]
+DA D4 DT S2
+S6 S8 S5 SK
+S9 SA D2 S3
+D5 D8 D3 S4
+C6 CQ C3 C2
+HQ HT H2 H4
+CK CA C9 C5
+SQ H9 H5 HK
+CJ C4 CT C8
+C7 - - -
+- - - -
+- - - -
+- - - -
+[DealId "20784124.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:45"]
+[Board "6"]
+[West "porsche33"]
+[North "babjee4079"]
+[East "SC67"]
+[South "communicat"]
+[Dealer "E"]
+[Vulnerable "EW"]
+[Deal "E:A.A987652.Q9.KT3 Q654.43.J852.652 KT9872..AK.QJ974 J3.KQJT.T7643.A8"]
+[Declarer "E"]
+[Contract "6HX"]
+[Result "9"]
+[Auction "E"]
+4H Pass 6H X
+Pass Pass Pass
+[Play "S"]
+S4 S8 SJ SA
+H3 C4 HT HA
+H4 C7 HJ H9
+D2 DA D3 DQ
+S5 SK S3 CK
+S6 ST D4 H5
+D5 DK D6 D9
+C2 C9 CA CT
+D8 S2 D7 H2
+C5 S7 HQ H8
+DJ S9 DT H6
+C6 CQ HK H7
+SQ CJ C8 C3
+[DealId "20784129.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:46"]
+[Board "6"]
+[West "thebestcyc"]
+[North "asokefinan"]
+[East "GiB"]
+[South "peter1959"]
+[Dealer "E"]
+[Vulnerable "EW"]
+[Deal "E:A.A987652.Q9.KT3 Q654.43.J852.652 KT9872..AK.QJ974 J3.KQJT.T7643.A8"]
+[Declarer "W"]
+[Contract "5C"]
+[Result "11"]
+[Auction "E"]
+1H =1= Pass 2C =2= 2D
+2H =3= Pass 2S =4= Pass
+3C =5= Pass 3S =6= Pass
+4C =7= Pass 5C =8= Pass
+Pass Pass
+[Note "1:Major suit opening -- 5+ H; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- biddable C; 14+ "]
+[Note "3:11-21 HCP; twice rebiddable H; 12-22 total points; forcing to 3N "]
+[Note "4:5+ C; 4+ S; 14+ total points; forcing to"]
+[Note "5:2+ C; 11-21 HCP; twice rebiddable H; 12-22 total points; forcing to 3N "]
+[Note "6:6+ C; biddable C; rebiddable S; 14+ tota"]
+[Note "7:2+ C; 19- HCP; twice rebiddable H; 15-22 total points "]
+[Note "8:6+ C; rebiddable S; 14-15 total points"]
+[Play "N"]
+CA C3 C2 C4
+C8 CT C5 C7
+S3 SA S4 S2
+D3 D9 D2 DA
+SJ CK S5 S7
+HT HA H3 S8
+HJ H5 H4 C9
+D4 H2 C6 CQ
+D6 H6 S6 SK
+D7 H7 SQ ST
+DT DQ D5 DK
+HQ H8 D8 CJ
+HK H9 DJ S9
+[DealId "20784130.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:46"]
+[Board "6"]
+[West "GREGARI_"]
+[North "hzengin"]
+[East "zmej"]
+[South "mlang"]
+[Dealer "E"]
+[Vulnerable "EW"]
+[Deal "E:A.A987652.Q9.KT3 Q654.43.J852.652 KT9872..AK.QJ974 J3.KQJT.T7643.A8"]
+[Declarer "W"]
+[Contract "4S"]
+[Result "11"]
+[Auction "E"]
+1H Pass 1S Pass
+2H Pass 4S Pass
+Pass Pass
+[Play "N"]
+CA C3 C2 C4
+C8 CK C5 C7
+S3 SA S4 S2
+D3 D9 D2 DA
+SJ H2 S5 SK
+HT H5 SQ ST
+D4 DQ D5 DK
+D6 CT S6 S9
+HJ H6 D8 S8
+D7 HA C6 S7
+DT H7 H3 CQ
+HQ H8 H4 CJ
+HK H9 DJ C9
+[DealId "20784131.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:49"]
+[Board "6"]
+[West "fernwood57"]
+[North "gubben81"]
+[East "GEM_Freddy"]
+[South "k00la1d"]
+[Dealer "E"]
+[Vulnerable "EW"]
+[Deal "E:A.A987652.Q9.KT3 Q654.43.J852.652 KT9872..AK.QJ974 J3.KQJT.T7643.A8"]
+[Auction "E"]
+1H Pass 1S Pass
+2H Pass 3C Pass
+4H Pass Pass Pass
+[DealId "20784128.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:54"]
+[Board "7"]
+[West "communicat"]
+[North "gubben81"]
+[East "babjee4079"]
+[South "k00la1d"]
+[Dealer "S"]
+[Vulnerable "All"]
+[Deal "S:KQJ2.K9.92.J9752 T63.T5.Q854.8643 98754.AQ6.63.AQT A.J87432.AKJT7.K"]
+[Declarer "N"]
+[Contract "4SXX"]
+[Result "11"]
+[Auction "S"]
+1C Pass 1S 2H
+2S Pass 4S X
+XX Pass Pass Pass
+[Play "E"]
+DA D2 D4 D3
+CK C2 C3 CA
+SA S2 S3 S4
+HJ HK H5 H6
+H2 SK S6 S5
+D7 SQ ST S7
+H3 H9 HT HA
+H4 D9 D5 HQ
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+[DealId "20784134.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:55"]
+[Board "7"]
+[West "thebestcyc"]
+[North "GEM_Freddy"]
+[East "GiB"]
+[South "fernwood57"]
+[Dealer "S"]
+[Vulnerable "All"]
+[Deal "S:KQJ2.K9.92.J9752 T63.T5.Q854.8643 98754.AQ6.63.AQT A.J87432.AKJT7.K"]
+[Declarer "E"]
+[Contract "5DX"]
+[Result "10"]
+[Auction "S"]
+Pass Pass 1S 2S =1=
+3S Pass Pass 4D =2=
+Pass Pass 4S Pass
+Pass 5D =3= Pass Pass
+X Pass Pass Pass
+[Note "1:Michaels -- 5+ H; 12+ total points; forcing "]
+[Note "2:4+ D; 5+ H; 20+ total points "]
+[Note "3:4+ D; 1- total points"]
+[Play "S"]
+SK S3 S4 SA
+HK HT H6 H2
+SQ S6 S5 D7
+H9 H5 HQ H3
+C5 C3 CA CK
+S2 ST S7 DT
+D9 DQ HA HJ
+D2 D5 D3 DA
+C2 D4 D6 DK
+SJ C6 S8 H7
+C7 C4 S9 H8
+C9 C8 CT H4
+CJ D8 CQ DJ
+[DealId "20784133.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:53"]
+[Board "7"]
+[West "porsche33"]
+[North "asokefinan"]
+[East "SC67"]
+[South "peter1959"]
+[Dealer "S"]
+[Vulnerable "All"]
+[Deal "S:KQJ2.K9.92.J9752 T63.T5.Q854.8643 98754.AQ6.63.AQT A.J87432.AKJT7.K"]
+[Declarer "E"]
+[Contract "4HX"]
+[Result "9"]
+[Auction "S"]
+Pass Pass 1S 4H
+X Pass Pass Pass
+[Play "S"]
+SK S3 S4 SA
+H9 HT HA H2
+C2 C3 CA CK
+S2 S6 S5 H3
+HK H5 H6 HJ
+SQ ST S7 H4
+D2 DQ HQ H8
+C5 C8 CQ H7
+D9 D4 D3 DT
+C7 D8 D6 DJ
+C9 D5 S8 DK
+CJ C4 S9 DA
+SJ C6 CT D7
+[DealId "20784135.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:53"]
+[Board "7"]
+[West "mlang"]
+[North "zmej"]
+[East "hzengin"]
+[South "GREGARI_"]
+[Dealer "S"]
+[Vulnerable "All"]
+[Deal "S:KQJ2.K9.92.J9752 T63.T5.Q854.8643 98754.AQ6.63.AQT A.J87432.AKJT7.K"]
+[Declarer "N"]
+[Contract "4S"]
+[Result "9"]
+[Auction "S"]
+Pass Pass 1C 1H
+X Pass 1S 2D
+2S Pass 4S Pass
+Pass Pass
+[Play "E"]
+DA D2 D5 D3
+H4 H9 HT HA
+SA SJ S3 S4
+DK D9 D4 D6
+H3 HK H5 H6
+H2 SK S6 S5
+H7 SQ ST S7
+CK CJ C3 CT
+DJ S2 D8 CQ
+D7 C2 C4 CA
+H8 C5 C6 HQ
+DT C7 C8 S8
+HJ C9 DQ S9
+[DealId "20784132.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:59"]
+[Board "8"]
+[West "k00la1d"]
+[North "hzengin"]
+[East "gubben81"]
+[South "mlang"]
+[Dealer "W"]
+[Vulnerable "None"]
+[Deal "W:K7.Q4.J5.AK87432 Q32.A985.AT974.J AJ5.KT63.K3.QT95 T9864.J72.Q862.6"]
+[Declarer "E"]
+[Contract "3NT"]
+[Result "8"]
+[Auction "W"]
+1C X XX 1S
+3C Pass 3NT Pass
+Pass Pass
+[Play "S"]
+D2 D5 D9 DK
+C6 C2 CJ CQ
+H2 HQ HA H3
+D6 DJ DA D3
+DQ C3 D4 S5
+D8 C4 DT H6
+S4 C7 D7 C5
+H7 H4 H8 HK
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+[DealId "20784137.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:59"]
+[Board "8"]
+[West "fernwood57"]
+[North "zmej"]
+[East "GEM_Freddy"]
+[South "GREGARI_"]
+[Dealer "W"]
+[Vulnerable "None"]
+[Deal "W:K7.Q4.J5.AK87432 Q32.A985.AT974.J AJ5.KT63.K3.QT95 T9864.J72.Q862.6"]
+[Declarer "E"]
+[Contract "3NT"]
+[Result "11"]
+[Auction "W"]
+1C Pass 1H Pass
+3C Pass 3NT Pass
+Pass Pass
+[Play "S"]
+D2 D5 DA D3
+D6 DJ D4 DK
+C6 C2 CJ CQ
+S4 C3 H5 CT
+H2 C4 H8 C9
+H7 CA H9 C5
+D8 CK D7 H3
+DQ C8 D9 H6
+HJ C7 S2 HT
+S6 SK S3 S5
+ST S7 SQ SA
+S9 H4 DT SJ
+S8 HQ HA HK
+[DealId "20784138.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:58"]
+[Board "8"]
+[West "peter1959"]
+[North "GiB"]
+[East "asokefinan"]
+[South "thebestcyc"]
+[Dealer "W"]
+[Vulnerable "None"]
+[Deal "W:K7.Q4.J5.AK87432 Q32.A985.AT974.J AJ5.KT63.K3.QT95 T9864.J72.Q862.6"]
+[Declarer "E"]
+[Contract "3NT"]
+[Result "11"]
+[Auction "W"]
+1C X =1= Pass 1S =2=
+2C Pass 3NT Pass
+Pass Pass
+[Note "1:Takeout double -- 2- C; 3-5 D; 3-4 H; 3-4 S; 12+ total points "]
+[Note "2:4+ S; 9- total points"]
+[Play "S"]
+D2 D5 DA D3
+D6 DJ D9 DK
+C6 CA CJ C5
+S6 C2 H9 CQ
+S4 C3 D4 CT
+S8 CK S2 C9
+H7 C8 S3 H3
+H2 C7 H5 H6
+HJ C4 H8 HT
+S9 SK SQ S5
+ST S7 D7 SJ
+D8 H4 DT SA
+DQ HQ HA HK
+[DealId "20784139.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 19:59"]
+[Board "8"]
+[West "porsche33"]
+[North "babjee4079"]
+[East "SC67"]
+[South "communicat"]
+[Dealer "W"]
+[Vulnerable "None"]
+[Deal "W:K7.Q4.J5.AK87432 Q32.A985.AT974.J AJ5.KT63.K3.QT95 T9864.J72.Q862.6"]
+[Declarer "E"]
+[Contract "4NTXX"]
+[Result "11"]
+[Auction "W"]
+1C 1D 3NT Pass
+4NT X XX Pass
+Pass Pass
+[Play "S"]
+D2 DJ DA D3
+D6 D5 DT DK
+C6 CK CJ C9
+S4 C2 H9 CT
+H2 C3 H5 CQ
+H7 CA H8 C5
+HJ C8 S2 HT
+DQ C7 S3 H6
+S6 C4 SQ H3
+S8 SK D4 S5
+S9 S7 D7 SJ
+ST HQ D9 SA
+D8 H4 HA HK
+[DealId "20784136.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 20:04"]
+[Board "9"]
+[West "fernwood57"]
+[North "gubben81"]
+[East "GEM_Freddy"]
+[South "k00la1d"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:98.K9864.AJ8.932 T754.J.953.AT764 AQ63.AQ7.KQ42.K8 KJ2.T532.T76.QJ5"]
+[Declarer "S"]
+[Contract "3NT"]
+[Result "11"]
+[Auction "N"]
+Pass Pass 1NT Pass
+2D Pass 3NT Pass
+Pass Pass
+[Play "W"]
+CQ C2 C7 CK
+D6 DA D3 D2
+D7 DJ D5 D4
+DT D8 D9 DQ
+H2 C3 S4 DK
+H3 H4 HJ HA
+H5 H6 C4 HQ
+HT HK S5 H7
+S2 H9 S7 C8
+C5 H8 ST S3
+SJ S8 C6 SA
+SK S9 CT S6
+CJ C9 CA SQ
+[DealId "20784141.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 20:02"]
+[Board "9"]
+[West "peter1959"]
+[North "GiB"]
+[East "asokefinan"]
+[South "thebestcyc"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:98.K9864.AJ8.932 T754.J.953.AT764 AQ63.AQ7.KQ42.K8 KJ2.T532.T76.QJ5"]
+[Declarer "S"]
+[Contract "3NT"]
+[Result "11"]
+[Auction "N"]
+Pass Pass 1C =1= Pass
+1H =2= Pass 3NT =3= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ C; 11-21 HCP; 1"]
+[Note "2:One over one -- 4+ H; 11- HCP; 6-12 total points "]
+[Note "3:11-21 HCP; solid 7-card C; 12-22 total p"]
+[Play "W"]
+CQ C2 C4 CK
+H2 H4 HJ HA
+H3 H6 D3 HQ
+H5 H8 D5 H7
+HT HK D9 C8
+S2 H9 S4 S3
+D6 DA S5 D2
+D7 DJ S7 D4
+SJ S9 ST SA
+DT D8 C6 DQ
+C5 C3 C7 DK
+SK S8 CT S6
+CJ C9 CA SQ
+[DealId "20784142.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 20:02"]
+[Board "9"]
+[West "GREGARI_"]
+[North "hzengin"]
+[East "zmej"]
+[South "mlang"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:98.K9864.AJ8.932 T754.J.953.AT764 AQ63.AQ7.KQ42.K8 KJ2.T532.T76.QJ5"]
+[Declarer "S"]
+[Contract "4H"]
+[Result "11"]
+[Auction "N"]
+Pass Pass 2NT Pass
+3D Pass 3H Pass
+3NT Pass 4H Pass
+Pass Pass
+[Play "W"]
+CQ C2 CA C8
+SK S8 S4 SQ
+CJ C3 C4 CK
+H2 H4 HJ HA
+H3 H6 C6 HQ
+H5 H8 C7 H7
+- HK S5 -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+[DealId "20784140.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 20:05"]
+[Board "9"]
+[West "communicat"]
+[North "SC67"]
+[East "babjee4079"]
+[South "porsche33"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:98.K9864.AJ8.932 T754.J.953.AT764 AQ63.AQ7.KQ42.K8 KJ2.T532.T76.QJ5"]
+[Declarer "S"]
+[Contract "3NT"]
+[Result "10"]
+[Auction "N"]
+Pass Pass 2NT Pass
+3D Pass 3H Pass
+3NT Pass Pass Pass
+[Play "W"]
+H2 H8 HJ HQ
+H3 H4 D3 HA
+HT HK D5 H7
+H5 H9 D9 S3
+D6 H6 C7 S6
+D7 DA C4 D2
+DT DJ C6 D4
+SK S8 S4 SQ
+S2 S9 ST SA
+C5 D8 CT DK
+SJ C2 S5 DQ
+CJ C3 CA C8
+CQ C9 S7 CK
+[DealId "20784143.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 20:09"]
+[Board "10"]
+[West "communicat"]
+[North "SC67"]
+[East "babjee4079"]
+[South "porsche33"]
+[Dealer "E"]
+[Vulnerable "All"]
+[Deal "E:Q9.T9752.982.J72 K64.63.AQT7.AKQ9 JT853.QJ4.543.84 A72.AK8.KJ6.T653"]
+[Declarer "S"]
+[Contract "6NT"]
+[Result "12"]
+[Auction "E"]
+Pass 1NT Pass 6NT
+Pass Pass Pass
+[Play "W"]
+S5 S2 SQ SK
+D3 DK D2 D7
+D4 DJ D8 DT
+D5 D6 D9 DQ
+C4 H8 H2 DA
+C8 C3 C2 CA
+S3 C5 C7 CK
+H4 HK H5 H3
+S8 C6 CJ CQ
+HJ CT S9 C9
+HQ HA H7 H6
+ST SA H9 S4
+SJ S7 HT S6
+[DealId "20784147.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 20:07"]
+[Board "10"]
+[West "GREGARI_"]
+[North "hzengin"]
+[East "zmej"]
+[South "mlang"]
+[Dealer "E"]
+[Vulnerable "All"]
+[Deal "E:Q9.T9752.982.J72 K64.63.AQT7.AKQ9 JT853.QJ4.543.84 A72.AK8.KJ6.T653"]
+[Declarer "S"]
+[Contract "3NT"]
+[Result "12"]
+[Auction "E"]
+Pass 1NT Pass 3NT
+Pass Pass Pass
+[Play "W"]
+HQ HA H2 H3
+C8 C3 C2 CK
+C4 C5 C7 CA
+S3 C6 CJ CQ
+D3 CT H5 C9
+D4 DK D2 D7
+D5 DJ D9 DQ
+S5 D6 D8 DA
+H4 S2 H7 DT
+ST SA S9 S4
+S8 S7 SQ SK
+HJ HK H9 H6
+SJ H8 HT S6
+[DealId "20784144.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 20:08"]
+[Board "10"]
+[West "fernwood57"]
+[North "gubben81"]
+[East "GEM_Freddy"]
+[South "k00la1d"]
+[Dealer "E"]
+[Vulnerable "All"]
+[Deal "E:Q9.T9752.982.J72 K64.63.AQT7.AKQ9 JT853.QJ4.543.84 A72.AK8.KJ6.T653"]
+[Declarer "S"]
+[Contract "3NT"]
+[Result "12"]
+[Auction "E"]
+Pass 1NT Pass 3NT
+Pass Pass Pass
+[Play "W"]
+SJ S2 S9 SK
+D3 DK D2 D7
+D4 DJ D8 DT
+D5 D6 D9 DQ
+C4 S7 H2 DA
+C8 C3 C2 CA
+S3 C5 C7 CK
+S5 C6 CJ CQ
+S8 CT H5 C9
+H4 HA H7 H3
+HJ HK H9 H6
+ST SA SQ S4
+HQ H8 HT S6
+[DealId "20784145.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 20:08"]
+[Board "10"]
+[West "peter1959"]
+[North "GiB"]
+[East "asokefinan"]
+[South "thebestcyc"]
+[Dealer "E"]
+[Vulnerable "All"]
+[Deal "E:Q9.T9752.982.J72 K64.63.AQT7.AKQ9 JT853.QJ4.543.84 A72.AK8.KJ6.T653"]
+[Declarer "S"]
+[Contract "3NT"]
+[Result "12"]
+[Auction "E"]
+Pass 1C =1= Pass 2C =2=
+Pass 2NT =3= Pass 3NT =4=
+Pass Pass Pass
+[Note "1:Minor suit opening -- 3+ C; 11-21 HCP; 1"]
+[Note "2:Inverted minor suit raise -- 4+ C; 3- H; 3- S; 10+ HCP; forcing to 2N "]
+[Note "3:3-5 C; 2-5 D; 2-4 H; 2-4 S; 11-14 HCP; 1"]
+[Note "4:4+ C; 3- H; 3- S; 14-19 HCP "]
+[Play "W"]
+S5 S2 SQ SK
+C4 C3 C2 CK
+C8 C5 C7 CQ
+D3 C6 CJ CA
+D4 CT D2 C9
+D5 DK D8 D7
+H4 DJ D9 DT
+HJ D6 S9 DQ
+HQ S7 H2 DA
+S3 SA H5 S4
+S8 HA H7 H3
+ST HK HT H6
+SJ H8 H9 S6
+[DealId "20784146.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 20:14"]
+[Board "11"]
+[West "GREGARI_"]
+[North "hzengin"]
+[East "zmej"]
+[South "mlang"]
+[Dealer "S"]
+[Vulnerable "None"]
+[Deal "S:84.9765.T862.J96 KQJ3.A2.A7.AQ853 T97.Q.KQJ94.KT74 A652.KJT843.53.2"]
+[Declarer "E"]
+[Contract "4H"]
+[Result "12"]
+[Auction "S"]
+Pass 1C Pass 1H
+Pass 2NT Pass 4H
+Pass Pass Pass
+[Play "S"]
+S8 SK S7 S2
+H5 HA HQ H3
+H6 H2 D9 HK
+H7 D7 D4 HJ
+H9 C3 C4 HT
+D2 C5 S9 H8
+C6 CQ CK C2
+D6 DA DK D3
+C9 CA C7 D5
+S4 SQ ST S5
+D8 SJ CT S6
+DT S3 DJ SA
+CJ C8 DQ H4
+[DealId "20784148.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 20:13"]
+[Board "11"]
+[West "communicat"]
+[North "GiB"]
+[East "babjee4079"]
+[South "thebestcyc"]
+[Dealer "S"]
+[Vulnerable "None"]
+[Deal "S:84.9765.T862.J96 KQJ3.A2.A7.AQ853 T97.Q.KQJ94.KT74 A652.KJT843.53.2"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "12"]
+[Auction "S"]
+Pass 2C Pass 2H
+Pass 2NT Pass 3NT
+Pass Pass Pass
+[Play "N"]
+HQ HK H5 H2
+CK C2 C6 CQ
+DK D3 D2 DA
+C4 D5 C9 CA
+D9 H3 H7 HA
+S9 SA S4 S3
+D4 HJ H6 D7
+ST HT H9 C3
+- H8 - -
+- - - -
+- - - -
+- - - -
+- - - -
+[DealId "20784150.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 20:15"]
+[Board "11"]
+[West "fernwood57"]
+[North "gubben81"]
+[East "GEM_Freddy"]
+[South "k00la1d"]
+[Dealer "S"]
+[Vulnerable "None"]
+[Deal "S:84.9765.T862.J96 KQJ3.A2.A7.AQ853 T97.Q.KQJ94.KT74 A652.KJT843.53.2"]
+[Declarer "W"]
+[Contract "6NT"]
+[Result "12"]
+[Auction "S"]
+Pass 2NT 3D X
+Pass 3NT Pass 6NT
+Pass Pass Pass
+[Play "N"]
+DK D3 D2 D7
+DQ D5 D6 DA
+HQ H3 H5 HA
+C4 HK H6 H2
+C7 HJ H7 C3
+D4 HT H9 C5
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+[DealId "20784149.lin"]
+
+[Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
+[Date "2013-08-10 20:16"]
+[Board "11"]
+[West "peter1959"]
+[North "SC67"]
+[East "asokefinan"]
+[South "porsche33"]
+[Dealer "S"]
+[Vulnerable "None"]
+[Deal "S:84.9765.T862.J96 KQJ3.A2.A7.AQ853 T97.Q.KQJ94.KT74 A652.KJT843.53.2"]
+[Declarer "E"]
+[Contract "7S"]
+[Result "13"]
+[Auction "S"]
+Pass 2NT Pass 3D
+Pass 3H Pass 3S
+Pass 4NT Pass 5D
+Pass 7S Pass Pass
+Pass
+[Play "S"]
+S4 SK ST S2
+S8 SQ S7 S5
+H5 HA HQ H3
+H6 S3 S9 SA
+H7 H2 DK HK
+H9 D7 D4 HJ
+D2 C3 D9 HT
+D6 C5 C4 H8
+D8 C8 CT H4
+C6 CA C7 C2
+C9 CQ CK S6
+DT - - D3
+- - - -
+[DealId "20784151.lin"]
+
