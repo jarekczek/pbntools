@@ -562,7 +562,7 @@
 
 <target name="junit-prereq" depends="ivy-libs, junit-jar, jar" >
   <presetdef name="junitpreset">
-    <junit fork="yes" haltonfailure="yes" timeout="5000" showoutput="false"
+    <junit fork="yes" haltonfailure="yes" timeout="10000" showoutput="false"
       outputtoformatters="false" >
       <formatter type="plain" usefile="false" />
       <classpath refid="runClasspath" />
@@ -588,6 +588,9 @@
        Significant processing contains: ajaxing in Pary and
        creating lins in bbo. Kops is added just for completeness.
   -->
+  <echo>junit-www tests, prerequisites:</echo>
+  <echo>1. serve test/*www* directories at http://localhost/pbntools</echo>
+  <echo>2. turn off internet (suggestion only)</echo>
   <junitpreset>
     <test name="jc.pbntools.PbnToolsWwwTests" />
   </junitpreset>
