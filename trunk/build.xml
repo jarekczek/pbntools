@@ -562,7 +562,8 @@
 
 <target name="junit-prereq" depends="ivy-libs, junit-jar, jar" >
   <presetdef name="junitpreset">
-    <junit fork="yes" haltonfailure="yes" timeout="5000" showoutput="false">
+    <junit fork="yes" haltonfailure="yes" timeout="5000" showoutput="false"
+      outputtoformatters="false" >
       <formatter type="plain" usefile="false" />
       <classpath refid="runClasspath" />
       <classpath path="${basedir}/work/PbnToolsTests.jar" />
@@ -582,6 +583,10 @@
 <target name="junit-www" depends="junit-prereq">
   <!-- makes tests that require local www server with test content
        tests with www inside should be available at http://localhost/pbntools
+       Www tests are important for processing that takes place between
+       fetching files from remote server and saving them locally.
+       Significant processing contains: ajaxing in Pary and
+       creating lins in bbo. Kops is added just for completeness.
   -->
   <junitpreset>
     <test name="jc.pbntools.PbnToolsWwwTests" />
