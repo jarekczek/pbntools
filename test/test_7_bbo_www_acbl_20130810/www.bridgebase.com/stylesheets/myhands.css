@@ -1,0 +1,101 @@
+table.body {
+    border : thin dashed #E0E0E0;
+    background-color : white;
+    margin-left : auto;
+    margin-right : auto;
+    text-align : center;
+}
+
+table.form {
+    border : thin dashed #E0E0E0;
+    background-color : #F0F0F0;
+    margin-left : auto;
+    margin-right : auto;
+}
+
+th {
+    font-family: sans-serif;
+    color : black;
+    background-color : #C0CCEE;
+    font-size : smaller;
+    white-space: nowrap;
+}
+
+th.totals {
+    text-align : right;
+}
+
+th.odd {
+    background-color : #E0E0E0;
+    text-align : center;
+}
+
+th.even {
+    background-color : #F0F0F0;
+    text-align : center;
+}
+
+td {
+    font-family: sans-serif;
+    font-size : smaller;
+    white-space: nowrap;
+}
+
+td.totals {
+    color : black;
+    background-color : #C0CCEE;
+    font-weight: bold;
+}
+
+tr.odd {
+    background-color : #E0E0E0;
+}
+
+tr.even {
+    background-color : #F0F0F0;
+}
+
+th.mbc, tr.mbc {
+    background-color : #FFE0FF;
+}
+
+th.tourneyOdd, tr.tourneyOdd, th.tourney, tr.tourney {
+    background-color : #E0FFFF;
+}
+
+th.tourneyEven, tr.tourneyEven, th.team, tr.team {
+    background-color : #FFFFE0;
+}
+
+th.tourneySummary, tr.tourneySummary {
+    background-color : #EEE5E5;
+    line-height: 1.5em;
+}
+
+.north, .south, .east, .west, .movie, .traveller, .board {
+    text-align : center;
+}
+
+.result {
+    text-align : left;
+}
+
+.handnum {
+    text-align : right;
+}
+
+.tourneyPlace {
+    text-align: center;
+    font-weight: bold;
+}
+
+.points, .score, .numhands, .tourneyPoints, .tourneyScore {
+    text-align : right;
+    font-weight: bold;
+}
+
+.negscore {
+    color : red;
+    text-align : right;
+    font-weight: bold;
+}

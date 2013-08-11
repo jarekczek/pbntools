@@ -22,6 +22,7 @@
 if [[ -z $1 ]]; then
   tour="2797-1361119500"
   tour="7883-1375722000"
+  tour="1607-1376154000"
 else
   tour=$1
 fi
@@ -30,3 +31,5 @@ cd tur_bbo_example_$tour
 wgetOpts="-p -k -nc -E --restrict-file-names=windows --wait=1"
 wget $wgetOpts -r -l 1 "http://www.bridgebase.com/myhands/hands.php?tourney=$tour-&offset=0"
 wget $wgetOpts "http://webutil.bridgebase.com/v2/tview.php?t=$tour"
+# to make it possible to obtain correct tournament title in offline mode:
+cp webutil.bridgebase.com/v2/tview*.html www.bridgebase.com/myhands

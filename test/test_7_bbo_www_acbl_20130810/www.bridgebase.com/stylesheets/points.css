@@ -1,0 +1,71 @@
+table.body {
+	border : thin dashed #DDDDDD;
+	background-color : white;
+	margin-left : auto;
+	margin-right : auto;
+	width : 90%;
+}
+
+table.form {
+	border : thin dashed #DDDDDD;
+	margin-left : auto;
+	margin-right : auto;
+	background-color : #EEEEEE;
+}
+
+th {
+	font-family: sans-serif;
+	color : black;
+	background-color : #C0CCEE;
+	font-size : smaller;
+}
+
+th.totals {
+	text-align : right;
+}
+
+th.odd {
+	background-color : #DDDDDD;
+	text-align : center;
+}
+
+th.even {
+	background-color : #EEEEEE;
+	text-align : center;
+}
+
+td {
+	font-family: sans-serif;
+	font-size : smaller;
+}
+
+td.totals {
+	color : black;
+	background-color : #C0CCEE;
+	font-weight: bold; 
+}
+
+tr.odd {
+	background-color : #DDDDDD;
+}
+  
+tr.even {
+	background-color : #EEEEEE;
+}
+  
+.organization, .whenplayed {
+	text-align : center;
+}
+
+.title, .rank {
+	text-align : center;
+}
+
+.username {
+	text-align : left;
+}
+
+.points {
+	text-align : right;
+}
+
