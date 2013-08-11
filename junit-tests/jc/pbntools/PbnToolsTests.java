@@ -25,6 +25,7 @@ import java.io.FileWriter;
 import java.io.PrintStream;
 import java.io.Writer;
 import jc.f;
+import jc.pbntools.download.BboTourDownloader;
 import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
 import jc.pbntools.download.ParyTourDownloader;
@@ -102,6 +103,16 @@ static void pobierzTestHelper(HtmlTourDownloader der,
     "test/test_3_pary_20130801/WB130801/wb130801.html",
     "test/test_3_pary_20130801/WB130801/wb130801.pbn",
     "WB130801/wb130801.pbn");
+}
+
+@Test public void pobierzBboTest6()
+  throws java.io.FileNotFoundException, java.io.IOException
+{
+  pobierzTestHelper(
+    new BboTourDownloader(),
+    "test/test_6_bbo_skyclub_20130810/SKY_CLUB_2196_Pairs_SKY_CLUB_JACKPOT_2000/hands.php?tourney=2196-1376162040-&offset=0.html",
+    "test/test_6_bbo_skyclub_20130810/sky_club_2196_pairs_sky_club_jackpot_2000.pbn",
+    "SKY_CLUB_2196_Pairs_SKY_CLUB_JACKPOT_2000/sky_club_2196_pairs_sky_club_jackpot_2000.pbn");
 }
 
 // pobierzKopsTest {{{
