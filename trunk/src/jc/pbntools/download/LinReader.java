@@ -333,10 +333,10 @@ public class LinReader implements DealReader
     }
     String sLin = m_doc.text();
     for (int i=0; i<sLin.length(); i++) {
-      String sChar = sLin.substring(i, i+1);
-      if (!sChar.matches("[a-zA-Z0-9|,_ ]")) {
+      char ch = sLin.charAt(i);
+      if (ch < 32 || ch > 126) {
         if (!bSilent || f.isDebugMode())
-          m_sp.addLine(PbnTools.getStr("msg.unexpChar", sChar, i));
+          m_sp.addLine(PbnTools.getStr("msg.unexpChar", ""+ch, i));
         return false;
       }
     }
