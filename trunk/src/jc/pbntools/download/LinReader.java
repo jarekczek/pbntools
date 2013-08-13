@@ -345,6 +345,15 @@ public class LinReader implements DealReader
         m_sp.addLine(PbnTools.getStr("msg.missChar", "|"));
       return false;
     }
+    
+    String asNeededStrings[] = { "|st|", "|md|" };
+    for (String sStr: asNeededStrings) {
+      if (sLin.indexOf(sStr) < 0) {
+        if (!bSilent || f.isDebugMode())
+          m_sp.addLine(PbnTools.getStr("msg.missString", sStr));
+        return false;
+      }
+    }
     return true;
   } //}}}
     
