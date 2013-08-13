@@ -325,7 +325,7 @@ public class LinReader implements DealReader
     String sLin = m_doc.text();
     for (int i=0; i<sLin.length(); i++) {
       String sChar = sLin.substring(i, i+1);
-      if (!sChar.matches("[a-zA-Z0-9|, ]")) {
+      if (!sChar.matches("[a-zA-Z0-9|,_ ]")) {
         if (!bSilent || f.isDebugMode())
           m_sp.addLine(PbnTools.getStr("msg.unexpChar", sChar, i));
         return false;
