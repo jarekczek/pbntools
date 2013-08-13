@@ -280,7 +280,16 @@ public class LinReader implements DealReader
         readPlayers(d, sArg);
       else if (sComm.equals("mb"))
         readBid(d, sArg);
-      else if (sComm.equals("md"))
+      else if (sComm.equals("mc")) {
+        try {
+          int cTricks = Integer.parseInt(sArg);
+          if (cTricks < 0 || cTricks > 13)
+            throw new NumberFormatException();
+          d.setResult(cTricks);
+        } catch (NumberFormatException nfe) {
+          m_sp.addLine(PbnTools.getStr("error.linInvArg", sComm, sArg));
+        }
+      } else if (sComm.equals("md"))
         readHands(d, sArg);
       else if (sComm.equals("rh") || sComm.equals("st")) {
         if (!sArg.isEmpty() && !m_bSilent)
