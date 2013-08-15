@@ -43,8 +43,13 @@ import jc.outputwindow.DialogOutputWindow;
 import jc.outputwindow.OutputWindow;
 import jc.outputwindow.SimplePrinter;
 import jc.outputwindow.StandardSimplePrinter;
-import jc.pbntools.*;
-import jc.pbntools.download.*;
+import jc.pbntools.download.BboTourDownloader;
+import jc.pbntools.download.DealReader;
+import jc.pbntools.download.HtmlTourDownloader;
+import jc.pbntools.download.KopsTourDownloader;
+import jc.pbntools.download.LinReader;
+import jc.pbntools.download.ParyTourDownloader;
+import jc.pbntools.download.DownloadFailedException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -448,6 +453,12 @@ public class PbnTools {
             getStr("msg.readerFound", dr.getClass().getName()));
           try {
             Deal deals[] = dr.readDeals(m_sLink, false);
+            PbnFile pbnFile = new PbnFile();
+            pbnFile.addDeals(deals);
+            pbnFile.save(sOutFile);
+          }
+          catch (IOException ioe) {
+            m_ow.addLine(ioe.toString());
           }
           catch (DownloadFailedException dfe) {
             m_ow.addLine(dfe.toString());
