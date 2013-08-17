@@ -78,6 +78,7 @@ public class Deal implements Cloneable {
   protected String m_sId;
   public String m_sDeal;
   public Hand m_aHands[];
+  /** In order of appearance, starting from dealer */
   private ArrayList<Bid> m_aBids;
   /** Cards played. Index is <code>(nTrick - 1) * 4 + nPerson</code> */
   private Card[] m_aPlays; // cards played
@@ -234,7 +235,7 @@ public class Deal implements Cloneable {
     for (String sValid : m_asPossVulner) {
       if (sValid.equalsIgnoreCase(sVulner)) { m_sVulner = sValid; }
     }
-  }
+  } //}}}
   public String getVulner() { return m_sVulner; }
   
   public void setScoring(String sScoring) { m_sScoring = sScoring; }
@@ -321,16 +322,87 @@ public class Deal implements Cloneable {
   
   // areBidsOk method {{{
   /** Part of {@link #isOk} checks. */
-  protected void areBidsOk() {
+  protected boolean areBidsOk() {
+    boolean bOk = true;
     Pattern pat = Pattern.compile("(Pass)|(X)|(XX)|([1-7]([CDHS]|(NT)))");
     for (Bid bid: m_aBids) {
       Matcher m = pat.matcher(bid.m_sBid);
       if (!m.matches()) {
         m_asErrors.add(PbnTools.getStr("error.pbn.wrongBid", bid.m_sBid));
+        bOk = false;
       }
     }
+    return bOk;
   } //}}}
 
+  // setContractFromAuction method {{{
+  /**
+   * @param asErrors Errors that occurred will be added to this list.
+   *        Can be <code>null</code>.
+   * @return <code>true</code> if succeeded.
+   */
+  public boolean setContractFromAuction(ArrayList<String> asErrorsC)
+  {
+    ArrayList<String> asErrors = new ArrayList<String>();
+    if (!areBidsOk()) return false;
+    if (getDealer() < 0) return false;
+    int cPass = 0;
+    int nDouble = 0;
+    int nHeight = 0;
+    int nColor = -1;
+    int nPlayer = getDealer();
+    int nDecl = -1;
+    String sLastBid = "";
+    Pattern pat = Pattern.compile("([1-7])([CDHS]|(NT))");
+    for (Bid bid: m_aBids) {
+      if (bid.m_sBid.equals("Pass"))
+        cPass++;
+      else {
+        cPass = 0;
+        if (bid.m_sBid.equals("X"))
+          nDouble = 1;
+        else if (bid.m_sBid.equals("XX"))
+          nDouble = 2;
+        else {
+          Matcher m = pat.matcher(bid.m_sBid);
+          m.matches();
+          assert(m.matches());
+          sLastBid = bid.m_sBid;
+          nDecl = nPlayer;
+          nDouble = 0;
+          try {
+            nHeight = Integer.parseInt(m.group(1));
+          } catch (NumberFormatException nfe) {
+            nHeight = -1;
+          }
+          nColor = Card.color(bid.m_sBid.charAt(0));
+        }
+      }
+      nPlayer = nextPerson(nPlayer);
+    }
+    
+    if (cPass != 3 || (cPass == 4 && m_aBids.size() != 4))
+      asErrors.add(PbnTools.getStr("error.noOfPasses", 3, cPass));
+    else if (cPass == 4) {
+      setContractHeight(0);
+    } else {
+      if (nColor < 0)
+        asErrors.add(PbnTools.getStr("error.noContractColorLB", sLastBid));
+      else if (nHeight <= 1)
+        asErrors.add(PbnTools.getStr("error.noContractHeightLB", sLastBid));
+      else {
+        setContractHeight(nHeight);
+        setContractColor(nColor);
+        setContractDouble(nDouble);
+        setDeclarer(nDecl);
+      }
+    }
+
+    if (asErrorsC != null)
+      asErrorsC.addAll(asErrors);
+    return asErrors.size() == 0;
+  } //}}}
+  
   protected int countPlayedCards() //{{{
   {
     int cCards = 0;
