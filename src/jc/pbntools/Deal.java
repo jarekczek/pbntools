@@ -392,10 +392,10 @@ public class Deal implements Cloneable {
           } catch (NumberFormatException nfe) {
             nHeight = -1;
           }
-          nColor = Card.color(bid.m_sBid.charAt(0));
+          nColor = Card.color(bid.m_sBid.charAt(1));
           nParty = party(nPlayer);
-          if (anFirst[5*nColor + nParty] == -1)
-            anFirst[5*nColor + nParty] = nPlayer;
+          if (anFirst[2*nColor + nParty] == -1)
+            anFirst[2*nColor + nParty] = nPlayer;
         }
       }
       nPlayer = nextPerson(nPlayer);
@@ -414,7 +414,7 @@ public class Deal implements Cloneable {
         setContractHeight(nHeight);
         setContractColor(nColor);
         setContractDouble(nDouble);
-        setDeclarer(anFirst[5*nColor + nParty]);
+        setDeclarer(anFirst[2*nColor + nParty]);
       }
     }
 
