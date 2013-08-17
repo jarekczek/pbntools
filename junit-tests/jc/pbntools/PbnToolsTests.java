@@ -21,11 +21,13 @@ package jc.pbntools;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.FileWriter;
 import java.io.PrintStream;
 import java.io.Writer;
 import jc.f;
 import jc.pbntools.download.BboTourDownloader;
+import jc.pbntools.download.DownloadFailedException;
 import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
 import jc.pbntools.download.ParyTourDownloader;
@@ -179,5 +181,53 @@ void makePbnNakedAsFromBash(File file)
     fOrig2,
     new File(fTempDir, "PCH1003/pch1003.pbn"));
 } //}}}
+
+class FileFilterByExt implements FilenameFilter
+{
+  private String sExt;
+  
+  /** Give the extension together with a dot */
+  FileFilterByExt(String sExt)
+  {
+    this.sExt = sExt;
+  }
+  
+  public boolean accept(File dir, String name)
+  {
+    return (name.endsWith(sExt));
+  }
+}
+
+protected void LinToPbnConvertTestForDir(String sDirIn, String sDirOut)
+  throws java.io.FileNotFoundException, java.io.IOException,
+         DownloadFailedException
+{
+  new File(sDirOut).mkdir();
+  PbnTools.m_props.setProperty("workDir", sDirOut);
+  File afPbnFiles[] = new File(sDirIn + "/..")
+    .listFiles(new FileFilterByExt(".pbn"));
+  assertEquals("number of pbn files in the input directory",
+    1, afPbnFiles.length);
+  File fPbn0 = afPbnFiles[0];
+  String sFile2 = sDirOut + "/" + "20784109.pbn";
+  PbnTools.convert(sDirIn + "/20784109.lin", null, false);
+  
+  // need to remove some contents from the tournament file
+  String sCont = f.readFile(fPbn0+"");
+  sCont = sCont.replaceAll("\\[Event.*[\r\n]+", "");
+  sCont = sCont.replaceAll("\\[Date.*[\r\n]+", "");
+  File fPbn1 = new File(new File(sDirOut), "stripped.pbn");
+  f.writeToFile(sCont, fPbn1);
+  
+  FileAssert.assertEquals("lin to pbn", fPbn1, new File(sFile2));
+}
+
+@Test public void LinToPbnConvertTest()
+  throws java.io.FileNotFoundException, java.io.IOException,
+         DownloadFailedException
+{
+  LinToPbnConvertTestForDir("test/test_6_bbo_skyclub_20130810/SKY_CLUB_2196_Pairs_SKY_CLUB_JACKPOT_2000",
+    "work/junit-tmp/lin_to_pbn");
+}
 
 }
