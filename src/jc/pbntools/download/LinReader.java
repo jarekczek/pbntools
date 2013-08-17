@@ -23,6 +23,7 @@ package jc.pbntools.download;
 
 import java.io.FileWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -305,6 +306,16 @@ public class LinReader implements DealReader
       }
       sLastComm = sComm;
     }
+
+    // contract must be deduced from auction
+    ArrayList<String> asErrors = new ArrayList<String>();
+    d.setContractFromAuction(asErrors);
+    if (asErrors.size() > 0) {
+      m_sp.addLine(PbnTools.getStr("lin.error.noContract"));
+      for (String sMsg: asErrors)
+        m_sp.addLine("  " + sMsg);
+    }
+    
     return new Deal[] { d };
   } //}}}
   
