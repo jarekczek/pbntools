@@ -255,6 +255,7 @@ public class Deal implements Cloneable {
   public void setScoring(String sScoring) { m_sScoring = sScoring; }
   public String getScoring() { return m_sScoring; }
   public void setResult(int nResult) { m_nResult = nResult; }
+  public int getResult() { return m_nResult; }
   
   /** Places a single card into a hand. After all cards are set,
     * <code>fillHands</code> must be called. */
@@ -433,15 +434,16 @@ public class Deal implements Cloneable {
   
   // arePlaysOk method {{{
   /** Part of {@link #isOk} checks. */
-  protected void arePlaysOk() {
+  protected boolean arePlaysOk() {
+    boolean bOk = true;
     int cCards = countPlayedCards();
     
     // guess nothing to do without cards
-    if (cCards == 0) return;
+    if (cCards == 0) return true;
 
     if (m_nDeclarer < 0 && cCards > 0) {
       m_asErrors.add(PbnTools.getStr("error.pbn.playsButNoDeclarer", cCards));
-      return;
+      return false;
     }
     
     for (int nTrick = 1; nTrick <= 13; nTrick++) {
@@ -450,13 +452,71 @@ public class Deal implements Cloneable {
         nPerson = Deal.nextPerson(nPerson);
         Card card = m_aPlays[(nTrick-1)*4 + nPerson];
         if (card == null) continue;
-        if (getCardHolder(card) != nPerson)
+        if (getCardHolder(card) != nPerson) {
           m_asErrors.add(PbnTools.getStr("error.pbn.wrongPlay", card,
             personChar(nPerson)));
+          bOk = false;
+        }
         cCards++;
       }
     }
+    
+    return bOk;
+  } //}}}
 
+  // setResultFromPlays method {{{
+  /**
+   * @param asErrors Errors that occurred will be added to this list.
+   *        Can be <code>null</code>.
+   * @return <code>true</code> if succeeded.
+   */
+  public boolean setResultFromPlays(ArrayList<String> asErrorsC)
+  {
+    ArrayList<String> asErrors = new ArrayList<String>();
+    if (!arePlaysOk()) return false;
+    // count of tricks for parties
+    int[] acTricks = new int[2];
+    if (getDeclarer() < 0 || getContractHeight() < 0) return false;
+    if (countPlayedCards() != 52) return false;
+
+    int nWinner = nextPerson(getDeclarer());
+    int nTrump = getContractColor();
+    for (int nTrick = 1; nTrick <= 13; nTrick++) {
+      // cards for each player
+      Card[] aCards = new Card[4];
+      int nPerson = getDeclarer();
+      for (int iCard = 0; iCard < 4; iCard++) {
+        nPerson = Deal.nextPerson(nPerson);
+        Card card = m_aPlays[(nTrick-1)*4 + nPerson];
+        aCards[nPerson] = card;
+      }
+      
+      nPerson = nWinner;
+      Card winCard = aCards[nWinner];
+      if (f.isDebugMode())
+        System.out.println("trick is started with " + winCard
+          + " by " + personChar(nPerson));
+      for (int iCard = 0; iCard < 4; iCard++) {
+        nPerson = nextPerson(nPerson);
+        if (winCard.isLessThan(aCards[nPerson], nTrump)) {
+          nWinner = nPerson;
+          winCard = aCards[nPerson];
+          if (f.isDebugMode())
+            System.out.println("trick is intercepted by "
+              + personChar(nWinner) + " with " + winCard);
+        }
+      }
+      if (f.isDebugMode())
+        System.out.println("trick winner: " + personChar(nWinner));
+      acTricks[party(nWinner)]++;
+    }
+
+    assert(acTricks[0] + acTricks[1] == 13);
+    setResult(acTricks[party(getDeclarer())]);
+
+    if (asErrorsC != null)
+      asErrorsC.addAll(asErrors);
+    return asErrors.size() == 0;
   } //}}}
 
   // isOk method {{{
