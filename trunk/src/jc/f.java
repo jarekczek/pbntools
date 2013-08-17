@@ -93,6 +93,8 @@ public class f {
     return nOld;
   }
   // }}}
+  
+  public static int getDebugLevel() { return nDebugLevel; }
     
   public static boolean stringIn(String s, String as[]) { //{{{
     int i;

@@ -493,7 +493,7 @@ public class Deal implements Cloneable {
       
       nPerson = nWinner;
       Card winCard = aCards[nWinner];
-      if (f.isDebugMode())
+      if (f.getDebugLevel() > 1)
         System.out.println("trick is started with " + winCard
           + " by " + personChar(nPerson));
       for (int iCard = 0; iCard < 4; iCard++) {
@@ -501,12 +501,12 @@ public class Deal implements Cloneable {
         if (winCard.isLessThan(aCards[nPerson], nTrump)) {
           nWinner = nPerson;
           winCard = aCards[nPerson];
-          if (f.isDebugMode())
+          if (f.getDebugLevel() > 1)
             System.out.println("trick is intercepted by "
               + personChar(nWinner) + " with " + winCard);
         }
       }
-      if (f.isDebugMode())
+      if (f.getDebugLevel() > 1)
         System.out.println("trick winner: " + personChar(nWinner));
       acTricks[party(nWinner)]++;
     }
