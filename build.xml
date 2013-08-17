@@ -568,6 +568,7 @@
       <classpath refid="runClasspath" />
       <classpath path="${basedir}/work/PbnToolsTests.jar" />
       <classpath refid="ivy.path" />
+      <jvmarg value="-ea" />
     </junit>
   </presetdef>
   <delete dir="work/junit-tmp" quiet="true" />

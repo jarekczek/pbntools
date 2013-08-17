@@ -25,13 +25,20 @@ import java.io.FilenameFilter;
 import java.io.FileWriter;
 import java.io.PrintStream;
 import java.io.Writer;
+import jc.SoupProxy;
+import jc.JCException;
 import jc.f;
+import jc.outputwindow.StandardSimplePrinter;
 import jc.pbntools.download.BboTourDownloader;
 import jc.pbntools.download.DownloadFailedException;
 import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
+import jc.pbntools.download.LinReader;
 import jc.pbntools.download.ParyTourDownloader;
 import junitx.framework.FileAssert;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -198,9 +205,25 @@ class FileFilterByExt implements FilenameFilter
   }
 }
 
+class FileFilterNameMask implements FilenameFilter
+{
+  private String sMask;
+  
+  /** Give the extension together with a dot */
+  FileFilterNameMask(String sMask)
+  {
+    this.sMask = sMask;
+  }
+  
+  public boolean accept(File dir, String name)
+  {
+    return (name.matches(sMask));
+  }
+}
+
 protected void LinToPbnConvertTestForDir(String sDirIn, String sDirOut)
   throws java.io.FileNotFoundException, java.io.IOException,
-         DownloadFailedException
+         DownloadFailedException, JCException
 {
   new File(sDirOut).mkdir();
   PbnTools.m_props.setProperty("workDir", sDirOut);
@@ -209,8 +232,31 @@ protected void LinToPbnConvertTestForDir(String sDirIn, String sDirOut)
   assertEquals("number of pbn files in the input directory",
     1, afPbnFiles.length);
   File fPbn0 = afPbnFiles[0];
-  String sFile2 = sDirOut + "/" + "20784109.pbn";
-  PbnTools.convert(sDirIn + "/20784109.lin", null, false);
+  PbnFile pbnFile = new PbnFile();
+  LinReader dr = new LinReader();
+  dr.setOutputWindow(new StandardSimplePrinter());
+  
+  File tourneyHtmlFile = new File(sDirIn)
+    .listFiles(new FileFilterNameMask(".*tourney.*.html"))[0];
+  SoupProxy proxy = new SoupProxy();
+  Document mainDoc = proxy.getDocument(tourneyHtmlFile.toString());
+  Elements ele = mainDoc.select("a:contains(Board)");
+  for (Element e: ele) {
+    File travFile = new File(f.decodeUrl(SoupProxy.absUrl(e, "href")));
+    
+    Document travDoc = proxy.getDocument(travFile.toString());
+    Elements ele2 = travDoc.select("a:matches(Lin)");
+    for (Element e2: ele2) {
+      String sLinFile = SoupProxy.absUrl(e2, "href");
+      System.out.println(sLinFile);
+      assert(dr.verify(sLinFile, !f.isDebugMode()));
+      Deal[] deals = dr.readDeals(sLinFile, false); // bSilent
+      pbnFile.addDeals(deals);
+    }
+  }
+
+  String sNewPbnFile = sDirOut + "/" + "20784109.pbn";
+  pbnFile.save(sNewPbnFile);
   
   // need to remove some contents from the tournament file
   String sCont = f.readFile(fPbn0+"");
@@ -219,12 +265,12 @@ protected void LinToPbnConvertTestForDir(String sDirIn, String sDirOut)
   File fPbn1 = new File(new File(sDirOut), "stripped.pbn");
   f.writeToFile(sCont, fPbn1);
   
-  FileAssert.assertEquals("lin to pbn", fPbn1, new File(sFile2));
+  FileAssert.assertEquals("lin to pbn", fPbn1, new File(sNewPbnFile));
 }
 
 @Test public void LinToPbnConvertTest()
   throws java.io.FileNotFoundException, java.io.IOException,
-         DownloadFailedException
+         DownloadFailedException, JCException
 {
   f.setDebugLevel(1);
   LinToPbnConvertTestForDir("test/test_6_bbo_skyclub_20130810/SKY_CLUB_2196_Pairs_SKY_CLUB_JACKPOT_2000",
