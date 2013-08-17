@@ -583,6 +583,15 @@
   </junitpreset>
 </target>
 
+<target name="junit-single" depends="junit-prereq" >
+  <!-- helper target to run a single test -->
+  <junitpreset showoutput="true">
+    <test name="jc.pbntools.PbnToolsTests"
+          methods="LinToPbnConvertTest" />
+    <formatter type="plain" usefile="false" />
+  </junitpreset>
+</target>
+
 <target name="junit-www" depends="junit-prereq">
   <!-- makes tests that require local www server with test content
        tests with www inside should be available at http://localhost/pbntools
