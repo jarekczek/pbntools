@@ -316,6 +316,17 @@ public class LinReader implements DealReader
         m_sp.addLine("  " + sMsg);
     }
     
+    if (d.getResult() < 0 && d.getContractHeight() > 0) {
+      // the result must be deduced from plays
+      asErrors.clear();
+      d.setResultFromPlays(asErrors);
+      if (asErrors.size() > 0) {
+        m_sp.addLine(PbnTools.getStr("lin.error.noContract"));
+        for (String sMsg: asErrors)
+          m_sp.addLine("  " + sMsg);
+      }
+    }
+    
     return new Deal[] { d };
   } //}}}
   
@@ -324,7 +335,10 @@ public class LinReader implements DealReader
   {
     assert(m_doc != null);
     String sLin = m_doc.text();
-    return readLin(sLin, bSilent);
+    Deal[] deals = readLin(sLin, bSilent);
+    for (Deal d: deals)
+      d.setId(f.getFileName(sUrl));
+    return deals;
   } //}}}
 
   // verify method {{{

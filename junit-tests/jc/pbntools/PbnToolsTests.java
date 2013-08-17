@@ -226,6 +226,7 @@ protected void LinToPbnConvertTestForDir(String sDirIn, String sDirOut)
   throws java.io.FileNotFoundException, java.io.IOException,
          DownloadFailedException
 {
+  f.setDebugLevel(1);
   LinToPbnConvertTestForDir("test/test_6_bbo_skyclub_20130810/SKY_CLUB_2196_Pairs_SKY_CLUB_JACKPOT_2000",
     "work/junit-tmp/lin_to_pbn");
 }

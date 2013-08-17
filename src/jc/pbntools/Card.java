@@ -213,4 +213,22 @@ public class Card implements Comparable<Card>, Cloneable {
   public int compareTo(Card c) {
     return new Integer(this.getCode()).compareTo(c.getCode());
   }
+  
+  // isLessThan method {{{
+  /**
+   * Compares cards, knowing trick and trump color.
+   * Card being compare (<code>this</code>) should be the current winning
+   * card of the trick, so it's not possible for it to be in non-trump color
+   * other than the color of the trick.
+   * @param nTrump <code>0</code> for NT.
+   */
+  public boolean isLessThan(Card c2, int nTrump)
+  {
+    // a trump over non-trump card
+    if (getColor() != nTrump && c2.getColor() == nTrump)
+      return true;
+    if (c2.getColor() != getColor())
+      return false;
+    return getRank() < c2.getRank();
+  } //}}}
 }
