@@ -200,6 +200,20 @@ public class Deal implements Cloneable {
     return nPerson;
   }
 
+  // party method {{{
+  /** Returns <code>N</code>, <code>E</code> or <code>-1</code> -
+   *  the party of the given player. */
+  public int party(int nPlayer)
+  {
+    if (nPlayer == N || nPlayer == S)
+      return N;
+    else if (nPlayer == E || nPlayer == W)
+      return E;
+    else
+      return -1;
+  }
+  
+  
   public void setIdentField(String sField, String sValue) {
     String sFieldNorm = m_mIdentFieldNames.get(sField.toUpperCase());
     if (sFieldNorm == null) {
@@ -344,6 +358,9 @@ public class Deal implements Cloneable {
   public boolean setContractFromAuction(ArrayList<String> asErrorsC)
   {
     ArrayList<String> asErrors = new ArrayList<String>();
+    // the first player to bid the given color for the given party
+    int[] anFirst = new int[5*2];
+    Arrays.fill(anFirst, -1);
     if (!areBidsOk()) return false;
     if (getDealer() < 0) return false;
     int cPass = 0;
@@ -351,7 +368,7 @@ public class Deal implements Cloneable {
     int nHeight = 0;
     int nColor = -1;
     int nPlayer = getDealer();
-    int nDecl = -1;
+    int nParty = -1;
     String sLastBid = "";
     Pattern pat = Pattern.compile("([1-7])([CDHS]|(NT))");
     for (Bid bid: m_aBids) {
@@ -368,7 +385,6 @@ public class Deal implements Cloneable {
           m.matches();
           assert(m.matches());
           sLastBid = bid.m_sBid;
-          nDecl = nPlayer;
           nDouble = 0;
           try {
             nHeight = Integer.parseInt(m.group(1));
@@ -376,6 +392,9 @@ public class Deal implements Cloneable {
             nHeight = -1;
           }
           nColor = Card.color(bid.m_sBid.charAt(0));
+          nParty = party(nPlayer);
+          if (anFirst[5*nColor + nParty] == -1)
+            anFirst[5*nColor + nParty] = nPlayer;
         }
       }
       nPlayer = nextPerson(nPlayer);
@@ -394,7 +413,7 @@ public class Deal implements Cloneable {
         setContractHeight(nHeight);
         setContractColor(nColor);
         setContractDouble(nDouble);
-        setDeclarer(nDecl);
+        setDeclarer(anFirst[5*nColor + nParty]);
       }
     }
 
