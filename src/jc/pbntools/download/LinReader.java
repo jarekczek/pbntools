@@ -105,6 +105,14 @@ public class LinReader implements DealReader
       throw new DownloadFailedException(
         PbnTools.getStr("error.incNumberNames", asPlayers.length, sPlayers),
         m_sp, !m_bSilent);
+      
+    // what is described as GIB in bbo viewer, inside the file is coded
+    // somehow
+    for (int i=0; i<asPlayers.length; i++) {
+      if (asPlayers[i].equals("~~M59370"))
+        asPlayers[i] = "GiB";
+    }
+    
     deal.setIdentField("South",asPlayers[0]); 
     deal.setIdentField("West",asPlayers[1]); 
     deal.setIdentField("North",asPlayers[2]); 
