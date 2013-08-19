@@ -586,8 +586,9 @@
 
 <target name="junit-single" depends="junit-prereq" >
   <!-- helper target to run a single test -->
-  <junitpreset showoutput="true">
+  <junitpreset showoutput="true" >
     <test name="jc.pbntools.PbnToolsTests"
+          outfile="work/junit-tmp/test_single"
           methods="LinToPbnConvertTest" />
     <formatter type="plain" usefile="false" />
   </junitpreset>
