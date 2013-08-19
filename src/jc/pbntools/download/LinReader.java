@@ -335,6 +335,10 @@ public class LinReader implements DealReader
       }
     }
     
+    // when no result, don't show the contract either
+    if (d.getResult() < 0)
+      d.setContractHeight(-1);
+    
     return new Deal[] { d };
   } //}}}
   
