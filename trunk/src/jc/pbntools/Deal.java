@@ -840,6 +840,8 @@ public class Deal implements Cloneable {
    *  does not write anything. */
   public void writeContract(Writer w) throws java.io.IOException
   {
+    if (m_nDeclarer < 0)
+      return;
     String sContract = "";
     if (m_nContractHeight < 0)
       return;
@@ -854,6 +856,7 @@ public class Deal implements Cloneable {
       if (m_nContractDouble > 0)
         sContract += ( m_nContractDouble == 1 ? "X" : "XX" );
     }
+    writeField(w, "Declarer", "" + personChar(m_nDeclarer));
     writeField(w, "Contract", sContract);
   } //}}}
     
@@ -968,8 +971,6 @@ public class Deal implements Cloneable {
 
     if (getScoring() != null)
       writeField(w, "Scoring", getScoring());
-    if (m_nDeclarer >= 0)
-      writeField(w, "Declarer", "" + personChar(m_nDeclarer));
     writeContract(w);
     writeResult(w);
     writeAuction(w);
