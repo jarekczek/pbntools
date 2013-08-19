@@ -255,14 +255,15 @@ protected void LinToPbnConvertTestForDir(String sDirIn, String sDirOut)
     }
   }
 
-  String sNewPbnFile = sDirOut + "/" + "20784109.pbn";
+  String sNewPbnFile = sDirOut + "/" + f.getFileNameNoExt(sDirIn) + ".pbn";
   pbnFile.save(sNewPbnFile);
   
   // need to remove some contents from the tournament file
   String sCont = f.readFile(fPbn0+"");
   sCont = sCont.replaceAll("\\[Event.*[\r\n]+", "");
   sCont = sCont.replaceAll("\\[Date.*[\r\n]+", "");
-  File fPbn1 = new File(new File(sDirOut), "stripped.pbn");
+  File fPbn1 = new File(new File(sDirOut),
+    f.getFileNameNoExt(sDirIn) + "_stripped.pbn");
   f.writeToFile(sCont, fPbn1);
   
   FileAssert.assertEquals("lin to pbn", fPbn1, new File(sNewPbnFile));

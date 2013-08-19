@@ -408,7 +408,7 @@ public class Deal implements Cloneable {
     } else {
       if (nColor < 0)
         asErrors.add(PbnTools.getStr("error.noContractColorLB", sLastBid));
-      else if (nHeight <= 1)
+      else if (nHeight < 1)
         asErrors.add(PbnTools.getStr("error.noContractHeightLB", sLastBid));
       else {
         setContractHeight(nHeight);
