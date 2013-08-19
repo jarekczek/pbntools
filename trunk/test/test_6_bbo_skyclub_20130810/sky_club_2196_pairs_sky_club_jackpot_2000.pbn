@@ -119,6 +119,20 @@ Pass Pass X Pass
 3D Pass Pass 3NT
 Pass Pass X Pass
 Pass Pass
+[Play "N"]
+D6 D4 D5 DJ
+H6 C2 CA CQ
+D2 DT DA DK
+D7 DQ D3 H2
+SA SK S2 S3
+D9 S4 C5 C6
+D8 C4 - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
 [DealId "20784108.lin"]
 
 [Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
@@ -785,6 +799,20 @@ HK H9 DJ C9
 1H Pass 1S Pass
 2H Pass 3C Pass
 4H Pass Pass Pass
+[Play "S"]
+S4 S2 SJ SA
+H3 S7 HT HA
+H4 S8 HJ H9
+C2 C4 CA C3
+C5 C7 C8 CK
+D2 S9 HQ H8
+- - S3 H2
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
+- - - -
 [DealId "20784128.lin"]
 
 [Event "SKY CLUB #2196 Pairs * SKY CLUB * JACKPOT 2000 $"]
