@@ -423,7 +423,7 @@ public class Deal implements Cloneable {
     return asErrors.size() == 0;
   } //}}}
   
-  protected int countPlayedCards() //{{{
+  public int countPlayedCards() //{{{
   {
     int cCards = 0;
     for(int iCard = 0; iCard < 52; iCard++) {

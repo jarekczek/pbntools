@@ -412,9 +412,10 @@ public class BboTourDownloader extends HtmlTourDownloader
         // At this moment we have both contract (taken from traveller) and
         // plays (from lin). But it can happen that the play is judged
         // without contract (N/A) and the plays are present in the file.
-        // This is kind of contradiction, so let's remove play in such cases
-        if (d.getDeclarer() < 0)
-          d.clearPlays();
+        // This is kind of contradiction, but since the plays are in the
+        // lin file, let's leave it here too. Thus commenting line below.
+        // if (d.getDeclarer() < 0)
+          // d.clearPlays();
 
         if (!d.isOk()) {
           reportErrors(d.getErrors());
