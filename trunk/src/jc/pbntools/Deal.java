@@ -401,7 +401,7 @@ public class Deal implements Cloneable {
       nPlayer = nextPerson(nPlayer);
     }
     
-    if (cPass != 3 || (cPass == 4 && m_aBids.size() != 4))
+    if (cPass != 3 && !(cPass == 4 && m_aBids.size() == 4))
       asErrors.add(PbnTools.getStr("error.noOfPasses", 3, cPass));
     else if (cPass == 4) {
       setContractHeight(0);
