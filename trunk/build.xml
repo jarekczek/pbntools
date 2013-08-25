@@ -589,7 +589,7 @@
   <junitpreset showoutput="true" >
     <test name="jc.pbntools.PbnToolsTests"
           outfile="work/junit-tmp/test_single"
-          methods="LinToPbnConvertTest" />
+          methods="pobierzBboTest8" />
     <formatter type="plain" usefile="false" />
   </junitpreset>
 </target>
