@@ -284,7 +284,8 @@ protected void LinToPbnConvertTestForDir(String sDirIn, String sDirOut)
     f.getFileNameNoExt(sDirIn) + "_stripped.pbn");
   f.writeToFile(sCont, fPbn1);
   
-  FileAssert.assertEquals("lin to pbn", fPbn1, new File(sNewPbnFile));
+  String sDesc = "lin to pbn\n" + fPbn1 + "\n" + sNewPbnFile + "\n";
+  FileAssert.assertEquals(sDesc, fPbn1, new File(sNewPbnFile));
 }
 
 @Test public void LinToPbnConvertTest()
