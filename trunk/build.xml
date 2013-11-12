@@ -562,7 +562,7 @@
 
 <target name="junit-prereq" depends="ivy-libs, junit-jar, jar" >
   <presetdef name="junitpreset">
-    <junit fork="yes" haltonfailure="yes" timeout="10000" showoutput="false"
+    <junit fork="yes" haltonfailure="yes" timeout="30000" showoutput="false"
       outputtoformatters="true">
       <formatter type="plain" usefile="true" />
       <classpath refid="runClasspath" />
