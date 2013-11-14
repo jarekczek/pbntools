@@ -323,6 +323,10 @@ public class LinReader implements DealReader
       for (String sMsg: asErrors)
         m_sp.addLine("  " + sMsg);
     }
+
+    // passed out - result can be deduced :)
+    if (d.getContractHeight() == 0)
+      d.setResult(0);
     
     if (d.getResult() < 0 && d.getContractHeight() > 0) {
       // the result must be deduced from plays
