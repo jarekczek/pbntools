@@ -283,6 +283,9 @@ protected void LinToPbnConvertTestForDir(String sDirIn, String sDirOut)
   String sCont = f.readFile(fPbn0+"");
   sCont = sCont.replaceAll("\\[Event.*[\r\n]+", "");
   sCont = sCont.replaceAll("\\[Date.*[\r\n]+", "");
+  // When lin reader reads a lin file, it uses SoupProxy for that.
+  // SoupProxy reduces multiple whitespaces, so we better do that too.
+  sCont = sCont.replaceAll(" +", " ");
   File fPbn1 = new File(new File(sDirOut),
     f.getFileNameNoExt(sDirIn) + "_stripped.pbn");
   f.writeToFile(sCont, fPbn1);
