@@ -89,7 +89,10 @@ static void pobierzTestHelper(HtmlTourDownloader der,
   System.setProperty("jc.debug", "0");
   PbnTools.m_props.setProperty("workDir", fTempDir.toString());
   PbnTools.downTour(sHtmlFile, der, false);
-  FileAssert.assertEquals("Resulting pbn files",
+  String sDesc = "Resulting pbn files differ:\n";
+  sDesc += "  " + sPbnFileTemplate + "\n";
+  sDesc += "  " + new File(fTempDir, sPbnFileTest) + "\n";
+  FileAssert.assertEquals(sDesc,
     new File(sPbnFileTemplate),
     new File(fTempDir, sPbnFileTest));
 }
