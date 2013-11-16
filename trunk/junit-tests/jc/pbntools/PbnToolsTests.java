@@ -124,7 +124,7 @@ static void pobierzTestHelper(HtmlTourDownloader der,
     new BboTourDownloader(),
     "test/test_6_bbo_skyclub_20130810" +
       "/SKY_CLUB_2196_Pairs_SKY_CLUB_JACKPOT_2000" +
-      "/hands.php?tourney=2196-1376162040-&offset=0.html",
+      "/hands.php%3Ftourney=2196-1376162040-&offset=0.html",
     "test/test_6_bbo_skyclub_20130810" +
       "/sky_club_2196_pairs_sky_club_jackpot_2000.pbn",
     "SKY_CLUB_2196_Pairs_SKY_CLUB_JACKPOT_2000" +
@@ -138,7 +138,7 @@ static void pobierzTestHelper(HtmlTourDownloader der,
     new BboTourDownloader(),
     "test/test_8_bbo_wronie_20130824" +
       "/Wronie_9533_Pairs_2720_PRZYJACIELE_WRONIA" +
-      "/hands.php?tourney=9533-1377369061-&offset=0.html",
+      "/hands.php%3Ftourney=9533-1377369061-&offset=0.html",
     "test/test_8_bbo_wronie_20130824" +
       "/wronie_9533_pairs_2720_przyjaciele_wronia.pbn",
     "Wronie_9533_Pairs_2720_PRZYJACIELE_WRONIA" +
