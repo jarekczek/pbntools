@@ -23,4 +23,4 @@ mkdir -p tur_kops_example
 cd tur_kops_example
 tur=http://www.slzbs.pl/protokoly//01/chorzow/11/PCH1003/index.html
 tur=http://www.slzbs.pl/protokoly//01/chorzow/13/SM0807/index.html
-wget -p -k -nH -r -l 2 -w 2 --random-wait -N $tur
+wget -p -k -nH -r -l 2 -w 2 --random-wait --restrict-file-names=windows -N $tur

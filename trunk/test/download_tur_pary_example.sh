@@ -31,7 +31,7 @@ data=130801
 data=130808
 wars=http://warsbrydz.pl/wyniki/wob
 wget -p -k -nH -nd -r -l 3 -w 1 --random-wait -e robots=off \
-  --no-parent -R "H-*.html,*WYN.html" \
+  --no-parent --restrict-file-names=windows -R "H-*.html,*WYN.html" \
   -N $wars/WB$data/W-wb$data.html
 
 shopt -s extglob

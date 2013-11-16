@@ -435,7 +435,8 @@ abstract public class HtmlTourDownloader
   protected void wgetLinks(String sLinksFile)
     throws DownloadFailedException
   {
-    String sCmdLine = "wget -p -k -nH -nd -nc --random-wait -E -e robots=off";
+    String sCmdLine = "wget -p -k -nH -nd -nc --random-wait -E -e "
+      + "robots=off --restrict-file-names=windows";
     if (m_remoteUrl.toString().indexOf("localhost") < 0)
       sCmdLine += " -w 1";
     ArrayList<String> asCmdLine = new ArrayList<String>(

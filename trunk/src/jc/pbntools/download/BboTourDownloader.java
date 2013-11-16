@@ -83,6 +83,8 @@ public class BboTourDownloader extends HtmlTourDownloader
       throw new DownloadFailedException(
         PbnTools.getStr("error.noAttr", "href", "a"), m_ow, false);
     // wget does not convert & and ? to %xx, so we need the decoded url
+    // TODO: on windows it does it with ?, and I just added --restrict switch
+    // so Windows behaviour will always be applied. Probably this breaks now.
     return f.decodeUrl(sLink);
   } //}}}
   
