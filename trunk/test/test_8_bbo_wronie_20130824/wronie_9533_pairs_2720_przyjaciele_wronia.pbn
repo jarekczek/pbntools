@@ -9659,39 +9659,6 @@ D8 ST DQ DJ
 [DealId "28189686.lin"]
 
 [Event "Wronie #9533 Pairs 2720 PRZYJACIELE WRONIA"]
-[Date "2013-08-24 19:27"]
-[Board "8"]
-[West "kaefo1"]
-[North "ryjkowaty"]
-[East "yowisz"]
-[South "fkzyw2"]
-[Dealer "W"]
-[Vulnerable "None"]
-[Deal "W:AQ.AJ2.AJ3.AKQT3 K87.875.865.J764 T9642.Q43.74.985 J53.KT96.KQT92.2"]
-[Declarer "W"]
-[Contract "3NT"]
-[Result "8"]
-[Auction "W"]
-1C Pass 1D X
-XX Pass 1S Pass
-3NT Pass Pass Pass
-[Play "N"]
-H7 H3 H9 HJ
-C4 C5 C2 CA
-C7 C8 D2 CQ
-C6 C9 D9 CK
-CJ S2 S5 C3
-H5 HQ HK H2
-H8 H4 H6 HA
-D8 D4 DT D3
-D6 - HT DJ
-- - - -
-- - - -
-- - - -
-- - - -
-[DealId "28189687.lin"]
-
-[Event "Wronie #9533 Pairs 2720 PRZYJACIELE WRONIA"]
 [Date "2013-08-24 19:14"]
 [Board "8"]
 [West "deyaca"]
@@ -14703,40 +14670,6 @@ CT C9 DQ CJ
 [DealId "28189805.lin"]
 
 [Event "Wronie #9533 Pairs 2720 PRZYJACIELE WRONIA"]
-[Date "2013-08-24 19:47"]
-[Board "11"]
-[West "jj48"]
-[North "yowisz"]
-[East "haryf"]
-[South "kaefo1"]
-[Dealer "S"]
-[Vulnerable "None"]
-[Deal "S:K532.5.QT9873.KQ .J972.A654.J7632 A876.QT843.J.T84 QJT94.AK6.K2.A95"]
-[Declarer "S"]
-[Contract "4SX"]
-[Result "3"]
-[Auction "S"]
-Pass Pass 1H X
-1S 2C Pass 3NT
-4D X 4S X
-Pass Pass Pass
-[Play "W"]
-C7 C4 CA CQ
-C3 S6 SQ SK
-DA DJ D2 D3
-C2 C8 C9 CK
-H2 HT HK H5
-D4 SA SJ S2
-H7 H3 HA DQ
-D5 S7 ST S3
-H9 - S9 S5
-- - - -
-- - - -
-- - - -
-- - - -
-[DealId "28189809.lin"]
-
-[Event "Wronie #9533 Pairs 2720 PRZYJACIELE WRONIA"]
 [Date "2013-08-24 19:23"]
 [Board "12"]
 [West "biew"]
@@ -19566,40 +19499,6 @@ H8 HT HK H5
 - - - -
 - - - -
 [DealId "28189970.lin"]
-
-[Event "Wronie #9533 Pairs 2720 PRZYJACIELE WRONIA"]
-[Date "2013-08-24 20:10"]
-[Board "15"]
-[West "BMX"]
-[North "banamar"]
-[East "walkos"]
-[South "rys57"]
-[Dealer "S"]
-[Vulnerable "NS"]
-[Deal "S:AJ.K76.763.T9873 KT8762.A52.42.AJ Q53.J983.Q985.Q4 94.QT4.AKJT.K652"]
-[Declarer "W"]
-[Contract "4S"]
-[Result "10"]
-[Auction "S"]
-Pass 1S Pass 2C
-Pass 2S Pass 2NT
-Pass 3S Pass 4S
-Pass Pass Pass
-[Play "N"]
-D9 DA D6 D2
-S3 S4 SJ SK
-S5 S9 SA S2
-C4 C2 C7 CA
-D5 DT D3 D4
-D8 DK D7 H2
-DQ DJ C3 S6
-H3 H4 H6 HA
-- - - -
-- - - -
-- - - -
-- - - -
-- - - -
-[DealId "28189972.lin"]
 
 [Event "Wronie #9533 Pairs 2720 PRZYJACIELE WRONIA"]
 [Date "2013-08-24 19:30"]
