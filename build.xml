@@ -84,6 +84,11 @@
   <mkdir dir="${basedir}/work/prever" />
   <delete quiet="true" dir="${basedir}/work/release" />
   <mkdir dir="${basedir}/work/release" />
+  <delete>
+    <fileset dir="${basedir}/doc"
+      includes="*.4ct *.4tc *.dvi *.idv *.lg *.log *.out *.tmp *.toc *.xref"
+    />
+  </delete>
 </target>
 
 <target name="preverify" depends="comp">
