@@ -42,6 +42,7 @@
 <property name="doxygen" value="doxygen" />
 <property name="launch4jJar" location="/usr/local/lib/launch4j/launch4j.jar" />
 <property name="latex2html" value="latex2html" />
+<property name="latex2htmlOpts" value="-split 0 -nonavigation -address &quot;&quot; -noinfo -show_section_numbers -html_version 4.0,latin2,unicode" />
 <property name="jsoupVersion" value="1.7.1" />
 
 <property name="compDir" location="${basedir}/work/comp" />
@@ -694,14 +695,17 @@
 
 <target name="doc-for-suffix-2" depends="ivy-libs" unless="docUpToDate">
   <fail message="suffix not set"><condition><not><isset property="suffix"/></not></condition></fail>
-  <copy todir="${tmp}"><fileset dir="doc" includes="autoDefs.tex help_common.tex" /></copy>
+  <copy todir="${tmp}">
+    <fileset dir="doc" includes="autoDefs.tex help_common.tex help_${suffix}.tex" />
+  </copy>
   <exec executable="latex" failonerror="true">
     <arg line="-output-format=pdf -output-directory=${tmp} doc/help_${suffix}.tex"/>
   </exec>
-  <property name="latex2htmlOpts" value="-dir ${tmp} -split 0 -nonavigation -address &quot;&quot; -noinfo -show_section_numbers" />
-  <copy todir="${basedir}/doc"><fileset dir="${tmp}" includes="help_${suffix}.aux autoDefs.aux"/></copy>
-  <exec executable="${latex2html}" failonerror="true" dir="doc" >
-    <arg line="${latex2htmlOpts} -html_version 4.0,latin2,unicode help_${suffix}.tex"/>
+  <copy todir="${basedir}/doc">
+    <fileset dir="${tmp}" includes="help_${suffix}.aux autoDefs.aux"/>
+  </copy>
+  <exec executable="${latex2html}" failonerror="true" dir="${tmp}" >
+    <arg line="${latex2htmlOpts} help_${suffix}.tex"/>
   </exec>
 
   <!-- there's a latex error in http:// parsing, slashes are gone, correcting with sed -->
