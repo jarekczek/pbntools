@@ -422,7 +422,7 @@ public class f {
     }
   } //}}}
 
-  // decodeUrl method //{{{
+  // decodeUrl methods //{{{
   /**
    * Uses URLDecoder to convert percent escapes to regular characters.
    */
@@ -435,5 +435,23 @@ public class f {
       // Actually it is not thrown, even with incorrect encoding name
       throw new RuntimeException(e);
     }
+  }
+
+  /**
+   * Uses URLDecoder to convert percent escapes to regular characters,
+   * but leaves reserved chars encoded, i.e. ?
+   */
+  public static String decodeUrlRes(String sUrl)
+  {
+    String sRes = sUrl;
+    try {
+      sRes = URLDecoder.decode(sUrl, "UTF-8");
+    }
+    catch (java.io.UnsupportedEncodingException e) {
+      // Actually it is not thrown, even with incorrect encoding name
+      throw new RuntimeException(e);
+    }
+    sRes = sRes.replaceAll("\\?", "%3F");
+    return sRes;
   } //}}}
 }

@@ -263,8 +263,7 @@ protected void LinToPbnConvertTestForDir(String sDirIn, String sDirOut)
   Document mainDoc = proxy.getDocument(tourneyHtmlFile.toString());
   Elements ele = mainDoc.select("a:contains(Board)");
   for (Element e: ele) {
-    File travFile = new File(f.decodeUrl(SoupProxy.absUrl(e, "href")));
-    
+    File travFile = new File(f.decodeUrlRes(SoupProxy.absUrl(e, "href")));
     Document travDoc = proxy.getDocument(travFile.toString());
     Elements ele2 = travDoc.select("a:matches(Lin)");
     for (Element e2: ele2) {
