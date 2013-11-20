@@ -24,6 +24,8 @@ package jc;
 import java.net.URL;
 import java.io.File;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -230,9 +232,17 @@ public class SoupProxy
       return "";
     String sLink = node.absUrl(sAttrName);
     assert(sLink != null);
-    // jsoup doesn't give a good abs url for file locations, so workarounding
     if (sLink.length() == 0) {
-      sLink = getBaseUrl(node.baseUri()) + sRelativeLink;
+      String sBaseUri = node.baseUri();
+      
+      // In case of Windows file this uri is not base, but it's a complete
+      // filename.
+      Matcher m = Pattern.compile("(.*)\\\\[^\\\\]+\\.html?")
+        .matcher(sBaseUri);
+      if (m.matches())
+        sBaseUri = m.group(1) + "\\";
+      
+      sLink = sBaseUri + sRelativeLink;
     }
     return sLink;
   } //}}}

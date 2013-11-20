@@ -585,6 +585,8 @@
   <junitpreset>
     <test name="jc.fTests"
           outfile="work/junit-tmp/test_log_f" />
+    <test name="jc.SoupProxyTests"
+          outfile="work/junit-tmp/test_log_soup" />
     <test name="jc.pbntools.PbnToolsTests"
           outfile="work/junit-tmp/test_log_local" />
   </junitpreset>
