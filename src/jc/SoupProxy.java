@@ -235,12 +235,12 @@ public class SoupProxy
     if (sLink.length() == 0) {
       String sBaseUri = node.baseUri();
       
-      // In case of Windows file this uri is not base, but it's a complete
+      // In case of a file this uri is not base, but it's a complete
       // filename.
-      Matcher m = Pattern.compile("(.*)\\\\[^\\\\]+\\.html?")
+      Matcher m = Pattern.compile("(.*)([\\\\/])[^\\\\/]+\\.html?")
         .matcher(sBaseUri);
       if (m.matches())
-        sBaseUri = m.group(1) + "\\";
+        sBaseUri = m.group(1) + m.group(2);
       
       sLink = sBaseUri + sRelativeLink;
     }
