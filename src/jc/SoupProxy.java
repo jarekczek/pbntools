@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -81,7 +82,9 @@ public class SoupProxy
   {
     Document doc = null;
     try {
-      doc = Jsoup.connect(""+url).get();
+      Connection con = Jsoup.connect(""+url);
+      con.userAgent("SoupProxy");
+      doc = con.get();
     }
     catch (java.lang.Exception e) {
       throw new SoupProxy.Exception(e);
