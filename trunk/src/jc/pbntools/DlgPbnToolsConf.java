@@ -1,6 +1,6 @@
 /* *****************************************************************************
 
-    Copyright (C) 2011 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
+    Copyright (C) 2011-13 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
   public static ResourceBundle m_res;
   protected JTextField m_ebWorkDir;
   protected JTextField m_ebZbarcamOpts;
+  protected JTextField m_ebUserAgent;
 
   public DlgPbnToolsConf(javax.swing.JFrame parent, boolean modal) {
     super(parent, PbnTools.m_res.getString("configDlg.title"), modal);
@@ -74,6 +75,13 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
     stZbarcamOpts.setLabelFor(m_ebZbarcamOpts);
     m_ebZbarcamOpts.setText(PbnTools.m_props.getProperty("zbarcamOpts"));
     
+    JLabel stUserAgent = new JLabel();
+    f.setTextAndMnem(stUserAgent, PbnTools.getRes(), "config.userAgent");
+    m_ebUserAgent = new JTextField();
+    m_ebUserAgent.setColumns(40);
+    stUserAgent.setLabelFor(m_ebUserAgent);
+    m_ebUserAgent.setText(PbnTools.m_props.getProperty("userAgent"));
+
     lay.setVerticalGroup(
       lay.createSequentialGroup()
         .addComponent(stWorkDir)
@@ -83,6 +91,8 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
         )
         .addComponent(stZbarcamOpts)
         .addComponent(m_ebZbarcamOpts)
+        .addComponent(stUserAgent)
+        .addComponent(m_ebUserAgent)
         .addGroup(
           lay.createParallelGroup()
             .addComponent(pbSave)
@@ -100,6 +110,10 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
         .addGroup(lay.createParallelGroup()
           .addComponent(stZbarcamOpts)
           .addComponent(m_ebZbarcamOpts)
+          )
+        .addGroup(lay.createParallelGroup()
+          .addComponent(stUserAgent)
+          .addComponent(m_ebUserAgent)
           )
         )
         .addGroup(lay.createSequentialGroup()
@@ -133,6 +147,8 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
       if (!verifyData()) { return; }
       PbnTools.m_props.setProperty("workDir", m_ebWorkDir.getText());
       PbnTools.m_props.setProperty("zbarcamOpts", m_ebZbarcamOpts.getText());
+      PbnTools.m_props.setProperty("userAgent", m_ebUserAgent.getText());
+      PbnTools.propertiesChanged();
       dispose();
     }
   }

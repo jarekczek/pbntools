@@ -1,6 +1,6 @@
 /* *****************************************************************************
 
-    Copyright (C) 2011 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
+    Copyright (C) 2011-13 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -382,6 +382,7 @@ public class PbnTools {
         new FileInputStream(m_sPropsFile), "ISO-8859-1"));
       m_bPropsRead = true;
       f.trace(1, "Properties read from file " + m_sPropsFile);
+      propertiesChanged();
     }
     catch (java.io.FileNotFoundException e) { m_bPropsRead = true; }
     catch (IOException e) { System.out.println(m_res.getString("props.load.error") + ": " + e.toString()); }
@@ -410,6 +411,16 @@ public class PbnTools {
     }
     catch (IOException e) { System.out.println(m_res.getString("props.save.error") + ": " + e.toString()); } 
     System.out.println("koniec");
+  }
+
+  /** Updates runtime settings after a change or loading of
+   *  properties. */
+  public static void propertiesChanged()
+  {
+    String sAgent = m_props.getProperty("userAgent", "");
+    if (sAgent.isEmpty())
+      sAgent = "PbnTools/" + getStr("wersja");
+    System.setProperty("jc.soupproxy.useragent", sAgent);
   }
 
   // Convert class {{{

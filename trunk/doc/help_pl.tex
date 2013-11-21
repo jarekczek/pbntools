@@ -303,8 +303,18 @@ to znaczy gracz N to "jeden", E to "dwa" itd.
   Dziêki temu mo¿na wskazaæ urz±dzenie video, je¿eli jest ich w systemie wiêcej, np.:
   \verb!/dev/video1!. Domy¶lnym urz±dzeniem jest urz±dzenie nr 0, czyli pierwsze.
   Pe³na lista opcji dla zbarcam dostêpna jest w pliku {\em zbarcam.html}.
+\item[User agent]
+  {\em User agent} to tekst, którym przedstawia siê przegl±darka internetowa
+  serwerowi, z którym siê ³±czy, np. \verb!Firefox/25.0!.
+  Wersja PbnTools poni¿ej 1.2.0 przedstawia³a siê jako \verb!Java!, a to
+  powodowa³o, ¿e niektóre serwery nie zezwala³y na po³±czenie, b³±d 403.
+  Od wersji 1.2.0 domy¶lny tekst {\em User agent} to PbnTools/1.2.0.
+  Dzieje siê tak, gdy parametr jest pusty. Je¿eli wpiszemy tu jaki¶
+  tekst to, bêdzie on u¿yty zamiast PbnTools i numeru wersji.
+  To tak na wszelki wypadek, gdyby serwery rozmy¶lnie lub przypadkiem
+  blokowa³y PbnTools.
 
-\end{description}
+                              \end{description}
 %}}}
 
 \subsection{Opcje linii poleceñ} \label{commLine} %{{{
