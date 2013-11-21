@@ -698,6 +698,7 @@
 </target>
 
 <target name="doc-for-suffix-2" depends="ivy-libs" unless="docUpToDate">
+  <local name="opts2" />
   <fail message="suffix not set"><condition><not><isset property="suffix"/></not></condition></fail>
   <copy todir="${tmp}">
     <fileset dir="doc" includes="autoDefs.tex help_common.tex help_${suffix}.tex" />
@@ -708,8 +709,11 @@
   <copy todir="${basedir}/doc">
     <fileset dir="${tmp}" includes="help_${suffix}.aux autoDefs.aux"/>
   </copy>
+  <condition property="opts2" value="-dir ${tmp}" else="">
+    <os family="unix"/>
+  </condition>
   <exec executable="${latex2html}" failonerror="true" dir="${tmp}" >
-    <arg line="${latex2htmlOpts} help_${suffix}.tex"/>
+    <arg line="${latex2htmlOpts} ${opts2} help_${suffix}.tex"/>
   </exec>
 
   <!-- there's a latex error in http:// parsing, slashes are gone, correcting with sed -->
