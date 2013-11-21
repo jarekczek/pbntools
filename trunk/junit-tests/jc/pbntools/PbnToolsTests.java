@@ -84,10 +84,12 @@ static void pobierzTestHelper(HtmlTourDownloader der,
   String sHtmlFile, String sPbnFileTemplate,
   String sPbnFileTest)
 {
-  File fTempDir = new File("work/junit-tmp");
+  File fTempDir = new File("work/junit-tmp").getAbsoluteFile();
   fTempDir.mkdir();
+  assertTrue("fTempDir (" + fTempDir.getAbsolutePath()
+    + ") should already be a directory", fTempDir.isDirectory());
   System.setProperty("jc.debug", "0");
-  PbnTools.m_props.setProperty("workDir", fTempDir.toString());
+  PbnTools.m_props.setProperty("workDir", fTempDir.getAbsolutePath());
   PbnTools.downTour(sHtmlFile, der, false);
   String sDesc = "Resulting pbn files differ:\n";
   sDesc += "  " + sPbnFileTemplate + "\n";
