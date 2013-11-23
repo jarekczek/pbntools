@@ -774,7 +774,8 @@ abstract public class HtmlTourDownloader
   {
     if ("%".equals(sScoring)) {
       deal.setScoring("MP");
-    } else if ("PUNKTY".equals(sScoring)) {
+    } else if ("PUNKTY".equals(sScoring)
+               || "IMP".equals(sScoring)) {
       deal.setScoring("IMP");
     } else
       return false;
