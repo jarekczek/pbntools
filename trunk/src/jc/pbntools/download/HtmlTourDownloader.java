@@ -766,6 +766,21 @@ abstract public class HtmlTourDownloader
     deal.fillHands();
   } //}}}
 
+  // setScoringJfr method {{{
+  /** Sets scoring in <code>deal</code> based on
+      coding <code>sScoring</code>provided by JFR formats.
+      Returns <code>true</code> if scoring was recognized. */
+  protected boolean setScoringJfr(Deal deal, String sScoring)
+  {
+    if ("%".equals(sScoring)) {
+      deal.setScoring("MP");
+    } else if ("PUNKTY".equals(sScoring)) {
+      deal.setScoring("IMP");
+    } else
+      return false;
+    return true;
+  } //}}}
+
   //}}} JFR methods
 
 }
