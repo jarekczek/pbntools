@@ -25,21 +25,24 @@
 
 mkdir -p tur_pary_example
 cd tur_pary_example
-# data=120802 - deal 10 - TD and PASS
-data=120802
-data=130801
 data=130808
 wars=http://warsbrydz.pl/wyniki/wob
+link=$wars/WB$data/W-wb$data.html
+link=http://www.pzbs.pl/wyniki/turnieje/2013/131108szczyrk/W-impy.html
+short=${link##*/}
+short=${short#W-}
+short=${short%%.htm*}
+base=${link%/*}
 wget -p -k -nH -nd -r -l 3 -w 1 --random-wait -e robots=off \
   --no-parent --restrict-file-names=windows -R "H-*.html,*WYN.html" \
-  -N $wars/WB$data/W-wb$data.html
+  -N $link
 
 shopt -s extglob
 shopt -s nullglob
 shopt -s nocaseglob
-for p in WB$data[0-9]*.html; do
+for p in $short[0-9]*.html; do
   sleep 2
   t=${p%.html}.txt
-  wget $wars/WB$data/$t
+  wget $base/$t
   sed -i 's|images/||g' $t
 done
