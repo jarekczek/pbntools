@@ -2,7 +2,7 @@
 
     jedit options: :folding=explicit:tabSize=2:indentSize=2:noTabs=true:
 
-    Copyright (C) 2011 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
+    Copyright (C) 2011-13 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -372,12 +372,10 @@ public class ParyTourDownloader extends HtmlTourDownloader
         }
       }
     }
-    if ("%".equals(sScoring)) {
-      deal.setScoring("MP");
-    } else {
-      if (PbnTools.getVerbos() > 0) {
-        println("Unknown scoring header: " + sScoring);
-      }
+    if (!setScoringJfr(deal, sScoring)
+        && PbnTools.getVerbos() > 0) {
+      m_ow.addLine(PbnTools.getStr("tourDown.error.unknownScoring",
+        deal.getNumber(), sScoring));
     }
   } //}}}
 
