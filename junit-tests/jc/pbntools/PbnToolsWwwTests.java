@@ -69,4 +69,14 @@ private static PrintStream origOut;
     "ACBL_1607_Pairs_ACBL_Sat_1pm_Speedball/acbl_1607_pairs_acbl_sat_1pm_speedball.pbn");
 }
 
+@Test public void pobierzParyWwwTest9()
+  throws java.io.FileNotFoundException, java.io.IOException
+{
+  PbnToolsTests.pobierzTestHelper(
+    new ParyTourDownloader(),
+    "http://localhost/pbntools/test_9_pary_www_szczyrk_20131108/131108szczyrk/W-impy.html",
+    "test/test_9_pary_www_szczyrk_20131108/131108szczyrk.pbn",
+    "131108szczyrk/131108szczyrk.pbn");
+}
+
 }
