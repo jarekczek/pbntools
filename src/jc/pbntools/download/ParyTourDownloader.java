@@ -406,10 +406,10 @@ public class ParyTourDownloader extends HtmlTourDownloader
         bValidContract = false;
       }
       
-      // if ("TD".equals(tds.get(3).text())) {
+      if (bValidContract && "TD".equals(tds.get(3).text())) {
         // rozdanie bez wyniku
-        // bValidContract = false;
-      // }
+        bValidContract = false;
+      }
       if (bValidContract) {
         Deal d = deal0.clone();
         d.setIdentField("North", "Para-" + tds.get(1).text());
