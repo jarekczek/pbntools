@@ -90,7 +90,7 @@ public class ParyTourDownloader extends HtmlTourDownloader
   protected void getNumberOfDeals(Document doc, boolean bSilent)
     throws DownloadFailedException {
     String sFrameTag = "frameset > frame[name=lewa]";
-    String sExpectedSrc = m_sDirName.toLowerCase() + "001.html";
+    String sExpectedSrc = f.getFileNameNoExt(m_sLink) + "001.html";
     Element frame = getOneTag(doc, sFrameTag, false);
     if (frame == null) {
       throw new DownloadFailedException(
