@@ -435,13 +435,18 @@ abstract public class HtmlTourDownloader
   protected void wgetLinks(String sLinksFile)
     throws DownloadFailedException
   {
+    int nDelay = PbnTools.m_nDelay;
+    if (m_remoteUrl.toString().indexOf("localhost") >= 0)
+      nDelay = 0;
     String sCmdLine = "wget -p -k -nH -nd -nc -E -e "
       + "robots=off --restrict-file-names=windows";
     if (System.getProperty("jc.soupproxy.useragent") != null)
       sCmdLine += " --user-agent="
                   + System.getProperty("jc.soupproxy.useragent");
-    if (m_remoteUrl.toString().indexOf("localhost") < 0)
-      sCmdLine += " -w 1";
+    if (nDelay > 0) {
+      sCmdLine += " -w " + nDelay;
+      f.sleepUnint(1000 * nDelay);
+    }
     ArrayList<String> asCmdLine = new ArrayList<String>(
       Arrays.asList(sCmdLine.split(" ")));
     asCmdLine.add("--directory-prefix=" + m_sLocalDir);

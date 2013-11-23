@@ -422,6 +422,19 @@ public class f {
     }
   } //}}}
 
+  // str2Int method  //{{{
+  /**
+   * Converts string to int, using a default in case of error.
+   */
+  public static int str2Int(String s, int nDefault)
+  {
+    int nRes = nDefault;
+    try {
+      nRes = Integer.parseInt(s);
+    } catch (Exception e) {}
+    return nRes;
+  } //}}}
+
   // decodeUrl methods //{{{
   /**
    * Uses URLDecoder to convert percent escapes to regular characters.

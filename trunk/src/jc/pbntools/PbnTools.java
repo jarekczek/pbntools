@@ -57,6 +57,8 @@ import org.jsoup.nodes.Element;
 public class PbnTools {
   static String m_sCurDir;
   static String m_sBinDir;
+  /** www requests delay, always in <1, 1000> */
+  public static int m_nDelay;
   public static boolean bLinux;
   public static boolean bWindows;
   static DlgPbnToolsMain m_dlgMain;
@@ -328,6 +330,11 @@ public class PbnTools {
                  || args[i].equals("--help") || args[i].equals("/?")) {
         printUsage();
         System.exit(0);
+      } else if (args[i].equals("-delay")) {
+        ++i;
+        if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
+        m_props.setProperty("delay", args[i]);
+        propertiesChanged();
       } else if (args[i].equals("-dtb")) {
         m_bRunMainDialog = false;
         ++i;
@@ -382,11 +389,10 @@ public class PbnTools {
         new FileInputStream(m_sPropsFile), "ISO-8859-1"));
       m_bPropsRead = true;
       f.trace(1, "Properties read from file " + m_sPropsFile);
-      propertiesChanged();
     }
     catch (java.io.FileNotFoundException e) { m_bPropsRead = true; }
     catch (IOException e) { System.out.println(m_res.getString("props.load.error") + ": " + e.toString()); }
-    setVerbos(f.getIntProp(m_props, "verbosity", 0));
+    propertiesChanged();
     
     parseCommandLine(args);
 
@@ -421,6 +427,14 @@ public class PbnTools {
     if (sAgent.isEmpty())
       sAgent = "PbnTools/" + getStr("wersja");
     System.setProperty("jc.soupproxy.useragent", sAgent);
+
+    m_nDelay = f.str2Int(m_props.getProperty("delay"), 2);
+    if (m_nDelay < 1)
+      m_nDelay = 1;
+    if (m_nDelay > 1000)
+      m_nDelay = 1000;
+
+    setVerbos(f.getIntProp(m_props, "verbosity", 0));
   }
 
   // Convert class {{{

@@ -181,6 +181,13 @@ respectively for {\em N, E, S, W}. %'
   A video device may be specified this way as e.g. \verb!/dev/video1!.
   Default (first) device has number 0.
   Full options list is available in file {\em zbarcam.html}.
+\item[User agent]
+  User agent parameter for www requests. An empty string is equivalent of
+  {\em PbnTools/version}.
+\item[www delay]
+  A delay between consecutive www requests, in seconds.
+  Minimum: 1. For Bbo the value of 3 is suggested,
+  otherwise 503 errors may appear in download log.
 
 \end{description}
 

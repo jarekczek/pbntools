@@ -55,4 +55,11 @@ public class fTests
       }
 }
 
+@Test public void str2IntTest()
+{
+  assertEquals(f.str2Int(null, 2), 2);
+  assertEquals(f.str2Int("-1", 0), -1);
+  assertEquals(f.str2Int("a", 1), 1);
+}
+
 }

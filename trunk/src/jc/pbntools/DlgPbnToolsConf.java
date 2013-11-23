@@ -37,6 +37,18 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
   protected JTextField m_ebWorkDir;
   protected JTextField m_ebZbarcamOpts;
   protected JTextField m_ebUserAgent;
+  protected JTextField m_ebDelay;
+
+  //{{{ verifiers
+  public class DelayVerifier extends InputVerifier {
+    @Override
+    public boolean verify(JComponent ctrl)
+    {
+      int nVal = f.str2Int(((JTextField)ctrl).getText(), 0);
+      return nVal > 0 && nVal <= 1000;
+    }
+  }
+  //}}}
 
   public DlgPbnToolsConf(javax.swing.JFrame parent, boolean modal) {
     super(parent, PbnTools.m_res.getString("configDlg.title"), modal);
@@ -82,6 +94,14 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
     stUserAgent.setLabelFor(m_ebUserAgent);
     m_ebUserAgent.setText(PbnTools.m_props.getProperty("userAgent"));
 
+    JLabel stDelay = new JLabel();
+    f.setTextAndMnem(stDelay, PbnTools.getRes(), "config.delay");
+    m_ebDelay = new JTextField();
+    m_ebDelay.setColumns(40);
+    stDelay.setLabelFor(m_ebDelay);
+    m_ebDelay.setText(String.valueOf(PbnTools.m_nDelay));
+    m_ebDelay.setInputVerifier(new DelayVerifier());
+
     lay.setVerticalGroup(
       lay.createSequentialGroup()
         .addComponent(stWorkDir)
@@ -93,6 +113,8 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
         .addComponent(m_ebZbarcamOpts)
         .addComponent(stUserAgent)
         .addComponent(m_ebUserAgent)
+        .addComponent(stDelay)
+        .addComponent(m_ebDelay)
         .addGroup(
           lay.createParallelGroup()
             .addComponent(pbSave)
@@ -115,6 +137,10 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
           .addComponent(stUserAgent)
           .addComponent(m_ebUserAgent)
           )
+        .addGroup(lay.createParallelGroup()
+          .addComponent(stDelay)
+          .addComponent(m_ebDelay)
+          )
         )
         .addGroup(lay.createSequentialGroup()
           .addComponent(pbSave)
@@ -129,6 +155,10 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
   boolean verifyData() {
     if (m_ebWorkDir.getText().indexOf(' ') >= 0) {
       f.msg(PbnTools.m_res.getString("error.workDirSpaces"));
+      return false;
+    }
+    if (!m_ebDelay.getInputVerifier().verify(m_ebDelay)) {
+      f.msg(PbnTools.m_res.getString("config.delay.invalid"));
       return false;
     }
     return true;
@@ -148,6 +178,7 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
       PbnTools.m_props.setProperty("workDir", m_ebWorkDir.getText());
       PbnTools.m_props.setProperty("zbarcamOpts", m_ebZbarcamOpts.getText());
       PbnTools.m_props.setProperty("userAgent", m_ebUserAgent.getText());
+      PbnTools.m_props.setProperty("delay", m_ebDelay.getText());
       PbnTools.propertiesChanged();
       dispose();
     }
