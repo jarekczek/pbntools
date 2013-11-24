@@ -565,7 +565,6 @@ abstract public class HtmlTourDownloader
       sLocalFile += ".html";
     // wget is run with --restrict-file-names=windows and it is
     // documented that : -> +, ? -> @
-    sLocalFile = sLocalFile.replaceAll(":", "+");
     sLocalFile = sLocalFile.replaceAll("\\?", "@");
     return sLocalFile;
   }
