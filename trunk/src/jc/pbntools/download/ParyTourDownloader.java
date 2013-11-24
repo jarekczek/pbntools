@@ -393,9 +393,10 @@ public class ParyTourDownloader extends HtmlTourDownloader
       // bêdziemy czytaæ
       boolean bValidContract = false;
       // valid deals have pair numbers in columns 1 and 2
+      // Individuels have xx-yy as pair numbers.
       if (tds.size() >= 8
-          && tds.get(1).text().matches("[0-9]+")
-          && tds.get(2).text().matches("[0-9]+")) {
+          && tds.get(1).text().matches("[-0-9]+")
+          && tds.get(2).text().matches("[-0-9]+")) {
         bValidContract = true;
       }
       // columns 7 and 8 contain plain result in contract points
