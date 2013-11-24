@@ -79,4 +79,14 @@ private static PrintStream origOut;
     "131108szczyrk/131108szczyrk.pbn");
 }
 
+@Test public void pobierzBboWwwTest10()
+  throws java.io.FileNotFoundException, java.io.IOException
+{
+  PbnToolsTests.pobierzTestHelper(
+    new BboTourDownloader(),
+    "http://localhost/pbntools/test_10_bbo_www_annamar_1538_php/hands.php?tourney=1538-1385205517-&offset=0",
+    "test/test_10_bbo_www_annamar_1538_php/annamar_1538_pairs_untitled.pbn",
+    "annamar_1538_Pairs_Untitled/annamar_1538_pairs_untitled.pbn");
+}
+
 }
