@@ -1,0 +1,10 @@
+This test was obtained as follows:
+- start downloading using pbntools
+  http://www.bridgebase.com/myhands/hands.php?tourney=1538-1385205517-
+  and stop once wget starts
+- launch wget command copied from download output, e.g.
+  wget -p -k -nH -nd -nc -E -e robots=off \
+  --restrict-file-names=windows --user-agent=PbnTools/1.1.0 \
+  -w 3 --directory-prefix=/tmp/annamar_1538_Pairs_Untitled \
+  --input-file=test/test_10_bbo_www_annamar_1538_php/links.txt
+- hands.php file was created manually

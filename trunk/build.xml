@@ -597,9 +597,9 @@
 <target name="junit-single" depends="junit-prereq" >
   <!-- helper target to run a single test -->
   <junitpreset showoutput="true" >
-    <test name="jc.pbntools.PbnToolsTests"
+    <test name="jc.pbntools.PbnToolsWwwTests"
           outfile="work/junit-tmp/test_single"
-          methods="pobierzBboTest8" />
+          methods="pobierzBboWwwTest10" />
     <formatter type="plain" usefile="false" />
   </junitpreset>
 </target>
@@ -614,6 +614,7 @@
   -->
   <echo>junit-www tests, prerequisites:</echo>
   <echo>1. serve test/*www* directories at http://localhost/pbntools</echo>
+  <echo>   (use install_www_tests.sh)</echo>
   <echo>2. turn off internet (suggestion only)</echo>
   <junitpreset timeout="20000" >
     <test name="jc.pbntools.PbnToolsWwwTests"
