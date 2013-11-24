@@ -563,6 +563,10 @@ abstract public class HtmlTourDownloader
     // so we must add this extension if absent
     if (!sLocalFile.matches(".*\\.htm(l?)"))
       sLocalFile += ".html";
+    // wget is run with --restrict-file-names=windows and it is
+    // documented that : -> +, ? -> @
+    sLocalFile = sLocalFile.replaceAll(":", "+");
+    sLocalFile = sLocalFile.replaceAll("\\?", "@");
     return sLocalFile;
   }
   
