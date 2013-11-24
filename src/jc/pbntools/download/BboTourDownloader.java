@@ -361,6 +361,8 @@ public class BboTourDownloader extends HtmlTourDownloader
   protected Deal[] readDealsFromDir(String sDir) //{{{
     throws DownloadFailedException
   {
+    if (f.isDebugMode())
+      m_ow.addLine("readDealsFromDir: " + sDir);
     ArrayList<Deal> deals = new ArrayList<Deal>();
     for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
       if (Thread.interrupted()) {
