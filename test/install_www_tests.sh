@@ -29,13 +29,13 @@ for test in test_4_kops_www_20130807 test_5_pary_www_20130808 \
             test_7_bbo_www_acbl_20130810 test_9_pary_www_szczyrk_20131108 \
             test_10_bbo_www_annamar_1538_php
 do
-  rm -rf $dest/$test
-  cp -r $test $dest
+  rm -rf "$dest/$test"
+  cp -r $test "$dest"
   if [[ ${test:0:8} == test_10_ ]]; then
     f=$test/*tourney*.html
     f=`basename $f`
     echo $f
     grep php@ $test/$f
-    sed 's/php@\(.*\).html/php\?\1/g' $test/$f >$dest/$test/$f
+    sed 's/php@\(.*\).html/php\?\1/g' $test/$f >"$dest/$test/$f"
   fi
 done
