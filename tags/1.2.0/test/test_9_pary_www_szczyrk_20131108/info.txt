@@ -1,0 +1,6 @@
+http://www.pzbs.pl/wyniki/turnieje/2013/131108szczyrk/W-impy.html
+
+Downloaded by download_tur_pary_example.sh, ajax content in txt files.
+
+Contains new frameset configuration and TD results.
+These 2 features were causing 1.1.0 to fail.

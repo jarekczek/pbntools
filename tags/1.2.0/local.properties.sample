@@ -1,0 +1,19 @@
+ftp.server=jarek.katowice.pl
+ftp.user=ftp@jarek.katowice.pl
+ftp.dir=/public_html/jcwww
+ftp.password=xxxx
+svn.user=jarekczek
+svn.pass=xxxx
+latex2html=C:\\Program Files\\MiKTeX 2.9\\miktex\\bin\\x64\\htlatex.exe
+latex2htmlOpts=
+# testArgs=-h
+# testArgs=--verbose -dt http://www.warsbrydz.pl/wyniki/gem/GE120917/index.html
+# testArgs=--verbose -dtk file:///mnt/q/jarek/lang/java/pbntools/test/test_2_kops/PCH1003/index.html
+# testArgs=--verbose -dtk http://localhost/kops/PCH1003/index.html
+# testArgs=--debug --verbose -dtp http://localhost/pbntools/pary/WB120802/W-wb120802.html
+testArgs=--verbose -dtp /mnt/q/jarek/lang/java/pbntools/test/test_1_pary/WB120802/wb120802.html
+runArgs=--debug
+# testArgs=--verbose -dtb /mnt/q/jarek/lang/java/pbntools/test/1/bbo/www.bridgebase.com/myhands/hands.php?tourney=8312-1350229712-&offset=0.html
+# testArgs=--debug
+# testArgs=/mnt/q/jarek/lang/java/pbntools/test/1/4267896.lin
+# testArgs=/mnt/q/jarek/lang/java/pbntools/test/1/bbo/www.bridgebase.com/myhands/hands.php?tourney=8312-1350229712-&offset=0.html

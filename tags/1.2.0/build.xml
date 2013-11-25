@@ -1,0 +1,766 @@
+<project name="PbnTools" default="run-test-debug"
+  xmlns:ivy="antlib:org.apache.ivy.ant" >
+
+<!-- jedit properties: :folding=explicit:noTabs=true:indentSize=2: -->
+
+<!--
+    PbnTools ant build file
+    Copyright (C) 2011-12 Jarek Czekalski <jarekczek@poczta.onet.pl>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- //{{{ global initialization -->
+<property name="ant.build.javac.target" value="1.6" />
+<property name="ant.build.javac.source" value="${ant.build.javac.target}" />
+<property file="local.properties" />
+<property environment="env" />
+<!-- PbnTools.properties contains: wersja, wersja_podkr -->
+<property file="${basedir}/src/jc/pbntools/PbnTools.properties"/>
+
+<!--these properties will be often overriden through local.properties file-->
+<!--but remember to use double backslashes under windows-->
+
+<condition property="bshJar" value="/usr/lib/jvm/bsf.jar:/usr/lib/jvm/commons-logging-1.1.1.jar:/q/instal/lang/java/bsh-2.0b4.jar" else="C:\lang\java\bsh-1.3.0.jar:C:\lang\java\bsf-2.4.0\lib\bsf.jar:C:\lang\java\commons-logging-1.1.1\commons-logging-1.1.1.jar"><os family="unix"/></condition>
+<condition property="tmp" value="/tmp" else="${env.TEMP}"><os family="unix"/></condition>
+<condition property="sedFileSep" value="/" else="\">
+  <equals arg1="${file.separator}" arg2="/" />
+</condition>
+<property name="runDir" value="${tmp}" />
+<property name="hg" value="hg" />
+<property name="sed" value="sed" />
+<property name="svn" value="svn" />
+<property name="doxygen" value="doxygen" />
+<property name="launch4jJar" location="/usr/local/lib/launch4j/launch4j.jar" />
+<property name="latex2html" value="latex2html" />
+<property name="latex2htmlOpts" value="-split 0 -nonavigation -address &quot;&quot; -noinfo -show_section_numbers -html_version 4.0,latin2,unicode" />
+<property name="jsoupVersion" value="1.7.1" />
+
+<property name="compDir" location="${basedir}/work/comp" />
+<property name="compDirTest" location="${basedir}/work/comp-test" />
+<property name="zbarTag" value="0.10" />
+<path id="compileClasspath">
+  <pathelement location="${basedir}/lib/jl1.0.1.jar" />
+  <fileset dir="${basedir}/lib" includes="jsoup*.jar" />
+</path>
+<path id="runClasspath">
+  <path refid="compileClasspath" />
+  <pathelement location="${basedir}/work/comp" />
+</path>
+
+<fileset id="fs.src" dir="${basedir}" 
+         includes="src/**/*.java build.xml doc/*.tex src/**/*.sh test/*.sh src/pbntools
+                   src/README.SRC.txt src/**/*.properties
+                   src/zbar_patches/* res/*"
+         excludes="*.marks"/>
+
+<zipfileset id="fs.release.common.1" dir="${basedir}/doc" includes="help_*.html zbarcam.html" />
+<zipfileset id="fs.release.common.2" dir="${basedir}/work/release" includes="PbnTools.jar" />
+<zipfileset id="fs.release.common.3" dir="${basedir}/lib" includes="*.jar *.txt" />
+<zipfileset id="fs.release.common.4" dir="${basedir}" includes="no_files.xxx" />
+<zipfileset id="fs.release.common.5" dir="${basedir}" includes="no_files.xxx" />
+<zipfileset id="fs.release.common.6" dir="${basedir}" includes="no_files.xxx" />
+<zipfileset id="fs.release.common.7" dir="${basedir}" includes="no_files.xxx" />
+<zipfileset id="fs.release.common.8" dir="${basedir}" includes="no_files.xxx" />
+<zipfileset id="fs.release.common.9" dir="${basedir}" includes="no_files.xxx" />
+
+<!-- //}}} -->
+
+<!-- //{{{ java targets -->
+<target name="clean">
+  <delete quiet="true" dir="${compDir}" />
+  <mkdir dir="${compDir}" />
+  <delete quiet="true" dir="${compDirTest}" />
+  <mkdir dir="${compDirTest}" />
+  <delete quiet="true" dir="${basedir}/work/prever" />
+  <mkdir dir="${basedir}/work/prever" />
+  <delete quiet="true" dir="${basedir}/work/release" />
+  <mkdir dir="${basedir}/work/release" />
+  <delete>
+    <fileset dir="${basedir}/doc"
+      includes="*.4ct *.4tc *.dvi *.idv *.lg *.log *.out *.tmp *.toc *.xref"
+    />
+  </delete>
+</target>
+
+<target name="preverify" depends="comp">
+  <exec executable="${cldc}/bin/preverify1.0">
+    <arg line="-cldc -classpath ${bootclasspaths}:${basedir}/work/comp" />
+    <arg line="-d ${basedir}/work/prever MagLab MagLabMob Plansza Pole" />
+  </exec>
+</target>
+
+<target name="comp" depends="">
+  <native2ascii encoding="windows-1250" dest="${basedir}/work/comp/jc" src="${basedir}/src/jc" includes="**/*.properties" />
+  <copy todir="${basedir}/work/comp/jc/pbntools/res">
+    <fileset dir="${basedir}/res" includes="*" />
+  </copy>
+  <javac verbose="no" classpathref="compileClasspath"
+         srcdir="${basedir}/src" destdir="${compDir}"
+         includes="**/*.java" excludes="**/pbn_nb/**/*"
+         debug="true" debuglevel="lines,vars,source"
+         encoding="windows-1250" includeantruntime="false" />
+</target>
+
+<target name="javadoc" depends="ivy-libs" >
+  <property name="javadocDir" value="${basedir}/build/javadoc" />
+  <javadoc classpathref="compileClasspath"
+           sourcepath="${basedir}/src"
+           destdir="${javadocDir}" />
+  <script manager="bsf" language="beanshell" classpathref="ivy.path"><![CDATA[
+    sDir = project.getProperty("javadocDir"); 
+    Desktop.getDesktop().open(new File(sDir, "index.html"));
+  ]]></script>
+</target>
+
+<target name="download-deps">
+  <taskdef resource="org/apache/ivy/ant/antlib.xml"
+           uri="antlib:org.apache.ivy.ant" /> 
+           <!-- classpathref="ivy.jar.path"/> -->
+  <ivy:retrieve inline="true" organisation="org.jsoup"
+                module="jsoup" type="jar" revision="${jsoupVersion}"
+                pattern="${basedir}/lib/[artifact]-[revision].[ext]"
+                log="download-only" />
+  <!-- only 1.0 on maven, we may consider switching to 1.0 
+  <ivy:retrieve inline="true" organisation="de.huxhorn.sulky"
+                module="de.huxhorn.sulky.3rdparty.jlayer" type="jar"
+                revision="1.0"
+                pattern="${basedir}/lib/[artifact]-[revision].[ext]" /> -->
+</target>
+
+<target name="ivy-libs">
+  <ivy:cachepath pathid="ivy.path" conf="build" log="download-only" />
+</target>
+
+<target name="jar" depends="comp">
+  <delete><fileset dir="${compDir}" includes="*.properties"/></delete>
+  <jar destfile="${basedir}/work/release/PbnTools.jar" basedir="${basedir}/work/comp" >
+    <!--<fileset dir="${basedir}" includes="res/*" />-->
+    <manifest>
+      <attribute name="Manifest-Version" value="1.0" />
+      <attribute name="Main-Class" value="jc.pbntools.PbnTools" />
+      <attribute name="Class-Path" value="jl1.0.1.jar jsoup-${jsoupVersion}.jar" />
+    </manifest>
+  </jar>
+</target>
+<!-- //}}} -->
+
+<!-- //{{{ run targets -->
+<target name="run-prereq" depends="comp,jar">
+  <copy todir="${runDir}">
+    <fileset dir="${basedir}/lib" includes="*.jar" />
+    <fileset dir="${basedir}/work/release" includes="PbnTools.jar" />
+  </copy>  
+  <condition property="jvmdebug" value="-Djc.debug=${jc.debug}"
+    else="-Djc.debug=0" >
+    <isset property="jc.debug" />
+  </condition>
+</target>
+
+<target name="run" depends="run-prereq">
+  <property name="gui.language" value="xx" />
+  <java jar="${runDir}/PbnTools.jar" fork="true" >
+    <jvmarg value="-Duser.language=${gui.language}" />
+    <jvmarg value="${jvmdebug}" />
+    <jvmarg value="-ea" />
+    <arg line="${runArgs}" />
+  </java>
+</target>
+
+<target name="run-pl" depends="run-prereq">
+  <property name="gui.language" value="pl" />
+  <antcall target="run" />
+</target>
+
+<target name="run-test" depends="run-prereq">
+  <!--specify testArgs in local.properties file-->
+  <property name="gui.language" value="xx" />
+  <java jar="${runDir}/PbnTools.jar" fork="true" >
+    <arg line="${testArgs}" />
+    <jvmarg value="-Duser.language=${gui.language}" />
+    <jvmarg value="${jvmdebug}" />
+    <jvmarg value="-ea" />
+  </java>
+</target>
+
+<target name="run-test-debug" depends="run-prereq">
+  <!--specify testArgs in local.properties file-->
+  <java jar="${runDir}/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=xx" />
+    <arg line="--debug ${testArgs}" />
+  </java>
+</target>
+
+<target name="run-from-linux-release" depends="set-filenames">
+  <property name="lang" value="xx" />
+  <delete quiet="true" dir="${tmp}/pbntools" />
+  <!--unzip is not good, because it does not restore permissions-->
+  <!--<unzip src="${fnReleaseZipLinux}" dest="${tmp}/pbntools" />-->
+  <mkdir dir="${tmp}/pbntools" />
+  <exec executable="7z" dir="${tmp}/pbntools" failonerror="true">
+    <arg line="x ${fnReleaseZipLinux}"/>
+  </exec>
+  <exec executable="${tmp}/pbntools/pbntools" ><arg line=""/></exec>
+  <!--<java jar="${tmp}/pbntools/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=${lang}" /> </java>-->
+</target>
+
+<target name="run-help" depends="comp,jar">
+  <java jar="work/release/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=pl" />
+    <arg line="--help" />
+  </java>
+</target>
+<!-- //}}} -->
+
+<!-- //{{{ helper targets -->
+<target name="set-filenames" depends="set-svn-rev" >
+  <property name="build.number" value="${svn.rev}" />
+  <property file="build.number" />
+  <property name="destSrcDir" value="release" />
+  <property name="fnReleaseZipLinux" value="${basedir}/release/PbnTools_${wersja_podkr}_r${build.number}_linux.zip" />
+  <property name="fnReleaseZipWindows" value="${basedir}/release/PbnTools_${wersja_podkr}_r${build.number}_win.zip" />
+  <property name="fnReleaseZipSrc" value="${basedir}/${destSrcDir}/PbnTools_${wersja_podkr}_r${build.number}_src.zip" />
+  <echo>linux release file: ${fnReleaseZipLinux}</echo>
+</target>
+
+<target name="incBuildnumberHelper">
+  <buildnumber/>
+</target>
+
+<target name="incBuildnumber" unless="buildnumberIncreased" >
+  <property name="buildnumberIncreased" value="true" />
+  <antcall target="incBuildnumberHelper" />
+  <!-- since we use svn.rev as a build number, this must be prefixed -->
+  <property file="build.number" prefix="ant" />
+</target>
+
+<target name="dontIncBuildnumer">
+  <!--prevent increasing build number-->
+  <property name="buildnumberIncreased" value="true" />
+</target>
+
+<target name="set-svn-rev" depends="ivy-libs" > <!-- {{{ -->
+  <exec executable="${svn}" outputproperty="svn.info" failonerror="true" >
+    <arg line="info" />
+  </exec>
+  <!-- <echo>${svn.info}</echo> -->
+  <script manager="bsf" language="beanshell" classpathref="ivy.path"><![CDATA[
+    import java.util.regex.*;
+    import org.apache.tools.ant.BuildException;
+    sSvnInfo = project.getProperty("svn.info");
+    Pattern p = Pattern.compile("((Wersja)|(Revision)): ([0-9]+)");
+    Matcher m = p.matcher(sSvnInfo);
+    if (m.find()) {
+      project.setProperty("svn.rev", m.group(4));
+    } else {
+      throw new BuildException("Could not find the revision " +
+                               "number in svn info.");
+    }
+  ]]></script>
+</target> <!-- }}} -->
+
+<!-- //}}} -->
+
+<!-- //{{{ zbar targets -->
+
+<target name="zbar-configure">
+  <fail message="dir not set" unless="dir" />
+  <property name="zbarConfOpts" value="" />
+  <exec executable="./configure" dir="${dir}" failonerror="true">
+    <arg line="${zbarConfOpts} --with-directshow --disable-shared --without-imagemagick --without-gtk --without-python --without-qt --without-java --enable-codes=ean,databar,code128,code93,code39,pcard"/>
+    <env key="CPPFLAGS" value="-fno-strict-aliasing" />
+  </exec>
+</target>
+
+<target name="zbar-make-doc">
+  <property name="zbarDir" location="${basedir}/lib/zbar" />
+  <property name="zbarOrigDir" location="${zbarDir}/src_orig" />
+  <property name="zbarTmp" value="${tmp}/zbar" />
+  <delete quiet="true" dir="${zbarTmp}" />
+  <exec executable="cp" failonerror="true">
+    <arg line="-r ${zbarOrigDir} ${zbarTmp}" />
+  </exec>
+  <antcall target="zbar-configure"><param name="dir" value="${zbarTmp}"/></antcall>
+  <exec executable="make" dir="${zbarTmp}" failonerror="true">
+    <arg line="docs html"/>
+  </exec>
+  <copy todir="${zbarOrigDir}"><fileset dir="${zbarTmp}" includes="doc/man/* doc/html/*" /></copy>
+  <delete quiet="true" dir="${zbarTmp}" />
+</target>
+
+<target name="zbar-props" >
+  <property name="zbarDir" location="${basedir}/lib/zbar" />
+  <property name="zbarOrigDir" location="${zbarDir}/src_orig" />
+  <condition property="zbarOrigArchAvail">
+    <available file="${zbarDir}/zbar_src_orig.tgz" />
+  </condition>
+</target>
+
+<target name="zbar-clean">
+  <delete dir="${zbarDir}" />
+  <delete file="${basedir}/doc/zbarcam.html" />
+  <delete file="${basedir}/lib/zbarcam.exe" />
+  <delete file="${basedir}/lib/zbarcam" />
+</target>
+
+<target name="zbar-download-orig" depends="zbar-props"
+                                  unless="${zbarOrigArchAvail}" >
+  <!-- current patch set prepared 2012-09-16, for zbarw rev c71f2c2d0051 -->
+  <property name="zbarRev" value="-r c71f2c2d0051" />
+  <property name="zbarRev" value="-r 0.10" />
+  <delete quiet="true" dir="${zbarDir}" />
+  <mkdir dir="${zbarOrigDir}" />
+  <exec executable="${hg}" failonerror="true">
+    <arg value="clone" />
+    <arg value="${zbarRev}" />
+    <arg value="http://hg.code.sf.net/p/zbarw/code" />
+    <arg value="${zbarOrigDir}" />
+  </exec>
+  <get src="http://sourceforge.net/projects/zbarw/files/deps/wine-1.4-zbar.tgz/download"
+       dest="${zbarDir}/wine-1.4-zbar.tgz" />
+  <untar src="${zbarDir}/wine-1.4-zbar.tgz" compression="gzip"
+         dest="${zbarOrigDir}/zbar/video" />
+  <tar destfile="${zbarDir}/zbar_src_orig.tgz" compression="gzip"
+       defaultexcludes="no" >
+    <fileset dir="${zbarOrigDir}" defaultexcludes="no" />
+  </tar>
+</target>
+
+<target name="zbar-unpack-source-orig" depends="zbar-props"
+        if="${zbarOrigArchAvail}" >
+  <untar src="${zbarDir}/zbar_src_orig.tgz" dest="${zbarOrigDir}"
+         compression="gzip" />
+</target>
+
+<target name="zbar-get-source-orig"
+        depends="zbar-props, zbar-unpack-source-orig, zbar-download-orig" />
+
+<target name="zbar-download" depends="zbar-props, zbar-get-source-orig" >
+  <mkdir dir="${zbarOrigDir}/.hg/patches" />
+  <copy todir="${zbarOrigDir}/.hg/patches">
+    <fileset dir="${basedir}/src/zbar_patches" />
+  </copy>
+  <exec executable="${hg}" dir="${zbarOrigDir}" failonerror="true" >
+    <arg line="qpush -a" />
+  </exec>
+
+  <exec executable="autoreconf" dir="${zbarOrigDir}" failonerror="true"><arg line="-&#45;install"/></exec>
+  <delete dir="${zbarOrigDir}/autom4te.cache" />
+  <delete file="${zbarOrigDir}/config/.keep" />
+  <delete dir="${zbarOrigDir}/.hg" />
+  <delete><fileset dir="${zbarOrigDir}" includes=".hg* zbar.spec.in" /></delete>
+
+  <antcall target="zbar-make-doc" />
+  <tar destfile="${zbarDir}/zbar_src_pbntools.tgz" compression="gzip" defaultexcludes="no" >
+    <fileset dir="${zbarOrigDir}" />
+  </tar>
+  <delete quiet="true" dir="${zbarOrigDir}" />
+</target>
+
+<target name="zbar-doxygen" depends="zbar-props, ivy-libs" >
+  <property name="zbarDoxyDir" value="${tmp}/zbar_doxygen" />
+  <echo file="${zbarDoxyDir}/Doxyfile">
+    OUTPUT_DIRECTORY       =${zbarDoxyDir}
+    EXTRACT_ALL            = YES
+    EXTRACT_PRIVATE        = YES
+    EXTRACT_STATIC         = YES
+    EXTRACT_LOCAL_METHODS  = YES
+    EXTRACT_ANON_NSPACES   = YES
+    INPUT                  = ${zbarOrigDir}
+    FILTER_SOURCE_FILES    = YES
+    SOURCE_BROWSER         = YES
+    RECURSIVE              = YES
+    REFERENCED_BY_RELATION = YES
+    REFERENCES_RELATION    = YES
+    REFERENCES_LINK_SOURCE = NO
+    GENERATE_LATEX         = NO
+    #EXAMPLE_PATH           = .
+  </echo>
+  <exec executable="${doxygen}" failonerror="true">
+    <arg line="${zbarDoxyDir}/Doxyfile" />
+  </exec>
+  <script manager="bsf" language="beanshell" classpathref="ivy.path">
+    java.awt.Desktop.getDesktop().open(new File(project.getProperty("zbarDoxyDir")+"/html/index.html"));
+  </script>
+</target>
+
+<target name="zbar-build-windows">
+  <antcall target="zbar-build-common">
+    <param name="zbarConfOpts" value="-&#45;build=mingw32 -&#45;host i586-mingw32msvc" />
+  </antcall>
+  <copy tofile="${basedir}/lib/zbarcam.exe" file="${zbarSrc}/zbarcam/zbarcam.exe" overwrite="true" />
+</target>
+
+<target name="zbar-build-linux">
+  <antcall target="zbar-build-common" />
+  <copy tofile="${basedir}/lib/zbarcam" file="${zbarSrc}/zbarcam/zbarcam" overwrite="true" />
+  <chmod file="${basedir}/lib/zbarcam" perm="a+x" />
+</target>
+
+<target name="zbar-build-common">
+  <property name="zbarConfOpts" value="" />
+  <delete quiet="true" dir="${zbarSrc}" />
+  <fail message="File ${zbarDir}/zbar_src_pbntools.tgz is not available.
+                 Run zbar-download target.">
+    <condition>
+      <not><available file="${zbarDir}/zbar_src_pbntools.tgz" /></not>
+    </condition>
+  </fail>
+  <untar src="${zbarDir}/zbar_src_pbntools.tgz" dest="${zbarSrc}" compression="gzip" />
+  <chmod file="${zbarSrc}/configure" perm="a+x" />
+  <antcall target="zbar-configure"><param name="dir" value="${zbarSrc}"/></antcall>
+  <exec executable="make" dir="${zbarSrc}" failonerror="true">
+    <arg line="clean"/>
+  </exec>
+  <exec executable="make" dir="${zbarSrc}" failonerror="true">
+    <arg line=""/>
+  </exec>
+</target>
+
+<target name="zbar-build" depends="" >
+  <property name="zbarDir" location="${basedir}/lib/zbar" />
+  <property name="zbarSrc" location="${zbarDir}/src_pbntools" />
+  <antcall target="zbar-build-linux" />
+  <antcall target="zbar-build-windows" />
+  <copy todir="${basedir}/doc" file="${zbarSrc}/doc/html/zbarcam.html" overwrite="true" />
+</target>
+<!-- //}}} -->
+
+<!-- //{{{ release targets -->
+<target name="release-linux">
+  <antcall target="zip-linux" />
+</target>
+
+<target name="release-windows">
+  <antcall target="launcher" />
+  <antcall target="zip-windows" />
+</target>
+
+<target name="checkFile">
+  <!--params needed: dir, lib-->
+  <property name="missingLibMsg" value="not in ${dir} directory. This file can be found in installed pbntools directory." />
+  <fail message="${lib} ${missingLibMsg}"><condition><not><available file="${dir}/${lib}" /></not></condition></fail>
+</target>
+
+<target name="checkLib">
+  <antcall target="checkFile">
+    <param name="dir" value="lib" />
+  </antcall>
+</target>
+
+<target name="release-noInc" depends="dontIncBuildnumer, release" />
+
+<target name="release" depends="incBuildnumber, jar, doc">
+  <antcall target="checkLib"><param name="lib" value="jl1.0.1.jar" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="jlayer_LICENSE.txt" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="jlayer_README.txt" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="jsoup-${jsoupVersion}.jar" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="jsoup_LICENSE.txt" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="zbarcam" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="zbarcam.exe" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="zbar_LICENSE.txt" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="wget_COPYING.txt" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="wget" /></antcall>
+  <antcall target="checkFile"><param name="lib" value="zbarcam.html" />
+                              <param name="dir" value="doc" /></antcall>
+  <antcall target="checkFile"><param name="lib" value="pik_nieb_zol.ico" />
+                              <param name="dir" value="res" /></antcall>
+  <copy todir="${basedir}/work/release"><fileset dir="${basedir}/lib" includes="*.jar *.txt" /></copy>
+  <copy todir="${basedir}/work/release"><fileset dir="${basedir}/doc" includes="*.html" /></copy>
+  <copy todir="${basedir}/work/release/bin"><fileset dir="${basedir}/lib" includes="zbarcam" /></copy>
+  <chmod dir="${basedir}/work/release/bin" perm="a+x" includes="*" />
+  <antcall target="release-linux" />
+  <antcall target="release-windows" />
+  <antcall target="zip-src">
+    <param name="destSrcDir" value="release" />
+  </antcall>
+</target>
+
+<target name="zip-linux" depends="jar, set-filenames">
+  <delete file="${fnReleaseZipLinux}" />
+  <zip destfile="${fnReleaseZipLinux}" compress="yes">
+    <zipfileset refid="fs.release.common.1" />
+    <zipfileset refid="fs.release.common.2" />
+    <zipfileset refid="fs.release.common.3" />
+    <zipfileset refid="fs.release.common.4" />
+    <zipfileset refid="fs.release.common.5" />
+    <zipfileset refid="fs.release.common.6" />
+    <zipfileset refid="fs.release.common.7" />
+    <zipfileset refid="fs.release.common.8" />
+    <zipfileset refid="fs.release.common.9" />
+    <zipfileset dir="${basedir}/work/release" includes="bin/zbarcam" filemode="755" />
+    <zipfileset dir="${basedir}/src" includes="pbntools" filemode="755" />
+  </zip>
+</target>
+
+<target name="zip-windows" depends="jar, set-filenames">
+  <delete file="${fnReleaseZipWindows}" />
+  <zip destfile="${fnReleaseZipWindows}" compress="yes">
+    <zipfileset refid="fs.release.common.1" />
+    <zipfileset refid="fs.release.common.2" />
+    <zipfileset refid="fs.release.common.3" />
+    <zipfileset refid="fs.release.common.4" />
+    <zipfileset refid="fs.release.common.5" />
+    <zipfileset refid="fs.release.common.6" />
+    <zipfileset refid="fs.release.common.7" />
+    <zipfileset refid="fs.release.common.8" />
+    <zipfileset refid="fs.release.common.9" />
+    <zipfileset dir="${basedir}/lib" includes="zbarcam.exe wget/**/*" prefix="bin" />
+    <zipfileset dir="${basedir}/work/release" includes="PbnTools.exe" prefix="" />
+  </zip>
+</target>
+
+<target name="zip-src" depends="incBuildnumber, set-filenames" >
+  <fail message="destSrcDir not set"><condition><not><isset property="destSrcDir"/></not></condition></fail>
+  <zip destfile="${fnReleaseZipSrc}" compress="yes">
+    <fileset refid="fs.src" />
+  </zip>
+</target>
+
+<target name="ftp" depends="set-filenames" >
+  <!-- set the properties in local.properties file -->
+  <property name="ftpVersion" value="${wersja_podkr}" />
+  <copy file="${fnReleaseZipWindows}" tofile="${tmp}/PbnTools_${ftpVersion}_win.zip" overwrite="yes" /> 
+  <copy file="${fnReleaseZipLinux}" tofile="${tmp}/PbnTools_${ftpVersion}_linux.zip" overwrite="yes" /> 
+  <copy file="${fnReleaseZipSrc}" tofile="${tmp}/PbnTools_${ftpVersion}_src.zip" overwrite="yes" /> 
+  <ftp server="${ftp.server}"
+   remotedir="${ftp.dir}/pbntools"
+   userid="${ftp.user}"
+   password="${ftp.password}"
+   passive="yes"
+   >
+    <fileset dir="${basedir}/doc" includes="help_*.html" />
+    <fileset dir="${tmp}" includes="PbnTools_${ftpVersion}_linux.zip
+                                    PbnTools_${ftpVersion}_win.zip
+                                    PbnTools_${ftpVersion}_src.zip" />
+    <fileset dir="${basedir}/lib/zbar/" includes="*.tgz" />
+  </ftp>
+  <echo>upload files to sourceforge manually</echo>
+</target>
+<!-- //}}} -->
+
+<!-- //{{{ junit tests -->
+
+<target name="junit-jar" depends="comp">
+  <javac verbose="no"
+         srcdir="${basedir}/junit-tests" destdir="${compDirTest}"
+         includes="**/*.java"
+         debug="true" debuglevel="lines,vars,source"
+         encoding="windows-1250" includeantruntime="false">
+    <classpath refid="compileClasspath" />
+    <classpath refid="ivy.path" />
+    <classpath><pathelement path="${compDir}"/></classpath>
+  </javac>
+  <jar destfile="${basedir}/work/PbnToolsTests.jar"
+       basedir="${basedir}/work/comp-test" >
+    <!--<fileset dir="${basedir}" includes="res/*" />-->
+  </jar>
+</target>
+
+<target name="junit" depends="junit-prereq, junit-local, junit-www" />
+
+<target name="junit-prereq" depends="ivy-libs, junit-jar, jar" >
+  <presetdef name="junitpreset">
+    <junit fork="yes" haltonfailure="yes" timeout="30000" showoutput="false"
+      outputtoformatters="true">
+      <formatter type="plain" usefile="true" />
+      <classpath refid="runClasspath" />
+      <classpath path="${basedir}/work/PbnToolsTests.jar" />
+      <classpath refid="ivy.path" />
+      <jvmarg value="-ea" />
+    </junit>
+  </presetdef>
+  <delete dir="work/junit-tmp" quiet="true" />
+  <mkdir dir="work/junit-tmp" />
+</target>
+
+<target name="junit-local" depends="junit-prereq" >
+  <junitpreset>
+    <test name="jc.fTests"
+          outfile="work/junit-tmp/test_log_f" />
+    <test name="jc.SoupProxyTests"
+          outfile="work/junit-tmp/test_log_soup" />
+    <test name="jc.pbntools.PbnToolsTests"
+          outfile="work/junit-tmp/test_log_local" />
+  </junitpreset>
+</target>
+
+<target name="junit-single" depends="junit-prereq" >
+  <!-- helper target to run a single test -->
+  <junitpreset showoutput="true" >
+    <test name="jc.pbntools.PbnToolsWwwTests"
+          outfile="work/junit-tmp/test_single"
+          methods="pobierzBboWwwTest10" />
+    <formatter type="plain" usefile="false" />
+  </junitpreset>
+</target>
+
+<target name="junit-www" depends="junit-prereq">
+  <!-- makes tests that require local www server with test content
+       tests with www inside should be available at http://localhost/pbntools
+       Www tests are important for processing that takes place between
+       fetching files from remote server and saving them locally.
+       Significant processing contains: ajaxing in Pary and
+       creating lins in bbo. Kops is added just for completeness.
+  -->
+  <echo>junit-www tests, prerequisites:</echo>
+  <echo>1. serve test/*www* directories at http://localhost/pbntools</echo>
+  <echo>   (use install_www_tests.sh)</echo>
+  <echo>2. turn off internet (suggestion only)</echo>
+  <junitpreset timeout="20000" >
+    <test name="jc.pbntools.PbnToolsWwwTests"
+          outfile="work/junit-tmp/test_log_www" />
+  </junitpreset>
+</target>
+
+<!-- //}}} -->
+
+<!-- //{{{ other targets -->
+<target name="deal-label">
+  <javac verbose="no" classpath="${basedir}" srcdir="${basedir}" destdir="${compDir}" includes="**/DealLabel.java" encoding="windows-1250" includeantruntime="false"/>
+  <java classpath="${compDir}" classname="jarekczek.pbn.DealLabel" fork="yes" />
+  <exec executable="latex" dir="/tmp" failonerror="true"><arg line="/tmp/deal.tex"/></exec>
+  <exec executable="dvips" dir="/tmp" failonerror="true"><arg line="/tmp/deal.dvi"/></exec>
+  <exec executable="ps2pdf" dir="/tmp" failonerror="true"><arg line="/tmp/deal.ps"/></exec>
+  <exec executable="xdg-open" failonerror="true"><arg line="/tmp/deal.pdf"/></exec>
+</target>
+
+<target name="launcher" depends="set-filenames, ivy-libs">
+<taskdef name="launch4j"
+   classname="net.sf.launch4j.ant.Launch4jTask"
+   classpath="${launch4jJar}" />
+<property name="launchFile" value="${basedir}/work/launch.xml" />
+
+<echo>Preparing ${launchFile}</echo>
+<echo output="${launchFile}" >&lt;?xml version="1.0" encoding="US-ASCII"?>
+  &lt;!&#45;- US-ASCII is the best encoding to avoid problem of Launch4j which
+  uses system default encoding no matter what encoding the config file
+  declare in it. Here, "best" means a common subset of system default
+  encodings on many of known OS and locales. &#45;->
+  &lt;launch4jConfig>
+    &lt;headerType>gui&lt;/headerType>
+    &lt;outfile>PbnTools.exe&lt;/outfile>
+    &lt;jar>pbntools.jar&lt;/jar>
+    &lt;dontWrapJar>true&lt;/dontWrapJar>
+    &lt;errTitle>PbnTools&lt;/errTitle>
+    &lt;downloadUrl>http://java.com/download&lt;/downloadUrl>
+    &lt;supportUrl>http://jarek.katowice.pl/pbntools&lt;/supportUrl>
+    &lt;cmdLine>&lt;/cmdLine>
+    &lt;customProcName>false&lt;/customProcName>
+    &lt;stayAlive>true&lt;/stayAlive>
+    &lt;icon>${basedir}/res/pik_nieb_zol.ico&lt;/icon>
+    &lt;jre>
+      &lt;minVersion>1.6.0&lt;/minVersion>
+    &lt;/jre>
+    &lt;versionInfo>
+      &lt;fileVersion>${wersja}.${build.number}&lt;/fileVersion>
+      &lt;txtFileVersion>${wersja}.${build.number}&lt;/txtFileVersion>
+      &lt;fileDescription>PbnTools - a bridge player's toolkit&lt;/fileDescription>
+      &lt;copyright>Copyright (C) 2010-2011 jarekczek&lt;/copyright>
+      &lt;productVersion>${wersja}.${build.number}&lt;/productVersion>
+      &lt;txtProductVersion>${wersja}.${build.number}&lt;/txtProductVersion>
+      &lt;productName>PbnTools&lt;/productName>
+      &lt;companyName>jarekczek&lt;/companyName>
+      &lt;internalName>PbnTools&lt;/internalName>
+      &lt;originalFilename>PbnTools.exe&lt;/originalFilename>
+    &lt;/versionInfo>
+  &lt;/launch4jConfig>
+</echo>
+
+<launch4j configFile="${launchFile}"
+   outfile="${basedir}/work/release/PbnTools.exe"/>
+</target>
+
+<target name="doc">
+  <echo output="doc/autoDefs.tex">
+    \newcommand{\version}{${wersja}}
+    \newcommand{\versionUnd}[1]{${wersja_podkr_latex}#1}
+  </echo>
+  <antcall target="doc-for-suffix"><param name="suffix" value="pl"/></antcall>
+  <antcall target="doc-for-suffix"><param name="suffix" value="en"/></antcall>
+</target>
+
+<target name="doc-for-suffix">
+  <echo>doc ${suffix}</echo>
+  <fail message="suffix not set"><condition><not><isset property="suffix"/></not></condition></fail>
+  <uptodate property="docUpToDate" targetfile="doc/help_${suffix}.html" >
+    <srcfiles dir="doc" includes="help_${suffix}.tex help_common.tex" />
+  </uptodate>
+  <antcall target="doc-for-suffix-2" />
+</target>
+
+<target name="doc-for-suffix-2" depends="ivy-libs" unless="docUpToDate">
+  <local name="opts2" />
+  <fail message="suffix not set"><condition><not><isset property="suffix"/></not></condition></fail>
+  <copy todir="${tmp}">
+    <fileset dir="doc" includes="autoDefs.tex help_common.tex help_${suffix}.tex" />
+  </copy>
+  <exec executable="latex" failonerror="true">
+    <arg line="-output-format=pdf -output-directory=${tmp} doc/help_${suffix}.tex"/>
+  </exec>
+  <copy todir="${basedir}/doc">
+    <fileset dir="${tmp}" includes="help_${suffix}.aux autoDefs.aux"/>
+  </copy>
+  <condition property="opts2" value="-dir ${tmp}" else="">
+    <os family="unix"/>
+  </condition>
+  <exec executable="${latex2html}" failonerror="true" dir="${tmp}" >
+    <arg line="${latex2htmlOpts} ${opts2} help_${suffix}.tex"/>
+  </exec>
+
+  <!-- there's a latex error in http:// parsing, slashes are gone, correcting with sed -->
+  <exec executable="sed" failonerror="true" >
+    <arg line="&apos;s/http:\([a-z]\)/http:\/\/\1/&apos; -i ${tmp}${sedFileSep}help_${suffix}.html"/>
+  </exec>
+  <!-- correct toc links in html -->
+  <exec executable="sed" failonerror="true" >
+    <arg line="&apos;s/HREF=&quot;help_${suffix}.html#SEC/HREF=&quot;#SEC/&apos; -i ${tmp}/help_${suffix}.html"/>
+  </exec>
+  <!-- some verb statements -->
+  <exec executable="sed" failonerror="true" >
+    <arg line="&apos;s/&lt;code&gt;/&lt;code style=&quot;display:inline&quot;&gt;/&apos; -i ${tmp}/help_${suffix}.html"/>
+  </exec>
+
+  <copy todir="${basedir}/doc"><fileset dir="${tmp}" includes="help_${suffix}.html help_${suffix}.pdf"/></copy>
+  <script manager="bsf" language="beanshell"
+          classpathref="ivy.path"><![CDATA[
+  java.awt.Desktop.getDesktop().open(new File(project.getProperty("basedir")
+                                              +"/doc/help_"+project.getProperty("suffix")+".html"));
+  ]]></script>
+</target>
+
+<target name="test" depends="comp">
+  <java classpathref="runClasspath" classname="jc.pbntools.DlgPbnToolsAbout"
+        dir="${basedir}" fork="yes" >
+    <arg value="/jarek/www/jarek/brydz/test/p05.pbn"/>
+  </java>
+</target>
+
+<target name="test-rozdaj" depends="comp">
+  <java classpath="${compDir};${basedir}/jl1.0.1.jar" classname="jc.pbntools.PlikPbn" dir="${basedir}" fork="yes" ><arg value="/jarek/www/jarek/brydz/test/p05.pbn"/> </java>
+</target>
+
+<target name="test-www-linux">
+  <delete quiet="true"><fileset dir="${tmp}" includes="PbnTools_*_linux*.zip*" /></delete>
+  <exec executable="wget" dir="${tmp}" failonerror="true">
+    <arg line="http://jarek.katowice.pl/jcwww/pbntools/PbnTools_${wersja_podkr}_linux.zip"/>
+  </exec>
+  <exec executable="7z" dir="${tmp}" failonerror="true">
+    <arg line="x PbnTools_${wersja_podkr}_linux.zip -opbntools-www"/>
+  </exec>
+  <exec executable="${tmp}/pbntools-www/pbntools"/>
+</target>
+
+<!-- //}}} -->
+
+</project>
+

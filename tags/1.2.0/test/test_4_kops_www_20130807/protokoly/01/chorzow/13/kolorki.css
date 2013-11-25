@@ -1,0 +1,14 @@
+body.all {scrollbar-track-color: #EFEFEF; background-color: #EFEFEF}
+tr.nagl {background-color: #DEDEDE}
+tr.niep {background-color: #EFEFEF}
+tr.parz {background-color: #DEDEDE}
+p,td {font-size: 10pt; font-family: Arial; font-weight: normal; color: #000000}
+h1 {font-size: 18pt; font-family: Arial; font-weight: bold; color: #000000}
+h2 {font-size: 16pt; font-family: Arial; font-weight: bold; color: #000000}
+h3 {font-size: 14pt; font-family: Arial; font-weight: bold; color: #000000}
+h4 {font-size: 11pt; font-family: Arial; font-weight: bold; color: #000000}
+small {font-size: 8pt; font-family: Arial; font-weight: normal; color: #000000}
+a:link {font-size: 10pt; font-family: Arial; font-weight: normal; text-decoration: none;color: #000080}
+a:visited {font-size: 10pt; font-family: Arial; font-weight: normal; text-decoration: none;color: #000000}
+a:hover {font-size: 10pt; font-family: Arial; font-weight: normal; text-decoration: underline; color: #000080}
+a:active {font-size: 10pt; font-family: Arial; font-weight: normal; text-decoration: underline; color: #000080}
