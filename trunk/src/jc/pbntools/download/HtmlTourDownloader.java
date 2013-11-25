@@ -32,6 +32,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -428,6 +429,16 @@ abstract public class HtmlTourDownloader
     m_setErr.clear();
   }
   
+  // delayForUrl method {{{
+  /** Get the delay [s] that should be applied to given url (string) */
+  protected int delayForUrl(String sUrl)
+  {
+    int nDelay = PbnTools.m_nDelay;
+    if (m_remoteUrl.toString().indexOf("localhost") >= 0)
+      nDelay = 0;
+    return nDelay;
+  } //}}}
+
   // wgetLinks method {{{
   /** Downloads files contained in the <code>sLinksFile</code>
    *  into <code>m_sLocalDir</code>
@@ -435,9 +446,7 @@ abstract public class HtmlTourDownloader
   protected void wgetLinks(String sLinksFile)
     throws DownloadFailedException
   {
-    int nDelay = PbnTools.m_nDelay;
-    if (m_remoteUrl.toString().indexOf("localhost") >= 0)
-      nDelay = 0;
+    int nDelay = delayForUrl(m_remoteUrl.toString());
     String sCmdLine = "wget -p -k -nH -nd -nc -E -e "
       + "robots=off --restrict-file-names=windows";
     if (System.getProperty("jc.soupproxy.useragent") != null)
@@ -526,7 +535,10 @@ abstract public class HtmlTourDownloader
   {
     try {
       URL url = new URL(sRemoteLink);
-      InputStream is = url.openStream();
+      URLConnection con = url.openConnection();
+      con.setRequestProperty("User-Agent",
+        System.getProperty("jc.soupproxy.useragent"));
+      InputStream is = con.getInputStream();
       // http://stackoverflow.com/questions/309424/in-java-how-do-i-read-convert-an-inputstream-to-a-string#5445161
       // thanks to Pavel Repin from stackoverflow for the trick:
       String sNewCont = new Scanner(is).useDelimiter("\\A").next();
@@ -577,7 +589,9 @@ abstract public class HtmlTourDownloader
   protected void ajaxFile(String sRemoteLink, boolean bWarn) throws DownloadFailedException
   {
     String sLocalFile = getLocalFile(sRemoteLink);
+    int nDelay = delayForUrl(sRemoteLink);
 
+    f.sleepUnint(1000*nDelay);
     Document docLocal = null;
     try {
       SoupProxy proxy = new SoupProxy();

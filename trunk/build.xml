@@ -45,7 +45,7 @@
 <property name="launch4jJar" location="/usr/local/lib/launch4j/launch4j.jar" />
 <property name="latex2html" value="latex2html" />
 <property name="latex2htmlOpts" value="-split 0 -nonavigation -address &quot;&quot; -noinfo -show_section_numbers -html_version 4.0,latin2,unicode" />
-<property name="jsoupVersion" value="1.7.1" />
+<property name="jsoupVersion" value="1.7.3" />
 
 <property name="compDir" location="${basedir}/work/comp" />
 <property name="compDirTest" location="${basedir}/work/comp-test" />
@@ -570,7 +570,7 @@
 
 <target name="junit-prereq" depends="ivy-libs, junit-jar, jar" >
   <presetdef name="junitpreset">
-    <junit fork="yes" haltonfailure="yes" timeout="30000" showoutput="false"
+    <junit fork="yes" haltonfailure="yes" timeout="60000" showoutput="false"
       outputtoformatters="true">
       <formatter type="plain" usefile="true" />
       <classpath refid="runClasspath" />
@@ -599,7 +599,7 @@
   <junitpreset showoutput="true" >
     <test name="jc.pbntools.PbnToolsWwwTests"
           outfile="work/junit-tmp/test_single"
-          methods="pobierzBboWwwTest10" />
+          methods="pobierzKopsWwwTest4" />
     <formatter type="plain" usefile="false" />
   </junitpreset>
 </target>
