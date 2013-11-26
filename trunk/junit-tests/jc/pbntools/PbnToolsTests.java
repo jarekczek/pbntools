@@ -47,6 +47,12 @@ public class PbnToolsTests
 
 private static PrintStream origOut;
 
+@Before public void setUp()
+  {
+    assertEquals(0, PbnTools.getVerbos());
+    assertEquals(false, f.isDebugMode());
+  }
+
 @Test public void checkUpdateTest()
              throws java.io.IOException, jc.SoupProxy.Exception
   {
@@ -270,7 +276,6 @@ protected void LinToPbnConvertTestForDir(String sDirIn, String sDirOut)
     Elements ele2 = travDoc.select("a:matches(Lin)");
     for (Element e2: ele2) {
       String sLinFile = SoupProxy.absUrl(e2, "href");
-      System.out.println(sLinFile);
       assert(dr.verify(sLinFile, !f.isDebugMode()));
       Deal[] deals = dr.readDeals(sLinFile, false); // bSilent
       pbnFile.addDeals(deals);

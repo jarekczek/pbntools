@@ -307,7 +307,6 @@ public class BboTourDownloader extends HtmlTourDownloader
         PbnTools.getStr("error.noBody"), m_ow, false);
     }
     
-    m_ow.addLine(sLocalFile);
     Elements elems = docLocal.select("a:matches(Lin)");
     if (elems.size() == 0)
       throw new DownloadFailedException(PbnTools.getStr("error.tagNotFound",
