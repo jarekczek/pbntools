@@ -134,13 +134,22 @@ abstract public class HtmlTourDownloader
   public void setLink(String sLink) {
     m_sLink = sLink;
   }
-  
+
+  // print methods {{{
   /** Allows a reader/downloader to output information during processing. */
   protected void println(String sLine)
   {
     if (m_ow != null)
       m_ow.addLine(sLine);
   }
+
+  /** Allows a reader/downloader to output information during processing. */
+  protected void print(String sText)
+  {
+    if (m_ow != null)
+      m_ow.addText(sText);
+  }
+  //}}}
 
   /** Returns the url which may be used as base url for links from inside
     * the given url. That is <code>http://aaa.com/start/</code> for both
