@@ -233,9 +233,14 @@ public class ParyTourDownloader extends HtmlTourDownloader
     if (Thread.currentThread().isInterrupted())
       return;
     
+    print(PbnTools.getStr("tourDown.msg.ajaxProgress"));
     for (int iDeal=1; iDeal<=m_cDeals; iDeal++) {
       ajaxFile(getLinkForDeal(iDeal), true);
+      print(".");
+      if (Thread.currentThread().isInterrupted())
+        return;
     }
+    println("");
   }
 
   protected Deal[] readDealsFromDir(String sDir)
