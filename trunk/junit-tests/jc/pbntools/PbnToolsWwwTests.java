@@ -66,7 +66,6 @@ private static PrintStream origOut;
 @Test public void pobierzBboWwwTest7()
   throws java.io.FileNotFoundException, java.io.IOException
 {
-  f.setDebugLevel(1);
   PbnToolsTests.pobierzTestHelper(
     new BboTourDownloader(),
     "http://localhost/pbntools/test_7_bbo_www_acbl_20130810/www.bridgebase.com/myhands/hands.php@tourney=1607-1376154000-&offset=0.html",
