@@ -43,7 +43,7 @@ private static PrintStream origOut;
 {
   PbnToolsTests.pobierzTestHelper(
     new KopsTourDownloader(),
-    "http://localhost/pbntools/test_4_kops_www_20130807/protokoly/01/chorzow/13/SM0807",
+    "http://localhost/pbntools/test_4_kops_www_20130807/protokoly/01/chorzow/13/SM0807/",
     "test/test_4_kops_www_20130807/sm0807.pbn",
     "SM0807/sm0807.pbn");
 }
