@@ -344,12 +344,14 @@ abstract public class HtmlTourDownloader
     if (elems.size()>0) { m_sTitle = elems.get(0).text(); }
     println(m_sTitle);
     String sPath = m_remoteUrl.getPath();
+    while (sPath.endsWith("/")) sPath = sPath.replaceFirst("/$", "");
     String sLast = sPath.replaceFirst("^.*/", "");
     if (sLast.indexOf('.')>=0) {
       m_sDirName = sPath.replaceFirst("^.*/([^/]+)/[^/]*$", "$1");
     } else {
       m_sDirName = sLast;
     }
+    assert(!m_sDirName.isEmpty());
     println(m_sDirName);
   }
 
