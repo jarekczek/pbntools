@@ -131,7 +131,7 @@ public class f {
     if (sPath.startsWith("file:/"))
       sPath = sPath.substring(5);
     sPath = sPath.replaceFirst("!.*$", "");
-    File file = new File(sPath);
+    File file = new File(decodeUrl(sPath));
     return file.getParentFile().getAbsolutePath();
   } //}}}
 

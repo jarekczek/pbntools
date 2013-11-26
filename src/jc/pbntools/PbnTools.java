@@ -82,11 +82,6 @@ public class PbnTools {
     bLinux = System.getProperty("os.name").equals("Linux");
     bWindows = System.getProperty("os.name").startsWith("Windows");
     m_bVerbose = false;
-
-    if (m_sCurDir.indexOf(' ') >= 0) {
-      f.msg(m_res.getString("error.installedWithSpaces"));
-    }
-    //    JOptionPane.showMessageDialog(null, m_res.getString("test") + System.getProperties().getProperty("jarek.wersja"));
     }
 
   public static String getStr(String sPropName)
