@@ -1,6 +1,6 @@
 /* *****************************************************************************
 
-    Copyright (C) 2012 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
+    Copyright (C) 2012-13 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,6 +37,11 @@ public class PbnToolsWwwTests
 {
 
 private static PrintStream origOut;
+
+@Before public void setUp()
+{
+  System.setProperty("jc.soupproxy.useragent", "PbnToolsTest");
+}
 
 @Test public void pobierzKopsWwwTest4()
   throws java.io.FileNotFoundException, java.io.IOException

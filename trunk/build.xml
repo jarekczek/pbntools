@@ -602,7 +602,7 @@
   <junitpreset showoutput="true" >
     <test name="jc.pbntools.PbnToolsWwwTests"
           outfile="work/junit-tmp/test_single"
-          methods="pobierzKopsWwwTest4" />
+          methods="pobierzParyWwwTest5" />
     <formatter type="plain" usefile="false" />
   </junitpreset>
 </target>
