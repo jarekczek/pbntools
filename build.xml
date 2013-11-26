@@ -5,7 +5,7 @@
 
 <!--
     PbnTools ant build file
-    Copyright (C) 2011-12 Jarek Czekalski <jarekczek@poczta.onet.pl>
+    Copyright (C) 2011-13 Jarek Czekalski <jarekczek@poczta.onet.pl>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@
 <condition property="sedFileSep" value="/" else="\">
   <equals arg1="${file.separator}" arg2="/" />
 </condition>
-<property name="runDir" value="${tmp}" />
+<property name="runDir" value="${tmp}/pbntools_tmp" />
 <property name="hg" value="hg" />
 <property name="sed" value="sed" />
 <property name="svn" value="svn" />
@@ -161,6 +161,9 @@
   <copy todir="${runDir}">
     <fileset dir="${basedir}/lib" includes="*.jar" />
     <fileset dir="${basedir}/work/release" includes="PbnTools.jar" />
+  </copy>  
+  <copy todir="${runDir}/bin">
+    <fileset dir="${basedir}/lib" includes="**/*.exe **/*.dll" />
   </copy>  
   <condition property="jvmdebug" value="-Djc.debug=${jc.debug}"
     else="-Djc.debug=0" >
