@@ -153,10 +153,6 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
   }
   
   boolean verifyData() {
-    if (m_ebWorkDir.getText().indexOf(' ') >= 0) {
-      f.msg(PbnTools.m_res.getString("error.workDirSpaces"));
-      return false;
-    }
     if (!m_ebDelay.getInputVerifier().verify(m_ebDelay)) {
       f.msg(PbnTools.m_res.getString("config.delay.invalid"));
       return false;
