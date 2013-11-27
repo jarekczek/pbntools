@@ -186,7 +186,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
       d.setVisible(true);
       if (d.rv==2) {
         try {
-          PbnTools.convert(d.m_sLink, null, false);
+          PbnTools.convert(d.m_sLink, null, true);
         } catch (DownloadFailedException dfe) {
           /* problems already reported due to bSilent==false */
         }
