@@ -1,6 +1,6 @@
 /* *****************************************************************************
 
-    Copyright (C) 2011-2 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
+    Copyright (C) 2011-13 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,8 +20,10 @@
 package jc.pbntools;
 
 import jc.f;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JRootPane;
+import javax.swing.LayoutStyle;
 
 public class DlgConvert extends javax.swing.JDialog {
   int rv;
@@ -40,6 +42,7 @@ public class DlgConvert extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         ebLink = new javax.swing.JTextField();
+        pbLink = new javax.swing.JButton();
         pbOk = new javax.swing.JButton();
         pbAnuluj = new javax.swing.JButton();
 
@@ -50,11 +53,13 @@ public class DlgConvert extends javax.swing.JDialog {
         ebLink.setText(PbnTools.m_props.getProperty("convert.link"));
         ebLink.selectAll();
 
+        pbLink.setAction(new f.OpenFileAction(ebLink));
+
         chkVerb = new JCheckBox();
         f.setTextAndMnem(chkVerb, PbnTools.getRes(), "button.verbose");
         chkVerb.setSelected(PbnTools.getVerbos() != 0);
 
-        f.setTextAndMnem(pbOk, PbnTools.getRes(), "download");
+        f.setTextAndMnem(pbOk, PbnTools.getRes(), "convert");
         pbOk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pbOkActionPerformed(evt);
@@ -76,7 +81,10 @@ public class DlgConvert extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ebLink, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                      .addComponent(ebLink, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                      .addComponent(pbLink))
                     .addComponent(jLabel1)
                     .addComponent(chkVerb))
                 .addContainerGap())
@@ -93,7 +101,9 @@ public class DlgConvert extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ebLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup()
+                  .addComponent(pbLink)
+                  .addComponent(ebLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(chkVerb)
                 .addGap(18, 18, 18)
@@ -122,6 +132,7 @@ public class DlgConvert extends javax.swing.JDialog {
     }
 
     private javax.swing.JTextField ebLink;
+    private JButton pbLink;
     private javax.swing.JLabel jLabel1;
     private JCheckBox chkVerb;
     private javax.swing.JButton pbAnuluj;
