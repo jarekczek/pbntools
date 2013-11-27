@@ -291,7 +291,6 @@ public class PbnTools {
   static void printUsage() {
     f.out(m_res.getString("usage.1"));
   }
-  
     
   static void parseCommandLine(String args[]) {
     m_bRunMainDialog = true;
@@ -461,7 +460,7 @@ public class PbnTools {
       }
 
       if (getVerbos() > 0)
-        f.out(getStr("msg.converting", m_sLink, sOutFile));
+        m_ow.addLine(getStr("msg.converting", m_sLink, sOutFile));
       boolean bRightReader = false;
       for (DealReader dr: getDealReaders()) {
         if (f.isDebugMode())
@@ -476,6 +475,7 @@ public class PbnTools {
             PbnFile pbnFile = new PbnFile();
             pbnFile.addDeals(deals);
             pbnFile.save(sOutFile);
+            m_ow.addLine(getStr("msg.completed"));
           }
           catch (IOException ioe) {
             m_ow.addLine(ioe.toString());
