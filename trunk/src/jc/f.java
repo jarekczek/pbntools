@@ -304,7 +304,12 @@ public class f {
   /** Returns the file name, stripping the path and the extension */
   public static String getFileNameNoExt(String sPath)
   {
-    return getFileName(sPath).replaceFirst("\\.[^\\.]*$", "");
+    // In case of urls like .php&id=xxx - cut only the alphanumeric part.
+    // To be more precise: cut the part until the first special char.
+    // If no special char, cut from first dot to end.
+    String sFileName = getFileName(sPath)
+        .replaceFirst("\\.((([^&?]*(?=[?&])))|([^\\.]*$))", "");
+    return sFileName.replaceAll("[?&]", "_");
   } //}}}
   
   // getDirOfFile(String) method {{{
