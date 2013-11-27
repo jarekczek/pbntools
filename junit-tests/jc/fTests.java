@@ -53,6 +53,9 @@ public class fTests
         assertEquals("getDirOfFile(" + sPath,
                      sDir, f.getDirOfFile(sPath));
       }
+  assertEquals("getFileNameNoExt of url with ?",
+    "test_id=500_name=300",
+               f.getFileNameNoExt("http://server.com/dir/test.php?id=500&name=300"));
 }
 
 @Test public void str2IntTest()

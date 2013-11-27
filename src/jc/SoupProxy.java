@@ -85,6 +85,7 @@ public class SoupProxy
       Connection con = Jsoup.connect(""+url);
       con.userAgent(
         System.getProperty("jc.soupproxy.useragent", "JSoup"));
+      con.ignoreContentType(true);
       doc = con.get();
     }
     catch (java.lang.Exception e) {
