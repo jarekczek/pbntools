@@ -1,0 +1,3 @@
+download_tur_kops_example.sh
+tur=http://www.slzbs.pl/protokoly//01/chorzow/13/SM0807/index.html
+raw data with pbn file added

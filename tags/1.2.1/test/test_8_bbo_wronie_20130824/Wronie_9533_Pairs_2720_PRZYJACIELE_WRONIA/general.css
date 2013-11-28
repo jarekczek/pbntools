@@ -1,0 +1,9 @@
+
+BODY { margin:3px; color: black; background: white; font-family: "helvetica neue",helvetica,sans-serif}
+
+
+
+.highlight { background-color:yellow }
+.navtable  { width:100%; border:0; background-color: #c0ccee; color:#6595C5; font-size: 12px; font-family: "helvetica neue",helvetica,sans-serif }
+.obsolete_navtable  {width:100%;  border:0; background-color: #A2D48D; color:#6595C5; font-size: 12px; font-family: "helvetica neue",helvetica,sans-serif }
+.nounderline {TEXT-DECORATION: none}

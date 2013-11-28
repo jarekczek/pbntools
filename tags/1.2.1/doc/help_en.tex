@@ -1,0 +1,421 @@
+%{{{ preambule
+\documentclass[polish,a4paper,11pt,oneside]{article}
+%:encoding=ISO-8859-2:folding=explicit:collapseFolds=1:
+\usepackage{html} 
+\usepackage{fullpage}
+%\usepackage{hyperref}
+\usepackage{indentfirst}
+\usepackage{parskip}
+
+\sloppy % allow wide spaces between words
+% the following adviced by http://sumanta679.wordpress.com/2009/05/20/latex-justify-without-hyphenation/
+% to suppress hyphenation while keeping text justified
+%\tolerance=1
+%\emergencystretch=\maxdimen
+%\hyphenpenalty=10000
+%\hbadness=10000
+%}}}
+
+\include{autoDefs}
+\include{help_common}
+
+\begin{document}
+\title{PbnTools - help}
+\author{\null}
+\date{\null}
+
+
+\maketitle
+
+This is a shortened help. Full version available in \htmladdnormallink{Polish}{help_pl.html}.
+
+\tableofcontents
+
+%{{{ intro
+\section{Introduction}
+\htmladdnormallink{PbnTools}{http://jarek.katowice.pl/pbntools-en} is intended as a toolkit for files containing bridge deals.
+Most popular format for these is \htmladdnormallink{PBN}{http://www.tistis.nl/pbn/pbn_v21.txt}.
+
+Currently PbnTools has following funcionalities:
+
+\begin{description}
+\item[Download Kops]
+  Downloads tournaments in Kops format and saves it as PBN files.
+\item[Download Pary]
+  Downloads tournaments in Pary format and saves it as PBN files.
+\item[Download Bbo]
+  Downloads tournaments from \bbolink
+  server and saves it as PBN files.
+\item[Deal cards]
+  Help in manual duplication of bridge boards from pbn files.
+  Requires an internet camera and barcoded playing cards.
+\end{description}
+
+Program is started with the file PbnTools.exe (Windows) or pbntools (linux).
+%}}}
+
+%{{{ license
+\section{License}
+The program is distributed together with source code
+under \htmladdnormallink{GNU~GPL}{gpl30.html} license,
+version 3 or later.
+Some individual files are licensed with more permissive
+\htmladdnormallink{MIT License}{http://opensource.org/licenses/mit-license.php},
+but this regards only to files that contain MIT License header.
+
+\subsection{Attached software}
+
+The program uses following software:
+
+\begin{description}
+\item[JLayer]
+  \htmladdnormallink{JLayer}{http://www.javazoom.net/javalayer/javalayer.html}
+  is a JAVA\textsuperscript{TM} library that decodes, converts and plays MP3 files in real-time.
+  Distributed under LGPL license.
+  See files {\em jlayer\_LICENSE.txt} and {\em jlayer\_README.txt} in program directory.
+
+\item[JSoup]
+  \htmladdnormallink{JSoup}{http://jsoup.org/}
+  jsoup is a Java library for working with real-world HTML.
+  It provides a very convenient API for extracting and manipulating data,
+  using the best of DOM, CSS, and jquery-like methods.
+  Distributed under MIT license.
+  See {\em jsoup\_LICENSE.txt} in program directory.
+
+\item[ZBar]
+  \htmladdnormallink{ZBar}{http://zbar.sourceforge.net/}
+  (or its clone 
+  \htmladdnormallink{ZBarW}{http://sourceforge.net/projects/zbarw/})
+  is an open source software suite for reading bar codes from various sources,
+  such as video streams, image files and raw intensity sensors.
+  Distributed under LGPL 2.1 (or later) license.
+  Here is applied a limited version reading pictures from a video camera.
+  A license file: zbar\_LICENSE.txt
+
+\end{description}
+
+Windows version uses also:
+  
+\begin{description}
+
+\item[wget]
+  \htmladdnormallink{wget for windows}{http://gnuwin32.sourceforge.net/packages/wget.htm},
+  belonging to \htmladdnormallink{GnuWin32}{http://gnuwin32.sourceforge.net/},
+  is a tool for recursive download of web pages, together with all needed files.
+  License file: wget\_COPYING.txt.
+  \htmladdnormallink{binaries}{http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-bin.zip},
+  \htmladdnormallink{dependencies}{http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-dep.zip}
+  
+\end{description}
+
+Source codes are available in section Download (\ref{downloadSrc}).
+%}}}
+
+%{{{ functionality
+\section{Functionality}
+%{{{ download kops
+\subsection{Download Kops} \label{pobKops}
+
+Polish tournaments published in \htmladdnormallink{Kops}{http://jfr.pzbs.pl/}
+format can be found on pages of Polish Contract Bridge Association
+(\htmladdnormallink{PZBS}{http://www.pzbs.pl}).
+Here are \htmladdnormallink{sample results}{http://www.slzbs.pl/index.php?main=6}.
+The best tournaments are labeled {\em Chorzów}.
+
+Program requires a link to a tournament.
+It should be a link labeled {\em Wyniki},
+leading to a screen consisting of 2 frames: results and boards.
+Generated files are inserted into working directory ({\em Configuration}),
+in a subdirectory {\em kops}. Subdirectory is generated automatically.
+%}}}
+
+%{{{ download pary
+\subsection{Download Pary} \label{pobPary}
+
+Polish tournaments published in {\em Pary}
+format can be found on page
+\htmladdnormallink{warsbrydz}{http://www.warsbrydz.pl},
+{\em Wyniki, WOB, Stare}.
+%}}}
+
+%{{{ download Bbo
+\subsection{Download Bbo} \label{pobBbo}
+The link that should be pasted into {\em Download tournament} dialog
+should be obtained from \bbolonglink, then {\em Hand Records}, 
+{\em results of recent tournaments}, {\em Pairs}.
+The right link is under {\em Show boards} label.
+
+The PBN file obtained with this download contains also bidding and play
+information.
+
+Donwload process doesn't overload the server much, just like viewing
+all travellers.
+%}}}
+
+%{{{ deal cards
+\subsection{Deal cards} \label{rozdaj}
+
+Dealing cards is done by showing cards to an internet camera,
+which "finds" the card in a given board and points to whom it should be dealt.
+Pointing is done by displaying player's sign and speaking it through the speaker.
+Currently Polish words are used: {\em jeden, dwa, trzy, cztery},
+respectively for {\em N, E, S, W}. %'
+
+\subsubsection{Requirements}
+\begin{description}
+\item[Internet video camera]
+  The best in this case are cameras with manual focus adjustment (with a knob).
+  
+\item[Karty z kodami paskowymi]
+  Cards licensed by \htmladdnormallink{Jannersten}{http://www.jannersten.se/}
+  should be used, format \htmladdnormallink{WIN}{http://www.jannersten.se/html/win.html}.
+\end{description}
+% }}} deal cards
+
+%{{{ lin to pbn conversion
+\subsection{Converting LIN to PBN}
+
+Lin to Pbn conversion may be performed using GUI or command line
+interface.
+
+%}}}
+
+\subsection{Configuration} \label{konfig} %{{{
+
+\begin{description}
+\item[Working directory]
+\item[Zbarcam options]
+  Additional options passed to zbarcam.
+  A video device may be specified this way as e.g. \verb!/dev/video1!.
+  Default (first) device has number 0.
+  Full options list is available in file {\em zbarcam.html}.
+\item[User agent]
+  User agent parameter for www requests. An empty string is equivalent of
+  {\em PbnTools/version}.
+\item[www delay]
+  A delay between consecutive www requests, in seconds.
+  Minimum: 1. For Bbo the value of 3 is suggested,
+  otherwise 503 errors may appear in download log.
+
+\end{description}
+
+%}}} configuration
+
+\subsection{Command line} \label{commLine} %{{{
+
+Part of the program functionality is available through command line
+interface. For example downloading tournaments.
+
+\begin{verbatim}
+    pbntools -dtk http://www.strona-turniejow.pl/turniej999/index.html
+\end{verbatim}
+
+Command line options may also be applied when calling {\em jar} file
+directly, for example:
+
+\begin{verbatim}
+    java -jar PbnTools.jar -dtk http://www.strona-turniejow.pl/turniej999/index.html
+\end{verbatim}
+
+For details on command line options please launch
+
+\begin{verbatim}
+    pbntools -h
+\end{verbatim}
+
+%}}} configuration
+
+%}}} functionality
+
+%{{{ requirements
+\section{Requirements}
+
+Java, version 6, is required. Platforms supported: Windows and Linux.
+%}}}
+
+%{{{ download
+\section{Download} \label{download}
+
+\subsection{Installable versions} \label{downloadBin}
+
+Current version, \version{}:
+
+\begin{itemize}
+\item
+  \htmladdnormallink{Windows}{http://jarek.katowice.pl/jcwww/pbntools/PbnTools_\versionUnd\_win.zip}
+\item
+  \htmladdnormallink{Linux}{http://jarek.katowice.pl/jcwww/pbntools/PbnTools_\versionUnd\_linux.zip}
+
+\end{itemize}
+
+Old binaries:
+\oldBinaries
+
+\subsection{Source code} \label{downloadSrc}
+
+\begin{itemize}
+\item
+  \pbntoolsSourceLinks
+  or see {\em Development}, section \ref{dev}
+\item
+  \htmladdnormallink{jlayer1.0.1.tar.gz}{http://jarek.katowice.pl/jcwww/pbntools/jlayer1.0.1.tar.gz}
+\item
+  \jsoupSourceLinks
+\item
+  ZBar
+  \begin{itemize}
+  \item
+    \htmladdnormallink{zbar original}{http://jarek.katowice.pl/jcwww/pbntools/%
+    zbar\_src\_orig.tgz}
+    \zbarOldOrigSourceLinks
+  \item
+    \htmladdnormallink{zbar modified}{http://jarek.katowice.pl/jcwww/pbntools/%
+    zbar\_src\_pbntools.tgz}
+    \zbarOldSourceLinks
+  \item
+    A patch set available with PbnTools source code.
+  \end{itemize}
+
+\item
+  \htmladdnormallink{wget for windows}{http://jarek.katowice.pl/jcwww/pbntools/wget-1.11.4-1-src.zip}
+  
+
+\end{itemize}
+
+\subsection{Installation}
+Unpack zip file into an arbitrary target folder.
+This folder may not contain spaces.
+%}}}
+
+%{{{ rozwój
+\section{Development} \label{dev}
+
+Program is written mainly in Java.
+I encourage to contribute either by programming or by submitting bug reports and suggestions.
+
+Following development means are available:
+
+\begin{itemize}
+\item
+  \htmladdnormallink{Bugzilla}{http://jarek.katowice.pl/bugzilla} -
+  submit bugs and suggestions.
+  
+\item
+  \htmladdnormallink{Dedicated forum}{http://jarek.katowice.pl/%
+  other/forum/viewforum.php?f=10} -
+  discussion.
+  
+\item
+  SVN - source code, thanks to 
+  \htmladdnormallink{sourceforge.net}{https://sourceforge.net}:
+  \begin{verbatim}
+    svn checkout svn://svn.code.sf.net/p/pbntools/code/trunk pbntools-code-directory
+  \end{verbatim}
+
+  \htmladdnormallink{Browse code on-line}{https://sourceforge.net/p/pbntools/%
+  code/}, 
+  \htmladdnormallink{PbnTools at sourceforge}{https://sourceforge.net/projects/pbntools}, 
+
+\end{itemize}
+
+Guidelines for source code are in file README.SRC.txt,
+in source code archive, see: Download, \ref{download}.
+
+\subsection{Build requirements}
+
+\begin{enumerate}
+\item
+  \javajdk
+\item
+  \htmladdnormallink{ant}{http://ant.apache.org/}, Debian package name: ant.
+  Main build tool.
+\item
+  \htmladdnormallink{BeanShell}{http://www.beanshell.org/},
+  {\em bsh-2.0b4.jar} (or newer) pointed in {\em build.xml}
+\item
+  \htmladdnormallink{launch4j}{http://launch4j.sourceforge.net},
+  to create {\em exe} file for Windows.
+%\item
+  %\htmladdnormallink{makeself}{http://megastep.org/makeself/}, nazwa pakietu w Debianie: makeself.
+  %Do zbudowania wersji dystrybucyjnej pod linuxa.
+\item
+  Latex tools for documentation. Debian package name: latex2html.
+\item
+  For building zbar additional tools are needed.
+  Building zbar is not necessary.
+\item
+  \htmladdnormallink{JUnit}{http://www.junit.org},
+  \htmladdnormallink{JUnit-addons}{https://sourceforge.net/projects/junit-addons/}
+  - for auto-test targets.
+
+
+\end{enumerate}
+%}}}
+
+%{{{ history
+\section{Version history}
+\begin{description}
+\item[1.2.1, 27.11.2013]
+  \begin{itemize}
+  \item Fixed bugs \bugsonetwozero.
+  \end{itemize}
+\item[1.2.0, 24.11.2013]
+  \begin{itemize}
+  \item Downloading of Bbo tournaments.
+  \item Lin to pbn conversion.
+  \item {\em User agent} option in configuration dialog.
+  \item New configuration option: www delay.
+  \item Pary download improvements.
+  \end{itemize}
+\item[1.1.0, 16.09.2012]
+  \begin{itemize}
+  \item Downloading tournaments in {\em Pary} format,
+        i.e. \htmladdnormallink{warsbrydz}{http://www.warsbrydz.pl}
+        , {\em Wyniki, WOB, stare}.
+  \item Switched barcode video library for dealing cards on Windows
+        to the one using
+        {\em DirectShow} driver instead of
+        {\em Video for Windows}. This should remove most problems
+        experienced by Windows users.
+  \end{itemize}
+\item[1.0.3, 05.04.2012]
+  \begin{itemize}
+  \item {\em Check for updates} option in {\em About} window.
+  \item Zbar modification, to handle cameras providing picture in
+        MJPG format.
+  \item Made the app visible in taskbar.
+  \end{itemize}
+\item[1.0.2, 01.11.2011]
+  \begin{itemize}
+  \item Fixing PBN format. \verb!T! instead of \verb!10!.
+  \end{itemize}
+\item[1.0.1, 01.11.2011]
+  \begin{itemize}
+  \item Ignoring {\em robots.txt} file during tournament download.
+  \end{itemize}
+\item[1.0.0, 01.11.2011]
+  First official release, under GNU GPL 3.0.
+  \begin{itemize}
+  \item Option {\em Deal cards}
+  \end{itemize}
+\item[0.5, 07.03.2010]
+  Private version.
+  \begin{itemize}
+  \item Option {\em Download Kops}.
+  \end{itemize}
+\end{description}
+%}}}
+
+%{{{ zakonczenie
+\section{Ending}
+
+I am open for suggestions. I will be grateful for informations about incorrect operation of the program or a web-page.
+
+{\setlength{\parindent}{0pt}\small\htmladdnormallink{Jarek Czekalski}{mailto:jarekczek@poczta.onet.pl}
+, last modification Sep 16 2012}
+%}}}
+
+
+
+
+\end{document}

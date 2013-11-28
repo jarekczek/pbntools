@@ -1,0 +1,156 @@
+table.body {
+	border : thin dashed #DDDDDD;
+	background-color : white;
+	margin-left : auto;
+	margin-right : auto;
+	width : 90%;
+}
+
+table.form {
+	border : thin dashed #DDDDDD;
+	margin-left : auto;
+	margin-right : auto;
+	background-color : #EEEEEE;
+}
+
+table.body th {
+	font-family: sans-serif;
+	color : black;
+	background-color : #C0CCEE;
+	font-size : smaller;
+}
+
+th.event_name {
+    text-align: left;
+    }
+
+th.totals {
+	text-align : right;
+}
+
+.event_location {
+    font-weight: normal;
+}
+
+th.odd {
+	background-color : #DDDDDD;
+	text-align : center;
+}
+
+th.even {
+	background-color : #EEEEEE;
+	text-align : center;
+}
+
+table.body td {
+	font-family: sans-serif;
+	font-size : smaller;
+}
+
+td.totals {
+	color : black;
+	background-color : #C0CCEE;
+	font-weight: bold; 
+}
+
+tr.odd {
+	background-color : #DDDDDD;
+}
+  
+tr.even {
+	background-color : #EEEEEE;
+}
+  
+.time, .round {
+	text-align : center;
+}
+
+.time, .commentators {
+    width: 270px;
+}
+
+.commentators {
+	text-align : left;
+}
+
+.commentators form {
+    display: inline;
+}
+
+.commentator_self {
+    background-color: lightblue;
+}
+
+.dummy {
+	text-align : right;
+}
+
+a.button_link, a.button_link:hover, a.button_link:link {
+    text-decoration: none;
+    }
+
+a.button_link:visited {
+    color: inherited;
+    }
+
+.edit_event, .edit_round {
+    padding-right: 8px;
+    padding-left: 4px;
+    background:/*#88bbd4*/ blue;
+    *padding:2px 6px 2px;
+    text-decoration:none;
+    font-weight:bold;
+    color:#fff;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+}
+
+a.edit_event:visited, a.edit_round:visited {
+    color: inherited;
+    }
+
+a.edit_event:hover, a.edit_round:hover {
+    /*background:#59B;*/
+    text-decoration: none;
+    color: red;
+}
+
+.edit_event span, .edit_round span {
+    background-image: url('login-images/toggle_down_light.png');
+    background-repeat:no-repeat;
+    background-position: right;
+    padding-right: 18px;
+}
+
+label.error { float: none; color: red; white-space: nowrap; }
+
+.nowrap {white-space: nowrap; }
+.ui-autocomplete { width: 6em; padding-left: 5; height: 200px; overflow-y: scroll; overflow-x: hidden; }
+.ui-autocomplete li { list-style-type: none; text-align: left}
+
+.ui-dialog-title {
+    float: none !important;
+    display: block;
+    text-align: center;
+    }
+
+#ui-datepicker-div {display: none; }
+
+.ui-datepicker-current {display: none; }
+
+tr.bbo-yellow, span.bbo-yellow {
+    background-color: rgb(255, 205, 5);
+    }
+
+.bbo-yellow.highlight {
+    background-color: #ff69b4;
+}
+
+#event_link {
+    font-size: smaller;
+}
+
+.context-menu-list {
+    font-size: 13px;
+}

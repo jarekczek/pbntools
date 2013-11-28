@@ -1,0 +1,1 @@
+- consolidate download Kops and Pary tournament into one option

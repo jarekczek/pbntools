@@ -1,0 +1,110 @@
+body {
+	background-color:white;
+	font-family: Helvetica, Arial, sans-serif;
+}
+.rank {
+	/* font-family: courier; */
+	/* font-weight:bold; */
+}
+.fatal {
+	background-color:yellow;
+}
+.highlight {
+	background-color:yellow;
+}
+
+.debug {
+	background-color:green;
+	display:none;
+}
+.honorlist {
+	/* float:right; */
+	font-weight:bold;
+	text-align:center;
+	display:block;
+	margin-top:5px ;
+	/* border: 2px solid #666666; */
+	/* background-color:#EEEEEE; */
+}
+.sectionbreak {
+	/* float:right; */
+	font-weight:bold;
+	text-align:center;
+	display:block;
+	margin-top:5px ;
+	/* border: 2px solid #666666; */
+	/* background-color:#EEEEEE; */
+}
+
+.onesection {
+	font-family: Helvetica, Arial, sans-serif;
+	text-align:center;
+	display:block;
+	margin-top:5px ;
+	padding: 0 20px;
+	border: 2px solid #666666;
+	background-color:#EEEEEE;
+}
+
+
+.bbo_hero {
+	
+	display: block;
+	text-align:center;
+	padding: 10px 20px;
+	margin: 10px;
+	border: 1px solid #666666;
+	background-color:#DDDDDD;
+}
+
+.bbo_tr_t {
+	/* float:right; */
+	text-align:center;
+	display:block;
+	padding: 0 20px;
+	border: 2px solid #666666;
+	background-color:#EEEEEE;
+}
+
+.odd {
+	background-color:#EEEEEE;
+}
+
+.even {
+	background-color:#DDDDDD;
+}
+
+.bbo_tr_o {
+	/* float:right; */
+	text-align:center;
+	display:block;
+	padding: 0 20px;
+	border: 2px solid #666666;
+	background-color:#EEEEEE;
+}
+.bbo_tr_o td {
+	padding:4px;
+}
+
+.bbo_t_l {
+	
+}
+.bbo_tll {
+	font-weight:bold;
+}
+
+.bbo_tlv {
+	text-transform:capitalize;
+}
+
+.cdetail {
+	padding: 2px 2px 2px 2px;
+}
+
+.sectiontable {
+	padding: 2px 2px 2px 2px;
+}
+.sectiontable td {
+	padding:4px;
+}
+

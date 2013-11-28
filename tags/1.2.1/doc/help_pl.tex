@@ -1,0 +1,583 @@
+%{{{ preambu³a
+\documentclass[polish,a4paper,11pt,oneside]{article}
+%:encoding=ISO-8859-2:folding=explicit:collapseFolds=1:
+\usepackage{html} 
+\usepackage{fullpage}
+\usepackage[latin2]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{polski}
+\usepackage{ot1patch}
+%\usepackage{hyperref}
+\usepackage{indentfirst}
+\usepackage{parskip}
+
+\sloppy % allow wide spaces between words
+% the following adviced by http://sumanta679.wordpress.com/2009/05/20/latex-justify-without-hyphenation/
+% to suppress hyphenation while keeping text justified
+%\tolerance=1
+%\emergencystretch=\maxdimen
+%\hyphenpenalty=10000
+%\hbadness=10000
+%}}}
+
+\include{autoDefs}
+\include{help_common}
+
+\begin{document}
+\title{PbnTools - pomoc}
+\author{\null}
+\date{\null}
+
+\maketitle
+\tableofcontents
+
+%{{{ wstep
+\section{Wstêp}
+\htmladdnormallink{PbnTools}{http://jarek.katowice.pl/pbntools}
+to w zamy¶le zestaw narzêdzi do plików z zapisanymi rozdaniami bryd¿owymi.
+Najpopularniejszy format tych plików to \htmladdnormallink{PBN}{http://www.tistis.nl/pbn/pbn_v21.txt}.
+
+Obecnie PbnTools posiada nastêpuj±ce funkcjonalno¶ci:
+
+\begin{description}
+\item[Pobierz Kops]
+  Pobiera z sieci turnieje bryd¿owe zapisane w formacie Kops
+  i zapisuje je w formacie PBN. Szczegó³y: \ref{pobKops}.
+
+\item[Pobierz Pary]
+  Pobiera z sieci turnieje bryd¿owe zapisane w formacie Pary
+  i zapisuje je w formacie PBN. Szczegó³y: \ref{pobPary}.
+
+\item[Pobierz Bbo]
+  Pobiera z sieci turnieje bryd¿owe zapisane na serwerze \bbolink
+  i zapisuje je w formacie PBN. Szczegó³y: \ref{pobPary}.
+
+\item[Rozdaj]
+  Po otwarciu dowolnego pliku PBN mo¿na go rozdaæ, czyli rozdzieliæ
+  prawdziwe papierowe karty na 4 kupki, powielaj±c oryginalny uk³ad.
+  Osoba rozdaj±ca nie zaznajamia siê z kartami, gdy¿ w rozdawaniu pomaga
+  kamera internetowa. Karty musz± byæ oznakowane kodami paskowymi.
+  Szczegó³y: \ref{rozdaj}
+  
+\end{description}
+
+Program uruchamia siê otwieraj±c plik PbnTools.exe (Windows) lub pbntools (linux).
+%}}}
+
+%{{{ licencja
+\section{Licencja}
+Program rozpowszechniany jest wraz z kodem ¼ród³owym na licencji
+\htmladdnormallink{GNU~GPL}{gpl30.html}, wersja 3 lub pó¼niejsza.
+Oznacza to, ¿e mo¿na go bezp³atnie pobraæ, u¿ywaæ, a nawet modyfikowaæ na w³asne potrzeby.
+Rozpowszechnianie wymaga ju¿ spe³nienia warunków licencji, która wa¿na jest
+tylko w jêzyku angielskim. 
+Krótki opis licencji, jak równie¿ link do nieoficjalnego t³umaczenia licencji GNU~GPL
+mo¿na znale¼æ w \htmladdnormallink{wikipedii}{http://pl.wikipedia.org/wiki/GNU_General_Public_License}.
+
+Niektóre pliki rozpowszechniane s± na bardziej liberalnej
+\htmladdnormallink{licencji MIT}{http://opensource.org/licenses/mit-license.php},
+ale dotyczy to tylko tych plików, które zawieraj± nag³ówek MIT.
+
+\subsection{Do³±czone programy}
+
+Program korzysta z nastêpuj±cego oprogramowania:
+
+\begin{description}
+\item[JLayer]
+  % \htmladdnormallink{JLayer}{http://www.javazoom.net/javalayer/javalayer.html}
+  % is a JAVA\textsuperscript{TM} library that decodes, converts and plays MP3 files in real-time.
+  % Distributed under LGPL license.
+  % See files {\em jlayer\_LICENSE.txt} and {\em jlayer\_README.txt} in program directory.
+  \htmladdnormallink{JLayer}{http://www.javazoom.net/javalayer/javalayer.html}
+  to biblioteka dla Javy\textsuperscript{TM}, które dekoduje,
+  konwertuje i odtwarza pliki MP3.
+  Rozpowszechniana na licencji LGPL.
+  Patrz pliki: {\em jlayer\_LICENSE.txt} i {\em jlayer\_README.txt} w katalogu programu.
+
+\item[JSoup]
+  \htmladdnormallink{JSoup}{http://jsoup.org/}
+  JSoup to biblioteka javy do pracy z rzeczywistymi plikami HTML.
+  Rzeczywistymi, to znaczy takimi, które niekoniecznie s± w pe³ni poprawnie
+  sformatowane. JSoup dostarcza wygodnego API do wydobywania i manipulowania
+  danymi, u¿ywaj±c metod typu DOM, CSS i jquery.
+  Patrz plik: {\em jsoup\_LICENSE.txt} w katalogu programu.
+
+\item[ZBar]
+  \htmladdnormallink{ZBar}{http://zbar.sourceforge.net/}
+  (lub jej klon
+  \htmladdnormallink{ZBarW}{http://sourceforge.net/projects/zbarw/})
+  to biblioteka o funkcjonalno¶ci czytnika kodów paskowych,
+  rozprowadzana na licencji LGPL 2.1 (lub pó¼niejsza).
+  Czyta pliki graficzne lub obraz z kamery internetowej.
+  Zastosowana zosta³a tutaj okrojona wersja odczytuj±ca obraz z kamery.
+  Plik z licencj±: zbar\_LICENSE.txt
+
+\end{description}
+
+Wersja Windows korzysta tak¿e z:
+  
+\begin{description}
+
+\item[wget]
+  \htmladdnormallink{wget for windows}{http://gnuwin32.sourceforge.net/packages/wget.htm},
+  z serii \htmladdnormallink{GnuWin32}{http://gnuwin32.sourceforge.net/},
+  to narzêdzie do rekursywnego ¶ci±gania stron www, wraz ze wszystkimi potrzebnymi plikami.
+  Plik z licencj±: wget\_COPYING.txt.
+  \htmladdnormallink{binaries}{http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-bin.zip},
+  \htmladdnormallink{dependencies}{http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-dep.zip}
+  
+\end{description}
+
+Kody ¼ród³owe dostêpne s± w dziale Pobieranie (\ref{downloadSrc}).
+%}}}
+
+%{{{ funkcjonalnosc
+\section{Funkcjonalno¶æ}
+
+Funkcjonalno¶ci {\em Pobierz...} dostêpne s± przez przycisk
+{\em Pobierz turniej}. Dalej mo¿emy wybraæ rodzaj turnieju lub tylko
+wpisaæ link i zostawiæ opcjê \verb!wykryj-automatycznie!.
+
+%{{{ pobierz kops
+\subsection{Pobierz Kops} \label{pobKops}
+
+  \htmladdnormallink{Kops}{http://jfr.pzbs.pl/} to program napisany przez
+  Jana Romañskiego, u¿ywany do prowadzenia turniejów bryd¿owych.
+  Umo¿liwia on równie¿ zapis wyników turniejów w formacie html, w którym
+  pó¼niej s± one publikowane,
+  m.in. na stronach Polskiego Zwi±zku Bryd¿a
+  Sportowego (\htmladdnormallink{PZBS}{http://www.pzbs.pl}).
+  W¶ród
+  \htmladdnormallink{wyników}{http://www.slzbs.pl/index.php?main=6}
+  prezentowanych przez \htmladdnormallink{¦l±ski Zwi±zek Bryd¿a Sportowego}{http://www.slzbs.pl/}
+  najwiêksz± popularno¶ci± w¶ród najlepszych graczy regionu ciesz± siê turnieje
+  oznaczone {\em Chorzów}.
+  
+  Lista rozdañ wraz z wynikami zapisywana jest do jednego pliku z rozszerzeniem PBN.
+  Pobrany plik PBN mo¿na nastêpnie za³adowaæ do programu bryd¿owego i utworzyæ na jego podstawie turniej.
+  Utworzony w ten sposób turniej mo¿na rozegraæ z komputerem lub innym u¿ytkownikiem poprzez sieæ.
+  Funkcjonalno¶ci te posiada np. program \htmladdnormallink{Jack}{http://www.jackbridge.com/}.
+  Jack ma w Polsce promocyjn± cenê i dostêpny jest
+  u \htmladdnormallink{Krzysztofa Jassema}{http://www.jassem.pl}
+
+% Ta opcja pozwala pobraæ turniej w formacie www-kops. Nazwa³em tak format, w którym zapisuje wyniki turniejów program Kops.
+% Te wyniki prezentowane s± np. na stronie \htmladdnormallink{¦l±skiego PZBS-u}{http://slzbs.livenet.pl/index.php?main=6}.
+
+Program wymaga podania linku do turnieju. Chodzi tu dok³adnie o link o nazwie {\em Wyniki}, który prowadzi do dwuczê¶ciowego ekranu: z wynikami turnieju i rozk³adami rozdañ.
+Wygenerowane pliki umieszczone zostaj± w katalogu wyj¶ciowym ({\em Konfiguracja}) w podkatalogu {\em kops}.
+Podkatalog utworzony zostanie automatycznie.
+
+Uwaga do pobierania linków z warszawskiego serwera {\em warsbrydz}:
+\newline
+Po wej¶ciu w {\em Wyniki} i wybraniu cyklu, nie wybierajcie od razu turnieju.
+Zamiast tego wybierzcie {\em Stare}.
+Otrzymacie staromodn± listê turniejów i teraz ju¿ normalnie:
+prawy przycisk, kopiuj adres odno¶nika (to na Firefoxie, na innej
+przegl±darce bêdzie nieco inaczej, ale w ten deseñ) i wkleiæ do PbnTools.
+Teraz ju¿ zadzia³a.
+
+Efektem dzia³ania tej opcji programu s± nastêpuj±ce pliki:
+\begin{itemize}
+\item \verb!XXX_wyn.pbn! - plik z rozdaniami i wynikami - na podstawie tego pliku generujemy turniej w Jacku
+\item \verb!XXX.pbn! - plik z rozdaniami turnieju (XXX to nazwa turnieju, np. MCH0308)
+\item \verb!roz.html! - lista travellerów ca³ego turnieju
+\item \verb!link.html! - zawiera link do orygina³u turnieju, u³atwiaj±cy analizê porozdaniow±
+\item \verb!pNN.html! - traveller dla rozdania o numerze NN
+\end{itemize}
+
+Efektem ubocznym dzia³ania tej funkcji jest równie¿ zapisanie w katalogu roboczym
+kompletnej strony z wynikami turnieju. Po wrzuceniu tego katalogu np. na komórkê,
+mo¿na potem wygodnie analizowaæ rozdania tu¿ po ich rozegraniu.
+%}}}
+
+%{{{ pobierz pary
+\subsection{Pobierz Pary} \label{pobPary}
+
+  {\em Pary} to równie¿ program
+  Jana Romañskiego, który mia³ zast±piæ Kopsa, a ostatecznie funkcjonuje
+  równolegle z nim. Turnieje wygenerowane tym programem poznaæ po stopce
+  {\em Pary.4.1.0.23 (C) Jan Romañski'2005, strona wygenerowana ...}.
+  Turnieje takie mo¿na znale¼æ na przyk³ad w¶ród wyników turniejów
+  na stronie \htmladdnormallink{warsbrydz}{http://www.warsbrydz.pl},
+  cykl {\em WOB}. Linki otrzymujemy po wybraniu pseudoturnieju {\em Stare},
+  a nastêpnie ju¿ normalnie - prawy przycisk,
+  {\em Kopiuj adres odno¶nika}. %'
+  
+  Efektem dzia³ania tej opcji programu s± nastêpuj±ce pliki:
+  \begin{itemize}
+  \item \verb!XXX.pbn! - plik z rozdaniami i wynikami
+  \item \verb!AAyymmddnnn.html! - travellery poszczególnych rozdañ.
+        Ka¿dy z nich stanowi jednocze¶nie indeks umo¿liwiaj±cy przej¶cie do
+        pozosta³ych rozdañ turnieju.
+  \item \verb!link.html! - zawiera link do orygina³u turnieju, u³atwiaj±cy analizê porozdaniow±
+  \item inne pliki potrzebne dla prawid³owego wy¶wietlenia stron html
+  \end{itemize}
+%}}}
+
+%{{{ pobierz Bbo
+\subsection{Pobierz Bbo} \label{pobBbo}
+
+  \bbolonglink to najpopularniejszy serwer do sieciowej gry w bryd¿a.
+  Spotkaæ tam mo¿na ¶wiatowej klasy s³awy, równie¿ polsk± czo³ówkê.
+  Rozegrane turnieje czy rozdania mo¿na analizowaæ poprzez stronê www,
+  na której przechowywane s± wszystkie rozdania. K³opotliwe jest jednak
+  np. przeanalizowanie licytacji lub wistu na wszystkich sto³ach.
+  Dziêki ¶ci±gniêciu turnieju do pliku PBN, mo¿na wygodnie analizowaæ
+  turniej w swoim lokalnym programie bryd¿owym. Podczas otwierania takiego
+  pliku w Jacku, bardzo szybko mo¿na przejrzeæ te elementy (licytacja,
+  rozgrywka) na wszystkich
+  sto³ach.
+  
+  Innym zastosowaniem ¶ci±gniêtych z Bbo plików bêdzie rozegranie rozdañ
+  z turnieju, który odby³ siê w internecie. Jest to o tyle lepsze od
+  rozegrania turnieju z Kopsa, ¿e w pliku PBN bêdziemy mieæ tak¿e
+  licytacjê i rozgrywkê ze wszystkich sto³ów. Tak dok³adnej informacji
+  Kops nam nie dawa³.
+  
+  Który dok³adnie link wkleiæ do PbnTools? Na stronie Bbo wchodzimy
+  w {\em Hand Records}, nastêpnie {\em results of recent tournaments}.
+  Dalej np. {\em Pairs}. W³a¶ciwym linkiem jest {\em Show boards}.
+  
+  Obci±¿enie serwera Bbo przy zastosowaniu ¶ci±gania przez PbnTools jest
+  niewielkie. Tyle, co by¶my kliknêli po kolei w ka¿dego {\em travellera}.
+  
+  Efektem dzia³ania tej opcji programu s± m.in. nastêpuj±ce pliki,
+  umieszczane w katalogu zgodnym z nazw± turnieju, pod katalogiem roboczym:
+  \begin{itemize}
+  \item \verb!XXX.pbn! - plik z rozdaniami i wynikami
+  \item \verb!hands.php?tourney....html! - lista travellerów
+  \item \verb!hands.php?traveller....html! - travellery
+  \item \verb!*.lin! - pliki lin (format Bbo), jeden na rozdanie
+  \item \verb!link.html! - zawiera link do orygina³u turnieju, u³atwiaj±cy analizê porozdaniow±
+  \end{itemize}
+%}}}
+
+%{{{ rozdaj
+\subsection{Rozdaj} \label{rozdaj}
+Rozdawanie polega na pokazywaniu kart do kamery internetowej, która "odnajduje" tê
+kartê w danym rozdaniu i wskazuje, komu j± przydzieliæ.
+Wskazanie odbywa siê poprzez wy¶wietlenie symbolu gracza i wypowiedzenie go przez g³o¶nik.
+Dla ³atwiejszego rozpoznawania gracza sygna³y g³osowe zosta³y zast±pione liczbami,
+to znaczy gracz N to "jeden", E to "dwa" itd.
+
+\subsubsection{Wymagania}
+\begin{description}
+\item[Kamera internetowa]
+  Najlepsza jest kamera z rêczn± regulacj± ostro¶ci, czyli "z kó³kiem".
+  Koszt oko³o 40 z³.
+  Poprzez uruchomienie programu zbarcam (katalog {\em bin})
+  spoza PbnTools nale¿y dostosowaæ
+  ostro¶æ kamery tak, aby pó¼niej w ciemno wiedzieæ, w jakiej odleg³o¶ci
+  nale¿y umie¶ciæ kartê, by kamera najszybciej j± rozpozna³a.
+  
+  Nie wiem, czy sprawdz± siê kamery ze sta³ym focusem. Kamery z autofocusem
+  mog± wymagaæ dalszego dostosowania programu zbarcam, który obecnie nie ma
+  opcji w³±czania / wy³±czania autofocusa na ¿±danie. Móg³bym siê tym zaj±æ,
+  gdybym mia³ kamerê z autofocusem do testów.
+  
+\item[Karty z kodami paskowymi]
+  Spotka³em siê z 2 sposobami oznaczania kart kodami paskowymi. Oba opatentowane
+  s± przez firmê \htmladdnormallink{Jannersten}{http://www.jannersten.se/}.
+  Starszy format to DOS, który sk³ada siê z 3 czarnych pasków ró¿nych grubo¶ci.
+  Nowszy to WIN. Poznaæ go po cienkich czarnych paskach ograniczaj±cych kod
+  z obu stron. Liczba pasków jest ró¿na, ale zawsze wiêksza ni¿ 3.
+  PbnTools obs³uguje tylko standard WIN. Karty okodowane w ten sposób mo¿na
+  dostaæ w ka¿dym specjalistycznym sklepie bryd¿owym, w cenie od 6 z³.
+  Wystarczy wpisaæ w google {\em sklep bryd¿owy}.
+  Karty wygl±daj± \htmladdnormallink{tak}{http://www.jannersten.se/html/win.html}.
+
+  Podczas testów z moimi kartami wpad³em w interesuj±c± pu³apkê.
+  Mianowicie nagle ni st±d, ni zow±d, program rozpoznawa³ kartê król karo.
+  Okaza³o siê, ¿e król kier ma króla karo we w³osach, a dok³adniej jego kod. 
+  Trzeba wiêc by³o w³oski trochê przemalowaæ, mazakiem. I odt±d ju¿ by³o dobrze.
+  
+\end{description} %}}}
+
+%{{{ lin to pbn conversion
+\subsection{Konwersja LIN na PBN}
+
+Konwersji z formatu LIN na PBN mo¿na dokonaæ z interfejsu graficznego
+lub z linii poleceñ.
+
+%}}}
+
+
+\subsection{Konfiguracja} \label{konfig} %{{{
+
+\begin{description}
+\item[Katalog roboczy]
+  Podczas pobierania turniejów bêd± tu tworzone podkatalogi z poszczególnymi turniejami.
+\item[Opcje dla zbarcam]
+  Dodatkowe opcje przekazywane do programu zbarcam.
+  Dziêki temu mo¿na wskazaæ urz±dzenie video, je¿eli jest ich w systemie wiêcej, np.:
+  \verb!/dev/video1!. Domy¶lnym urz±dzeniem jest urz±dzenie nr 0, czyli pierwsze.
+  Pe³na lista opcji dla zbarcam dostêpna jest w pliku {\em zbarcam.html}.
+\item[User agent]
+  {\em User agent} to tekst, którym przedstawia siê przegl±darka internetowa
+  serwerowi, z którym siê ³±czy, np. \verb!Firefox/25.0!.
+  Wersja PbnTools poni¿ej 1.2.0 przedstawia³a siê jako \verb!Java!, a to
+  powodowa³o, ¿e niektóre serwery nie zezwala³y na po³±czenie, b³±d 403.
+  Od wersji 1.2.0 domy¶lny tekst {\em User agent} to PbnTools/1.2.0.
+  Dzieje siê tak, gdy parametr jest pusty. Je¿eli wpiszemy tu jaki¶
+  tekst to, bêdzie on u¿yty zamiast PbnTools i numeru wersji.
+  To tak na wszelki wypadek, gdyby serwery rozmy¶lnie lub przypadkiem
+  blokowa³y PbnTools.
+\item[Czas zw³oki www]
+  Pomiêdzy kolejnymi ¿adaniami pobrañ stron www nale¿y zachowaæ
+  pewien odstêp czasu, ¿eby nie przeci±¿aæ serwera. Staramy siê
+  przy tym sprawiaæ wra¿enie, ¿e robi to istota ludzka, a nie
+  automat. Polskie serwery dzia³aj± poprawnie przy czasie 1 sekundy,
+  ale serwer Bbo wymaga 3 sekund, bo inaczej zwraca b³êdy 503.
+  Podajemy liczbê sekund, minimalna warto¶æ: 1.
+
+                              \end{description}
+%}}}
+
+\subsection{Opcje linii poleceñ} \label{commLine} %{{{
+
+Czê¶æ funkcjonalno¶ci programu dostêpna jest w trybie linii poleceñ,
+czyli bez uruchamiania graficznego interfejsu u¿ytkownika (okienek
+dialogowych). Na przyk³ad pobraæ turniej mo¿na albo uruchamiaj±c program
+i nastêpnie klikaj±c {\em Pobierz turniej Kops}, albo uruchamiaj±c
+program w nastêpuj±cy sposób:
+
+\begin{verbatim}
+    pbntools -dtk http://www.strona-turniejow.pl/turniej999/index.html
+\end{verbatim}
+
+Opcje linii poleceñ mo¿na uruchamiaæ równie¿ poprzez bezpo¶rednie
+uruchomienie pliku {\em jar}, przyk³adowo:
+
+\begin{verbatim}
+    java -jar PbnTools.jar -dtk http://www.strona-turniejow.pl/turniej999/index.html
+\end{verbatim}
+
+Z linii poleceñ dostêpne s± nastêpuj±ce opcje:
+
+\begin{description}
+\item[-h]
+  Wy¶wietla krótki opis wszystkich opcji.
+\item[---debug]
+  W³±cza tryb debuggowania, z wy¶wietlaniem informacji, które mog±
+  pomóc w diagnostyce nieprawid³owego dzia³ania programu.
+\item[---verbose]
+  Zwiêksza ilo¶æ informacji wy¶wietlanej przez program, np. podczas pobierania
+  turnieju.
+\item[-dtb <link>]
+  Pobiera turniej w formacie Bbo ze wskazanego linku. Turniej
+  zapisywany jest w katalogu roboczym, tak samo jak przy u¿yciu interfejsu
+  graficznego.
+\item[-dtk <link>]
+  Pobiera wskazany turniej w formacie Kops.
+\item[-dtp <link>]
+  Pobiera wskazany turniej w formacie Pary.
+\end{description}
+
+%}}}
+
+%}}}
+
+%{{{ wymagania
+\section{Wymagania}
+
+Wymagana jest Java w wersji 6.
+Ze wzglêdu na wykorzystanie programu {\em zbar} wymagane s±
+systemy operacyjne Windows lub Linux.
+Programy zewnêtrzne zawarte s± w pliku instalacyjnym i instalowane s± automatycznie.
+%}}}
+
+%{{{ pobieranie
+\section{Pobieranie} \label{download}
+
+\subsection{Wersje instalacyjne} \label{downloadBin}
+
+Aktualna wersja, \version{}:
+
+\begin{itemize}
+\item
+  Plik dla \htmladdnormallink{Windows}{http://jarek.katowice.pl/jcwww/pbntools/PbnTools_\versionUnd\_win.zip}
+\item
+  Plik dla \htmladdnormallink{Linux}{http://jarek.katowice.pl/jcwww/pbntools/PbnTools_\versionUnd\_linux.zip}
+
+\end{itemize}
+
+Poprzednie wersje:
+\oldBinaries
+
+\subsection{Kody ¼ród³owe} \label{downloadSrc}
+
+\begin{itemize}
+\item
+  \pbntoolsSourceLinks
+  lub patrz {\em Rozwój}, rozdzia³ \ref{dev}
+\item
+  \htmladdnormallink{jlayer1.0.1.tar.gz}{http://jarek.katowice.pl/jcwww/pbntools/jlayer1.0.1.tar.gz}
+\item
+  \jsoupSourceLinks
+\item
+  ZBar
+  \begin{itemize}
+  \item
+    \htmladdnormallink{zbar oryginalny}{http://jarek.katowice.pl/jcwww/pbntools/%
+    zbar\_src\_orig.tgz}
+    \zbarOldOrigSourceLinks
+  \item
+    \htmladdnormallink{zbar zmodyfikowany}{http://jarek.katowice.pl/jcwww/pbntools/%
+    zbar\_src\_pbntools.tgz}
+    \zbarOldSourceLinks
+  \item
+    Zestaw patchy do zbara dostêpny jest wraz z kodem ¼ród³owym PbnTools.
+  \end{itemize}
+
+\item
+  \htmladdnormallink{wget for windows}{http://jarek.katowice.pl/jcwww/pbntools/wget-1.11.4-1-src.zip}
+  
+
+\end{itemize}
+
+\subsection{Instalacja}
+Instalacja polega na rozpakowaniu pliku \verb!zip! do dowolnego nowego folderu.
+Ten folder stanie siê katalogiem programu PbnTools.
+Uruchomiaæ nale¿y plik \verb!pbntools! z tego katalogu.
+
+Folder instalacyjny, jak równie¿ wszelkie katalogi u¿ywane w programie,
+nie mog± zawieraæ spacji. Odpada wiêc np. katalog "Program Files".
+%}}}
+
+%{{{ rozwój
+\section{Rozwój} \label{dev}
+
+Mam nadziejê, ¿e program stanowi niez³± bazê do rozwoju w kierunku
+wielofunkcyjnego przybornika bryd¿owego.
+Sam nie dam rady doprowadziæ go do pe³nej postaci, dlatego postanowi³em
+udostêpniæ go na licencji umo¿liwiaj±cej dalszy rozwój, w grupie programistów.
+Liczê na to, ¿e znajd± siê w¶ród Was chêtni do ulepszania go.
+Nawet je¿eli nie jeste¶ programist±, mo¿esz pomóc poprzez zg³aszanie b³êdów,
+uwag lub sugestii.
+
+Program napisany jest w Javie.
+
+Do dyspozycji mamy nastêpuj±ce narzêdzia:
+
+\begin{itemize}
+\item
+  \htmladdnormallink{Bugzilla}{http://jarek.katowice.pl/bugzilla} -
+  narzêdzie do zg³aszania b³êdów i sugestii.
+  
+\item
+  \htmladdnormallink{Dedykowane forum}{http://jarek.katowice.pl/%
+  other/forum/viewforum.php?f=9} -
+  do dyskusji.
+  
+\item
+  SVN - baza kodu ¼ród³owego umo¿liwiaj±ca pracê grupow±, dostêpna dziêki
+  \htmladdnormallink{sourceforge.net}{https://sourceforge.net}:
+  \begin{verbatim}
+    svn checkout svn://svn.code.sf.net/p/pbntools/code/trunk pbntools-code-directory
+  \end{verbatim}
+
+  \htmladdnormallink{Przegl±danie on-line}{https://sourceforge.net/p/pbntools/%
+  code/},
+  \htmladdnormallink{strona PbnTools na sourceforge}{https://sourceforge.net/projects/pbntools/}
+  
+
+\end{itemize}
+
+Szczegó³y pracy nad kodem ¼ród³owym dostêpne s± w pliku README.SRC.txt,
+w archiwum kodu ¼ród³owego, patrz: Pobieranie, \ref{download}.
+
+\subsection{Wymagania do budowania}
+
+\begin{enumerate}
+\item
+  \javajdk
+\item
+  \htmladdnormallink{ant}{http://ant.apache.org/}, nazwa pakietu w Debianie: ant.
+  G³ówne narzêdzie do budowania.
+\item
+  \htmladdnormallink{BeanShell}{http://www.beanshell.org/},
+  {\em bsh-2.0b4.jar} (lub nowszy) wskazany w {\em build.xml}
+\item
+  \htmladdnormallink{launch4j}{http://launch4j.sourceforge.net},
+  do utworzenia pliku {\em exe} dla Windows.
+%\item
+  %\htmladdnormallink{makeself}{http://megastep.org/makeself/}, nazwa pakietu w Debianie: makeself.
+  %Do zbudowania wersji dystrybucyjnej pod linuxa.
+\item
+  Latex, do dokumentacji. nazwa pakietu w Debianie: latex2html.
+\item
+  Narzêdzia do budowania zbara opisane s± w plikach ¼ród³owych tego pakietu.
+  Do budowania PbnTools nie jest jednak konieczne ponowne budowanie zbara.  
+\item
+  \htmladdnormallink{JUnit}{http://www.junit.org},
+  \htmladdnormallink{JUnit-addons}{https://sourceforge.net/projects/junit-addons/}
+  - do wykonania autotestów.
+\end{enumerate}
+%}}}
+
+%{{{ historia
+\section{Historia wersji programu}
+\begin{description}
+\item[1.2.1, 27.11.2013]
+  \begin{itemize}
+  \item Usuniêto b³êdy \bugsonetwozero.
+  \end{itemize}
+\item[1.2.0, 24.11.2013]
+  \begin{itemize}
+  \item Pobieranie turniejów Bbo.
+  \item Konwerter z lin na pbn.
+  \item Opcja {\em User agent} w oknie konfiguracyjnym.
+  \item Nowa opcja konfiguracyjna: czas zw³oki www.
+  \item Usprawnienie pobierania turniejów Pary, by³ np. problem
+        z polem ,,frameset''.
+  \end{itemize}
+\item[1.1.0, 16.09.2012]
+  \begin{itemize}
+  \item Pobieranie turniejów w formacie {\em Pary}.
+        Na przyk³ad ze strony
+        \htmladdnormallink{warsbrydz}{http://www.warsbrydz.pl}
+        , {\em Wyniki, WOB, stare}.
+  \item Zmiana biblioteki video u¿ywanej do rozdawania kart pod Windows,
+        zastosowanie sterownika {\em DirectShow} w miejsce
+        {\em Video for Windows}. Powinno to usun±æ wiêkszo¶æ problemów,
+        z którymi borykali siê u¿ytkownicy Windows, czyli 
+        nie uruchamiaj±ca siê w ogóle kamera lub jej zawieszanie.
+  \end{itemize}
+\item[1.0.3, 05.04.2012]
+  \begin{itemize}
+  \item Opcja {\em Sprawd¼ uaktualnienie} w oknie {\em O programie}.
+  \item Modyfikacja zbara, który wcze¶niej nie radzi³ sobie z kamerami
+        dostarczaj±cymi obraz w formacie MJPG.
+  \item Uwidocznienie aplikacji na pasku zadañ.
+  \end{itemize}
+\item[1.0.2, 01.11.2011]
+  \begin{itemize}
+  \item Poprawka formatu PBN: by³o b³êdnie \verb!10! zamiast \verb!T!.
+  \end{itemize}
+\item[1.0.1, 01.11.2011]
+  \begin{itemize}
+  \item Ignorowanie pliku {\em robots.txt} podczas pobierania turniejów.
+  \end{itemize}
+\item[1.0.0, 01.11.2011]
+  Pierwsze oficjalne wydanie i ustanowienie licencji GNU GPL 3.0.
+  \begin{itemize}
+  \item Opcja {\em Rozdaj}
+  \end{itemize}
+\item[0.5, 07.03.2010]
+  Wersja prywatna, nierozpowszechniana publicznie.
+  \begin{itemize}
+  \item Obs³uga opcji {\em Pobierz kops}.
+  \end{itemize}
+\end{description}
+%}}}
+
+%{{{ zakonczenie
+\section{Zakoñczenie}
+
+Jestem otwarty na sugestie. Bêdê wdziêczny za informacje o nieprawid³owym dzia³aniu strony lub programu.
+
+{\setlength{\parindent}{0pt}\small\htmladdnormallink{Jarek Czekalski}{mailto:jarekczek@poczta.onet.pl},
+ostatnia modyfikacja 16.09.2012}
+%}}}
+
+\end{document}
