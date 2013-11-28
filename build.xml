@@ -732,6 +732,10 @@
   <exec executable="sed" failonerror="true" >
     <arg line="&apos;s/&lt;code&gt;/&lt;code style=&quot;display:inline&quot;&gt;/&apos; -i ${tmp}/help_${suffix}.html"/>
   </exec>
+  <!-- unwanted Polish letters appear in links -->
+  <exec executable="sed" failonerror="true" >
+    <arg line="&apos;s/katowice.pl&amp;#243;ther\/bugzilla&amp;#347;how/katowice.pl\/other\/bugzilla\/show/&apos; -i ${tmp}/help_${suffix}.html"/>
+  </exec>
 
   <copy todir="${basedir}/doc"><fileset dir="${tmp}" includes="help_${suffix}.html help_${suffix}.pdf"/></copy>
   <script manager="bsf" language="beanshell"
