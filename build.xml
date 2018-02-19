@@ -78,7 +78,7 @@
 <!-- //}}} -->
 
 <!-- //{{{ java targets -->
-<target name="clean">
+<target name="ant-clean">
   <delete quiet="true" dir="${compDir}" />
   <mkdir dir="${compDir}" />
   <delete quiet="true" dir="${compDirTest}" />
@@ -113,7 +113,7 @@
          encoding="windows-1250" includeantruntime="false" />
 </target>
 
-<target name="javadoc" depends="ivy-libs" >
+<target name="ant-javadoc" depends="ivy-libs" >
   <property name="javadocDir" value="${basedir}/build/javadoc" />
   <javadoc classpathref="compileClasspath"
            sourcepath="${basedir}/src"
@@ -140,10 +140,12 @@
 </target>
 
 <target name="ivy-libs">
-  <ivy:cachepath pathid="ivy.path" conf="build" log="download-only" />
+  <!-- gradle now fills this
+    <ivy:cachepath pathid="ivy.path" conf="build" log="download-only" />
+  -->
 </target>
 
-<target name="jar" depends="comp">
+<target name="ant-jar" depends="comp">
   <delete><fileset dir="${compDir}" includes="*.properties"/></delete>
   <jar destfile="${basedir}/work/release/PbnTools.jar" basedir="${basedir}/work/comp" >
     <!--<fileset dir="${basedir}" includes="res/*" />-->
@@ -157,7 +159,7 @@
 <!-- //}}} -->
 
 <!-- //{{{ run targets -->
-<target name="run-prereq" depends="comp,jar">
+<target name="run-prereq" depends="comp,ant-jar">
   <copy todir="${runDir}">
     <fileset dir="${basedir}/lib" includes="*.jar" />
     <fileset dir="${basedir}/work/release" includes="PbnTools.jar" />
@@ -217,7 +219,7 @@
   <!--<java jar="${tmp}/pbntools/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=${lang}" /> </java>-->
 </target>
 
-<target name="run-help" depends="comp,jar">
+<target name="run-help" depends="comp,ant-jar">
   <java jar="work/release/PbnTools.jar" fork="true" > <jvmarg value="-Duser.language=pl" />
     <arg line="--help" />
   </java>
@@ -462,7 +464,7 @@
 
 <target name="release-noInc" depends="dontIncBuildnumer, release" />
 
-<target name="release" depends="incBuildnumber, jar, doc">
+<target name="release" depends="incBuildnumber, ant-jar, doc">
   <antcall target="checkLib"><param name="lib" value="jl1.0.1.jar" /></antcall>
   <antcall target="checkLib"><param name="lib" value="jlayer_LICENSE.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="jlayer_README.txt" /></antcall>
@@ -488,7 +490,7 @@
   </antcall>
 </target>
 
-<target name="zip-linux" depends="jar, set-filenames">
+<target name="zip-linux" depends="ant-jar, set-filenames">
   <delete file="${fnReleaseZipLinux}" />
   <zip destfile="${fnReleaseZipLinux}" compress="yes">
     <zipfileset refid="fs.release.common.1" />
@@ -505,7 +507,7 @@
   </zip>
 </target>
 
-<target name="zip-windows" depends="jar, set-filenames">
+<target name="zip-windows" depends="ant-jar, set-filenames">
   <delete file="${fnReleaseZipWindows}" />
   <zip destfile="${fnReleaseZipWindows}" compress="yes">
     <zipfileset refid="fs.release.common.1" />
@@ -571,7 +573,7 @@
 
 <target name="junit" depends="junit-prereq, junit-local, junit-www" />
 
-<target name="junit-prereq" depends="ivy-libs, junit-jar, jar" >
+<target name="junit-prereq" depends="ivy-libs, junit-jar, ant-jar" >
   <presetdef name="junitpreset">
     <junit fork="yes" haltonfailure="yes" timeout="60000" showoutput="false"
       outputtoformatters="true">
@@ -586,7 +588,7 @@
   <mkdir dir="work/junit-tmp" />
 </target>
 
-<target name="junit-local" depends="junit-prereq" >
+<target name="ant-junit-local" depends="junit-prereq" >
   <junitpreset>
     <test name="jc.fTests"
           outfile="work/junit-tmp/test_log_f" />
@@ -607,7 +609,7 @@
   </junitpreset>
 </target>
 
-<target name="junit-www" depends="junit-prereq">
+<target name="ant-junit-www" depends="junit-prereq">
   <!-- makes tests that require local www server with test content
        tests with www inside should be available at http://localhost/pbntools
        Www tests are important for processing that takes place between
@@ -668,7 +670,7 @@
       &lt;fileVersion>${wersja}.${build.number}&lt;/fileVersion>
       &lt;txtFileVersion>${wersja}.${build.number}&lt;/txtFileVersion>
       &lt;fileDescription>PbnTools - a bridge player's toolkit&lt;/fileDescription>
-      &lt;copyright>Copyright (C) 2010-2011 jarekczek&lt;/copyright>
+      &lt;copyright>Copyright (C) 2010-2018 jarekczek&lt;/copyright>
       &lt;productVersion>${wersja}.${build.number}&lt;/productVersion>
       &lt;txtProductVersion>${wersja}.${build.number}&lt;/txtProductVersion>
       &lt;productName>PbnTools&lt;/productName>
@@ -745,15 +747,15 @@
   ]]></script>
 </target>
 
-<target name="test" depends="comp">
+<target name="ant-test" depends="comp">
   <java classpathref="runClasspath" classname="jc.pbntools.DlgPbnToolsAbout"
         dir="${basedir}" fork="yes" >
-    <arg value="/jarek/www/jarek/brydz/test/p05.pbn"/>
+    <arg value="${basedir}/test/test_4_kops_www_20130807/sm0807.pbn"/>
   </java>
 </target>
 
 <target name="test-rozdaj" depends="comp">
-  <java classpath="${compDir};${basedir}/jl1.0.1.jar" classname="jc.pbntools.PlikPbn" dir="${basedir}" fork="yes" ><arg value="/jarek/www/jarek/brydz/test/p05.pbn"/> </java>
+  <java classpath="${compDir};${basedir}/lib/jl1.0.1.jar" classname="jc.pbntools.PbnFile" dir="${basedir}" fork="yes" ><arg value="${basedir}/test/test_4_kops_www_20130807/sm0807.pbn"/> </java>
 </target>
 
 <target name="test-www-linux">

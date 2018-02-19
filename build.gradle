@@ -1,0 +1,55 @@
+apply plugin: 'java'
+
+repositories {
+  mavenCentral()
+}
+
+configurations.create('ivy') // old configuration used by ant
+
+dependencies {
+  ivy 'junit:junit-dep:4.11'
+  ivy 'junit-addons:junit-addons:1.4'
+  compile 'org.jsoup:jsoup:1.7.3'
+  compile 'javazoom:jlayer:1.0.1'
+  testCompile 'junit:junit-dep:4.11'
+  testCompile 'junit-addons:junit-addons:1.4'
+}
+
+ant.importBuild "build.xml"
+ant.references['ivy.path'] = ant.path(path: configurations.ivy.files.join(';'))
+
+tasks.clean.dependsOn 'ant-clean'
+
+sourceSets.main.java.srcDir 'src'
+sourceSets.test.java.srcDir 'junit-tests'
+
+task 'junit-local' (type: Test) {
+  filter {
+    includeTestsMatching 'jc.fTests'
+    includeTestsMatching 'jc.SoupProxyTests'
+    includeTestsMatching 'jc.pbntools.PbnToolsTests'
+  }
+}
+
+task 'junit-www' (type: Test) {
+  println 'junit-www tests, prerequisites:'
+  println '1. serve test/*www* directories at http://localhost/pbntools'
+  println '   (use install_www_tests.sh)'
+  println '2. turn off internet (suggestion only)'
+  //TODO <junitpreset timeout="20000" >
+  filter {
+    includeTestsMatching 'jc.pbntools.PbnToolsWwwTests'
+  }
+}
+
+tasks.withType(Test) {
+  outputs.upToDateWhen {false}
+  testLogging.showStandardStreams = true
+  testLogging.exceptionFormat = 'full'
+}
+
+task run(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'jc.pbntools.PbnTools'
+  jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=77789
+}

@@ -10,6 +10,7 @@ Object variables do not require this prefix. Additionally
 member variables are prefixed with m_, e.g. m_sPath.
 
 Usually following tab settings are adviced: :tabSize=2:noTabs=true:
+Whenever possible, lines should not exceed 78 characters.
 
 In some old files there may be found incorrect indentation like:
 int fun() {
