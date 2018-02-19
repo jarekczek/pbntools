@@ -622,7 +622,7 @@ public class Deal implements Cloneable {
       cOsoby += 1;
       nKolor = 1;
       k = new Card();
-      if (sDeal.charAt(nPoz+=1) != ':') { System.err.println("Bï¿½ï¿½d skï¿½adni pliku PBN. W tagu deal na pozycji 2 powinien byï¿½ znak :"); return false; }
+      if (sDeal.charAt(nPoz+=1) != ':') { System.err.println("B³¹d sk³adni pliku PBN. W tagu deal na pozycji 2 powinien byæ znak :"); return false; }
       while (cKarty<52) {
         char ch = sDeal.charAt(nPoz+=1);
         //System.err.println(""+ch+" m_anCards[28]="+m_anCards[28]);
@@ -646,8 +646,8 @@ public class Deal implements Cloneable {
             }
           
           k.set(nKolor, Card.rank(ch));
-          if (!k.isOk()) { System.err.println("Bï¿½ï¿½d skï¿½adni pliku PBN. Bï¿½ï¿½dna wysokoï¿½ï¿½ karty: "+ch);return false; }
-          if (m_anCards[k.getCode()] != -1) { System.err.println("Bï¿½ï¿½d skï¿½adni pliku PBN. Karta "+k.toString()+" ("+k.getCode()+") zostaï¿½a rozdana 2 razy. Poprzednio do "+m_anCards[k.getCode()]+" a teraz do "+nPerson); return false; }
+          if (!k.isOk()) { System.err.println("B³¹d sk³adni pliku PBN. B³êdna wysokoœæ karty: "+ch);return false; }
+          if (m_anCards[k.getCode()] != -1) { System.err.println("B³¹d sk³adni pliku PBN. Karta "+k.toString()+" ("+k.getCode()+") zosta³a rozdana 2 razy. Poprzednio do "+m_anCards[k.getCode()]+" a teraz do "+nPerson); return false; }
           m_anCards[k.getCode()] = nPerson;
           //System.err.println("Karta "+k.toString()+" ("+k.getCode()+") idzie do "+znakOsoby(nPerson));
           cKarty += 1;
@@ -655,11 +655,11 @@ public class Deal implements Cloneable {
         }
       }
     catch (StringIndexOutOfBoundsException e) {
-      System.err.println("Bï¿½ï¿½d skï¿½adni pliku PBN. Koniec tagu po wczytaniu "+cKarty+" kart");
+      System.err.println("B³¹d sk³adni pliku PBN. Koniec tagu po wczytaniu "+cKarty+" kart");
       return false;
       //if (cKarty!=52 || cOsoby!=4) { return false; }
       }
-    if (cOsoby!=4) { System.err.println("Bï¿½ï¿½d skï¿½adni pliku PBN. Wczytano karty tylko "+cOsoby+" osï¿½b"); return false; }
+    if (cOsoby!=4) { System.err.println("B³¹d sk³adni pliku PBN. Wczytano karty tylko "+cOsoby+" osób"); return false; }
     return true;
     } //}}}
 
@@ -711,14 +711,14 @@ public class Deal implements Cloneable {
 
     private void grajDzwiek(String sNazwa) {
       try {
-        String sRes = "/" + sNazwa + ".mp3";
+        String sRes = "/"+sNazwa+".mp3";
         InputStream is = PbnTools.class.getResourceAsStream(sRes);
         if (is != null) {
           Player p = new Player(is);
           p.play();
           }
         else {
-          System.err.println("Nie udaï¿½o siï¿½ zaï¿½adowaï¿½ zasobu: "+sRes);
+          System.err.println("Nie uda³o siê za³adowaæ zasobu: "+sRes);
           }
         }
       catch (javazoom.jl.decoder.JavaLayerException e) { e.printStackTrace(); }
