@@ -256,7 +256,7 @@ public class PbnTools {
     ArrayList<java.awt.Image> ai = new ArrayList<java.awt.Image>();
     try {
       for (String sSuf : asSuff) {
-        String sRes = "res/pik_nieb_zol_"+sSuf+".png";
+        String sRes = "/pik_nieb_zol_"+sSuf+".png";
         InputStream is = PbnTools.class.getResourceAsStream(sRes);
         if (is == null) {
           f.err("Brak pliku "+sRes);
