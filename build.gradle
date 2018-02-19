@@ -19,10 +19,29 @@ ant.importBuild "build.xml"
 ant.references['ivy.path'] = ant.path(path: configurations.ivy.files.join(';'))
 
 tasks.clean.dependsOn 'ant-clean'
+tasks.comp.dependsOn 'compileJava'
+tasks['ant-jar'].dependsOn 'jar'
+tasks.junit.dependsOn 'junit-local'
+tasks.junit.dependsOn 'junit-www'
 
 sourceSets.main.java.srcDir 'src'
 sourceSets.main.resources.srcDir 'resource'
 sourceSets.test.java.srcDir 'junit-tests'
+
+println project.jar
+
+jar {
+  baseName = 'PbnTools'
+  manifest {
+    attributes(
+      "Manifest-Version": "1.0",
+      "Main-Class": "jc.pbntools.PbnTools",
+      "Class-Path": configurations.compile.files.collect {
+        it.getName()
+      }.join(" ")
+    )
+  }
+}
 
 task 'junit-local' (type: Test) {
   filter {

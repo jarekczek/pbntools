@@ -101,7 +101,8 @@
   </exec>
 </target>
 
-<target name="comp" depends="">
+<target name="comp">
+  <!-- done by gradle compile, which is added as a dependency in build.gradle
   <native2ascii encoding="windows-1250" dest="${basedir}/work/comp/jc" src="${basedir}/src/jc" includes="**/*.properties" />
   <copy todir="${basedir}/work/comp/jc/pbntools/res">
     <fileset dir="${basedir}/res" includes="*" />
@@ -111,6 +112,7 @@
          includes="**/*.java" excludes="**/pbn_nb/**/*"
          debug="true" debuglevel="lines,vars,source"
          encoding="windows-1250" includeantruntime="false" />
+  -->
 </target>
 
 <target name="ant-javadoc" depends="ivy-libs" >
@@ -146,15 +148,16 @@
 </target>
 
 <target name="ant-jar" depends="comp">
+  <!-- replace by gradle jar
   <delete><fileset dir="${compDir}" includes="*.properties"/></delete>
   <jar destfile="${basedir}/work/release/PbnTools.jar" basedir="${basedir}/work/comp" >
-    <!--<fileset dir="${basedir}" includes="res/*" />-->
     <manifest>
       <attribute name="Manifest-Version" value="1.0" />
       <attribute name="Main-Class" value="jc.pbntools.PbnTools" />
       <attribute name="Class-Path" value="jl1.0.1.jar jsoup-${jsoupVersion}.jar" />
     </manifest>
   </jar>
+  -->
 </target>
 <!-- //}}} -->
 
@@ -571,7 +574,7 @@
   </jar>
 </target>
 
-<target name="junit" depends="junit-prereq, junit-local, junit-www" />
+<target name="junit" depends="junit-prereq" />
 
 <target name="junit-prereq" depends="ivy-libs, junit-jar, ant-jar" >
   <presetdef name="junitpreset">
