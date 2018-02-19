@@ -173,7 +173,7 @@
   </condition>
 </target>
 
-<target name="run" depends="run-prereq">
+<target name="ant-run" depends="run-prereq">
   <property name="gui.language" value="xx" />
   <java jar="${runDir}/PbnTools.jar" fork="true" >
     <jvmarg value="-Duser.language=${gui.language}" />
