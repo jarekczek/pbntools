@@ -27,7 +27,7 @@
 <property file="local.properties" />
 <property environment="env" />
 <!-- PbnTools.properties contains: wersja, wersja_podkr -->
-<property file="${basedir}/src/jc/pbntools/PbnTools.properties"/>
+<property file="${basedir}/resource/jc/pbntools/PbnTools.properties"/>
 
 <!--these properties will be often overriden through local.properties file-->
 <!--but remember to use double backslashes under windows-->
@@ -120,7 +120,7 @@
   <javadoc classpathref="compileClasspath"
            sourcepath="${basedir}/src"
            destdir="${javadocDir}" />
-  <script manager="bsf" language="beanshell" classpathref="ivy.path"><![CDATA[
+  <script language="javascript"><![CDATA[
     sDir = project.getProperty("javadocDir"); 
     Desktop.getDesktop().open(new File(sDir, "index.html"));
   ]]></script>
@@ -261,7 +261,7 @@
     <arg line="info" />
   </exec>
   <!-- <echo>${svn.info}</echo> -->
-  <script manager="bsf" language="beanshell" classpathref="ivy.path"><![CDATA[
+  <script language="javascript"><![CDATA[
     import java.util.regex.*;
     import org.apache.tools.ant.BuildException;
     sSvnInfo = project.getProperty("svn.info");
@@ -396,7 +396,7 @@
   <exec executable="${doxygen}" failonerror="true">
     <arg line="${zbarDoxyDir}/Doxyfile" />
   </exec>
-  <script manager="bsf" language="beanshell" classpathref="ivy.path">
+  <script language="javascript">
     java.awt.Desktop.getDesktop().open(new File(project.getProperty("zbarDoxyDir")+"/html/index.html"));
   </script>
 </target>
@@ -743,8 +743,7 @@
   </exec>
 
   <copy todir="${basedir}/doc"><fileset dir="${tmp}" includes="help_${suffix}.html help_${suffix}.pdf"/></copy>
-  <script manager="bsf" language="beanshell"
-          classpathref="ivy.path"><![CDATA[
+  <script language="javascript"><![CDATA[
   java.awt.Desktop.getDesktop().open(new File(project.getProperty("basedir")
                                               +"/doc/help_"+project.getProperty("suffix")+".html"));
   ]]></script>
