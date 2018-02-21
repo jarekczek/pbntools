@@ -51,7 +51,7 @@
 <property name="compDirTest" location="${basedir}/work/comp-test" />
 <property name="zbarTag" value="0.10" />
 <path id="compileClasspath">
-  <pathelement location="${basedir}/lib/jl1.0.1.jar" />
+  <pathelement location="${basedir}/lib/jlayer-1.0.1.jar" />
   <fileset dir="${basedir}/lib" includes="jsoup*.jar" />
 </path>
 <path id="runClasspath">
@@ -122,23 +122,8 @@
            destdir="${javadocDir}" />
   <script language="javascript"><![CDATA[
     sDir = project.getProperty("javadocDir"); 
-    Desktop.getDesktop().open(new File(sDir, "index.html"));
+    Desktop.getDesktop().open(new java.io.File(sDir, "index.html"));
   ]]></script>
-</target>
-
-<target name="download-deps">
-  <taskdef resource="org/apache/ivy/ant/antlib.xml"
-           uri="antlib:org.apache.ivy.ant" /> 
-           <!-- classpathref="ivy.jar.path"/> -->
-  <ivy:retrieve inline="true" organisation="org.jsoup"
-                module="jsoup" type="jar" revision="${jsoupVersion}"
-                pattern="${basedir}/lib/[artifact]-[revision].[ext]"
-                log="download-only" />
-  <!-- only 1.0 on maven, we may consider switching to 1.0 
-  <ivy:retrieve inline="true" organisation="de.huxhorn.sulky"
-                module="de.huxhorn.sulky.3rdparty.jlayer" type="jar"
-                revision="1.0"
-                pattern="${basedir}/lib/[artifact]-[revision].[ext]" /> -->
 </target>
 
 <target name="ivy-libs">
@@ -154,7 +139,7 @@
     <manifest>
       <attribute name="Manifest-Version" value="1.0" />
       <attribute name="Main-Class" value="jc.pbntools.PbnTools" />
-      <attribute name="Class-Path" value="jl1.0.1.jar jsoup-${jsoupVersion}.jar" />
+      <attribute name="Class-Path" value="jlayer-1.0.1.jar jsoup-${jsoupVersion}.jar" />
     </manifest>
   </jar>
   -->
@@ -397,7 +382,7 @@
     <arg line="${zbarDoxyDir}/Doxyfile" />
   </exec>
   <script language="javascript">
-    java.awt.Desktop.getDesktop().open(new File(project.getProperty("zbarDoxyDir")+"/html/index.html"));
+    java.awt.Desktop.getDesktop().open(new java.io.File(project.getProperty("zbarDoxyDir")+"/html/index.html"));
   </script>
 </target>
 
@@ -468,7 +453,7 @@
 <target name="release-noInc" depends="dontIncBuildnumer, release" />
 
 <target name="release" depends="incBuildnumber, ant-jar, doc">
-  <antcall target="checkLib"><param name="lib" value="jl1.0.1.jar" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="jlayer-1.0.1.jar" /></antcall>
   <antcall target="checkLib"><param name="lib" value="jlayer_LICENSE.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="jlayer_README.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="jsoup-${jsoupVersion}.jar" /></antcall>
@@ -744,7 +729,7 @@
 
   <copy todir="${basedir}/doc"><fileset dir="${tmp}" includes="help_${suffix}.html help_${suffix}.pdf"/></copy>
   <script language="javascript"><![CDATA[
-  java.awt.Desktop.getDesktop().open(new File(project.getProperty("basedir")
+  java.awt.Desktop.getDesktop().open(new java.io.File(project.getProperty("basedir")
                                               +"/doc/help_"+project.getProperty("suffix")+".html"));
   ]]></script>
 </target>
@@ -757,7 +742,7 @@
 </target>
 
 <target name="test-rozdaj" depends="comp">
-  <java classpath="${compDir};${basedir}/lib/jl1.0.1.jar" classname="jc.pbntools.PbnFile" dir="${basedir}" fork="yes" ><arg value="${basedir}/test/test_4_kops_www_20130807/sm0807.pbn"/> </java>
+  <java classpath="${compDir};${basedir}/lib/jlayer-1.0.1.jar" classname="jc.pbntools.PbnFile" dir="${basedir}" fork="yes" ><arg value="${basedir}/test/test_4_kops_www_20130807/sm0807.pbn"/> </java>
 </target>
 
 <target name="test-www-linux">

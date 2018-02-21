@@ -23,6 +23,7 @@ tasks.comp.dependsOn 'compileJava'
 tasks['ant-jar'].dependsOn 'jar'
 tasks.junit.dependsOn 'junit-local'
 tasks.junit.dependsOn 'junit-www'
+tasks.release.dependsOn 'fillLibDir'
 
 sourceSets.main.java.srcDir 'src'
 sourceSets.main.resources.srcDir 'resource'
@@ -74,4 +75,9 @@ task run(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'jc.pbntools.PbnTools'
   jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=7779"
+}
+
+task fillLibDir(type: Copy) {
+  from configurations.compile.files
+  into 'lib'
 }
