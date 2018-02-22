@@ -42,7 +42,6 @@
 <property name="sed" value="sed" />
 <property name="git" value="git" />
 <property name="doxygen" value="doxygen" />
-<property name="launch4jJar" location="/usr/local/lib/launch4j/launch4j.jar" />
 <property name="latex2html" value="latex2html" />
 <property name="latex2htmlOpts" value="-split 0 -nonavigation -address &quot;&quot; -noinfo -show_section_numbers -html_version 4.0,latin2,unicode" />
 <property name="jsoupVersion" value="1.7.3" />
@@ -66,7 +65,7 @@
          excludes="*.marks"/>
 
 <zipfileset id="fs.release.common.1" dir="${basedir}/doc" includes="help_*.html zbarcam.html" />
-<zipfileset id="fs.release.common.2" dir="${basedir}/work/release" includes="PbnTools.jar" />
+<zipfileset id="fs.release.common.2" dir="${basedir}/build/libs" includes="PbnTools.jar" />
 <zipfileset id="fs.release.common.3" dir="${basedir}/lib" includes="*.jar *.txt" />
 <zipfileset id="fs.release.common.4" dir="${basedir}" includes="no_files.xxx" />
 <zipfileset id="fs.release.common.5" dir="${basedir}" includes="no_files.xxx" />
@@ -429,15 +428,6 @@
 <!-- //}}} -->
 
 <!-- //{{{ release targets -->
-<target name="release-linux">
-  <antcall target="zip-linux" />
-</target>
-
-<target name="release-windows">
-  <antcall target="launcher" />
-  <antcall target="zip-windows" />
-</target>
-
 <target name="checkFile">
   <!--params needed: dir, lib-->
   <property name="missingLibMsg" value="not in ${dir} directory. This file can be found in installed pbntools directory." />
@@ -450,9 +440,7 @@
   </antcall>
 </target>
 
-<target name="release-noInc" depends="dontIncBuildnumer, release" />
-
-<target name="release" depends="incBuildnumber, ant-jar, doc">
+<target name="ant-release" depends="incBuildnumber, ant-jar, doc">
   <antcall target="checkLib"><param name="lib" value="jlayer-1.0.1.jar" /></antcall>
   <antcall target="checkLib"><param name="lib" value="jlayer_LICENSE.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="jlayer_README.txt" /></antcall>
@@ -469,8 +457,6 @@
   <copy todir="${basedir}/work/release"><fileset dir="${basedir}/doc" includes="*.html" /></copy>
   <copy todir="${basedir}/work/release/bin"><fileset dir="${basedir}/lib" includes="zbarcam" /></copy>
   <chmod dir="${basedir}/work/release/bin" perm="a+x" includes="*" />
-  <antcall target="release-linux" />
-  <antcall target="release-windows" />
   <antcall target="zip-src">
     <param name="destSrcDir" value="release" />
   </antcall>
@@ -506,7 +492,7 @@
     <zipfileset refid="fs.release.common.8" />
     <zipfileset refid="fs.release.common.9" />
     <zipfileset dir="${basedir}/lib" includes="zbarcam.exe wget/**/*" prefix="bin" />
-    <zipfileset dir="${basedir}/work/release" includes="PbnTools.exe" prefix="" />
+    <zipfileset dir="${basedir}/build/launch4j" includes="PbnTools.exe" prefix="" />
   </zip>
 </target>
 
@@ -625,7 +611,7 @@
   <exec executable="xdg-open" failonerror="true"><arg line="/tmp/deal.pdf"/></exec>
 </target>
 
-<target name="launcher" depends="set-filenames, ivy-libs">
+<target name="ant-launcher" depends="set-filenames, ivy-libs">
 <taskdef name="launch4j"
    classname="net.sf.launch4j.ant.Launch4jTask"
    classpath="${launch4jJar}" />

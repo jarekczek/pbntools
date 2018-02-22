@@ -1,4 +1,16 @@
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.edu.sc.seis.gradle:launch4j:2.4.3"
+  }
+}
+
 apply plugin: 'java'
+apply plugin: "edu.sc.seis.launch4j"
 
 repositories {
   mavenCentral()
@@ -23,7 +35,6 @@ tasks.comp.dependsOn 'compileJava'
 tasks['ant-jar'].dependsOn 'jar'
 tasks.junit.dependsOn 'junit-local'
 tasks.junit.dependsOn 'junit-www'
-tasks.release.dependsOn 'fillLibDir'
 
 sourceSets.main.java.srcDir 'src'
 sourceSets.main.resources.srcDir 'resource'
@@ -91,4 +102,56 @@ task fillLibDir2(type: Copy) {
 task fillLibDir3(type: Copy) {
   from 'release_files/doc'
   into 'doc'
+}
+
+def launcherConfigurationClosure = {
+  outfile = 'PbnTools.exe'
+  jar = 'PbnTools.jar'
+  dontWrapJar = true
+  errTitle = 'PbnTools'
+  supportUrl = 'http://jarek.katowice.pl/pbntools'
+  stayAlive = true
+  icon = project.rootDir.toString() + '/resource/pik_nieb_zol.ico'
+  jreMinVersion = '1.6.0'
+  version = ant.properties['wersja'] + '.' + ant.properties['build.number']
+  textVersion = version
+  fileDescription = "PbnTools - a bridge player's toolkit"
+  copyright = 'Copyright (C) 2010-2018 jarekczek'
+  productName = 'PbnTools'
+  companyName = 'jarekczek'
+  internalName = 'PbnTools'
+}
+
+task launcherInternal(type: edu.sc.seis.launch4j.tasks.Launch4jLibraryTask) {}
+task launcherExternal(type: edu.sc.seis.launch4j.tasks.Launch4jExternalTask) {}
+task launcher() {
+  group = 'pbntools'
+}
+tasks.launcher.dependsOn 'set-filenames'
+launcherConfigurationClosure.rehydrate(null, tasks.launcherInternal, null).call()
+launcherConfigurationClosure.rehydrate(null, tasks.launcherExternal, null).call()
+if (hasProperty('xlaunch4jCmd'))
+  tasks.launcher.dependsOn 'launcherInternal'
+else {
+  tasks.launcherExternal.launch4jCmd = ext.launch4jCmd
+  tasks.launcher.dependsOn 'launcherExternal'
+}
+
+task release(dependsOn: ['fillLibDir', 'ant-release', 'releaseLinux', 'releaseWindows']) {
+  group = 'pbntools'
+}
+
+task 'release-noInc'(dependsOn: ['dontIncBuildnumer', 'release'])
+
+task commonReleaseDeps(dependsOn: 'set-filenames')
+
+task releaseWindows(dependsOn: ['launcher', 'commonReleaseDeps']) {
+  doLast {
+    tasks['zip-windows'].executeAntTarget()
+  }
+}
+task releaseLinux(dependsOn: 'commonReleaseDeps') {
+  doLast {
+    tasks['zip-linux'].executeAntTarget()
+  }
 }
