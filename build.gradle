@@ -77,7 +77,18 @@ task run(type: JavaExec) {
   jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=7779"
 }
 
-task fillLibDir(type: Copy) {
+task fillLibDir(type: Copy, dependsOn: ['fillLibDir2', 'fillLibDir3']) {
   from configurations.compile.files
   into 'lib'
+}
+
+task fillLibDir2(type: Copy) {
+  from 'release_files'
+  exclude 'doc'
+  into 'lib'
+}
+
+task fillLibDir3(type: Copy) {
+  from 'release_files/doc'
+  into 'doc'
 }

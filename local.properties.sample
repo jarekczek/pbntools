@@ -6,6 +6,7 @@ svn.user=jarekczek
 svn.pass=xxxx
 latex2html=C:\\Program Files\\MiKTeX 2.9\\miktex\\bin\\x64\\htlatex.exe
 latex2htmlOpts=
+git=git.bat
 # testArgs=-h
 # testArgs=--verbose -dt http://www.warsbrydz.pl/wyniki/gem/GE120917/index.html
 # testArgs=--verbose -dtk file:///mnt/q/jarek/lang/java/pbntools/test/test_2_kops/PCH1003/index.html

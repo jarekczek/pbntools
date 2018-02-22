@@ -40,7 +40,7 @@
 <property name="runDir" value="${tmp}/pbntools_tmp" />
 <property name="hg" value="hg" />
 <property name="sed" value="sed" />
-<property name="svn" value="svn" />
+<property name="git" value="git" />
 <property name="doxygen" value="doxygen" />
 <property name="launch4jJar" location="/usr/local/lib/launch4j/launch4j.jar" />
 <property name="latex2html" value="latex2html" />
@@ -215,8 +215,8 @@
 <!-- //}}} -->
 
 <!-- //{{{ helper targets -->
-<target name="set-filenames" depends="set-svn-rev" >
-  <property name="build.number" value="${svn.rev}" />
+<target name="set-filenames" depends="set-git-rev" >
+  <property name="build.number" value="${git.rev}" />
   <property file="build.number" />
   <property name="destSrcDir" value="release" />
   <property name="fnReleaseZipLinux" value="${basedir}/release/PbnTools_${wersja_podkr}_r${build.number}_linux.zip" />
@@ -232,7 +232,7 @@
 <target name="incBuildnumber" unless="buildnumberIncreased" >
   <property name="buildnumberIncreased" value="true" />
   <antcall target="incBuildnumberHelper" />
-  <!-- since we use svn.rev as a build number, this must be prefixed -->
+  <!-- since we use git.rev as a build number, this must be prefixed -->
   <property file="build.number" prefix="ant" />
 </target>
 
@@ -241,22 +241,22 @@
   <property name="buildnumberIncreased" value="true" />
 </target>
 
-<target name="set-svn-rev" depends="ivy-libs" > <!-- {{{ -->
-  <exec executable="${svn}" outputproperty="svn.info" failonerror="true" >
-    <arg line="info" />
+<target name="set-git-rev" depends="ivy-libs" > <!-- {{{ -->
+  <exec executable="${git}" outputproperty="git.info" failonerror="true" >
+    <arg line="rev-list --max-count=1 HEAD" />
   </exec>
-  <!-- <echo>${svn.info}</echo> -->
+  <!--<echo>git.info: ${git.info}.</echo>-->
+  <!-- kiedys wycinalismy mocno z svn, na gicie mogloby byc bez regexa, ale
+       niech zostanie, a nuz sie kiedy przyda -->
   <script language="javascript"><![CDATA[
-    import java.util.regex.*;
-    import org.apache.tools.ant.BuildException;
-    sSvnInfo = project.getProperty("svn.info");
-    Pattern p = Pattern.compile("((Wersja)|(Revision)): ([0-9]+)");
-    Matcher m = p.matcher(sSvnInfo);
+    sGitInfo = project.getProperty("git.info");
+    var p = java.util.regex.Pattern.compile("(.{6})");
+    var m = p.matcher(sGitInfo);
     if (m.find()) {
-      project.setProperty("svn.rev", m.group(4));
+      project.setProperty("git.rev", m.group(1));
     } else {
-      throw new BuildException("Could not find the revision " +
-                               "number in svn info.");
+      throw new org.apache.tools.ant.BuildException("Could not find the revision " +
+                               "number in git info.");
     }
   ]]></script>
 </target> <!-- }}} -->
@@ -465,8 +465,6 @@
   <antcall target="checkLib"><param name="lib" value="wget" /></antcall>
   <antcall target="checkFile"><param name="lib" value="zbarcam.html" />
                               <param name="dir" value="doc" /></antcall>
-  <antcall target="checkFile"><param name="lib" value="pik_nieb_zol.ico" />
-                              <param name="dir" value="res" /></antcall>
   <copy todir="${basedir}/work/release"><fileset dir="${basedir}/lib" includes="*.jar *.txt" /></copy>
   <copy todir="${basedir}/work/release"><fileset dir="${basedir}/doc" includes="*.html" /></copy>
   <copy todir="${basedir}/work/release/bin"><fileset dir="${basedir}/lib" includes="zbarcam" /></copy>
