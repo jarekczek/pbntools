@@ -476,7 +476,7 @@
     <zipfileset refid="fs.release.common.8" />
     <zipfileset refid="fs.release.common.9" />
     <zipfileset dir="${basedir}/work/release" includes="bin/zbarcam" filemode="755" />
-    <zipfileset dir="${basedir}/src" includes="pbntools" filemode="755" />
+    <zipfileset dir="${basedir}/release_files/linux" filemode="755" />
   </zip>
 </target>
 

@@ -96,6 +96,7 @@ task fillLibDir(type: Copy, dependsOn: ['fillLibDir2', 'fillLibDir3']) {
 task fillLibDir2(type: Copy) {
   from 'release_files'
   exclude 'doc'
+  exclude 'linux'
   into 'lib'
 }
 
