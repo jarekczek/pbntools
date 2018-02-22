@@ -91,6 +91,7 @@
       includes="*.4ct *.4tc *.dvi *.idv *.lg *.log *.out *.tmp *.toc *.xref"
     />
   </delete>
+  <delete quiet="true" dir="lib" />
 </target>
 
 <target name="preverify" depends="comp">

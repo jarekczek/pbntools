@@ -1,0 +1,15 @@
+.gradle
+.idea
+*.iml
+build
+build.number
+doc/*.aux
+doc/*.html
+doc/*.pdf
+doc/autoDefs.tex
+gradle.properties
+lib
+local.properties
+release
+sed*
+work

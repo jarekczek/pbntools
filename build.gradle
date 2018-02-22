@@ -137,13 +137,14 @@ else {
   tasks.launcher.dependsOn 'launcherExternal'
 }
 
-task release(dependsOn: ['fillLibDir', 'ant-release', 'releaseLinux', 'releaseWindows']) {
+task release(dependsOn: ['releaseLinux', 'releaseWindows']) {
   group = 'pbntools'
 }
 
 task 'release-noInc'(dependsOn: ['dontIncBuildnumer', 'release'])
 
-task commonReleaseDeps(dependsOn: 'set-filenames')
+task commonReleaseDeps(dependsOn: ['set-filenames', 'ant-release'])
+tasks['ant-release'].dependsOn 'fillLibDir'
 
 task releaseWindows(dependsOn: ['launcher', 'commonReleaseDeps']) {
   doLast {
