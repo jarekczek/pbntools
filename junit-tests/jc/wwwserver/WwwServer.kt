@@ -6,6 +6,7 @@ import io.ktor.content.file
 import io.ktor.content.files
 import io.ktor.content.static
 import io.ktor.features.CallLogging
+import io.ktor.features.DefaultHeaders
 import io.ktor.features.StatusPages
 import io.ktor.http.*
 import io.ktor.pipeline.PipelineContext
@@ -23,6 +24,7 @@ import java.io.File
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.net.URL
+import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 
 class WwwServer(val port: Int, val staticDir: String) {
@@ -81,9 +83,20 @@ class WwwServer(val port: Int, val staticDir: String) {
     System.out.println("or file ${fileHtml.absolutePath}")
     return listOf(file, fileHtml)
       .filter { it.exists() }
-      .map { LocalFileContent(it) }
+      .map {
+        localFileContentWithCorrectCharset(it)
+      }
       .firstOrNull()
       ?: throw RuntimeException("Brak pliku ${file.absolutePath} i ${fileHtml.absolutePath}.")
+  }
+
+  private fun localFileContentWithCorrectCharset(file: File): LocalFileContent {
+    val fc1 = LocalFileContent(file)
+    val contentType = ContentType(
+      fc1.contentType.contentType,
+      fc1.contentType.contentSubtype
+    ).withCharset(Charset.forName("iso-8859-2"))
+    return LocalFileContent(file, contentType)
   }
 
   private fun getStackTraceString(t: Throwable): String {

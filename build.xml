@@ -546,7 +546,7 @@
 
 <target name="junit"/>
 
-<target name="junit-prereq" depends="ivy-libs, junit-jar, ant-jar" >
+<target name="ant-junit-prereq" depends="ivy-libs, junit-jar, ant-jar" >
   <presetdef name="junitpreset">
     <junit fork="yes" haltonfailure="yes" timeout="60000" showoutput="false"
       outputtoformatters="true">
