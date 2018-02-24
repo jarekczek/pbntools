@@ -48,7 +48,7 @@ private static PrintStream origOut;
 {
   PbnToolsTests.pobierzTestHelper(
     new KopsTourDownloader(),
-    "http://localhost/pbntools/test_4_kops_www_20130807/protokoly/01/chorzow/13/SM0807/",
+    "http://localhost:15863/pbntools/test_4_kops_www_20130807/protokoly/01/chorzow/13/SM0807/",
     "test/test_4_kops_www_20130807/sm0807.pbn",
     "SM0807/sm0807.pbn");
 }
@@ -58,7 +58,7 @@ private static PrintStream origOut;
 {
   PbnToolsTests.pobierzTestHelper(
     new ParyTourDownloader(),
-    "http://localhost/pbntools/test_5_pary_www_20130808/WB130808/wb130808.html",
+    "http://localhost:15863/pbntools/test_5_pary_www_20130808/WB130808/wb130808.html",
     "test/test_5_pary_www_20130808/wb130808.pbn",
     "WB130808/wb130808.pbn");
 }
@@ -68,7 +68,7 @@ private static PrintStream origOut;
 {
   PbnToolsTests.pobierzTestHelper(
     new BboTourDownloader(),
-    "http://localhost/pbntools/test_7_bbo_www_acbl_20130810/www.bridgebase.com/myhands/hands.php@tourney=1607-1376154000-&offset=0.html",
+    "http://localhost:15863/pbntools/test_7_bbo_www_acbl_20130810/www.bridgebase.com/myhands/hands.php@tourney=1607-1376154000-&offset=0.html",
     "test/test_7_bbo_www_acbl_20130810/acbl_1607_pairs_acbl_sat_1pm_speedball.pbn",
     "ACBL_1607_Pairs_ACBL_Sat_1pm_Speedball/acbl_1607_pairs_acbl_sat_1pm_speedball.pbn");
 }
@@ -78,7 +78,7 @@ private static PrintStream origOut;
 {
   PbnToolsTests.pobierzTestHelper(
     new ParyTourDownloader(),
-    "http://localhost/pbntools/test_9_pary_www_szczyrk_20131108/131108szczyrk/W-impy.html",
+    "http://localhost:15863/pbntools/test_9_pary_www_szczyrk_20131108/131108szczyrk/W-impy.html",
     "test/test_9_pary_www_szczyrk_20131108/131108szczyrk.pbn",
     "131108szczyrk/131108szczyrk.pbn");
 }
@@ -88,9 +88,9 @@ private static PrintStream origOut;
 {
   PbnToolsTests.pobierzTestHelper(
     new BboTourDownloader(),
-    "http://localhost/pbntools/test_10_bbo_www_annamar_1538_php/hands.php?tourney=1538-1385205517-&offset=0",
+    "http://localhost:15863/pbntools/test_10_bbo_www_annamar_1538_php/hands.php?tourney=1538-1385205517-&offset=0",
     "test/test_10_bbo_www_annamar_1538_php/annamar_1538_pairs_untitled.pbn",
-    "annamar_1538_Pairs_Untitled/annamar_1538_pairs_untitled.pbn");
+    "1538-1385205517/1538-1385205517.pbn");
 }
 
 }

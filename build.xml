@@ -544,7 +544,7 @@
   </jar>
 </target>
 
-<target name="junit" depends="junit-prereq" />
+<target name="junit"/>
 
 <target name="junit-prereq" depends="ivy-libs, junit-jar, ant-jar" >
   <presetdef name="junitpreset">

@@ -139,13 +139,17 @@ public class PbnTools {
   /** Get our wget full pathname */
   public static String getWgetPath()
   {
-    String sWget = m_sCurDir + m_sSlash + "bin" + m_sSlash + "wget"
-                   + m_sSlash + "wget";
-    if (bWindows)
-      sWget += ".exe";
-    return sWget;
+    if (System.getProperty("wget.path") != null)
+      return System.getProperty("wget.path");
+    else {
+      String sWget = m_sCurDir + m_sSlash + "bin" + m_sSlash + "wget"
+        + m_sSlash + "wget";
+      if (bWindows)
+        sWget += ".exe";
+      return sWget;
+    }
   }
-  
+
   public static void checkUpdates(Component parent)
   {
     String sHomePl = "http://jarek.katowice.pl/pbntools";
