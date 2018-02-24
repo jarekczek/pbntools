@@ -121,7 +121,13 @@ object WwwServerControl {
   val staticDir = "test"
   fun start() {
     System.out.println("Ktor server starts on port $port.")
-    WwwServer(port, staticDir).start()
+    try {
+      WwwServer(port, staticDir).start()
+    } catch (e: Exception) {
+      e.printStackTrace()
+      System.out.println("Finishing application manually, because otherwise netty would hang.")
+      System.exit(232)
+    }
     System.out.println("Ktor server started.")
   }
   fun stop() {
