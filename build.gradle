@@ -80,7 +80,7 @@ task 'junit-www' (type: Test) {
 
 task 'junit-single' (type: Test) {
   filter {
-    includeTestsMatching '*.pobierzBboTest8'
+    includeTestsMatching '*.pobierzBboTest6'
   }
 }
 

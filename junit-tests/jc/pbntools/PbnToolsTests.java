@@ -60,8 +60,8 @@ private static PrintStream origOut;
     // when taking PbnTools classes directly from classes dir,
     // we get path work/comp/jc here, so 3 times .. is needed
     String sHelpPath = f.basePath(this.getClass()) + f.sDirSep + ".."
-                       + f.sDirSep + ".." + f.sDirSep + ".."
-                       + f.sDirSep + "doc" + f.sDirSep;
+        + f.sDirSep + ".." + f.sDirSep + ".." + f.sDirSep + ".."
+        + f.sDirSep + ".."+ f.sDirSep + "doc" + f.sDirSep;
     String sHelpUrl = "file://" + sHelpPath + "help_pl.html";
     // System.out.println(sHelpUrl);
     String sHtmlVer = PbnTools.getVersionFromUrl(sHelpUrl);
