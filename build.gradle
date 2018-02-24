@@ -56,6 +56,7 @@ jar {
 }
 
 task 'junit-local' (type: Test) {
+  group = 'pbntools'
   filter {
     includeTestsMatching 'jc.fTests'
     includeTestsMatching 'jc.SoupProxyTests'
@@ -64,6 +65,7 @@ task 'junit-local' (type: Test) {
 }
 
 task 'junit-www' (type: Test) {
+  group = 'pbntools'
   doFirst {
     println 'junit-www tests, prerequisites:'
     println '1. serve test/*www* directories at http://localhost/pbntools'
@@ -75,6 +77,14 @@ task 'junit-www' (type: Test) {
     includeTestsMatching 'jc.pbntools.PbnToolsWwwTests'
   }
 }
+
+task 'junit-single' (type: Test) {
+  filter {
+    includeTestsMatching '*.pobierzBboTest8'
+  }
+}
+
+tasks['junit'].group = 'pbntools'
 
 tasks.withType(Test) {
   outputs.upToDateWhen {false}

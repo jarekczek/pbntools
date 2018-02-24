@@ -10,6 +10,7 @@ doc/autoDefs.tex
 gradle.properties
 lib
 local.properties
+out
 release
 sed*
 work
