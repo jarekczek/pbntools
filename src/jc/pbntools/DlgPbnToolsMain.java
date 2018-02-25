@@ -163,12 +163,10 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pbZakonczActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbZakonczActionPerformed
-        // TODO add your handling code here:
         dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_pbZakonczActionPerformed
 
     private void pbKonfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbKonfigActionPerformed
-        // TODO add your handling code here:
         DlgPbnToolsConf d = new DlgPbnToolsConf(this, true);
         d.setVisible(true);
     }
@@ -194,7 +192,6 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
     }
 
     private void pbPomocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbPomocActionPerformed
-        // TODO add your handling code here:
         // DlgPbnToolsKonf.browse
         String sHelpPath = f.basePath(this.getClass()) + f.sDirSep;
         String sHelpFile = sHelpPath + "help_" + System.getProperty("user.language") + ".html";
@@ -208,13 +205,11 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
     }//GEN-LAST:event_pbPomocActionPerformed
 
     private void pbOProgramieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbOProgramieActionPerformed
-        // TODO add your handling code here:
         DlgPbnToolsAbout d = new DlgPbnToolsAbout(this, true);
         d.setVisible(true);
 }//GEN-LAST:event_pbOProgramieActionPerformed
 
     private void pbOtworzPbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbOtworzPbnActionPerformed
-        // TODO add your handling code here:
         jc.pbntools.DlgPbnOpen d = new jc.pbntools.DlgPbnOpen(null, true);
         d.setVisible(true);
     }//GEN-LAST:event_pbOtworzPbnActionPerformed

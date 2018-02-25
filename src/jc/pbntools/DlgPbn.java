@@ -191,12 +191,10 @@ public class DlgPbn extends javax.swing.JDialog
     }// </editor-fold>//GEN-END:initComponents
 
     private void pbZamknijActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbZamknijActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_pbZamknijActionPerformed
 
     private void pbRozdajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbRozdajActionPerformed
-        // TODO add your handling code here:
       Deal r = (Deal) jList1.getSelectedValue();
       if (r!=null) {
         r.rozdaj();
@@ -204,7 +202,6 @@ public class DlgPbn extends javax.swing.JDialog
     }//GEN-LAST:event_pbRozdajActionPerformed
 
     private void pbArkuszActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbArkuszActionPerformed
-        // TODO add your handling code here:
       m_plik.arkusz();
     }//GEN-LAST:event_pbArkuszActionPerformed
 

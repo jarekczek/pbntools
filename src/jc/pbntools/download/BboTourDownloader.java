@@ -181,6 +181,7 @@ public class BboTourDownloader extends HtmlTourDownloader
     if (!bSilent)
       println(PbnTools.m_res.getString("msg.documentLoaded"));
     try {
+      //TODO jeżeli zawiera "Please login" to trzeba się zalogować.
       firstTagStartsWith(doc, "th", "Tourney ", bSilent);
       firstTagMatches(doc, "td.board", "Board [0-9]+ traveller", bSilent);
       // as a fallback get the numeric title

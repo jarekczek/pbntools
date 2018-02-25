@@ -129,7 +129,6 @@ public class DlgPobierzKops extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pbOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbOkActionPerformed
-      // TODO add your handling code here:
       m_sLink = ebLink.getText();
       if (m_sLink.isEmpty()) { javax.swing.JOptionPane.showMessageDialog(null, PbnTools.m_res.getString("error.emptyLink")); return; }
       PbnTools.m_props.setProperty("pobierzKops.link", ebLink.getText());
@@ -140,7 +139,6 @@ public class DlgPobierzKops extends javax.swing.JDialog {
     }//GEN-LAST:event_pbOkActionPerformed
 
     private void pbAnulujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbAnulujActionPerformed
-      // TODO add your handling code here:
       rv = -1;
       dispose();
     }//GEN-LAST:event_pbAnulujActionPerformed

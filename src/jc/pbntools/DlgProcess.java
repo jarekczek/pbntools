@@ -106,13 +106,11 @@ public class DlgProcess extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pbZamknijActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbZamknijActionPerformed
-        // TODO add your handling code here:
         setVisible(false);
         dispose();
     }//GEN-LAST:event_pbZamknijActionPerformed
 
     private void pbZatrzymajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbZatrzymajActionPerformed
-        // TODO add your handling code here:
         if (m_rp!=null) synchronized(m_rp) {
           m_rp.m_bDestroy = true;
           m_rp.notifyAll();

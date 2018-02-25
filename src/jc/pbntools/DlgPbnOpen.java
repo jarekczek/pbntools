@@ -130,7 +130,6 @@ public class DlgPbnOpen extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pbAnulujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbAnulujActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_pbAnulujActionPerformed
 
@@ -138,8 +137,8 @@ public class DlgPbnOpen extends javax.swing.JDialog {
          String sPlik = ebPlik.getText();
          PbnFile plik = new PbnFile();
          int rv2 = plik.wczytaj(sPlik);
-         if (rv2==-1) { JOptionPane.showMessageDialog(null, "Plik "+sPlik+" nie zosta³ znaleziony"); }
-         else if (rv2!=0) { JOptionPane.showMessageDialog(null, "Podczas odczytywania pliku "+sPlik+" wyst¹pi³ b³¹d"); }
+         if (rv2==-1) { JOptionPane.showMessageDialog(null, "Plik "+sPlik+" nie zostaï¿½ znaleziony"); }
+         else if (rv2!=0) { JOptionPane.showMessageDialog(null, "Podczas odczytywania pliku "+sPlik+" wystï¿½piï¿½ bï¿½ï¿½d"); }
          else {
            PbnTools.m_props.setProperty("openPbn.file", ebPlik.getText());
            this.dispose();
