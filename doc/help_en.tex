@@ -120,7 +120,7 @@ Polish tournaments published in \htmladdnormallink{Kops}{http://jfr.pzbs.pl/}
 format can be found on pages of Polish Contract Bridge Association
 (\htmladdnormallink{PZBS}{http://www.pzbs.pl}).
 Here are \htmladdnormallink{sample results}{http://www.slzbs.pl/index.php?main=6}.
-The best tournaments are labeled {\em Chorzów}.
+The best tournaments are labeled {\em Chorzï¿½w}.
 
 Program requires a link to a tournament.
 It should be a link labeled {\em Wyniki},
@@ -223,6 +223,24 @@ For details on command line options please launch
     pbntools -h
 \end{verbatim}
 
+\subsection{Options through Java parameters}
+
+Additional configuration may be applied using
+Java virtual machine (JVM) properties.
+The following properties are available:
+
+\begin{itemize}
+\item \verb!jsoup.log.folder! Directory, to which all files
+  downloaded by JSoup library will be saved.
+  Used for diagnostics purposes.
+\end{itemize}
+
+An example of running the program with JVM parameter:
+
+\begin{verbatim}
+  java -Djsoup.log.folder=C:/temp/bbo-jsoup -jar PbnTools.jar -dtk http://www.tournaments.pl/tour999/index.html
+\end{verbatim}
+
 %}}} configuration
 
 %}}} functionality
@@ -287,7 +305,7 @@ Unpack zip file into an arbitrary target folder.
 This folder may not contain spaces.
 %}}}
 
-%{{{ rozwój
+%{{{ rozwï¿½j
 \section{Development} \label{dev}
 
 Program is written mainly in Java.

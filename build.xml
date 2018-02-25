@@ -561,7 +561,7 @@
   <mkdir dir="work/junit-tmp" />
 </target>
 
-<target name="ant-junit-local" depends="junit-prereq" >
+<target name="ant-junit-local" depends="ant-junit-prereq" >
   <junitpreset>
     <test name="jc.fTests"
           outfile="work/junit-tmp/test_log_f" />
@@ -572,7 +572,7 @@
   </junitpreset>
 </target>
 
-<target name="ant-junit-www" depends="junit-prereq">
+<target name="ant-junit-www" depends="ant-junit-prereq">
   <!-- makes tests that require local www server with test content
        tests with www inside should be available at http://localhost/pbntools
        Www tests are important for processing that takes place between

@@ -41,6 +41,9 @@ dependencies {
   testCompile 'org.slf4j:slf4j-jdk14:1.7.25'
 }
 
+sourceCompatibility = "1.6"
+targetCompatibility = "1.6"
+
 ant.importBuild "build.xml"
 ant.references['ivy.path'] = ant.path(path: configurations.ivy.files.join(';'))
 
@@ -53,8 +56,6 @@ tasks.junit.dependsOn 'junit-www'
 sourceSets.main.java.srcDir 'src'
 sourceSets.main.resources.srcDir 'resource'
 sourceSets.test.java.srcDir 'junit-tests'
-
-println project.jar
 
 jar {
   baseName = 'PbnTools'

@@ -354,24 +354,41 @@ uruchomienie pliku {\em jar}, przyk³adowo:
 
 Z linii poleceñ dostêpne s± nastêpuj±ce opcje:
 
-\begin{description}
-\item[-h]
+\begin{itemize}
+\item \verb!-h!
   Wy¶wietla krótki opis wszystkich opcji.
-\item[---debug]
+\item \verb!---debug!
   W³±cza tryb debuggowania, z wy¶wietlaniem informacji, które mog±
   pomóc w diagnostyce nieprawid³owego dzia³ania programu.
-\item[---verbose]
+\item \verb!---verbose!
   Zwiêksza ilo¶æ informacji wy¶wietlanej przez program, np. podczas pobierania
   turnieju.
-\item[-dtb <link>]
+\item \verb!-dtb <link>!
   Pobiera turniej w formacie Bbo ze wskazanego linku. Turniej
   zapisywany jest w katalogu roboczym, tak samo jak przy u¿yciu interfejsu
   graficznego.
-\item[-dtk <link>]
+\item \verb!-dtk <link>!
   Pobiera wskazany turniej w formacie Kops.
-\item[-dtp <link>]
+\item \verb!-dtp <link>!
   Pobiera wskazany turniej w formacie Pary.
+\end{itemize}
+
+\subsection{Opcje poprzez parametry Java}
+
+Dodatkowej konfiguracji programu mo¿na dokonywaæ poprzez konfiguracjê
+w³a¶ciwo¶ci maszyny wirtualnej Java (JVM). Dostêpne s± nastêpuj±ce opcje:
+
+\begin{description}
+\item[jsoup.log.folder] Katalog, do którego zapisywane bêd± wszystkie
+  pliki pobierane z internetu przez bibliotekê JSoup. Przydatne w celach
+  diagnostycznych.
 \end{description}
+
+Przyk³adowe uruchomienie programu z zastosowaniem w³a¶ciwo¶ci JVM:
+
+\begin{verbatim}
+  java -Djsoup.log.folder=C:/temp/bbo-jsoup -jar PbnTools.jar -dtk http://www.strona-turniejow.pl/turniej999/index.html
+\end{verbatim}
 
 %}}}
 
@@ -577,7 +594,7 @@ w archiwum kodu ¼ród³owego, patrz: Pobieranie, \ref{download}.
 Jestem otwarty na sugestie. Bêdê wdziêczny za informacje o nieprawid³owym dzia³aniu strony lub programu.
 
 {\setlength{\parindent}{0pt}\small\htmladdnormallink{Jarek Czekalski}{mailto:jarekczek@poczta.onet.pl},
-ostatnia modyfikacja 16.09.2012}
+ostatnia modyfikacja 25.02.2018}
 %}}}
 
 \end{document}

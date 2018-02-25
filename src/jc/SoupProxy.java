@@ -21,17 +21,21 @@
 
 package jc;
 
-import java.net.URL;
-import java.io.File;
-import java.util.LinkedList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.LinkedList;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * <code>SoupProxy</code> class retrieves an html page through
@@ -48,6 +52,8 @@ public class SoupProxy
   protected final static int m_nCacheSize = 10;
   public static final int NO_FLAGS = 0;
   public static final int NO_CACHE = 1;
+  private File jsoupLogFolder;
+  protected Logger log;
   
   protected URL m_url;
   
@@ -58,6 +64,16 @@ public class SoupProxy
   public SoupProxy()
   {
     m_url = null;
+    log = Logger.getLogger(this.getClass().toString());
+
+    if (System.getProperty("jsoup.log.folder") != null) {
+      jsoupLogFolder = new File(System.getProperty("jsoup.log.folder"));
+      if (!jsoupLogFolder.exists()) {
+        log.warning("Turning off jsoup.log.folder, because "
+          + jsoupLogFolder + " does not exist.");
+        jsoupLogFolder = null;
+      }
+    }
   }
   
   public URL getUrl() {
@@ -87,11 +103,24 @@ public class SoupProxy
         System.getProperty("jc.soupproxy.useragent", "JSoup"));
       con.ignoreContentType(true);
       doc = con.get();
+      if (jsoupLogFolder != null)
+        saveDocumentToTempFile(doc, jsoupLogFolder);
     }
     catch (java.lang.Exception e) {
       throw new SoupProxy.Exception(e);
     }
     return doc;
+  }
+
+  private void saveDocumentToTempFile(Document doc, File dir) {
+    try {
+      File tempFile = File.createTempFile("jsoup_", ".html", dir);
+      FileOutputStream ostr = new FileOutputStream(tempFile);
+      ostr.write(doc.toString().getBytes(Charset.forName("iso-8859-1")));
+      ostr.close();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public Document getDocument(String sUrl)
