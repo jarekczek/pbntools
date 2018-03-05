@@ -1,33 +1,32 @@
 package jc.wwwserver
 
 import io.ktor.application.*
-import io.ktor.content.LocalFileContent
-import io.ktor.content.file
-import io.ktor.content.files
-import io.ktor.content.static
+import io.ktor.content.*
 import io.ktor.features.CallLogging
-import io.ktor.features.DefaultHeaders
 import io.ktor.features.StatusPages
 import io.ktor.http.*
 import io.ktor.pipeline.PipelineContext
-import io.ktor.pipeline.PipelinePhase
-import io.ktor.request.httpMethod
-import io.ktor.request.path
-import io.ktor.request.uri
+import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.util.AttributeKey
 import io.ktor.util.url
-import org.slf4j.event.Level
 import java.io.File
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.net.URL
 import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
+import org.slf4j.event.Level
+import java.util.logging.Logger
 
 class WwwServer(val port: Int, val staticDir: String) {
+  val log = Logger.getLogger("jarek")
+  companion object {
+    val sessionKey = AttributeKey<WwwSession>("session")
+  }
 
   init {
     require(File(staticDir).isDirectory && File(staticDir).exists()) {
@@ -42,23 +41,27 @@ class WwwServer(val port: Int, val staticDir: String) {
         call.respondText(status = HttpStatusCode.InternalServerError) {
           getStackTraceString(it)
         }
+        it.printStackTrace()
       }
     }
 
     intercept(ApplicationCallPipeline.Call) {
-      if (false && context.request.path().startsWith("/pbntools")
-          && call.url().endsWith("/"))
-        call.respondRedirect(call.url() + "index.html")
       System.out.println("whole url: " + call.url())
-      if (context.request.httpMethod.equals(HttpMethod.Get) &&
-          context.request.uri.startsWith("/pbntools/")) {
-        call.respond(staticContents(context.request.uri))
+      context.request.queryParameters.entries().forEach {
+        println("query parameter ${it.key}=${it.value}")
       }
     }
 
     routing {
+      route("/bbo") {
+        BboPages.bboRouting(this@WwwServer, this)
+      }
+
       get("/") {
         call.respondText("Hello, world!", ContentType.Text.Html)
+      }
+      get("/pbntools/...") {
+        call.respond(staticContents(context.request.uri))
       }
       get("/stop") {
         call.respondText {
@@ -70,7 +73,20 @@ class WwwServer(val port: Int, val staticDir: String) {
     }
   }
 
-  private fun staticContents(uri: String): LocalFileContent {
+  suspend fun PipelineContext<Unit, ApplicationCall>.requireAuthExt() {
+    val session = context.attributes[sessionKey]
+    log.fine("entered requireAuthExt, current session id: ${session.id}.")
+    if (!session.authenticated) {
+      session.lastPage = this.context.request.uri
+      call.respondRedirect("/bbo/login")
+    }
+  }
+
+  suspend fun requireAuth(ctx: PipelineContext<Unit, ApplicationCall>) {
+    ctx.requireAuthExt()
+  }
+
+  fun staticContents(uri: String): LocalFileContent {
     var relativePath = uri
       .replace(Regex("^/pbntools/"), "")
       .replace('?', '@')

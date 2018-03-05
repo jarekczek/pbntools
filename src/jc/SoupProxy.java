@@ -32,7 +32,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,11 +56,13 @@ public class SoupProxy
   public static final int NO_CACHE = 1;
   private File jsoupLogFolder;
   protected Logger log;
+  private static Map<String, Map<String, String>> serverCookies;
   
   protected URL m_url;
   
   static {
     m_cache = new LinkedList<CacheElement>();
+    serverCookies = new HashMap<String, Map<String, String>>();
   }
 
   public SoupProxy()
@@ -102,7 +106,9 @@ public class SoupProxy
       con.userAgent(
         System.getProperty("jc.soupproxy.useragent", "JSoup"));
       con.ignoreContentType(true);
+      con.cookies(getCookies(url));
       doc = con.get();
+      setCookies(url, con.response().cookies());
       if (jsoupLogFolder != null)
         saveDocumentToTempFile(doc, jsoupLogFolder);
     }
@@ -110,6 +116,47 @@ public class SoupProxy
       throw new SoupProxy.Exception(e);
     }
     return doc;
+  }
+
+  public Document post(URL url, Map<String, String> data)
+    throws SoupProxy.Exception
+  {
+    Document doc = null;
+    try {
+      Connection con = Jsoup.connect(""+url);
+      con.userAgent(
+        System.getProperty("jc.soupproxy.useragent", "JSoup"));
+      con.ignoreContentType(true);
+      con.cookies(getCookies(url));
+      con.data(data);
+      doc = con.post();
+      setCookies(url, con.response().cookies());
+      if (jsoupLogFolder != null)
+        saveDocumentToTempFile(doc, jsoupLogFolder);
+    }
+    catch (java.lang.Exception e) {
+      throw new SoupProxy.Exception(e);
+    }
+    return doc;
+  }
+
+  private void setCookies(URL url, Map<String, String> cookies) {
+    String server = url.getHost();
+    Map<String, String> ourCookies = getCookies(url);
+    for(Map.Entry<String, String> entry: cookies.entrySet())
+      ourCookies.put(entry.getKey(), entry.getValue());
+    serverCookies.put(server, ourCookies);
+  }
+
+  private Map<String, String> getCookies(URL url) {
+    String server = url.getHost();
+    Map<String, String> cookieMap;
+    if (serverCookies.containsKey(server)) {
+      cookieMap = serverCookies.get(server);
+    } else {
+      cookieMap = new HashMap<String, String>();
+    }
+    return cookieMap;
   }
 
   private void saveDocumentToTempFile(Document doc, File dir) {

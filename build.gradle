@@ -38,7 +38,9 @@ dependencies {
   testCompile 'junit-addons:junit-addons:1.4'
   testCompile 'io.ktor:ktor-server-core:0.9.1'
   testCompile 'io.ktor:ktor-server-netty:0.9.1'
+  testCompile 'io.ktor:ktor-html-builder:0.9.1'
   testCompile 'org.slf4j:slf4j-jdk14:1.7.25'
+  //testCompile 'org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.7'
 }
 
 sourceCompatibility = "1.6"

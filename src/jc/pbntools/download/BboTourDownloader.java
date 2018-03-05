@@ -28,12 +28,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JDialog;
@@ -53,6 +54,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+/**
+ * Server requires authentication. Sessions are kept in cookie PHPSESSID.
+ * There is also a cookie SRV, probably meaningless for us.
+ */
 public class BboTourDownloader extends HtmlTourDownloader
 {
   /** Overall turney results document */
@@ -159,29 +164,47 @@ public class BboTourDownloader extends HtmlTourDownloader
     // need to add if after all
     return sLink + "&offset=0";
   } //}}}
-  
+
+  @Override
+  public boolean verify(String sLink, boolean bSilent)
+  {
+    return verify(sLink, bSilent, true);
+  }
+
   // verify method {{{
   /** Verifies whether link points to a valid data in this format.
     * Sets m_sTitle and m_sDirName members. Leaves m_doc filled. */
-  public boolean verify(String sLink, boolean bSilent)
+  public boolean verify(String sLink, boolean bSilent, boolean tryLogin)
   {
     sLink = addOffset(sLink);
     setLink(sLink);
+    if (!bSilent)
+      println(PbnTools.getStr("tourDown.msg.willVerify", sLink));
     Document doc;
     try {
       SoupProxy proxy = new SoupProxy();
-      doc = proxy.getDocument(m_sLink);
+      doc = proxy.getDocument(m_sLink, SoupProxy.NO_CACHE);
       m_doc = doc;
       m_remoteUrl = proxy.getUrl();
     }
     catch (JCException e) {
       m_ow.addLine(e.toString());
+      if (f.isDebugMode())
+        e.printStackTrace();
       return false;
     }
     if (!bSilent)
       println(PbnTools.m_res.getString("msg.documentLoaded"));
     try {
-      //TODO jeżeli zawiera "Please login" to trzeba się zalogować.
+      if (getSelectText(doc, "div.bbo_content").startsWith("Please login")) {
+        m_ow.addLine(PbnTools.getStr("tourDown.msg.asksLogin",
+          "BBO"));
+        if (tryLogin)
+          return verifyAfterLogin(sLink, doc.baseUri(), bSilent);
+        else
+          throw new RuntimeException(PbnTools.getStr("tourDown.error.asksLoginAgain",
+            "BBO"));
+      }
       firstTagStartsWith(doc, "th", "Tourney ", bSilent);
       firstTagMatches(doc, "td.board", "Board [0-9]+ traveller", bSilent);
       // as a fallback get the numeric title
@@ -204,6 +227,33 @@ public class BboTourDownloader extends HtmlTourDownloader
 
     return true;
   } //}}}
+
+  private boolean verifyAfterLogin(String sLink, String loginLink, boolean bSilent)
+    throws DownloadFailedException {
+    loginLink = loginLink.replaceFirst("\\?.*$", "?t=%2Fmyhands%2Findex.php%3F");
+    m_ow.addLine(PbnTools.getStr("tourDown.msg.willLogin", loginLink));
+    SoupProxy proxy = new SoupProxy();
+    Map<String, String> data = new HashMap<String, String>();
+    data.put("t", "/myhands/index.php?");
+    data.put("count", "1");
+    data.put("username", "t"); //TODO
+    data.put("password", "k");
+    data.put("submit", "Login");
+    Document doc = null;
+    try {
+      URL url = new URL(loginLink);
+      doc = proxy.post(url, data);
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    } catch (SoupProxy.Exception e2) {
+      throw new RuntimeException(e2);
+    }
+    String mainText = getSelectText(doc, "div.bbo_content").toLowerCase();
+    if (mainText.contains("username or password incorrect"))
+      throw new DownloadFailedException(
+        PbnTools.getStr("tourDown.msg.authFailed"), m_ow, !bSilent);
+    return verify(sLink, bSilent, false);
+  }
 
   protected String createIndexFile() throws DownloadFailedException //{{{
   {

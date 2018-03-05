@@ -1,0 +1,1 @@
+t=%2Fmyhands%2Findex.php%3F&count=1&username=u&password=p&submit=Login

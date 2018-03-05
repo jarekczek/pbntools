@@ -241,6 +241,15 @@ abstract public class HtmlTourDownloader
     }
     return elems.get(n - 1);
   }
+
+  protected String getSelectText(Element e, String query)
+  {
+    Elements elems = e.select(query);
+    if (elems.isEmpty())
+      return "";
+    else
+      return elems.get(0).text();
+  }
   
   /** Checks if text of first <code>sTag</code> starts with the given text.
     * If not, throws exception.
@@ -691,7 +700,7 @@ abstract public class HtmlTourDownloader
         String sDoubles = contrElem.text().substring(nDoublePos);
         int nDouble = 0;
         for (int i=0; i<2; i++) {
-          if (sDoubles.startsWith("×") || sDoubles.startsWith("x")) {
+          if (sDoubles.startsWith("ï¿½") || sDoubles.startsWith("x")) {
             nDouble++;
             sDoubles = sDoubles.substring(1);
           } else {
