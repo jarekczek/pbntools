@@ -700,9 +700,9 @@ abstract public class HtmlTourDownloader
         String sDoubles = contrElem.text().substring(nDoublePos);
         int nDouble = 0;
         for (int i=0; i<2; i++) {
-          if (sDoubles.startsWith("�") || sDoubles.startsWith("x")) {
+          if (startsWithMarkerOfDouble(sDoubles)) {
             nDouble++;
-            sDoubles = sDoubles.substring(1);
+            sDoubles = sDoubles.substring(markerOfDoubleLength(sDoubles));
           } else {
             break;
           }
@@ -722,6 +722,19 @@ abstract public class HtmlTourDownloader
           contrElem.html()));
       }
     }
+  }
+
+  private int markerOfDoubleLength(String sDoubles) {
+    if (sDoubles.startsWith("×") || sDoubles.startsWith("×") || sDoubles.startsWith("x"))
+      return 1;
+    else if (sDoubles.startsWith("&times"))
+      return 6;
+    else
+      return 0;
+  }
+
+  private boolean startsWithMarkerOfDouble(String sDoubles) {
+    return (markerOfDoubleLength(sDoubles) > 0);
   }
 
   // processResult method {{{

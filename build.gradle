@@ -59,6 +59,10 @@ sourceSets.main.java.srcDir 'src'
 sourceSets.main.resources.srcDir 'resource'
 sourceSets.test.java.srcDir 'junit-tests'
 
+tasks.withType(JavaCompile) {
+  options.encoding = "utf-8"
+}
+
 jar {
   baseName = 'PbnTools'
   manifest {
@@ -79,6 +83,7 @@ task 'junit-prereq' {
 
 task 'junit-local' (type: Test) {
   group = 'pbntools'
+  dependsOn 'junit-prereq'
   filter {
     includeTestsMatching 'jc.fTests'
     includeTestsMatching 'jc.SoupProxyTests'
@@ -86,8 +91,9 @@ task 'junit-local' (type: Test) {
   }
 }
 
-task 'junit-www' (type: Test, dependsOn: 'startWwwServer') {
+task 'junit-www' (type: Test, dependsOn: ['startWwwServer', 'fillLibDir']) {
   group = 'pbntools'
+  dependsOn 'junit-prereq'
   if (System.getProperty("os.name").startsWith("Windows"))
     systemProperties['wget.path'] = new File(rootDir, "\\lib\\wget\\wget.exe")
   doFirst {
@@ -227,4 +233,8 @@ task releaseLinux(dependsOn: 'commonReleaseDeps') {
   doLast {
     tasks['zip-linux'].executeAntTarget()
   }
+}
+
+tasks.test.doFirst {
+  throw new RuntimeException("Use tasks: junit, junit-local, junit-www.")
 }

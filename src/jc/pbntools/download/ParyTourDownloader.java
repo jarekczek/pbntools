@@ -368,10 +368,10 @@ public class ParyTourDownloader extends HtmlTourDownloader
     ArrayList<Deal> ad = new ArrayList<Deal>();
     Elements elems = doc.select("div#pro tr");
     if (elems.size() >= 2) {
-      // potrzebny nam jest drugi wiersz tabelki, nag³ówkowy
+      // potrzebny nam jest drugi wiersz tabelki, nagÅ‚Ã³wkowy
       Elements tds = elems.get(1).select("td");
       if (tds.size() == 8) {
-        // musi mieæ 8 kolumn, pierwsza jest niewidoczna
+        // musi mieÄ‡ 8 kolumn, pierwsza jest niewidoczna
         if ("numery".equals(tds.get(1).text())) {
           sScoring = tds.get(7).text();
         }
@@ -394,8 +394,8 @@ public class ParyTourDownloader extends HtmlTourDownloader
     for (Element tr: elems) {
       Elements tds = tr.select("td");
       // 1st column is invisible (index 0)
-      // w 2. kolumnie powinien byæ numer pary, wiêc tylko te wiersze
-      // bêdziemy czytaæ
+      // w 2. kolumnie powinien byÄ‡ numer pary, wiÄ™c tylko te wiersze
+      // bÄ™dziemy czytaÄ‡
       boolean bValidContract = false;
       // valid deals have pair numbers in columns 1 and 2
       // Individuels have xx-yy as pair numbers.

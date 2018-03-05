@@ -13,6 +13,8 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.util.AttributeKey
 import io.ktor.util.url
+import kotlinx.html.*
+import kotlinx.html.stream.createHTML
 import java.io.File
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -58,9 +60,9 @@ class WwwServer(val port: Int, val staticDir: String) {
       }
 
       get("/") {
-        call.respondText("Hello, world!", ContentType.Text.Html)
+        mainPage()
       }
-      get("/pbntools/...") {
+      get("/pbntools/{...}") {
         call.respond(staticContents(context.request.uri))
       }
       get("/stop") {
@@ -84,6 +86,27 @@ class WwwServer(val port: Int, val staticDir: String) {
 
   suspend fun requireAuth(ctx: PipelineContext<Unit, ApplicationCall>) {
     ctx.requireAuthExt()
+  }
+
+  private suspend fun PipelineContext<Unit, ApplicationCall>.mainPage() {
+    call.respondText(ContentType.Text.Html) {
+      createHTML().html {
+        head {
+          title("PbnTools local ktor server")
+        }
+        body {
+          h1 { text("links") }
+          ul {
+            li { a {
+              href = "/pbntools/test_1_pary/WB120802/wb120802"
+              text("turniej pary 1")
+            } }
+            li { a { href = "/bbo"; text("BBO") } }
+            li { a { href = "/stop"; text("stop") } }
+          }
+        }
+      }
+    }
   }
 
   fun staticContents(uri: String): LocalFileContent {

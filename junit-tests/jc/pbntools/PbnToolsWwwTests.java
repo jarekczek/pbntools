@@ -86,6 +86,7 @@ private static PrintStream origOut;
 @Test public void pobierzBboWwwTest10()
   throws java.io.FileNotFoundException, java.io.IOException
 {
+  System.out.println("This tests fails with internet connection, so disconnect it first.");
   PbnToolsTests.pobierzTestHelper(
     new BboTourDownloader(),
     "http://localhost:15863/pbntools/test_10_bbo_www_annamar_1538_php/hands.php?tourney=1538-1385205517-&offset=0",

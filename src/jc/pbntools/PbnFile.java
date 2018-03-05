@@ -114,8 +114,8 @@ public class PbnFile  {
       bw.write("<table>"); bw.newLine();
       bw.write("<tr>"); bw.newLine();
       bw.write(sTdStart+"Numer</td>");
-      bw.write(sTdStart+"Rozdawa≥</td>");
-      bw.write(sTdStart+"Za≥oøenia</td>");
+      bw.write(sTdStart+"Rozdawa≈Ç</td>");
+      bw.write(sTdStart+"Za≈Ço≈ºenia</td>");
       bw.write(sTdStart+"Wynik NS</td>");
       bw.write(sTdStart+"Wynik EW</td>");
       bw.write("</tr>"); bw.newLine();
