@@ -84,6 +84,11 @@ public class PbnTools {
     m_bVerbose = false;
     }
 
+  public static String getProp(String propertyName)
+  {
+    return m_props.getProperty(propertyName);
+  }
+
   public static String getStr(String sPropName)
   {
     return m_res.getString(sPropName);

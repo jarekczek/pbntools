@@ -38,6 +38,8 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
   protected JTextField m_ebZbarcamOpts;
   protected JTextField m_ebUserAgent;
   protected JTextField m_ebDelay;
+  protected JTextField m_ebBboUser;
+  protected JTextField m_ebBboPass;
 
   //{{{ verifiers
   public class DelayVerifier extends InputVerifier {
@@ -102,6 +104,20 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
     m_ebDelay.setText(String.valueOf(PbnTools.m_nDelay));
     m_ebDelay.setInputVerifier(new DelayVerifier());
 
+    JLabel stBboUser = new JLabel();
+    f.setTextAndMnem(stBboUser, PbnTools.getRes(), "config.bbo.user");
+    m_ebBboUser = new JTextField();
+    m_ebBboUser.setColumns(40);
+    stBboUser.setLabelFor(m_ebBboUser);
+    m_ebBboUser.setText(PbnTools.m_props.getProperty("bbo.user"));
+
+    JLabel stBboPass = new JLabel();
+    f.setTextAndMnem(stBboPass, PbnTools.getRes(), "config.bbo.pass");
+    m_ebBboPass = new JPasswordField();
+    m_ebBboPass.setColumns(40);
+    stBboPass.setLabelFor(m_ebBboPass);
+    m_ebBboPass.setText(PbnTools.m_props.getProperty("bbo.pass"));
+
     lay.setVerticalGroup(
       lay.createSequentialGroup()
         .addComponent(stWorkDir)
@@ -115,6 +131,10 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
         .addComponent(m_ebUserAgent)
         .addComponent(stDelay)
         .addComponent(m_ebDelay)
+        .addComponent(stBboUser)
+        .addComponent(m_ebBboUser)
+        .addComponent(stBboPass)
+        .addComponent(m_ebBboPass)
         .addGroup(
           lay.createParallelGroup()
             .addComponent(pbSave)
@@ -140,6 +160,14 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
         .addGroup(lay.createParallelGroup()
           .addComponent(stDelay)
           .addComponent(m_ebDelay)
+          )
+        .addGroup(lay.createParallelGroup()
+          .addComponent(stBboUser)
+          .addComponent(m_ebBboUser)
+          )
+        .addGroup(lay.createParallelGroup()
+          .addComponent(stBboPass)
+          .addComponent(m_ebBboPass)
           )
         )
         .addGroup(lay.createSequentialGroup()
@@ -175,6 +203,8 @@ public class DlgPbnToolsConf extends javax.swing.JDialog {
       PbnTools.m_props.setProperty("zbarcamOpts", m_ebZbarcamOpts.getText());
       PbnTools.m_props.setProperty("userAgent", m_ebUserAgent.getText());
       PbnTools.m_props.setProperty("delay", m_ebDelay.getText());
+      PbnTools.m_props.setProperty("bbo.user", m_ebBboUser.getText());
+      PbnTools.m_props.setProperty("bbo.pass", m_ebBboPass.getText());
       PbnTools.propertiesChanged();
       dispose();
     }

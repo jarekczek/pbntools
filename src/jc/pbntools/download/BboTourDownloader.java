@@ -230,14 +230,17 @@ public class BboTourDownloader extends HtmlTourDownloader
 
   private boolean verifyAfterLogin(String sLink, String loginLink, boolean bSilent)
     throws DownloadFailedException {
+    if (f.isNullOrEmpty(PbnTools.getProp("bbo.user")))
+      throw new DownloadFailedException(
+        PbnTools.getStr("tourDown.error.noBboUser"), m_ow, !bSilent);
     loginLink = loginLink.replaceFirst("\\?.*$", "?t=%2Fmyhands%2Findex.php%3F");
     m_ow.addLine(PbnTools.getStr("tourDown.msg.willLogin", loginLink));
     SoupProxy proxy = new SoupProxy();
     Map<String, String> data = new HashMap<String, String>();
     data.put("t", "/myhands/index.php?");
     data.put("count", "1");
-    data.put("username", "t"); //TODO
-    data.put("password", "k");
+    data.put("username", PbnTools.getProp("bbo.user"));
+    data.put("password", PbnTools.getProp("bbo.pass"));
     data.put("submit", "Login");
     Document doc = null;
     try {

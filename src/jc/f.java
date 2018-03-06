@@ -122,6 +122,16 @@ public class f {
     System.err.println(s);
   } //}}}
 
+  public static boolean isNullOrEmpty(Object o)
+  {
+    if (o == null)
+      return false;
+    if (o instanceof String)
+      return ((String)o).isEmpty();
+    else
+      return false;
+  }
+
   public static boolean isDebugMode() { //{{{
     return nDebugLevel > 0;
   } //}}}
