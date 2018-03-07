@@ -231,11 +231,12 @@ public class PbnTools {
     else
       dloaders = new HtmlTourDownloader[] { dloader };
     Download dwn = new Download(sLink, dloaders, bGui);
+    dwn.setOutputWindowIfEmpty(dloader.getOutputWindow());
     if (bGui) {
       DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, dwn, m_res);
       ow.setVisible(true);
     } else {
-      dwn.setOutputWindow(new StandardSimplePrinter());
+      dwn.setOutputWindowIfEmpty(new StandardSimplePrinter());
       dwn.run();
     }
   }
@@ -456,8 +457,14 @@ public class PbnTools {
       m_bGui = bGui;
     }
 
+    @Override
     public void setOutputWindow(SimplePrinter ow) {
       m_ow = ow;
+    }
+
+    @Override
+    public SimplePrinter getOutputWindow() {
+      return m_ow;
     }
       
     public void run() {
@@ -525,10 +532,16 @@ public class PbnTools {
       m_bGui = bGui;
     }
 
+    @Override
     public void setOutputWindow(SimplePrinter ow) {
       m_ow = ow;
     }
-      
+
+    @Override
+    public SimplePrinter getOutputWindow() {
+      return m_ow;
+    }
+
     public void run() {
       HtmlTourDownloader dloader = null;
       if (m_dloaders.length == 1) {

@@ -54,7 +54,12 @@ public class TourDownloaderThread extends OutputWindow.Client
     m_ow = ow;
     m_dloader.setOutputWindow(m_ow);
   }
-  
+
+  @Override
+  public SimplePrinter getOutputWindow() {
+    return m_ow;
+  }
+
   /** thread's main method */ //{{{
   public void run()
   {

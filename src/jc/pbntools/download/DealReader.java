@@ -35,4 +35,6 @@ public interface DealReader
     
   /** Sets the window to which output messages will be directed */
   abstract public void setOutputWindow(SimplePrinter sp);
+
+  abstract public SimplePrinter getOutputWindow();
 }

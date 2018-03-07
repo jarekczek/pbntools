@@ -58,9 +58,15 @@ public class KopsTourDownloader extends HtmlTourDownloader
   
   public String getName() { return "Kops"; }
 
+  @Override
   public void setOutputWindow(SimplePrinter ow)
   {
     m_ow = ow;
+  }
+
+  @Override
+  public SimplePrinter getOutputWindow() {
+    return m_ow;
   }
 
   /** Gets remote link for the deal with the given number */

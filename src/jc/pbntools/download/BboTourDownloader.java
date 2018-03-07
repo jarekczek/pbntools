@@ -71,11 +71,17 @@ public class BboTourDownloader extends HtmlTourDownloader
   protected int m_cLins;
 
   public String getName() { return "Bbo"; }
-  
+
+  @Override
   public void setOutputWindow(SimplePrinter ow) //{{{
   {
     m_ow = ow;
   } //}}}
+
+  @Override
+  public SimplePrinter getOutputWindow() {
+    return m_ow;
+  }
 
   // getLinkForDeal method //{{{
   /** Gets remote link for the deal with the given number */
@@ -230,7 +236,8 @@ public class BboTourDownloader extends HtmlTourDownloader
 
   private boolean verifyAfterLogin(String sLink, String loginLink, boolean bSilent)
     throws DownloadFailedException {
-    if (f.isNullOrEmpty(PbnTools.getProp("bbo.user")))
+    if (f.isNullOrEmpty(PbnTools.getProp("bbo.user"))
+        || f.isNullOrEmpty(PbnTools.getProp("bbo.pass")))
       throw new DownloadFailedException(
         PbnTools.getStr("tourDown.error.noBboUser"), m_ow, !bSilent);
     loginLink = loginLink.replaceFirst("\\?.*$", "?t=%2Fmyhands%2Findex.php%3F");

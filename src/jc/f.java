@@ -125,7 +125,7 @@ public class f {
   public static boolean isNullOrEmpty(Object o)
   {
     if (o == null)
-      return false;
+      return true;
     if (o instanceof String)
       return ((String)o).isEmpty();
     else

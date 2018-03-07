@@ -157,6 +157,7 @@ tasks.withType(Test) {
   outputs.upToDateWhen {false}
   testLogging.showStandardStreams = true
   testLogging.exceptionFormat = 'full'
+  jvmArgs '-Duser.language=en'
 }
 
 task run(type: JavaExec) {

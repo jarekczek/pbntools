@@ -25,10 +25,13 @@ import java.io.FileWriter;
 import java.io.PrintStream;
 import java.io.Writer;
 import jc.f;
+import jc.outputwindow.SimplePrinter;
+import jc.outputwindow.TestPrinter;
 import jc.pbntools.download.BboTourDownloader;
 import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
 import jc.pbntools.download.ParyTourDownloader;
+import junit.framework.AssertionFailedError;
 import junitx.framework.FileAssert;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -92,6 +95,41 @@ private static PrintStream origOut;
     "http://localhost:15863/pbntools/test_10_bbo_www_annamar_1538_php/hands.php?tourney=1538-1385205517-&offset=0",
     "test/test_10_bbo_www_annamar_1538_php/annamar_1538_pairs_untitled.pbn",
     "1538-1385205517/1538-1385205517.pbn");
+}
+
+@Test public void bboIncorrectPassword()
+  throws java.io.FileNotFoundException, java.io.IOException
+{
+  PbnTools.m_props.setProperty("bbo.user", "x");
+  PbnTools.m_props.setProperty("bbo.pass", "x");
+  TestPrinter pr = new TestPrinter();
+  try {
+    PbnToolsTests.pobierzTestHelper(
+      new BboTourDownloader(),
+      "http://localhost:15863/bbo/myhands/hands.php?tourney=1538-1385205517-",
+      "test/test_10_bbo_www_annamar_1538_php/annamar_1538_pairs_untitled.pbn",
+      "1538-1385205517/1538-1385205517.pbn",
+      pr);
+  } catch (AssertionFailedError e) {
+    // Wiemy, nie uda się pobrać turnieju.
+  }
+  String lastLine = pr.getLines().get(pr.getLines().size() - 1);
+  Assert.assertTrue(lastLine.contains("password incorrect"));
+}
+
+@Test public void pobierzBboWwwTest6WithAuth()
+  throws java.io.FileNotFoundException, java.io.IOException
+{
+  PbnTools.m_props.setProperty("bbo.user", "u");
+  PbnTools.m_props.setProperty("bbo.pass", "u");
+  TestPrinter pr = new TestPrinter();
+  PbnToolsTests.pobierzTestHelper(
+    new BboTourDownloader(),
+    "http://localhost:15863/bbo/myhands/hands.php?tourney=2196-1376162040-",
+    "test/test_6_bbo_skyclub_20130810/sky_club_2196_pairs_sky_club_jackpot_2000.pbn",
+    "x.pbn",
+    pr);
+  String lastLine = pr.getLines().get(pr.getLines().size() - 1);
 }
 
 }

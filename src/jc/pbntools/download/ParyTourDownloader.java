@@ -57,9 +57,15 @@ public class ParyTourDownloader extends HtmlTourDownloader
   
   public String getName() { return "Pary"; }
 
+  @Override
   public void setOutputWindow(SimplePrinter ow)
   {
     m_ow = ow;
+  }
+
+  @Override
+  public SimplePrinter getOutputWindow() {
+    return m_ow;
   }
 
   /** Redirect to url without W- */

@@ -71,6 +71,11 @@ public abstract class OutputWindow implements SimplePrinter {
   public static abstract class Client implements Runnable
   {
     abstract public void setOutputWindow(SimplePrinter ow);
+    abstract public SimplePrinter getOutputWindow();
+    public void setOutputWindowIfEmpty(SimplePrinter ow) {
+      if (getOutputWindow() == null)
+        setOutputWindow(ow);
+    }
   }
   
   public void printStackTrace(Throwable t)

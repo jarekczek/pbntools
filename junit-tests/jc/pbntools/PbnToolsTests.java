@@ -28,7 +28,9 @@ import java.io.Writer;
 import jc.SoupProxy;
 import jc.JCException;
 import jc.f;
+import jc.outputwindow.SimplePrinter;
 import jc.outputwindow.StandardSimplePrinter;
+import jc.outputwindow.TestPrinter;
 import jc.pbntools.download.BboTourDownloader;
 import jc.pbntools.download.DownloadFailedException;
 import jc.pbntools.download.HtmlTourDownloader;
@@ -88,8 +90,9 @@ private static PrintStream origOut;
 
 static void pobierzTestHelper(HtmlTourDownloader der,
   String sHtmlFile, String sPbnFileTemplate,
-  String sPbnFileTest)
+  String sPbnFileTest, SimplePrinter pr)
 {
+  der.setOutputWindow(pr);
   File fTempDir = new File("work/junit-tmp").getAbsoluteFile();
   fTempDir.mkdir();
   assertTrue("fTempDir (" + fTempDir.getAbsolutePath()
@@ -103,6 +106,13 @@ static void pobierzTestHelper(HtmlTourDownloader der,
   FileAssert.assertEquals(sDesc,
     new File(sPbnFileTemplate),
     new File(fTempDir, sPbnFileTest));
+}
+
+static void pobierzTestHelper(HtmlTourDownloader der,
+                              String sHtmlFile, String sPbnFileTemplate,
+                              String sPbnFileTest)
+{
+  pobierzTestHelper(der, sHtmlFile, sPbnFileTemplate, sPbnFileTest);
 }
 
 @Test public void pobierzParyTest1()

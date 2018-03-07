@@ -400,8 +400,14 @@ public class LinReader implements DealReader
     
   // setOutputWindow method {{{
   /** Sets the window to which output messages will be directed */
+  @Override
   public void setOutputWindow(SimplePrinter sp)
   {
     m_sp = sp;
   } //}}}
+
+  @Override
+  public SimplePrinter getOutputWindow() {
+    return m_sp;
+  }
 }
