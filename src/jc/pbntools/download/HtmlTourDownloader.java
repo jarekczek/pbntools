@@ -514,6 +514,7 @@ abstract public class HtmlTourDownloader
       m_sSourceDir = m_sLocalDir;
       // constructing local url after isDownloaded set m_sLocalDir
       String sFileName = m_remoteUrl.toString().replaceFirst("^.*/", "");
+      sFileName = sFileName.replace("?", "@");
       if (sFileName.indexOf('.')<0) { sFileName = "index.html"; }
       try {
         m_localUrl = new File(new File(m_sLocalDir, "html"), sFileName).toURI().toURL();
@@ -700,9 +701,9 @@ abstract public class HtmlTourDownloader
         String sDoubles = contrElem.text().substring(nDoublePos);
         int nDouble = 0;
         for (int i=0; i<2; i++) {
-          if (startsWithMarkerOfDouble(sDoubles)) {
+          if (sDoubles.startsWith("×") || sDoubles.startsWith("x")) {
             nDouble++;
-            sDoubles = sDoubles.substring(markerOfDoubleLength(sDoubles));
+            sDoubles = sDoubles.substring(1);
           } else {
             break;
           }
@@ -722,19 +723,6 @@ abstract public class HtmlTourDownloader
           contrElem.html()));
       }
     }
-  }
-
-  private int markerOfDoubleLength(String sDoubles) {
-    if (sDoubles.startsWith("×") || sDoubles.startsWith("×") || sDoubles.startsWith("x"))
-      return 1;
-    else if (sDoubles.startsWith("&times"))
-      return 6;
-    else
-      return 0;
-  }
-
-  private boolean startsWithMarkerOfDouble(String sDoubles) {
-    return (markerOfDoubleLength(sDoubles) > 0);
   }
 
   // processResult method {{{

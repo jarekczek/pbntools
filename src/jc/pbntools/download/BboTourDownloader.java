@@ -279,7 +279,7 @@ public class BboTourDownloader extends HtmlTourDownloader
       BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
         new FileOutputStream(sLinksFile), "ISO-8859-1"));
       fw.write(m_sLink); fw.newLine();
-      if (m_docRes != null) {
+      if (m_sResLink != null) {
         fw.write(m_sResLink); fw.newLine();
       }
       for (iDeal=1; iDeal<=m_cDeals; iDeal++) {
@@ -374,12 +374,10 @@ public class BboTourDownloader extends HtmlTourDownloader
         "a:matches(Lin)"), m_ow, !m_bSilent);
     for (Element elem: elems) {
       String sLinLink = elem.attr("href");
-      Matcher m =
-        Pattern.compile("^.*[?&]id=([0-9]+)([?&].*)?$").matcher(sLinLink);
-      if (!m.matches())
+      String sId = getLinIdFromLink(sLinLink);
+      if (sId == null)
         throw new DownloadFailedException(PbnTools.getStr("error.linLinkId",
           sLinLink), m_ow, false);
-      String sId = m.group(1);
       String sFileName = sId + ".lin";
       elem.attr("href", sFileName);
       try {
@@ -406,6 +404,20 @@ public class BboTourDownloader extends HtmlTourDownloader
         break;
     }
   } //}}}
+
+  private String getLinIdFromLink(String sLinLink) {
+    Matcher m =
+      Pattern.compile("^.*[?&]id=([0-9]+)([?&].*)?$").matcher(sLinLink);
+    String sId = null;
+    if (m.matches())
+      sId = m.group(1);
+    else {
+      Matcher m2 = Pattern.compile("^.*/([0-9]+)\\.lin$").matcher(sLinLink);
+      if (m2.matches())
+        sId = m2.group(1);
+    }
+    return sId;
+  }
 
   protected void wget() throws DownloadFailedException //{{{
   {

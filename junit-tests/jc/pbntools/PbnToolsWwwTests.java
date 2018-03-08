@@ -127,7 +127,7 @@ private static PrintStream origOut;
     new BboTourDownloader(),
     "http://localhost:15863/bbo/myhands/hands.php?tourney=2196-1376162040-",
     "test/test_6_bbo_skyclub_20130810/sky_club_2196_pairs_sky_club_jackpot_2000.pbn",
-    "x.pbn",
+    "2196-1376162040/2196-1376162040.pbn",
     pr);
   String lastLine = pr.getLines().get(pr.getLines().size() - 1);
 }

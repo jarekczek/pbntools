@@ -70,7 +70,10 @@ object BboPages {
     }
     get("/myhands/hands.php") {
       srv.requireAuth(this)
-      call.respond(bboTourneyResponse(srv,call.parameters["tourney"] ?: "?"))
+      if ("2196-1376162040-".equals(call.parameters["tourney"]))
+        call.respondRedirect("/pbntools/test_6_bbo_skyclub_20130810/SKY_CLUB_2196_Pairs_SKY_CLUB_JACKPOT_2000/hands.php@tourney=2196-1376162040-&offset=0.html")
+      else
+        call.respond(bboTourneyResponse(srv, call.parameters["tourney"] ?: "?"))
     }
     post("/login") {
       handleLoginPost()
@@ -102,7 +105,7 @@ object BboPages {
 
   private fun bboTourneyResponse(srv: WwwServer, tourneyName: String): OutgoingContent {
     return when(tourneyName) {
-      "2196-1376162040-" -> srv.staticContents("test_6_bbo_skyclub_20130810/SKY_CLUB_2196_Pairs_SKY_CLUB_JACKPOT_2000/tview.php%3Ft=2196-1376162040.html")
+      "2196-1376162040-" -> srv.staticContents("test_6_bbo_skyclub_20130810/SKY_CLUB_2196_Pairs_SKY_CLUB_JACKPOT_2000/hands.php%3Ftourney=2196-1376162040-&offset=0.html")
       else -> {
         val text = File(srv.staticDir, "bbo/no_tournament_data.html")
           .readText(Charset.forName("utf-8"))

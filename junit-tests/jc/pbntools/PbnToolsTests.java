@@ -92,7 +92,8 @@ static void pobierzTestHelper(HtmlTourDownloader der,
   String sHtmlFile, String sPbnFileTemplate,
   String sPbnFileTest, SimplePrinter pr)
 {
-  der.setOutputWindow(pr);
+  if (pr != null)
+    der.setOutputWindow(pr);
   File fTempDir = new File("work/junit-tmp").getAbsoluteFile();
   fTempDir.mkdir();
   assertTrue("fTempDir (" + fTempDir.getAbsolutePath()
@@ -112,7 +113,7 @@ static void pobierzTestHelper(HtmlTourDownloader der,
                               String sHtmlFile, String sPbnFileTemplate,
                               String sPbnFileTest)
 {
-  pobierzTestHelper(der, sHtmlFile, sPbnFileTemplate, sPbnFileTest);
+  pobierzTestHelper(der, sHtmlFile, sPbnFileTemplate, sPbnFileTest, null);
 }
 
 @Test public void pobierzParyTest1()
@@ -142,7 +143,7 @@ static void pobierzTestHelper(HtmlTourDownloader der,
     new BboTourDownloader(),
     "test/test_6_bbo_skyclub_20130810" +
       "/SKY_CLUB_2196_Pairs_SKY_CLUB_JACKPOT_2000" +
-      "/hands.php%3Ftourney=2196-1376162040-&offset=0.html",
+      "/hands.php@tourney=2196-1376162040-&offset=0.html",
     "test/test_6_bbo_skyclub_20130810" +
       "/sky_club_2196_pairs_sky_club_jackpot_2000.pbn",
     "2196-1376162040/2196-1376162040.pbn");
