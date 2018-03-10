@@ -26,39 +26,13 @@ import java.util.concurrent.atomic.AtomicReference
 import java.util.logging.Logger
 
 object BboPages {
-  val sessions = Collections.synchronizedMap(HashMap<String, WwwSession>())
   val log = Logger.getLogger("jarek")
 
   fun bboRouting(srv: WwwServer, route: Route) {
     route.bboRoutingExt(srv)
   }
 
-  private fun Route.sessionInterceptor() {
-    intercept(ApplicationCallPipeline.Call) {
-      fun createSession(): WwwSession {
-        val newSession = WwwSession("" + System.currentTimeMillis())
-        context.response.cookies.append("PHPSESSID", newSession.id, path = "/")
-        sessions.put(newSession.id, newSession)
-        log.fine("Created new session with id ${newSession.id}.")
-        return newSession
-      }
-
-      val session =
-        if (context.request.cookies.rawCookies.containsKey("PHPSESSID")) {
-          val oldSessionId = context.request.cookies.rawCookies.get("PHPSESSID")
-          if (sessions.containsKey(oldSessionId))
-            log.fine("Session id $oldSessionId recognized.")
-          else
-            log.info("Invalid session id: " + oldSessionId)
-          sessions.getOrElse(oldSessionId) { createSession() }
-        } else
-          createSession()
-      context.attributes.put(WwwServer.sessionKey, session)
-    }
-  }
-
   private fun Route.bboRoutingExt(srv: WwwServer) {
-    sessionInterceptor()
     get {
       BboPages.bboHomePage(this)
     }

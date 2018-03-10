@@ -159,6 +159,11 @@ public class SoupProxy
     return cookieMap;
   }
 
+  public String getCookie(URL url, String key) {
+    Map<String, String> ourCookies = getCookies(url);
+    return ourCookies.get(key);
+  }
+
   private void saveDocumentToTempFile(Document doc, File dir) {
     try {
       File tempFile = File.createTempFile("jsoup_", ".html", dir);

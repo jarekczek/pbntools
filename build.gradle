@@ -77,7 +77,9 @@ jar {
 }
 
 task 'junit-prereq' {
+  dependsOn 'fillLibDir'
   file('work/junit-tmp').deleteDir()
+  file('work').mkdir()
   file('work/junit-tmp').mkdir()
 }
 
@@ -91,7 +93,7 @@ task 'junit-local' (type: Test) {
   }
 }
 
-task 'junit-www' (type: Test, dependsOn: ['startWwwServer', 'fillLibDir']) {
+task 'junit-www' (type: Test, dependsOn: ['startWwwServer']) {
   group = 'pbntools'
   dependsOn 'junit-prereq'
   if (System.getProperty("os.name").startsWith("Windows"))

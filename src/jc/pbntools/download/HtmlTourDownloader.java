@@ -33,6 +33,7 @@ import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -90,6 +91,7 @@ abstract public class HtmlTourDownloader
     * all the results for a given hand. Strings in the set must be
     * interned. */
   protected Set<String> m_setErr = new HashSet<String>();
+  protected String sessionId;
 
   // abstract methods {{{  
   @Override
@@ -479,8 +481,9 @@ abstract public class HtmlTourDownloader
     ArrayList<String> asCmdLine = new ArrayList<String>(
       Arrays.asList(sCmdLine.split(" ")));
     asCmdLine.add("--directory-prefix=" + m_sLocalDir);
+    addSessionCookie(asCmdLine, m_remoteUrl, new File(sLinksFile).getParent());
     asCmdLine.add("--input-file=" + sLinksFile);
-    
+
     if (PbnTools.bWindows) {
       // on Windows we need to point our wget.exe
       String sWget = PbnTools.getWgetPath();
@@ -494,7 +497,28 @@ abstract public class HtmlTourDownloader
       throw new DownloadFailedException(e, m_ow, !m_bSilent);
     }
   } //}}}
-  
+
+  private void addSessionCookie(ArrayList<String> asCmdLine, URL url,
+                                String cookieFileDir)
+          throws DownloadFailedException
+  {
+    if (sessionId == null)
+      return;
+    try {
+      File cookieFile = new File(cookieFileDir, "session-cookie.txt");
+      FileOutputStream out = new FileOutputStream(cookieFile);
+      String server = url.toString()
+        .replaceFirst("^[^/]+//", "")
+        .replaceFirst("/.*", "");
+      String cookie = server + "\tFALSE\t/\tFALSE\t0\tPHPSESSID\t" + sessionId;
+      out.write(cookie.getBytes(Charset.forName("ASCII")));
+      out.close();
+      asCmdLine.add("--load-cookies=" + cookieFile.getAbsolutePath());
+    } catch (IOException e) {
+      throw new DownloadFailedException(e, m_ow, !m_bSilent);
+    }
+  }
+
   /** performs 2 operations: downloading (if required) from internet and
     * converting (locally) to pbns */
   public boolean fullDownload(boolean bSilent)

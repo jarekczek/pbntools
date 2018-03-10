@@ -22,10 +22,13 @@ import java.net.URL
 import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 import org.slf4j.event.Level
+import java.util.Collections
 import java.util.logging.Logger
 
 class WwwServer(val port: Int, val staticDir: String) {
   val log = Logger.getLogger("jarek")
+  val sessions = Collections.synchronizedMap(HashMap<String, WwwSession>())
+
   companion object {
     val sessionKey = AttributeKey<WwwSession>("session")
   }
@@ -55,6 +58,8 @@ class WwwServer(val port: Int, val staticDir: String) {
     }
 
     routing {
+      sessionInterceptor()
+
       route("/bbo") {
         BboPages.bboRouting(this@WwwServer, this)
       }
@@ -63,6 +68,8 @@ class WwwServer(val port: Int, val staticDir: String) {
         mainPage()
       }
       get("/pbntools/{...}") {
+        if (context.request.path().toLowerCase().contains("test_6_bbo"))
+          requireAuthExt()
         call.respond(staticContents(context.request.uri))
       }
       get("/stop") {
@@ -72,6 +79,30 @@ class WwwServer(val port: Int, val staticDir: String) {
           "stop"
         }
       }
+    }
+  }
+
+  private fun Route.sessionInterceptor() {
+    intercept(ApplicationCallPipeline.Call) {
+      fun createSession(): WwwSession {
+        val newSession = WwwSession("" + System.currentTimeMillis())
+        context.response.cookies.append("PHPSESSID", newSession.id, path = "/")
+        sessions.put(newSession.id, newSession)
+        log.fine("Created new session with id ${newSession.id}.")
+        return newSession
+      }
+
+      val session =
+              if (context.request.cookies.rawCookies.containsKey("PHPSESSID")) {
+                val oldSessionId = context.request.cookies.rawCookies.get("PHPSESSID")
+                if (sessions.containsKey(oldSessionId))
+                  log.fine("Session id $oldSessionId recognized.")
+                else
+                  log.info("Invalid session id: " + oldSessionId)
+                sessions.getOrElse(oldSessionId) { createSession() }
+              } else
+                createSession()
+      context.attributes.put(WwwServer.sessionKey, session)
     }
   }
 
