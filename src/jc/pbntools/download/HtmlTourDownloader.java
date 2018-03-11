@@ -21,14 +21,11 @@
 
 package jc.pbntools.download;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,6 +34,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -91,7 +89,6 @@ abstract public class HtmlTourDownloader
     * all the results for a given hand. Strings in the set must be
     * interned. */
   protected Set<String> m_setErr = new HashSet<String>();
-  protected String sessionId;
 
   // abstract methods {{{  
   @Override
@@ -481,7 +478,7 @@ abstract public class HtmlTourDownloader
     ArrayList<String> asCmdLine = new ArrayList<String>(
       Arrays.asList(sCmdLine.split(" ")));
     asCmdLine.add("--directory-prefix=" + m_sLocalDir);
-    addSessionCookie(asCmdLine, m_remoteUrl, new File(sLinksFile).getParent());
+    addSessionCookies(asCmdLine, m_remoteUrl, new File(sLinksFile).getParent());
     asCmdLine.add("--input-file=" + sLinksFile);
 
     if (PbnTools.bWindows) {
@@ -498,22 +495,30 @@ abstract public class HtmlTourDownloader
     }
   } //}}}
 
-  private void addSessionCookie(ArrayList<String> asCmdLine, URL url,
-                                String cookieFileDir)
+  private void addSessionCookies(ArrayList<String> asCmdLine, URL url,
+                                 String cookieFileDir)
           throws DownloadFailedException
   {
-    if (sessionId == null)
-      return;
     try {
+      SoupProxy proxy = new SoupProxy();
+      Map<String, String> cookies = proxy.getCookies(m_remoteUrl);
+      if (cookies.isEmpty())
+        return;
       File cookieFile = new File(cookieFileDir, "session-cookie.txt");
+      File cookieFileOut = new File(cookieFileDir, "session-cookie-out.txt");
       FileOutputStream out = new FileOutputStream(cookieFile);
       String server = url.toString()
         .replaceFirst("^[^/]+//", "")
         .replaceFirst("/.*", "");
-      String cookie = server + "\tFALSE\t/\tFALSE\t0\tPHPSESSID\t" + sessionId;
-      out.write(cookie.getBytes(Charset.forName("ASCII")));
+      for (Map.Entry<String, String> e: cookies.entrySet()) {
+        String cookie = server + "\tFALSE\t/\tFALSE\t0\t"
+          + e.getKey() + "\t" + e.getValue() + "\n";
+        out.write(cookie.getBytes(Charset.forName("UTF-8")));
+      }
       out.close();
       asCmdLine.add("--load-cookies=" + cookieFile.getAbsolutePath());
+      asCmdLine.add("--keep-session-cookies");
+      asCmdLine.add("--save-cookies=" + cookieFileOut.getAbsolutePath());
     } catch (IOException e) {
       throw new DownloadFailedException(e, m_ow, !m_bSilent);
     }

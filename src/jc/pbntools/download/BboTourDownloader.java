@@ -423,8 +423,6 @@ public class BboTourDownloader extends HtmlTourDownloader
   {
     m_cLins = 0;
     String sLinksFile = createIndexFile();
-    SoupProxy proxy = new SoupProxy();
-    sessionId = proxy.getCookie(m_remoteUrl, "PHPSESSID");
     wgetLinks(sLinksFile);
     for (int i=1; i <= m_cDeals; i++) {
       downloadLins(getLocalLinkForDeal(i));

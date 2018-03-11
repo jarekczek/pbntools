@@ -148,7 +148,7 @@ public class SoupProxy
     serverCookies.put(server, ourCookies);
   }
 
-  private Map<String, String> getCookies(URL url) {
+  public Map<String, String> getCookies(URL url) {
     String server = url.getHost();
     Map<String, String> cookieMap;
     if (serverCookies.containsKey(server)) {
