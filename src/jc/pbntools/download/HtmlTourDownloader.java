@@ -117,6 +117,10 @@ abstract public class HtmlTourDownloader
   //}}} abstract
 
   public String toString() { return getName(); }
+
+  protected String getMsg(String name, Object... ao) {
+    return PbnTools.getStr("tourDown.msg." + name, ao);
+  }
   
   /** Not called from anywhere yet. Default constructor is sufficient. */
   protected void clear() {
@@ -572,8 +576,12 @@ abstract public class HtmlTourDownloader
     println(PbnTools.getStr("tourDown.msg.dealsSaved", sPbnFile,
       aDeal.length, nUnique, sAver));
 
+    postProcess();
+
     return true;
   }
+
+  protected void postProcess() {}
 
   /** Changes the html contents of <code>elem</code> with the contents downloaded
     * from <code>sRemoteLink</code>

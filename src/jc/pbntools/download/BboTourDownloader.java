@@ -23,33 +23,25 @@ package jc.pbntools.download;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JDialog;
 
 import jc.f;
 import jc.JCException;
-import jc.outputwindow.OutputWindow;
 import jc.outputwindow.SimplePrinter;
 import jc.SoupProxy;
-import jc.pbntools.Card;
 import jc.pbntools.Deal;
-import jc.pbntools.PbnFile;
 import jc.pbntools.PbnTools;
-import jc.pbntools.RunProcess;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -513,7 +505,12 @@ public class BboTourDownloader extends HtmlTourDownloader
 
     return aDeals.toArray(new Deal[0]);
   } //}}}
-  
+
+  @Override
+  protected void postProcess() {
+    new BboResultsExtractor(this).extractResultsCsv();
+  }
+
   // extractHands method //{{{
   /** Extracts hands from the given element and saves them to
     * <code>deal</code>.

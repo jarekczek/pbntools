@@ -8,12 +8,9 @@ import java.lang.RuntimeException
 import java.util.*
 
 object PbnToolsKt {
-  val pbnTools = PbnTools.getInstance()
-
   @Throws(IOException::class)
   fun saveProperties(props: Properties, fileName: String)
   {
-    f.trace(1, "Properties stored in file " + fileName)
     val propsMasked = Properties()
     props.propertyNames().asSequence().forEach { key ->
       if (!"bbo.pass".equals(key))
@@ -24,5 +21,6 @@ object PbnToolsKt {
       OutputStreamWriter(ou, "ISO-8859-1"),
       null)
     ou.close()
+    f.trace(1, "Properties stored in file " + fileName)
   }
 }
