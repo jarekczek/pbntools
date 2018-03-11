@@ -69,6 +69,7 @@ public class PbnTools {
   static boolean m_bPropsRead;
   private static boolean m_bVerbose;
   static boolean m_bRunMainDialog;
+  private static PbnTools INSTANCE;
   
   static {
     try { m_sCurDir = f.basePath(Class.forName("jc.pbntools.PbnTools")); }
@@ -82,6 +83,7 @@ public class PbnTools {
     bLinux = System.getProperty("os.name").equals("Linux");
     bWindows = System.getProperty("os.name").startsWith("Windows");
     m_bVerbose = false;
+    INSTANCE = new PbnTools();
     }
 
   public static String getProp(String propertyName)
@@ -408,15 +410,16 @@ public class PbnTools {
     }
 
     }
-    
-  public static void closeDown()
+
+  public static PbnTools getInstance() {
+    return INSTANCE;
+  }
+
+  public void closeDown()
   {
     try {
       if (m_bPropsRead) {
-        m_props.store(new OutputStreamWriter(
-          new FileOutputStream(m_sPropsFile), "ISO-8859-1"),
-          null);
-        f.trace(1, "Properties stored in file " + m_sPropsFile);
+        PbnToolsKt.INSTANCE.saveProperties(m_props, m_sPropsFile);
       }
     }
     catch (IOException e) { System.out.println(m_res.getString("props.save.error") + ": " + e.toString()); } 

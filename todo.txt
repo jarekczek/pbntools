@@ -1,3 +1,4 @@
 - consolidate download Kops and Pary tournament into one option
 - document 503 error at bbo
 - document individual results csv
+- don't remember bbo password

@@ -18,16 +18,12 @@
 */
 
 package jc.pbntools;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.*;
-import javax.swing.GroupLayout;
-import javax.swing.SwingConstants;
+
 import jc.f;
-import jc.JCException;
 import jc.pbntools.download.DownloadFailedException;
 
 public class DlgPbnToolsMain extends javax.swing.JFrame {
@@ -247,7 +243,7 @@ public class DlgPbnToolsMain extends javax.swing.JFrame {
     @Override
     public void windowClosing(WindowEvent e) {
       f.trace(1, "closing");
-      PbnTools.closeDown();
+      PbnTools.getInstance().closeDown();
     }
   }
 
