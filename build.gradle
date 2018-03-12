@@ -211,11 +211,11 @@ task launcher() {
 tasks.launcher.dependsOn 'set-filenames'
 launcherConfigurationClosure.rehydrate(null, tasks.launcherInternal, null).call()
 launcherConfigurationClosure.rehydrate(null, tasks.launcherExternal, null).call()
-if (hasProperty('xlaunch4jCmd'))
-  tasks.launcher.dependsOn 'launcherInternal'
-else {
+if (hasProperty('launch4jCmd')) {
   tasks.launcherExternal.launch4jCmd = ext.launch4jCmd
   tasks.launcher.dependsOn 'launcherExternal'
+} else {
+  tasks.launcher.dependsOn 'launcherInternal'
 }
 
 task release(dependsOn: ['releaseLinux', 'releaseWindows']) {

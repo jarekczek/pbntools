@@ -1,1 +1,3 @@
 - consolidate download Kops and Pary tournament into one option
+- download of http://www.bridgebase.com/myhands/hands.php?tourney=1610-1520880325-
+  with autodetenction throws npe (at jc.pbntools.PbnTools.downTour(PbnTools.java:236))
