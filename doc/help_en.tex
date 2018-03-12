@@ -194,7 +194,7 @@ interface.
   {\em PbnTools/version}.
 \item[www delay]
   A delay between consecutive www requests, in seconds.
-  Minimum: 1. For Bbo the value of 3 is suggested,
+  Minimum: 1. For Bbo the value of 4 is suggested,
   otherwise 503 errors may appear in download log.
 
 \end{description}
@@ -325,14 +325,14 @@ Following development means are available:
   discussion.
   
 \item
-  SVN - source code, thanks to 
-  \htmladdnormallink{sourceforge.net}{https://sourceforge.net}:
+  GIT - source code, thanks to 
+  \htmladdnormallink{github.com}{https://github.com}:
   \begin{verbatim}
+    git clone https://github.com/jarekczek/pbntools.git
     svn checkout svn://svn.code.sf.net/p/pbntools/code/trunk pbntools-code-directory
   \end{verbatim}
 
-  \htmladdnormallink{Browse code on-line}{https://sourceforge.net/p/pbntools/%
-  code/}, 
+  \htmladdnormallink{Browse code on-line}{https://github.com/jarekczek/pbntools},
   \htmladdnormallink{PbnTools at sourceforge}{https://sourceforge.net/projects/pbntools}, 
 
 \end{itemize}
@@ -374,6 +374,11 @@ in source code archive, see: Download, \ref{download}.
 %{{{ history
 \section{Version history}
 \begin{description}
+\item[1.2.2, 12.03.2018]
+  \begin{itemize}
+  \item BBO download with authentication (obligatory) \bug{64}.
+  \item {\em results.csv} file generation from BBO (experimental).
+  \end{itemize}
 \item[1.2.1, 27.11.2013]
   \begin{itemize}
   \item Fixed bugs \bugsonetwozero.
@@ -431,7 +436,7 @@ in source code archive, see: Download, \ref{download}.
 I am open for suggestions. I will be grateful for informations about incorrect operation of the program or a web-page.
 
 {\setlength{\parindent}{0pt}\small\htmladdnormallink{Jarek Czekalski}{mailto:jarekczek@poczta.onet.pl}
-, last modification Sep 16 2012}
+, last modification Mar 12 2018}
 %}}}
 
 

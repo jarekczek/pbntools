@@ -435,7 +435,7 @@ public class PbnTools {
       sAgent = "PbnTools/" + getStr("wersja");
     System.setProperty("jc.soupproxy.useragent", sAgent);
 
-    m_nDelay = f.str2Int(m_props.getProperty("delay"), 3);
+    m_nDelay = f.str2Int(m_props.getProperty("delay"), 4);
     if (m_nDelay < 1)
       m_nDelay = 1;
     if (m_nDelay > 1000)

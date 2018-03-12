@@ -327,7 +327,8 @@ lub z linii poleceñ.
   pewien odstêp czasu, ¿eby nie przeci±¿aæ serwera. Staramy siê
   przy tym sprawiaæ wra¿enie, ¿e robi to istota ludzka, a nie
   automat. Polskie serwery dzia³aj± poprawnie przy czasie 1 sekundy,
-  ale serwer Bbo wymaga 3 sekund, bo inaczej zwraca b³êdy 503.
+  ale serwer Bbo wymaga 3 (a nawet 4) sekund, bo inaczej
+  zwraca b³êdy 503.
   Podajemy liczbê sekund, minimalna warto¶æ: 1.
 
                               \end{description}
@@ -489,14 +490,13 @@ Do dyspozycji mamy nastêpuj±ce narzêdzia:
   do dyskusji.
   
 \item
-  SVN - baza kodu ¼ród³owego umo¿liwiaj±ca pracê grupow±, dostêpna dziêki
-  \htmladdnormallink{sourceforge.net}{https://sourceforge.net}:
+  GIT - baza kodu ¼ród³owego umo¿liwiaj±ca pracê grupow±, dostêpna dziêki
+  \htmladdnormallink{github.com}{https://github.com}:
   \begin{verbatim}
-    svn checkout svn://svn.code.sf.net/p/pbntools/code/trunk pbntools-code-directory
+    git clone https://github.com/jarekczek/pbntools.git
   \end{verbatim}
 
-  \htmladdnormallink{Przegl±danie on-line}{https://sourceforge.net/p/pbntools/%
-  code/},
+  \htmladdnormallink{Przegl±danie on-line}{https://github.com/jarekczek/pbntools},
   \htmladdnormallink{strona PbnTools na sourceforge}{https://sourceforge.net/projects/pbntools/}
   
 
@@ -537,6 +537,12 @@ w archiwum kodu ¼ród³owego, patrz: Pobieranie, \ref{download}.
 %{{{ historia
 \section{Historia wersji programu}
 \begin{description}
+\item[1.2.2, 12.03.2018]
+  \begin{itemize}
+  \item Pobieranie z BBO z logowanie (obowi±zkowe) \bug{64}.
+  \item Generowanie pliku {\em results.csv} przy pobieraniu z BBO
+        (eksperymentalnie).
+  \end{itemize}
 \item[1.2.1, 27.11.2013]
   \begin{itemize}
   \item Usuniêto b³êdy \bugsonetwozero.
@@ -596,7 +602,7 @@ w archiwum kodu ¼ród³owego, patrz: Pobieranie, \ref{download}.
 Jestem otwarty na sugestie. Bêdê wdziêczny za informacje o nieprawid³owym dzia³aniu strony lub programu.
 
 {\setlength{\parindent}{0pt}\small\htmladdnormallink{Jarek Czekalski}{mailto:jarekczek@poczta.onet.pl},
-ostatnia modyfikacja 25.02.2018}
+ostatnia modyfikacja 12.03.2018}
 %}}}
 
 \end{document}
