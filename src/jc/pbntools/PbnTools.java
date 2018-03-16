@@ -233,7 +233,8 @@ public class PbnTools {
     else
       dloaders = new HtmlTourDownloader[] { dloader };
     Download dwn = new Download(sLink, dloaders, bGui);
-    dwn.setOutputWindowIfEmpty(dloader.getOutputWindow());
+    if (dloader != null)
+      dwn.setOutputWindowIfEmpty(dloader.getOutputWindow());
     if (bGui) {
       DialogOutputWindow ow =  new DialogOutputWindow(m_dlgMain, dwn, m_res);
       ow.setVisible(true);
