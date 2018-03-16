@@ -36,6 +36,7 @@ dependencies {
   compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
   testCompile 'junit:junit-dep:4.11'
   testCompile 'junit-addons:junit-addons:1.4'
+  testCompile 'org.assertj:assertj-core:3.7.0'
   testCompile 'io.ktor:ktor-server-core:0.9.1'
   testCompile 'io.ktor:ktor-server-netty:0.9.1'
   testCompile 'io.ktor:ktor-html-builder:0.9.1'
