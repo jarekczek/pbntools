@@ -82,6 +82,7 @@ task 'junit-prereq' {
   file('work/junit-tmp').deleteDir()
   file('work').mkdir()
   file('work/junit-tmp').mkdir()
+  file('work/junit-tmp/postprocess').mkdir()
 }
 
 task 'junit-local' (type: Test) {
