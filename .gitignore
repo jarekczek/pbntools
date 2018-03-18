@@ -8,6 +8,7 @@ doc/*.html
 doc/*.pdf
 doc/autoDefs.tex
 gradle.properties
+junit-tmp
 lib
 local.properties
 out
