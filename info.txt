@@ -1,0 +1,17 @@
+RELEASE
+
+- Bump version in resource\jc\pbntools\PbnTools.properties.
+- Give links to previous version in help (help_common.tex),
+  binaries and source.
+- Changes list in pl i en.
+- gradle clean doc (sometimes 2 attempts needed).
+  Sometimes en does not run, then gradle clean doc helps,
+  because only the English version is then rebuilt
+  and Polish intermediate files may corrupt this process.
+- gradle junit
+- git commit
+- gradle release
+- Upload to home page, including help.
+- Upload to sourceforge.
+- Set default versions at sourceforge.
+

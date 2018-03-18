@@ -43,7 +43,10 @@
 <property name="git" value="git" />
 <property name="doxygen" value="doxygen" />
 <property name="latex2html" value="latex2html" />
+<!-- old options, now I couldn't run with latin2, unicode - they seem unimportant
 <property name="latex2htmlOpts" value="-split 0 -nonavigation -address &quot;&quot; -noinfo -show_section_numbers -html_version 4.0,latin2,unicode" />
+ -->
+<property name="latex2htmlOpts" value="-split 0 -nonavigation -address &quot;&quot; -noinfo -show_section_numbers -html_version 4.0" />
 <property name="jsoupVersion" value="1.7.3" />
 
 <property name="compDir" location="${basedir}/work/comp" />
