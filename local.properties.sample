@@ -4,8 +4,18 @@ ftp.dir=/public_html/jcwww
 ftp.password=xxxx
 svn.user=jarekczek
 svn.pass=xxxx
-latex2html=C:\\Program Files\\MiKTeX 2.9\\miktex\\bin\\x64\\htlatex.exe
-latex2htmlOpts=-split 0 -nonavigation -address &quot;&quot; -noinfo -show_section_numbers -html_version 4.0,latin2,unicode
+#latex2html=C:\\Program Files\\MiKTeX 2.9\\miktex\\bin\\x64\\htlatex.exe
+latex2html=C:\\lang\\latex\\latex2html\\bin\\latex2html.bat
+
+# latex2htmlOpts=-split 0 -nonavigation -address &quot;&quot; -noinfo -show_section_numbers -html_version 4.0,latin2,unicode
+# 2018 breaks with 4.0,unicode, fixing in latex2html\bin\latex2html.bat:
+#    &do_require_extension('utf8'); #//JC
+#    &do_require_extension('unicode'); #//JC
+#	   print "charset $charset";
+#    #$charset = $CHARSET = $PREV_CHARSET = ''; #//JC
+# clear the address from l2hconf.pm
+latex2htmlOpts=-split 0 -nonavigation -noinfo -show_section_numbers -no_subdir -html_version 4.0
+
 git=git.bat
 # testArgs=-h
 # testArgs=--verbose -dt http://www.warsbrydz.pl/wyniki/gem/GE120917/index.html

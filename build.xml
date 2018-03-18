@@ -43,10 +43,6 @@
 <property name="git" value="git" />
 <property name="doxygen" value="doxygen" />
 <property name="latex2html" value="latex2html" />
-<!-- old options, now I couldn't run with latin2, unicode - they seem unimportant
-<property name="latex2htmlOpts" value="-split 0 -nonavigation -address &quot;&quot; -noinfo -show_section_numbers -html_version 4.0,latin2,unicode" />
- -->
-<property name="latex2htmlOpts" value="-split 0 -nonavigation -address &quot;&quot; -noinfo -show_section_numbers -html_version 4.0" />
 <property name="jsoupVersion" value="1.7.3" />
 
 <property name="compDir" location="${basedir}/work/comp" />
@@ -662,6 +658,7 @@
 
 <target name="doc-for-suffix">
   <echo>doc ${suffix}</echo>
+  <delete quiet="true" file="${tmp}/help_${suffix}.html" />
   <fail message="suffix not set"><condition><not><isset property="suffix"/></not></condition></fail>
   <uptodate property="docUpToDate" targetfile="doc/help_${suffix}.html" >
     <srcfiles dir="doc" includes="help_${suffix}.tex help_common.tex" />
@@ -684,26 +681,54 @@
   <condition property="opts2" value="-dir ${tmp}" else="">
     <os family="unix"/>
   </condition>
+  <echo>latex2htmlOpts: ${latex2htmlOpts}</echo>
   <exec executable="${latex2html}" failonerror="true" dir="${tmp}" >
     <arg line="${latex2htmlOpts} ${opts2} help_${suffix}.tex"/>
   </exec>
 
-  <!-- there's a latex error in http:// parsing, slashes are gone, correcting with sed -->
-  <exec executable="sed" failonerror="true" >
-    <arg line="&apos;s/http:\([a-z]\)/http:\/\/\1/&apos; -i ${tmp}${sedFileSep}help_${suffix}.html"/>
-  </exec>
   <!-- correct toc links in html -->
-  <exec executable="sed" failonerror="true" >
-    <arg line="&apos;s/HREF=&quot;help_${suffix}.html#SEC/HREF=&quot;#SEC/&apos; -i ${tmp}/help_${suffix}.html"/>
-  </exec>
-  <!-- some verb statements -->
-  <exec executable="sed" failonerror="true" >
-    <arg line="&apos;s/&lt;code&gt;/&lt;code style=&quot;display:inline&quot;&gt;/&apos; -i ${tmp}/help_${suffix}.html"/>
-  </exec>
-  <!-- unwanted Polish letters appear in links -->
-  <exec executable="sed" failonerror="true" >
-    <arg line="&apos;s/katowice.pl&amp;#243;ther\/bugzilla&amp;#347;how/katowice.pl\/other\/bugzilla\/show/&apos; -i ${tmp}/help_${suffix}.html"/>
-  </exec>
+  <script language="javascript"><![CDATA[
+    var name = "help_" + project.getProperty("suffix") + ".html";
+	var f = new java.io.File(project.getProperty("tmp"), name);
+	var charset = java.nio.charset.Charset.forName("ISO-8859-1");
+	var rd = new java.io.BufferedReader(
+	  new java.io.InputStreamReader(new java.io.FileInputStream(f), charset));
+	var sb = new java.lang.StringBuilder();
+	while (true) {
+	  var line = rd.readLine();
+	  if (line == null)
+	    break;
+	  sb.append(line + java.lang.System.getProperty("line.separator"));
+	}
+	var s = sb.toString();
+
+	var index = s.indexOf("http:jarek");
+	if (index >= 0)
+	  java.lang.System.out.println("problem to fix by search and replace: "
+	    + index + " " + s.substring(index - 10, index + 20));
+
+  	// Filename must be removed from local links, to make it work on website.
+	s = s.replaceAll("HREF=\"" + name + "#SEC", "HREF=\"#SEC");
+
+    // Some verb statements. Seems unnecessary on Chrome 2018.
+    // s = s.replaceAll("<code>", "<code style=\"display:inline\">");
+
+    // Polish characters somehow breaking links.
+	s = s.replaceAll("\\.org\xc5\x82icense", ".org/license");
+	s = s.replaceAll("\\.pl\xc3\xb3ther", ".pl/other");
+	s = s.replaceAll("/bugzilla\xc5\x9bhow_bug", "/bugzilla/show_bug");
+
+	// All links are http:xxx instead of http://xxx.
+    s = s.replaceAll("http:([a-z])", "http://$1");
+
+    rd.close();
+	//java.lang.System.out.println(s);
+	
+	var wr = new java.io.FileOutputStream(f);
+	wr.write(s.getBytes(charset));
+	wr.close();
+	
+  ]]></script>
 
   <copy todir="${basedir}/doc"><fileset dir="${tmp}" includes="help_${suffix}.html help_${suffix}.pdf"/></copy>
   <script language="javascript"><![CDATA[

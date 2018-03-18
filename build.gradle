@@ -77,6 +77,12 @@ jar {
   }
 }
 
+task 'clean-doc' {
+  file('doc/help_en.html').delete()
+  file('doc/help_pl.html').delete()
+}
+tasks['doc'].mustRunAfter 'clean-doc'
+
 task 'junit-prereq' {
   dependsOn 'fillLibDir'
   file('work/junit-tmp').deleteDir()

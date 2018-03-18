@@ -1,6 +1,7 @@
 RELEASE
 
 - Bump version in resource\jc\pbntools\PbnTools.properties.
+- Bump year src\jc\pbntools\DlgPbnToolsAbout.java.
 - Give links to previous version in help (help_common.tex),
   binaries and source.
 - Changes list in pl i en.
@@ -8,10 +9,12 @@ RELEASE
   Sometimes en does not run, then gradle clean doc helps,
   because only the English version is then rebuilt
   and Polish intermediate files may corrupt this process.
+- Compare help html files with previous release.
 - gradle junit
 - git commit
 - gradle release
-- Upload to home page, including help.
+- Rename release files, remove commit ref.
+- Upload to home page (3 release files, 2 help files).
+- Upload dependencies (help up to date?)
 - Upload to sourceforge.
 - Set default versions at sourceforge.
-
