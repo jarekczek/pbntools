@@ -713,14 +713,6 @@
     // Some verb statements. Seems unnecessary on Chrome 2018.
     // s = s.replaceAll("<code>", "<code style=\"display:inline\">");
 
-    // Polish characters somehow breaking links.
-	s = s.replaceAll("\\.org\xc5\x82icense", ".org/license");
-	s = s.replaceAll("\\.pl\xc3\xb3ther", ".pl/other");
-	s = s.replaceAll("/bugzilla\xc5\x9bhow_bug", "/bugzilla/show_bug");
-
-	// All links are http:xxx instead of http://xxx.
-    s = s.replaceAll("http:([a-z])", "http://$1");
-
     rd.close();
 	//java.lang.System.out.println(s);
 	
