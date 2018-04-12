@@ -231,7 +231,7 @@ public class BboTourDownloader extends HtmlTourDownloader
     if (f.isNullOrEmpty(PbnTools.getProp("bbo.user"))
         || f.isNullOrEmpty(PbnTools.getProp("bbo.pass")))
       throw new DownloadFailedException(
-        PbnTools.getStr("tourDown.error.noBboUser"), m_ow, !bSilent);
+        PbnTools.getStr("tourDown.error.noBboUser"), m_ow, true);
     loginLink = loginLink.replaceFirst("\\?.*$", "?t=%2Fmyhands%2Findex.php%3F");
     m_ow.addLine(PbnTools.getStr("tourDown.msg.willLogin", loginLink));
     SoupProxy proxy = new SoupProxy();
@@ -253,7 +253,7 @@ public class BboTourDownloader extends HtmlTourDownloader
     String mainText = getSelectText(doc, "div.bbo_content").toLowerCase();
     if (mainText.contains("username or password incorrect"))
       throw new DownloadFailedException(
-        PbnTools.getStr("tourDown.msg.authFailed"), m_ow, !bSilent);
+        PbnTools.getStr("tourDown.msg.authFailed"), m_ow, true);
     return verify(sLink, bSilent, false);
   }
 
