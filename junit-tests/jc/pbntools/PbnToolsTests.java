@@ -25,6 +25,8 @@ import java.io.FilenameFilter;
 import java.io.FileWriter;
 import java.io.PrintStream;
 import java.io.Writer;
+import java.net.URI;
+
 import jc.SoupProxy;
 import jc.JCException;
 import jc.f;
@@ -61,11 +63,14 @@ private static PrintStream origOut;
     String sCurrentVer = PbnTools.m_res.getString("wersja");
     // when taking PbnTools classes directly from classes dir,
     // we get path work/comp/jc here, so 3 times .. is needed
-    String sHelpPath = f.basePath(this.getClass()) + f.sDirSep + ".."
-        + f.sDirSep + ".." + f.sDirSep + ".." + f.sDirSep + ".."
-        + f.sDirSep + ".."+ f.sDirSep + "doc" + f.sDirSep;
-    String sHelpUrl = "file://" + sHelpPath + "help_pl.html";
-    // System.out.println(sHelpUrl);
+    File pbntoolsDir = new File(f.basePath(this.getClass()));
+    while (!pbntoolsDir.getName().endsWith("build"))
+      pbntoolsDir = pbntoolsDir.getParentFile();
+    pbntoolsDir = pbntoolsDir.getParentFile();
+    System.out.println("pbntoolsDir: " + pbntoolsDir.getAbsolutePath());
+    File helpFile = new File(new File(pbntoolsDir, "doc"), "help_pl.html");
+    String sHelpUrl = helpFile.toURI().toString();
+    System.out.println(sHelpUrl);
     String sHtmlVer = PbnTools.getVersionFromUrl(sHelpUrl);
     assertTrue("versions do not match: current=" + sCurrentVer
                + ", html:" + sHtmlVer, sCurrentVer.equals(sHtmlVer));
