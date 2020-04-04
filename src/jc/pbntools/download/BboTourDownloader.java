@@ -21,14 +21,10 @@
 
 package jc.pbntools.download;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -199,9 +195,10 @@ public class BboTourDownloader extends HtmlTourDownloader
           "BBO"));
         if (tryLogin)
           return verifyAfterLogin(sLink, doc.baseUri(), bSilent);
-        else
+        else {
           throw new RuntimeException(PbnTools.getStr("tourDown.error.asksLoginAgain",
             "BBO"));
+        }
       }
       firstTagStartsWith(doc, "th", "Tourney ", bSilent);
       firstTagMatches(doc, "td.board", "Board [0-9]+ traveller", bSilent);
@@ -250,11 +247,25 @@ public class BboTourDownloader extends HtmlTourDownloader
     } catch (SoupProxy.Exception e2) {
       throw new RuntimeException(e2);
     }
+    saveDocumentAsFile(doc, "bbo_login_result.html");
     String mainText = getSelectText(doc, "div.bbo_content").toLowerCase();
-    if (mainText.contains("username or password incorrect"))
+    if (mainText.contains("username or password incorrect")) {
       throw new DownloadFailedException(
         PbnTools.getStr("tourDown.msg.authFailed"), m_ow, true);
+    }
     return verify(sLink, bSilent, false);
+  }
+
+  private void saveDocumentAsFile(Document doc, String filename) {
+    try {
+      String dir = m_sLocalDir != null ? m_sLocalDir : PbnTools.getWorkDir(false);
+      File outFile = new File(dir, filename);
+      PrintWriter pr = new PrintWriter(new OutputStreamWriter(new FileOutputStream(outFile), Charset.forName("UTF-8")));
+      pr.print(doc.outerHtml());
+      pr.close();
+    } catch (FileNotFoundException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   protected String createIndexFile() throws DownloadFailedException //{{{

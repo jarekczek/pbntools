@@ -78,17 +78,21 @@ jar {
 }
 
 task 'clean-doc' {
-  file('doc/help_en.html').delete()
-  file('doc/help_pl.html').delete()
+  doLast {
+    file('doc/help_en.html').delete()
+    file('doc/help_pl.html').delete()
+  }
 }
 tasks['doc'].mustRunAfter 'clean-doc'
 
 task 'junit-prereq' {
   dependsOn 'fillLibDir'
-  file('work/junit-tmp').deleteDir()
-  file('work').mkdir()
-  file('work/junit-tmp').mkdir()
-  file('work/junit-tmp/postprocess').mkdir()
+  doLast {
+    file('work/junit-tmp').deleteDir()
+    file('work').mkdir()
+    file('work/junit-tmp').mkdir()
+    file('work/junit-tmp/postprocess').mkdir()
+  }
 }
 
 task 'junit-local' (type: Test) {
