@@ -66,7 +66,7 @@
 <zipfileset id="fs.release.common.1" dir="${basedir}/doc" includes="help_*.html zbarcam.html" />
 <zipfileset id="fs.release.common.2" dir="${basedir}/build/libs" includes="PbnTools.jar" />
 <zipfileset id="fs.release.common.3" dir="${basedir}/lib" includes="*.jar *.txt" />
-<zipfileset id="fs.release.common.4" dir="${basedir}" includes="no_files.xxx" />
+<zipfileset id="fs.release.common.4" dir="${basedir}/config" includes="*" />
 <zipfileset id="fs.release.common.5" dir="${basedir}" includes="no_files.xxx" />
 <zipfileset id="fs.release.common.6" dir="${basedir}" includes="no_files.xxx" />
 <zipfileset id="fs.release.common.7" dir="${basedir}" includes="no_files.xxx" />
@@ -453,8 +453,11 @@
   <antcall target="checkLib"><param name="lib" value="wget" /></antcall>
   <antcall target="checkFile"><param name="lib" value="zbarcam.html" />
                               <param name="dir" value="doc" /></antcall>
+  <antcall target="checkFile"><param name="lib" value="logging.properties" />
+                              <param name="dir" value="config" /></antcall>
   <copy todir="${basedir}/work/release"><fileset dir="${basedir}/lib" includes="*.jar *.txt" /></copy>
   <copy todir="${basedir}/work/release"><fileset dir="${basedir}/doc" includes="*.html" /></copy>
+  <copy todir="${basedir}/work/release"><fileset dir="${basedir}/config" includes="*" /></copy>
   <copy todir="${basedir}/work/release/bin"><fileset dir="${basedir}/lib" includes="zbarcam" /></copy>
   <chmod dir="${basedir}/work/release/bin" perm="a+x" includes="*" />
   <antcall target="zip-src">

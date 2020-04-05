@@ -12,7 +12,7 @@ RELEASE
   maybe gradle clean-doc doc
 - Compare help html files with previous release.
 - gradle junit
-- git commit
+- git commit and push
 - gradle release
 - Rename release files, remove commit ref.
 - Upload to home page (3 release files, 2 help files).

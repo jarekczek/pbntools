@@ -34,6 +34,7 @@ dependencies {
   compile 'org.jsoup:jsoup:1.7.3'
   compile 'javazoom:jlayer:1.0.1'
   compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+  compile 'org.slf4j:slf4j-jdk14:1.7.30'
   testCompile 'junit:junit-dep:4.11'
   testCompile 'junit-addons:junit-addons:1.4'
   testCompile 'org.assertj:assertj-core:3.7.0'
@@ -213,6 +214,7 @@ def launcherConfigurationClosure = {
   productName = 'PbnTools'
   companyName = 'jarekczek'
   internalName = 'PbnTools'
+  jvmOptions = [ "-Djava.util.logging.config.file=logging.properties" ]
 }
 
 task launcherInternal(type: edu.sc.seis.launch4j.tasks.Launch4jLibraryTask) {}

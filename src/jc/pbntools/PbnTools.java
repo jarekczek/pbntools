@@ -53,6 +53,7 @@ import jc.pbntools.download.DownloadFailedException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.slf4j.LoggerFactory;
 
 public class PbnTools {
   static String m_sCurDir;
@@ -390,6 +391,9 @@ public class PbnTools {
     */
   public static void main(String args[])
   {
+    new File(System.getProperty("user.home"), ".PbnTools").mkdir();
+    LoggerFactory.getLogger(PbnTools.class).info("PbnTools starting.");
+
     m_sPropsFile = System.getProperty("user.home") + System.getProperty("file.separator") + "PbnTools.props";
     try {
       m_props.load(new InputStreamReader(
