@@ -26,6 +26,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,9 +37,9 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * <code>SoupProxy</code> class retrieves an html page through
@@ -68,12 +70,13 @@ public class SoupProxy
   public SoupProxy()
   {
     m_url = null;
-    log = Logger.getLogger(this.getClass().toString());
+    log = LoggerFactory.getLogger(this.getClass().toString());
+    log.debug("SoupProxy constructor.");
 
     if (System.getProperty("jsoup.log.folder") != null) {
       jsoupLogFolder = new File(System.getProperty("jsoup.log.folder"));
       if (!jsoupLogFolder.exists()) {
-        log.warning("Turning off jsoup.log.folder, because "
+        log.warn("Turning off jsoup.log.folder, because "
           + jsoupLogFolder + " does not exist.");
         jsoupLogFolder = null;
       }
@@ -87,6 +90,7 @@ public class SoupProxy
   public Document getDocumentFromFile(String sFile)
     throws SoupProxy.Exception
   {
+    log.debug("getDocumentFromFile " + sFile);
     Document doc;
     try {
       doc = Jsoup.parse(new File(sFile), null);
@@ -100,6 +104,7 @@ public class SoupProxy
   public Document getDocumentFromHttp(URL url)
     throws SoupProxy.Exception
   {
+    log.debug("getDocumentFromHttp " + url);
     Document doc = null;
     try {
       Connection con = Jsoup.connect(""+url);
@@ -121,6 +126,7 @@ public class SoupProxy
   public Document post(URL url, Map<String, String> data)
     throws SoupProxy.Exception
   {
+    log.debug("post " + url);
     Document doc = null;
     try {
       Connection con = Jsoup.connect(""+url);
@@ -141,11 +147,18 @@ public class SoupProxy
   }
 
   private void setCookies(URL url, Map<String, String> cookies) {
+    log.debug("setCookies " + url + ", " + mapToString(cookies));
     String server = url.getHost();
     Map<String, String> ourCookies = getCookies(url);
     for(Map.Entry<String, String> entry: cookies.entrySet())
       ourCookies.put(entry.getKey(), entry.getValue());
     serverCookies.put(server, ourCookies);
+  }
+
+  private String mapToString(Map<String, String> cookies) {
+    return cookies.entrySet().stream()
+      .map(e -> e.getKey() + "=" + e.getValue())
+      .collect(Collectors.joining(","));
   }
 
   public Map<String, String> getCookies(URL url) {
@@ -156,15 +169,18 @@ public class SoupProxy
     } else {
       cookieMap = new HashMap<String, String>();
     }
+    log.debug("getCookies " + url + ", " + mapToString(cookieMap));
     return cookieMap;
   }
 
   public String getCookie(URL url, String key) {
+    log.debug("getCookie " + url + ", " + key);
     Map<String, String> ourCookies = getCookies(url);
     return ourCookies.get(key);
   }
 
   private void saveDocumentToTempFile(Document doc, File dir) {
+    log.debug("saveDocumentToTempFile");
     try {
       File tempFile = File.createTempFile("jsoup_", ".html", dir);
       FileOutputStream ostr = new FileOutputStream(tempFile);
@@ -184,6 +200,7 @@ public class SoupProxy
   public Document getDocument(String sUrl, int nFlags)
     throws SoupProxy.Exception
   {
+    log.debug("getDocument " + sUrl + ", " + nFlags);
     Document doc;
     if ((nFlags & NO_CACHE) == 0) {
       // check cache
