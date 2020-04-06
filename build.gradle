@@ -34,7 +34,9 @@ dependencies {
   compile 'org.jsoup:jsoup:1.7.3'
   compile 'javazoom:jlayer:1.0.1'
   compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-  compile 'org.slf4j:slf4j-jdk14:1.7.30'
+  compile 'org.slf4j:slf4j-api:1.7.30'
+  compile 'ch.qos.logback:logback-classic:1.2.3'
+  compile 'ch.qos.logback:logback-core:1.2.3'
   testCompile 'junit:junit-dep:4.11'
   testCompile 'junit-addons:junit-addons:1.4'
   testCompile 'org.assertj:assertj-core:3.7.0'
@@ -210,11 +212,11 @@ def launcherConfigurationClosure = {
   version = ant.properties['wersja'] + '.' + ant.properties['build.number']
   textVersion = version
   fileDescription = "PbnTools - a bridge player's toolkit"
-  copyright = 'Copyright (C) 2010-2018 jarekczek'
+  copyright = 'Copyright (C) 2010-2020 jarekczek'
   productName = 'PbnTools'
   companyName = 'jarekczek'
   internalName = 'PbnTools'
-  jvmOptions = [ "-Djava.util.logging.config.file=logging.properties" ]
+  jvmOptions = [ "-Dlogback.configurationFile=logback.xml" ]
 }
 
 task launcherInternal(type: edu.sc.seis.launch4j.tasks.Launch4jLibraryTask) {}

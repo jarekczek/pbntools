@@ -19,41 +19,40 @@
 
 package jc.pbntools;
 
-import java.awt.Window;
-import java.io.InputStreamReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.awt.Component;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import jc.f;
-import jc.fgpl;
 import jc.JCException;
 import jc.SoupProxy;
+import jc.f;
+import jc.fgpl;
 import jc.outputwindow.DialogOutputWindow;
 import jc.outputwindow.OutputWindow;
 import jc.outputwindow.SimplePrinter;
 import jc.outputwindow.StandardSimplePrinter;
 import jc.pbntools.download.BboTourDownloader;
 import jc.pbntools.download.DealReader;
+import jc.pbntools.download.DownloadFailedException;
 import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
 import jc.pbntools.download.LinReader;
 import jc.pbntools.download.ParyTourDownloader;
-import jc.pbntools.download.DownloadFailedException;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PbnTools {
   static String m_sCurDir;
@@ -393,6 +392,7 @@ public class PbnTools {
   {
     new File(System.getProperty("user.home"), ".PbnTools").mkdir();
     LoggerFactory.getLogger(PbnTools.class).info("PbnTools starting.");
+    //StatusPrinter.print((LoggerContext)LoggerFactory.getILoggerFactory());
 
     m_sPropsFile = System.getProperty("user.home") + System.getProperty("file.separator") + "PbnTools.props";
     try {

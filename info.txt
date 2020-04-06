@@ -1,7 +1,7 @@
 RELEASE
 
 - Bump version in resource\jc\pbntools\PbnTools.properties.
-- Bump year src\jc\pbntools\DlgPbnToolsAbout.java.
+- Bump year src\jc\pbntools\DlgPbnToolsAbout.java and build.gradle
 - Give links to previous version in help (help_common.tex),
   binaries and source.
 - Changes list in pl i en, last modified.

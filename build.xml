@@ -453,7 +453,7 @@
   <antcall target="checkLib"><param name="lib" value="wget" /></antcall>
   <antcall target="checkFile"><param name="lib" value="zbarcam.html" />
                               <param name="dir" value="doc" /></antcall>
-  <antcall target="checkFile"><param name="lib" value="logging.properties" />
+  <antcall target="checkFile"><param name="lib" value="logback.xml" />
                               <param name="dir" value="config" /></antcall>
   <copy todir="${basedir}/work/release"><fileset dir="${basedir}/lib" includes="*.jar *.txt" /></copy>
   <copy todir="${basedir}/work/release"><fileset dir="${basedir}/doc" includes="*.html" /></copy>
