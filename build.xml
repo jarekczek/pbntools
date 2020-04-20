@@ -22,7 +22,7 @@
 -->
 
 <!-- //{{{ global initialization -->
-<property name="ant.build.javac.target" value="1.8" />
+<property name="ant.build.javac.target" value="1.6" />
 <property name="ant.build.javac.source" value="${ant.build.javac.target}" />
 <property file="local.properties" />
 <property environment="env" />

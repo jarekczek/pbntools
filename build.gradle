@@ -47,8 +47,8 @@ dependencies {
   //testCompile 'org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.7'
 }
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = "1.6"
+targetCompatibility = "1.6"
 
 ant.importBuild "build.xml"
 ant.references['ivy.path'] = ant.path(path: configurations.ivy.files.join(';'))
