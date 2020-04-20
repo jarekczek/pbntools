@@ -34,12 +34,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * <code>SoupProxy</code> class retrieves an html page through
@@ -156,9 +156,24 @@ public class SoupProxy
   }
 
   private String mapToString(Map<String, String> cookies) {
-    return cookies.entrySet().stream()
-      .map(e -> e.getKey() + "=" + e.getValue())
-      .collect(Collectors.joining(","));
+    ArrayList<String> lst = new ArrayList<String>();
+    for (Map.Entry<String, String> e : cookies.entrySet()) {
+      lst.add(e.getKey() + "=" + e.getValue());
+    }
+    return join(lst);
+  }
+
+  private String join(ArrayList<String> lst) {
+    StringBuilder sb = new StringBuilder();
+    boolean first = true;
+    for (String s : lst) {
+      if (!first) {
+        sb.append(",");
+      }
+      sb.append(s);
+      first = false;
+    }
+    return sb.toString();
   }
 
   public Map<String, String> getCookies(URL url) {
