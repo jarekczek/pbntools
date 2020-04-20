@@ -1,2 +1,2 @@
 #!/bin/bash
-exec java -Dlogback.configurationFile=logback.xml -jar `dirname $0`/PbnTools.jar "$@"
+exec java -Dlogback.configurationFile=`dirname $0`/logback.xml -jar `dirname $0`/PbnTools.jar "$@"
