@@ -33,7 +33,9 @@ import jc.f;
 import jc.outputwindow.SimplePrinter;
 import jc.outputwindow.StandardSimplePrinter;
 import jc.outputwindow.TestPrinter;
+import jc.pbntools.download.BboHandsHistoryLinReader;
 import jc.pbntools.download.BboTourDownloader;
+import jc.pbntools.download.DealReader;
 import jc.pbntools.download.DownloadFailedException;
 import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
@@ -165,6 +167,14 @@ static void pobierzTestHelper(HtmlTourDownloader der,
     "test/test_8_bbo_wronie_20130824" +
       "/wronie_9533_pairs_2720_przyjaciele_wronia.pbn",
     "9533-1377369061/9533-1377369061.pbn");
+}
+
+@Test public void downloadBboLinsFromHistory() throws DownloadFailedException {
+  DealReader dr = new BboHandsHistoryLinReader();
+  dr.setOutputWindow(new StandardSimplePrinter());
+  String sUrl = "test/test_bbo_history_with_lins/history_page.html";
+  assert(dr.verify(sUrl, false));
+  dr.readDeals(sUrl, false);
 }
 
 // pobierzKopsTest {{{
