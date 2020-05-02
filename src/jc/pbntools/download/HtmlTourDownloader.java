@@ -55,6 +55,10 @@ import org.jsoup.select.Elements;
 
 /**
  * This class's methods are called from {@link TourDownloaderThread#run}.
+ *
+ * This class is used for tournaments, which require wget download.
+ *
+ *
  */
 
 abstract public class HtmlTourDownloader
@@ -168,15 +172,15 @@ abstract public class HtmlTourDownloader
   /** Selects <code>sTag</code>.
    * @throws DownloadFailedException if tag not found.
    */
-  public Elements getElems(Element parent, String sTag, boolean bSilent)
+  public Elements getElems(Element parent, String selector, boolean bSilent)
     throws DownloadFailedException
   {
-    Elements elems = parent.select(sTag);
+    Elements elems = parent.select(selector);
     if (elems.size() == 0) {
       if (!bSilent || f.isDebugMode()) {
-        println(PbnTools.getStr("error.tagNotFound", sTag));
+        println(PbnTools.getStr("error.tagNotFound", selector));
       }
-      return null;
+      throw new DownloadFailedException(PbnTools.getStr("error.tagNotFound", selector), m_ow, !bSilent);
     }
     return elems;
   }

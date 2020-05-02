@@ -276,6 +276,9 @@ public class f {
   public static int getIntProp(Properties props, String sProp, int nDefault)
   {
     String sValue = props.getProperty(sProp);
+    if (sValue == null) {
+      sValue = System.getProperty(sProp);
+    }
     int nValue = nDefault;
     if (sValue != null) {
       try {

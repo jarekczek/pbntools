@@ -32,8 +32,8 @@ class BboResultsExtractor(val der: BboTourDownloader) {
       extractResultsCsv(doc, m_sLocalDir)
     } catch (e: Exception) {
       val silent = m_bSilent && !f.isDebugMode() && PbnTools.getVerbos() == 0
-      if (m_ow != null && !silent)
-        m_ow.addLine(getMsg("extractResultsFailed", e.message))
+      if (outputWindow != null && !silent)
+        outputWindow.addLine(getMsg("extractResultsFailed", e.message))
     }
   }
 

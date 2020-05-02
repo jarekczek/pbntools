@@ -88,7 +88,12 @@ public class PbnTools {
 
   public static String getProp(String propertyName)
   {
-    return m_props.getProperty(propertyName);
+    String prop1 = m_props.getProperty(propertyName);
+    if (prop1 == null) {
+      return System.getProperty(propertyName);
+    } else {
+      return prop1;
+    }
   }
 
   public static String getStr(String sPropName)
@@ -305,7 +310,7 @@ public class PbnTools {
     f.out(m_res.getString("usage.1"));
   }
     
-  static void parseCommandLine(String args[]) {
+  static void parseCommandLineAndPerformActions(String args[]) {
     m_bRunMainDialog = true;
     ArrayList<String> asFileArgs = new ArrayList<String>();
     String sOutFile = null;
@@ -405,7 +410,7 @@ public class PbnTools {
     catch (IOException e) { System.out.println(m_res.getString("props.load.error") + ": " + e.toString()); }
     propertiesChanged();
     
-    parseCommandLine(args);
+    parseCommandLineAndPerformActions(args);
 
     if (m_bRunMainDialog) {
       SwingUtilities.invokeLater(new Runnable() { public void run() {

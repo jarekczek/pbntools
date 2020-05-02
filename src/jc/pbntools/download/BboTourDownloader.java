@@ -21,7 +21,26 @@
 
 package jc.pbntools.download;
 
-import java.io.*;
+import jc.JCException;
+import jc.SoupProxy;
+import jc.f;
+import jc.outputwindow.SimplePrinter;
+import jc.pbntools.Deal;
+import jc.pbntools.PbnTools;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -32,22 +51,14 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jc.f;
-import jc.JCException;
-import jc.outputwindow.SimplePrinter;
-import jc.SoupProxy;
-import jc.pbntools.Deal;
-import jc.pbntools.PbnTools;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 /**
  * Server requires authentication. Sessions are kept in cookie PHPSESSID.
  * There is also a cookie SRV, probably meaningless for us.
  */
 public class BboTourDownloader extends HtmlTourDownloader
 {
+  private static Logger log = LoggerFactory.getLogger(BboTourDownloader.class);
+
   /** Overall turney results document */
   protected Document m_docRes;
   /** Overall turney results link */
@@ -460,20 +471,20 @@ public class BboTourDownloader extends HtmlTourDownloader
     return deals.toArray(new Deal[0]);
   } //}}}
 
-  public Deal[] readDeals(String sUrl, boolean bSilent) //{{{
+  public Deal[] readDeals(String sTravellerUrl, boolean bSilent) //{{{
     throws DownloadFailedException
   {
     Document doc = null;
-    m_sCurFile = sUrl;
+    m_sCurFile = sTravellerUrl;
     m_bSilent = bSilent;
     ArrayList<Deal> aDeals = new ArrayList<Deal>();
-    
+
     if (PbnTools.getVerbos() > 0)
-      m_ow.addLine(PbnTools.getStr("msg.processing", sUrl));
+      m_ow.addLine(PbnTools.getStr("msg.processing", sTravellerUrl));
     resetErrors();
     try {
       SoupProxy proxy = new SoupProxy();
-      doc = proxy.getDocument(sUrl);
+      doc = proxy.getDocument(sTravellerUrl);
       Elements nums = getElems(doc, "td.handnum", m_bSilent);
       for (Element num: nums) {
         Element tr = num.parent();

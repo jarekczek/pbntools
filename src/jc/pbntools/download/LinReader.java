@@ -42,6 +42,8 @@ import jc.pbntools.Card;
 import jc.pbntools.Deal;
 import jc.pbntools.PbnTools;
 import jc.SoupProxy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
 <h1>Lin specification</h1>
@@ -80,6 +82,7 @@ import jc.SoupProxy;
 
 public class LinReader implements DealReader
 {
+  private static Logger log = LoggerFactory.getLogger(LinReader.class);
   protected Document m_doc;
   protected SimplePrinter m_sp;
   protected boolean m_bSilent = true;
@@ -370,6 +373,7 @@ public class LinReader implements DealReader
     }
     catch (JCException e) {
       m_sp.addLine(e.getMessage());
+      log.debug("", e);
       return false;
     }
     String sLin = m_doc.text();
