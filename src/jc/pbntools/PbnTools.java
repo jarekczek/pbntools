@@ -27,6 +27,7 @@ import jc.outputwindow.DialogOutputWindow;
 import jc.outputwindow.OutputWindow;
 import jc.outputwindow.SimplePrinter;
 import jc.outputwindow.StandardSimplePrinter;
+import jc.pbntools.download.BboHandsHistoryLinReader;
 import jc.pbntools.download.BboTourDownloader;
 import jc.pbntools.download.DealReader;
 import jc.pbntools.download.DownloadFailedException;
@@ -352,6 +353,11 @@ public class PbnTools {
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
         downTour(args[i], new BboTourDownloader(), false);
+      } else if (args[i].equals("-dtbh")) {
+        m_bRunMainDialog = false;
+        ++i;
+        if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
+        downTour(args[i], new BboHandsHistoryLinReader(), false);
       } else if (args[i].equals("-dtk")) {
         m_bRunMainDialog = false;
         ++i;
@@ -404,7 +410,7 @@ public class PbnTools {
       m_props.load(new InputStreamReader(
         new FileInputStream(m_sPropsFile), "ISO-8859-1"));
       m_bPropsRead = true;
-      f.trace(1, "Properties read from file " + m_sPropsFile);
+      f.trace(1, getStr("msg.propsRead", m_sPropsFile));
     }
     catch (java.io.FileNotFoundException e) { m_bPropsRead = true; }
     catch (IOException e) { System.out.println(m_res.getString("props.load.error") + ": " + e.toString()); }

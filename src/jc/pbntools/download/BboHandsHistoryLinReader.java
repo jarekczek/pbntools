@@ -64,7 +64,7 @@ public class BboHandsHistoryLinReader extends HtmlTourDownloader
     try {
       SoupProxy proxy = new SoupProxy();
       m_doc = proxy.getDocument(sUrl);
-      Elements aElems = m_doc.select("a:matches(Lin)");
+      Elements aElems = getElems(m_doc, "a:matches(Lin)", bSilent);
       if (aElems.size() == 0) {
         log.debug("No lin links found in {}", sUrl);
         return false;
@@ -87,7 +87,6 @@ public class BboHandsHistoryLinReader extends HtmlTourDownloader
       return true;
     }
     catch (JCException e) {
-      getOutputWindow().addLine(e.getMessage());
       log.debug("", e);
       return false;
     }

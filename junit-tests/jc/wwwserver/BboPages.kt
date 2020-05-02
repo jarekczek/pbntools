@@ -1,19 +1,13 @@
 package jc.wwwserver
 
 import io.ktor.application.ApplicationCall
-import io.ktor.application.ApplicationCallPipeline
 import io.ktor.application.call
 import io.ktor.content.OutgoingContent
 import io.ktor.content.TextContent
-import io.ktor.html.each
-import io.ktor.html.respondHtml
 import io.ktor.http.ContentType
 import io.ktor.pipeline.PipelineContext
 import io.ktor.request.receiveParameters
-import io.ktor.response.respond
-import io.ktor.response.respondRedirect
-import io.ktor.response.respondText
-import io.ktor.response.respondWrite
+import io.ktor.response.*
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.post
@@ -21,8 +15,6 @@ import kotlinx.html.*
 import kotlinx.html.stream.createHTML
 import java.io.File
 import java.nio.charset.Charset
-import java.util.*
-import java.util.concurrent.atomic.AtomicReference
 import java.util.logging.Logger
 
 object BboPages {
@@ -42,11 +34,19 @@ object BboPages {
     get("/login_failed") {
       call.respond(srv.staticContents("/pbntools/bbo/login_incorrect.html"))
     }
+    get("/myhands/fetchlin.php") {
+      srv.requireAuth(this)
+      val linId = call.parameters["id"]!!
+      call.response.header("Content-Disposition", "inline; filename=\"$linId.lin\"")
+      call.respond(bboFetchlinResponse(srv, linId))
+    }
     get("/myhands/hands.php") {
       srv.requireAuth(this)
       if ("2196-1376162040-".equals(call.parameters["tourney"]))
         call.respondRedirect("/pbntools/test_6_bbo_skyclub_20130810/SKY_CLUB_2196_Pairs_SKY_CLUB_JACKPOT_2000/hands.php@tourney=2196-1376162040-&offset=0.html")
-      else
+      else if ("someone".equals(call.parameters["username"])) {
+        call.respond(bboHistoryResponse(srv))
+      } else
         call.respond(bboTourneyResponse(srv, call.parameters["tourney"] ?: "?"))
     }
     post("/login") {
@@ -89,6 +89,18 @@ object BboPages {
     }
   }
 
+  private fun bboHistoryResponse(srv: WwwServer): OutgoingContent {
+    val text = File(srv.staticDir, "bbo/hands_history.html")
+      .readText(Charset.forName("utf-8"))
+    return TextContent(text, ContentType.Text.Html)
+  }
+
+  private fun bboFetchlinResponse(srv: WwwServer, linId:String): OutgoingContent {
+    val text = File(srv.staticDir, "bbo/$linId.lin")
+      .readText(Charset.forName("utf-8"))
+    return TextContent(text, ContentType.parse("application/bbolin"))
+  }
+
   suspend fun bboHomePage(ctx: PipelineContext<Unit, ApplicationCall>) {
     ctx.bboHomePageExt()
   }
@@ -106,6 +118,7 @@ object BboPages {
             li { a { href = "/bbo/login_failed"; text("login failed") } }
             li { a { href = "/bbo/myhands/hands.php"; text("hands.php") } }
             li { a { href = "/bbo/myhands"; text("myhands") } }
+            li { a { href = "/bbo/myhands/hands.php?username=someone"; text("someone's hands history") } }
             li {
               a {
                 href = "http://localhost:15863/bbo/myhands/hands.php?tourney=2196-1376162040-"

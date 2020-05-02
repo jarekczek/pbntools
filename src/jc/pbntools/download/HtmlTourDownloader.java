@@ -177,9 +177,6 @@ abstract public class HtmlTourDownloader
   {
     Elements elems = parent.select(selector);
     if (elems.size() == 0) {
-      if (!bSilent || f.isDebugMode()) {
-        println(PbnTools.getStr("error.tagNotFound", selector));
-      }
       throw new DownloadFailedException(PbnTools.getStr("error.tagNotFound", selector), m_ow, !bSilent);
     }
     return elems;
