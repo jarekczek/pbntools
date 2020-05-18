@@ -485,6 +485,7 @@ abstract public class HtmlTourDownloader
     asCmdLine.add("--directory-prefix=" + m_sLocalDir);
     addSessionCookies(asCmdLine, m_remoteUrl, new File(sLinksFile).getParent());
     asCmdLine.add("--input-file=" + sLinksFile);
+    asCmdLine.add("--no-check-certificate");
 
     if (PbnTools.bWindows) {
       // on Windows we need to point our wget.exe
