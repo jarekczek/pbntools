@@ -18,7 +18,7 @@ apply plugin: "edu.sc.seis.launch4j"
 
 apply plugin: 'idea'
 idea.module.downloadJavadoc = true
-idea.module.downloadSources = false
+idea.module.downloadSources = true
 
 repositories {
   mavenCentral()

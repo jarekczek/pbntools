@@ -1,5 +1,4 @@
 - consolidate download Kops and Pary tournament into one option
-- logback configuration file on linux
 - batch download whole screen of lin files, like this
   http://www.bridgebase.com/myhands/hands.php?username=jdr9999&start_time=1587679200&end_time=1587852000
 - encapsulation of HtmlTourDownloader.m_ow
