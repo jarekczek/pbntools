@@ -118,7 +118,7 @@ object BboPages {
             li { a { href = "/bbo/login_failed"; text("login failed") } }
             li { a { href = "/bbo/myhands/hands.php"; text("hands.php") } }
             li { a { href = "/bbo/myhands"; text("myhands") } }
-            li { a { href = "/bbo/myhands/hands.php?username=someone"; text("someone's hands history") } }
+            li { a { href = "/bbo/myhands/hands.php?username=someone&start_time=1590184800&end_time=1590357600"; text("someone's hands history") } }
             li {
               a {
                 href = "http://localhost:15863/bbo/myhands/hands.php?tourney=2196-1376162040-"

@@ -246,15 +246,6 @@ abstract public class HtmlTourDownloader
     return elems.get(n - 1);
   }
 
-  protected String getSelectText(Element e, String query)
-  {
-    Elements elems = e.select(query);
-    if (elems.isEmpty())
-      return "";
-    else
-      return elems.get(0).text();
-  }
-  
   /** Checks if text of first <code>sTag</code> starts with the given text.
     * If not, throws exception.
     * @throws DownloadFailedException */

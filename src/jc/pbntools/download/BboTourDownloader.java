@@ -201,7 +201,7 @@ public class BboTourDownloader extends HtmlTourDownloader
     if (!bSilent)
       println(PbnTools.m_res.getString("msg.documentLoaded"));
     try {
-      if (getSelectText(doc, "div.bbo_content").startsWith("Please login")) {
+      if (SoupProxy.getSelectText(doc, "div.bbo_content").startsWith("Please login")) {
         m_ow.addLine(PbnTools.getStr("tourDown.msg.asksLogin",
           "BBO"));
         if (tryLogin)
@@ -237,7 +237,7 @@ public class BboTourDownloader extends HtmlTourDownloader
   private boolean verifyAfterLogin(String sLink, String loginLink, boolean bSilent)
     throws DownloadFailedException {
     if (f.isNullOrEmpty(PbnTools.getProp("bbo.user"))
-        || f.isNullOrEmpty(PbnTools.getProp("bbo.pass")))
+      || f.isNullOrEmpty(PbnTools.getProp("bbo.pass")))
       throw new DownloadFailedException(
         PbnTools.getStr("tourDown.error.noBboUser"), m_ow, true);
     loginLink = loginLink.replaceFirst("\\?.*$", "?t=%2Fmyhands%2Findex.php%3F");
@@ -259,7 +259,7 @@ public class BboTourDownloader extends HtmlTourDownloader
       throw new RuntimeException(e2);
     }
     saveDocumentAsFile(doc, "bbo_login_result.html");
-    String mainText = getSelectText(doc, "div.bbo_content").toLowerCase();
+    String mainText = SoupProxy.getSelectText(doc, "div.bbo_content").toLowerCase();
     if (mainText.contains("username or password incorrect")) {
       throw new DownloadFailedException(
         PbnTools.getStr("tourDown.msg.authFailed"), m_ow, true);

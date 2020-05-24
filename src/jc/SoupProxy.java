@@ -26,6 +26,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +51,7 @@ import java.util.regex.Pattern;
  * time it is needed.
  */
 
-public class SoupProxy
+public class SoupProxy implements HttpProxy
 {
   protected static LinkedList<CacheElement> m_cache;
   protected final static int m_nCacheSize = 10;
@@ -83,10 +84,12 @@ public class SoupProxy
     }
   }
   
+  @Override
   public URL getUrl() {
     return m_url;
   }
   
+  @Override
   public Document getDocumentFromFile(String sFile)
     throws SoupProxy.Exception
   {
@@ -101,6 +104,7 @@ public class SoupProxy
     return doc;
   }
 
+  @Override
   public Document getDocumentFromHttp(URL url)
     throws SoupProxy.Exception
   {
@@ -123,6 +127,7 @@ public class SoupProxy
     return doc;
   }
 
+  @Override
   public Document post(URL url, Map<String, String> data)
     throws SoupProxy.Exception
   {
@@ -146,7 +151,8 @@ public class SoupProxy
     return doc;
   }
 
-  private void setCookies(URL url, Map<String, String> cookies) {
+  @Override
+  public void setCookies(URL url, Map<String, String> cookies) {
     log.debug("setCookies " + url + ", " + mapToString(cookies));
     String server = url.getHost();
     Map<String, String> ourCookies = getCookies(url);
@@ -176,6 +182,7 @@ public class SoupProxy
     return sb.toString();
   }
 
+  @Override
   public Map<String, String> getCookies(URL url) {
     String server = url.getHost();
     Map<String, String> cookieMap;
@@ -188,13 +195,15 @@ public class SoupProxy
     return cookieMap;
   }
 
+  @Override
   public String getCookie(URL url, String key) {
     log.debug("getCookie " + url + ", " + key);
     Map<String, String> ourCookies = getCookies(url);
     return ourCookies.get(key);
   }
 
-  private void saveDocumentToTempFile(Document doc, File dir) {
+  @Override
+  public void saveDocumentToTempFile(Document doc, File dir) {
     log.debug("saveDocumentToTempFile");
     try {
       File tempFile = File.createTempFile("jsoup_", ".html", dir);
@@ -206,12 +215,14 @@ public class SoupProxy
     }
   }
 
+  @Override
   public Document getDocument(String sUrl)
     throws SoupProxy.Exception
   {
     return getDocument(sUrl, NO_FLAGS);
   }
   
+  @Override
   public Document getDocument(String sUrl, int nFlags)
     throws SoupProxy.Exception
   {
@@ -419,6 +430,15 @@ public class SoupProxy
     m_cache.add(elem); 
   }
   //}}}
-  
+
+  public static String getSelectText(Element e, String query)
+  {
+    Elements elems = e.select(query);
+    if (elems.isEmpty())
+      return "";
+    else
+      return elems.get(0).text();
+  }
+
 }
 
