@@ -102,14 +102,18 @@ abstract public class HtmlTourDownloader
   /**
    * Verifies whether link points to a valid data in this format.
    * Sets the following members:
-   * <ul><li>m_sTitle
+   * <ul>
+   * <li>m_doc
+   * <li>m_sTitle
    * <li>m_sDirName
+   * <li>m_sLink (setLink)</li>
+   * <li>m_remoteUrl
    * <li>m_cDeals
    * </ul>
    * Prints the title and dirname.
    */
   abstract public boolean verify(String sLink, boolean bSilent);
-  
+
   abstract protected void wget() throws DownloadFailedException;
   
   abstract protected Deal[] readDealsFromDir(String sDir)
@@ -541,9 +545,14 @@ abstract public class HtmlTourDownloader
       // constructing local url after isDownloaded set m_sLocalDir
       String sFileName = m_remoteUrl.toString().replaceFirst("^.*/", "");
       sFileName = sFileName.replace("?", "@");
-      if (sFileName.indexOf('.')<0) { sFileName = "index.html"; }
+      if (sFileName.indexOf('.') < 0) {
+        sFileName = "index.html";
+      }
+      if (!sFileName.endsWith("html")) {
+        sFileName = sFileName + ".html";
+      }
       try {
-        m_localUrl = new File(new File(m_sLocalDir, "html"), sFileName).toURI().toURL();
+        m_localUrl = new File(m_sLocalDir, sFileName).toURI().toURL();
       } catch (Exception e) {
         throw new DownloadFailedException(e, m_ow, !m_bSilent);
       }

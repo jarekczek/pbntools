@@ -26,6 +26,7 @@ import jc.JCException;
 import jc.SoupProxy;
 import jc.outputwindow.SimplePrinter;
 import jc.pbntools.Deal;
+import jc.pbntools.PbnTools;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.jsoup.nodes.Document;
@@ -34,35 +35,32 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class BboHandsHistoryLinReader extends HtmlTourDownloader
+public class BboHandsHistoryLinReader extends BboCommonDownloader
 {
   private static Logger log = LoggerFactory.getLogger(BboHandsHistoryLinReader.class);
-  protected Document m_doc;
-  protected boolean m_bSilent = true;
   protected int m_nCurCard = 0; // for gathering game play
-
-  public Deal[] readDeals(String sUrl, boolean bSilent) //{{{
-    throws DownloadFailedException
-  {
-    assert(m_doc != null);
-    String sLin = m_doc.text();
-    return null;
-  } //}}}
 
   // verify method {{{
   /** Verifies if the <code>sUrl</code> contains valid data in this format */
+  @Override
   public boolean verify(String sUrl, boolean bSilent)
   {
+    setLink(sUrl);
     m_doc = null;
     parseUrl(sUrl);
     try {
       HttpProxy proxy = new BboLoginDecoratorForHtmlProxy(new SoupProxy(), getOutputWindow());
       m_doc = proxy.getDocument(sUrl);
+      m_remoteUrl = proxy.getUrl();
       Elements aElems = getElems(m_doc, "a:matches(Lin)", bSilent);
       if (aElems.size() == 0) {
         log.debug("No lin links found in {}", sUrl);
@@ -87,6 +85,9 @@ public class BboHandsHistoryLinReader extends HtmlTourDownloader
       return true;
     }
     catch (JCException e) {
+      if (!bSilent) {
+        m_ow.addLine(e.toString());
+      }
       log.debug("", e);
       return false;
     }
@@ -129,12 +130,30 @@ public class BboHandsHistoryLinReader extends HtmlTourDownloader
 
   @Override
   protected void wget() throws DownloadFailedException {
+    String sLinksFile = createIndexFile();
+    wgetLinks(sLinksFile);
+    downloadLins(getLocalFile(m_sLink));
+  }
 
+  private String createIndexFile() throws DownloadFailedException {
+    String sLinksFile = new File(m_sLocalDir, "links.txt").getAbsolutePath();
+    try {
+      if (!(new File(m_sLocalDir).mkdir())) {
+        throw new DownloadFailedException(PbnTools.getStr("error.unableToCreateDir", m_sLocalDir), m_ow, true);
+      }
+      BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sLinksFile), "ISO-8859-1"));
+      fw.write(m_sLink);
+      fw.newLine();
+      fw.close();
+    } catch (java.io.IOException ioe) {
+      throw new DownloadFailedException(ioe, m_ow, !m_bSilent);
+    }
+    return sLinksFile;
   }
 
   @Override
   protected Deal[] readDealsFromDir(String sDir) throws DownloadFailedException {
-    return new Deal[0];
+    return readDeals(this.m_localUrl.toString(), m_bSilent);
   }
 
   // setOutputWindow method {{{
