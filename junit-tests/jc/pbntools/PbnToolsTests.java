@@ -169,7 +169,9 @@ static void pobierzTestHelper(HtmlTourDownloader der,
     "9533-1377369061/9533-1377369061.pbn");
 }
 
-@Test public void downloadBboLinsFromHistory() throws DownloadFailedException {
+@Test
+@Ignore
+public void downloadBboLinsFromHistory() throws DownloadFailedException {
   DealReader dr = new BboHandsHistoryLinReader();
   dr.setOutputWindow(new StandardSimplePrinter());
   String sUrl = "test/test_bbo_history_with_lins/history_page.html";

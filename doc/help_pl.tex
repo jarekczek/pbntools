@@ -84,7 +84,7 @@ Program korzysta z nastêpuj±cego oprogramowania:
 
 \begin{description}
 \item[Apache HttpClient]
-  \htmladdnormallink{Apache HttpClient}https://hc.apache.org/httpcomponents-client-4.5.x/index.html}
+  \htmladdnormallink{Apache HttpClient}{https://hc.apache.org/httpcomponents-client-4.5.x/index.html}
   to biblioteka klienta protoko³u HTTP.
 
 \item[JLayer]
@@ -255,7 +255,7 @@ mo¿na potem wygodnie analizowaæ rozdania tu¿ po ich rozegraniu.
   Dalej np. {\em Pairs}. W³a¶ciwym linkiem jest {\em boards}.
   Przyk³adowy link do turnieju Bbo wygl±da tak:
   \begin{verbatim}
-  http://www.bridgebase.com/myhands/hands.php?tourney=1234-1234567890-
+  https://www.bridgebase.com/myhands/hands.php?tourney=1234-1234567890-
   \end{verbatim}
   
   Obci±¿enie serwera Bbo przy zastosowaniu ¶ci±gania przez PbnTools jest
@@ -455,6 +455,10 @@ Poprzednie wersje:
 \item
   \jsoupSourceLinks
 \item
+  \kotlinSourceLinks
+\item
+  \logbackSourceLinks
+\item
   ZBar
   \begin{itemize}
   \item
@@ -472,10 +476,10 @@ Poprzednie wersje:
 \item
   \htmladdnormallink{wget for windows}{http://jarek.katowice.pl/jcwww/pbntools/wget-1.11.4-1-src.zip}
 
+\end{itemize}
+
 ¬ród³a Apache HttpClient mo¿na pobraæ z repozytorium mavena.
 Mo¿e siê to odbyæ automatycznie podczas budowania projektu narzêdziem gradle.
-
-\end{itemize}
 
 \subsection{Instalacja}
 Instalacja polega na rozpakowaniu pliku \verb!zip! do dowolnego nowego folderu.
@@ -559,6 +563,10 @@ w archiwum kodu ¼ród³owego, patrz: Pobieranie, \ref{download}.
 %{{{ historia
 \section{Historia wersji programu}
 \begin{description}
+\item[1.2.7, 09.11.2020]
+  \begin{itemize}
+  \item Linki bbo s± teraz https.
+  \end{itemize}
 \item[1.2.6, 18.05.2020]
   \begin{itemize}
   \item Naprawa problemu wget z certyfikatami.
@@ -643,7 +651,7 @@ w archiwum kodu ¼ród³owego, patrz: Pobieranie, \ref{download}.
 Jestem otwarty na sugestie. Bêdê wdziêczny za informacje o nieprawid³owym dzia³aniu strony lub programu.
 
 {\setlength{\parindent}{0pt}\small\htmladdnormallink{Jarek Czekalski}{mailto:jarekczek@poczta.onet.pl},
-ostatnia modyfikacja 04.04.2020}
+ostatnia modyfikacja 09.11.2020}
 %}}}
 
 \end{document}
