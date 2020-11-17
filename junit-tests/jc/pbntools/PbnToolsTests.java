@@ -170,7 +170,6 @@ static void pobierzTestHelper(HtmlTourDownloader der,
 }
 
 @Test
-@Ignore
 public void downloadBboLinsFromHistory() throws DownloadFailedException {
   DealReader dr = new BboHandsHistoryLinReader();
   dr.setOutputWindow(new StandardSimplePrinter());

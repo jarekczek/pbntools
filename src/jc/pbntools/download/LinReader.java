@@ -262,7 +262,8 @@ public class LinReader implements DealReader
     m_nCurCard = 0;
     Deal d = new Deal();
     String sLastComm = "";
-    Scanner sc = new Scanner(sLin).useDelimiter("\\|");
+    String sCleanLin = sLin.trim();
+    Scanner sc = new Scanner(sCleanLin).useDelimiter("\\|");
     while (sc.hasNext()) {
       String sComm = sc.next();
       if (sComm.length() == 0) {
