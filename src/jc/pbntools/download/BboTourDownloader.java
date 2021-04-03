@@ -168,6 +168,9 @@ public class BboTourDownloader extends BboCommonDownloader
   @Override
   public boolean verify(String sLink, boolean bSilent)
   {
+    if (sLink.startsWith("http://www.bridgebase.com/")) {
+      throw new RuntimeException(PbnTools.getStr("tourDown.error.httpNotSupported"));
+    }
     return verify(sLink, bSilent, true);
   }
 
