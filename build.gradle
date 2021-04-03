@@ -1,5 +1,5 @@
 buildscript {
-  ext.kotlin_version = '1.2.21'
+  ext.kotlin_version = '1.3.72'
   repositories {
     maven {
       url "https://plugins.gradle.org/m2/"
@@ -8,8 +8,11 @@ buildscript {
   }
   dependencies {
     classpath "gradle.plugin.edu.sc.seis.gradle:launch4j:2.4.3"
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
+}
+
+plugins {
+  id "org.jetbrains.kotlin.jvm" version "$kotlin_version"
 }
 
 apply plugin: 'java'
@@ -109,7 +112,7 @@ task 'junit-local' (type: Test) {
   }
 }
 
-task 'junit-www' (type: Test, dependsOn: ['startWwwServer']) {
+task 'junit-www' (type: Test, dependsOn: ['startWwwServerMaybe']) {
   group = 'pbntools'
   dependsOn 'junit-prereq'
   if (System.getProperty("os.name").startsWith("Windows"))
@@ -125,7 +128,7 @@ task 'junit-www' (type: Test, dependsOn: ['startWwwServer']) {
     includeTestsMatching 'jc.pbntools.PbnToolsWwwTests'
   }
   doLast {
-    tasks['stopWwwServer'].execute()
+    "cmd /c gradlew --no-daemon startWwwServerAndWait".execute()
   }
 }
 
@@ -139,14 +142,19 @@ task startWwwServerAndWait (type: JavaExec) {
   }
 }
 
-task startWwwServer (dependsOn: 'compileTestKotlin') {
+task startWwwServerMaybe (dependsOn: 'compileTestKotlin') {
   doFirst {
-    println "Starting another task in background: startWwwServerAndWait, waiting a bit..."
-    new Thread({ tasks['startWwwServerAndWait'].execute() }).start()
-    Thread.sleep(5000)
-    println "startWwwServer waited enough."
-    println "Is server working?"
-    println "Test content: " + new URL('http://localhost:15863').content.text
+    def url = "http://localhost:15863"
+    println "Is server working? (gradlew startWwwServerAndWait)"
+    try {
+      println "Test content: " + new URL(url).content.text
+    } catch (java.net.ConnectException e) {
+      println e
+      println "Server not working, spawning a new server"
+      "cmd /c gradlew --no-daemon startWwwServerAndWait".execute()
+      Thread.sleep(30000)
+      println "Test content $url: " + new URL(url).content.text
+    }
   }
 }
 

@@ -44,8 +44,7 @@ class BboLoginDecoratorForHtmlProxy(val proxy: HttpProxy, val outputWindow: Simp
     data["username"] = PbnTools.getProp("bbo.user")
     data["password"] = PbnTools.getProp("bbo.pass")
     data["submit"] = "Login"
-    var doc: Document? = null
-    doc = try {
+    val doc: Document = try {
       val url = URL(loginLink)
       proxy.post(url, data)
     } catch (e: MalformedURLException) {
