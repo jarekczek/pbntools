@@ -23,6 +23,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Writer;
 import java.net.URI;
@@ -170,12 +171,22 @@ static void pobierzTestHelper(HtmlTourDownloader der,
 }
 
 @Test
-public void downloadBboLinsFromHistory() throws DownloadFailedException {
+public void downloadBboLinsFromHistory() throws DownloadFailedException, IOException {
   DealReader dr = new BboHandsHistoryLinReader();
   dr.setOutputWindow(new StandardSimplePrinter());
   String sUrl = "test/test_bbo_history_with_lins/history_page.html";
   assert(dr.verify(sUrl, false));
-  dr.readDeals(sUrl, false);
+  Deal[] deals = dr.readDeals(sUrl, false);
+  String expectedFilename = "test/test_bbo_history_with_lins/history_expected.pbn";
+  assertDealsEqualFile(expectedFilename, deals);
+}
+
+private void assertDealsEqualFile(String expectedFilename, Deal[] deals) throws IOException {
+  String actualFilename = "work/junit-tmp/history_actual.pbn";
+  PbnFile pbnfile = new PbnFile();
+  pbnfile.addDeals(deals);
+  pbnfile.save(actualFilename);
+  FileAssert.assertEquals(new File(expectedFilename), new File(actualFilename));
 }
 
 // pobierzKopsTest {{{
