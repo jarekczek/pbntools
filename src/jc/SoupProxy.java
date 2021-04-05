@@ -99,7 +99,7 @@ public class SoupProxy implements HttpProxy
       doc = Jsoup.parse(new File(sFile), null);
     }
     catch (java.io.IOException e) {
-      throw new Exception(e);
+      throw new SoupProxy.Exception(e);
     }
     return doc;
   }

@@ -70,6 +70,7 @@ class WwwServer(val port: Int, val staticDir: String) {
       get("/pbntools/{...}") {
         if (context.request.path().toLowerCase().contains("test_6_bbo"))
           requireAuthExt()
+        log.debug("serving pbntools/* from file " + context.request.uri)
         call.respond(staticContents(context.request.uri))
       }
       get("/stop") {

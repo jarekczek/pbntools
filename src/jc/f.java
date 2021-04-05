@@ -378,7 +378,7 @@ public class f {
   
   // saveUrlAsFile method //{{{
   public static void saveUrlAsFile(String sUrl, File file)
-    throws java.net.MalformedURLException, java.io.IOException
+    throws java.io.IOException
   {
     URL url = new URL(sUrl);
     // may throw ioe and return
@@ -419,26 +419,13 @@ public class f {
   
    //}}} IO functions
   
-  // sleepUnint method  //{{{
-  /**
-   * Uninterruptable sleep. The implementation is not perfect.
-   * If interrupted once, it may sleep up to 2*milis.
-   * If interrupted twice, it may not sleep at all.
-   */
-  public static void sleepUnint(long milis)
-  {
+  public static void sleepNoThrow(long millis) {
     try {
-      Thread.sleep(milis);
-    }
-    catch (InterruptedException ie) {
-      // let's try once more, maybe this time it won't interrupt
-      try {
-        Thread.sleep(milis);
-      }
-      catch (InterruptedException ie2) {}
+      Thread.sleep(millis);
+    } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
-  } //}}}
+  }
 
   // str2Int method  //{{{
   /**

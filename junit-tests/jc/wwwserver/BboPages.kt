@@ -80,6 +80,7 @@ object BboPages {
   private fun bboTourneyResponse(srv: WwwServer, tourneyName: String): OutgoingContent {
     return when(tourneyName) {
       "2196-1376162040-" -> srv.staticContents("test_6_bbo_skyclub_20130810/SKY_CLUB_2196_Pairs_SKY_CLUB_JACKPOT_2000/hands.php%3Ftourney=2196-1376162040-&offset=0.html")
+      "17901-1617418791-" -> srv.staticContents("test_11_aba_17901/hands.php%3Ftourney=2196-1376162040-.html")
       else -> {
         val text = File(srv.staticDir, "bbo/no_tournament_data.html")
           .readText(Charset.forName("utf-8"))
@@ -123,6 +124,12 @@ object BboPages {
               a {
                 href = "http://localhost:15863/bbo/myhands/hands.php?tourney=2196-1376162040-"
                 text("tourney sky club 2196")
+              }
+            }
+            li {
+              a {
+                href = "http://localhost:15863/bbo/myhands/hands.php?tourney=17901-1617418791-"
+                text("aba 17901")
               }
             }
           }

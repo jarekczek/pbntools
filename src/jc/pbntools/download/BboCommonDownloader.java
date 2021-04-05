@@ -8,6 +8,8 @@ import jc.pbntools.PbnTools;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,6 +28,7 @@ abstract public class BboCommonDownloader extends HtmlTourDownloader {
   protected boolean m_bAllLins = true;
   /** Number of generated lins. */
   protected int m_cLins;
+  private static Logger log = LoggerFactory.getLogger(BboCommonDownloader.class);
 
   public Deal[] readDeals(String sTravellerUrl, boolean bSilent) //{{{
     throws DownloadFailedException
@@ -159,9 +162,9 @@ abstract public class BboCommonDownloader extends HtmlTourDownloader {
         if (PbnTools.getVerbos() > 0)
           m_ow.addLine(PbnTools.getStr("tourDown.msg.savingLin",
             outFile, sLinLink));
-        // f.saveUrlAsFile(sLinLink, outFile);
-        // f.sleepUnint(1000);
-        saveLinFromMovie(elem, outFile);
+        if (!saveLinFromMovie(elem, outFile)) {
+          saveLinFromLinLink(sLinLink, outFile);
+        }
         m_cLins += 1;
         Writer w = new OutputStreamWriter(new FileOutputStream(sLocalFile),
           docLocal.outputSettings().charset());
@@ -179,6 +182,11 @@ abstract public class BboCommonDownloader extends HtmlTourDownloader {
     }
   } //}}}
 
+  private void saveLinFromLinLink(String sLinLink, File outFile) throws IOException {
+    f.saveUrlAsFile(sLinLink, outFile);
+    f.sleepNoThrow(1000 * delayForUrl(sLinLink));
+  }
+
   protected String getLinIdFromLink(String sLinLink) {
     Matcher m =
       Pattern.compile("^.*[?&]id=([0-9]+)([?&].*)?$").matcher(sLinLink);
@@ -195,8 +203,9 @@ abstract public class BboCommonDownloader extends HtmlTourDownloader {
 
   /** Saves lin to the file.
    * @param elemLin The <code>a</link> element with a Lin link.
+   * @return false if lin not included in movie
    */
-  protected void saveLinFromMovie(Element elemLin, File outFile)
+  protected boolean saveLinFromMovie(Element elemLin, File outFile)
     throws DownloadFailedException, IOException
   {
     Element td = elemLin.parent();
@@ -209,6 +218,10 @@ abstract public class BboCommonDownloader extends HtmlTourDownloader {
     if (sOnClick.length() == 0)
       throw new DownloadFailedException(PbnTools.getStr("error.noAttr",
         "onclick", movieElem.outerHtml()), m_ow, false);
+    if (sOnClick.startsWith("hv_popup(")) {
+      log.debug("lin not included in movie link.");
+      return false;
+    }
     Matcher m = Pattern.compile("^.*lin\\('(.*)'\\);.*$").matcher(sOnClick);
     if (!m.matches())
       throw new DownloadFailedException(PbnTools.getStr("error.onClickNotRec",
@@ -216,6 +229,7 @@ abstract public class BboCommonDownloader extends HtmlTourDownloader {
     String sLin = f.decodeUrl(m.group(1));
     sLin = correctLin(sLin);
     f.writeToFile(sLin, outFile);
+    return true;
   } //}}}
 
   /** Does necessary corrections to supplied LIN contents:

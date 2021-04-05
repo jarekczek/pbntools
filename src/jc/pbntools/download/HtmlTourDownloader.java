@@ -473,7 +473,7 @@ abstract public class HtmlTourDownloader
                   + System.getProperty("jc.soupproxy.useragent");
     if (nDelay > 0) {
       sCmdLine += " -w " + nDelay;
-      f.sleepUnint(1000 * nDelay);
+      f.sleepNoThrow(1000 * nDelay);
     }
     ArrayList<String> asCmdLine = new ArrayList<String>(
       Arrays.asList(sCmdLine.split(" ")));
@@ -651,7 +651,7 @@ abstract public class HtmlTourDownloader
     String sLocalFile = getLocalFile(sRemoteLink);
     int nDelay = delayForUrl(sRemoteLink);
 
-    f.sleepUnint(1000*nDelay);
+    f.sleepNoThrow(1000*nDelay);
     Document docLocal = null;
     try {
       SoupProxy proxy = new SoupProxy();
