@@ -97,6 +97,15 @@ private static PrintStream origOut;
     "1538-1385205517/1538-1385205517.pbn");
 }
 
+@Test public void pobierzBboWwwTest11()
+{
+  PbnToolsTests.pobierzTestHelper(
+    new BboTourDownloader(),
+    "http://localhost:15863/bbo/myhands/hands.php?tourney=17901-1617418791-",
+    "test/test_11_aba_17901/aba_17901_aba_pairs.pbn",
+    "17901-1617418791/17901-1617418791.pbn");
+}
+
 @Test public void bboIncorrectPassword()
   throws java.io.FileNotFoundException, java.io.IOException
 {

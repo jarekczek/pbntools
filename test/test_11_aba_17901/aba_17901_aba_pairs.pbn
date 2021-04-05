@@ -1,0 +1,2069 @@
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:06"]
+[Board "1"]
+[West "mrsghill"]
+[North "maebegood"]
+[East "mrhill2468"]
+[South "BLKROCKY"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "2H"]
+[Result "10"]
+[Auction "N"]
+1C Pass 1H Pass
+2C Pass 2H Pass
+Pass Pass
+[Play "W"]
+S9 S3 S2 SA
+H2 HK HA H4
+SK S7 S6 S4
+H3 C4 HQ H5
+C5 C7 C2 H6
+H7 C9 HT HJ
+SJ SQ S8 S5
+C6 CJ C3 H8
+D2 DK D3 D5
+CA CT C8 H9
+DT DQ D6 D4
+D7 CK CQ D8
+DJ D9 ST DA
+[DealId "1047742141.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:02"]
+[Board "1"]
+[West "Scotty48"]
+[North "GiB"]
+[East "GiB"]
+[South "Sheldoon"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "N"]
+[Contract "3C"]
+[Result "11"]
+[Auction "N"]
+1C =1= Pass 2H =2= Pass
+3C =3= Pass Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:Soloway jump shift -- rebiddable !H; 17+ total points"]
+[Note "3:6+ !C; 11-21 HCP; 12-22 total points "]
+[Play "E"]
+D6 D8 DJ DQ
+C3 H4 C5 CT
+C2 H8 C6 CK
+D3 D4 D2 DK
+CQ S4 CA CJ
+S6 S5 S9 SQ
+C8 H5 H2 C9
+HA H6 H3 HK
+HQ H9 H7 C7
+S2 DA D7 D9
+HT D5 DT C4
+ST SA SJ S7
+S8 HJ SK S3
+[DealId "1047742149.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:03"]
+[Board "1"]
+[West "sugalump"]
+[North "GiB"]
+[East "GiB"]
+[South "bluechuck7"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "2H"]
+[Result "9"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 2H =4= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:Responder rebid -- 2- !C; 6+ !H; 6-10 total points"]
+[Play "W"]
+S9 SQ S2 S4
+H2 HK HA H4
+SJ S7 S6 SA
+D2 DK D3 D4
+D7 DQ D6 D5
+DT D9 C8 DA
+DJ S3 ST D8
+CA C4 C3 H5
+SK C7 S8 S5
+H7 C9 HT HJ
+H3 CT HQ H9
+C5 CJ C2 H8
+C6 CK CQ H6
+[DealId "1047742146.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:03"]
+[Board "1"]
+[West "puddin3"]
+[North "GiB"]
+[East "lilgreat"]
+[South "malesorc"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "2H"]
+[Result "9"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 2H =4= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:Responder rebid -- 2- !C; 6+ !H; 6-10 total points"]
+[Play "W"]
+DJ DK D3 D4
+H2 HK HA H4
+DT DQ D6 D5
+C5 C4 C8 H5
+H3 C7 HT H8
+SK S3 S6 S4
+D2 D9 HQ D8
+C6 C9 C2 H6
+H7 CT S2 HJ
+D7 CJ C3 H9
+S9 CK CQ DA
+SJ SQ S8 S5
+CA S7 ST SA
+[DealId "1047742137.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:04"]
+[Board "1"]
+[West "mzstreet"]
+[North "GiB"]
+[East "Bridge1420"]
+[South "Baldie117"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "2H"]
+[Result "9"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 2H =4= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:Responder rebid -- 2- !C; 6+ !H; 6-10 total points"]
+[Play "W"]
+DJ DK D3 D4
+H2 HK HA H4
+SK S3 S8 S4
+S9 S7 S2 SA
+H3 C4 HQ HJ
+DT DQ D6 D5
+C5 CJ CQ H5
+H7 C7 HT H9
+C6 C9 C3 H6
+SJ SQ S6 S5
+D2 D9 C2 DA
+CA CT C8 H8
+D7 CK ST D8
+[DealId "1047742136.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:02"]
+[Board "1"]
+[West "hmat928"]
+[North "GiB"]
+[East "GiB"]
+[South "BOOLEON"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "N"]
+[Contract "3C"]
+[Result "10"]
+[Auction "N"]
+1C =1= Pass 2H =2= Pass
+3C =3= Pass Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:Soloway jump shift -- rebiddable !H; 17+ total points"]
+[Note "3:6+ !C; 11-21 HCP; 12-22 total points "]
+[Play "E"]
+D6 D8 DJ DQ
+C3 H4 CA CT
+S8 SA S9 S3
+HA H6 H7 HK
+D3 D5 DT DK
+C2 H8 C5 CK
+CQ H9 C6 CJ
+S6 S4 SJ SQ
+C8 H5 D2 C9
+S2 DA D7 D9
+HT D4 H2 S7
+ST S5 SK C7
+HQ HJ H3 C4
+[DealId "1047742145.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:05"]
+[Board "1"]
+[West "endurer"]
+[North "Ticaa21"]
+[East "regulator1"]
+[South "Wan69"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "N"]
+[Contract "2NT"]
+[Result "8"]
+[Auction "N"]
+1C Pass 1H Pass
+1NT Pass 2H Pass
+2NT Pass Pass Pass
+[Play "E"]
+C2 H4 C5 C7
+D3 D4 D2 DK
+D6 D5 D7 DQ
+S2 DA DT D9
+S6 D8 DJ S3
+C3 S4 CA C4
+CQ H5 C6 C9
+C8 H6 H2 CT
+S8 H8 H3 CK
+ST S5 S9 CJ
+HT SA SJ S7
+HA H9 H7 HK
+HQ HJ SK SQ
+[DealId "1047742142.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:02"]
+[Board "1"]
+[West "Jacque2294"]
+[North "GiB"]
+[East "GiB"]
+[South "awh1974"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "N"]
+[Contract "3C"]
+[Result "9"]
+[Auction "N"]
+1C =1= Pass 2H =2= Pass
+3C =3= Pass Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:Soloway jump shift -- rebiddable !H; 17+ total points"]
+[Note "3:6+ !C; 11-21 HCP; 12-22 total points "]
+[Play "E"]
+D6 D8 DT DK
+CQ H4 C5 CJ
+D3 D5 D7 D9
+C2 H5 C6 CK
+C3 H6 CA C9
+S6 SA SJ S3
+HA H9 H2 HK
+S2 S5 SK S7
+ST S4 S9 SQ
+C8 D4 H3 CT
+S8 DA D2 DQ
+HT H8 H7 C7
+HQ HJ DJ C4
+[DealId "1047742140.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:02"]
+[Board "1"]
+[West "wphipps1"]
+[North "GiB"]
+[East "GiB"]
+[South "ArmieJ"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "2H"]
+[Result "8"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 2H =4= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:Responder rebid -- 2- !C; 6+ !H; 6-10 total points"]
+[Play "W"]
+DJ DK D6 D4
+H2 HK HA H4
+DT DQ D3 D5
+SK SQ S8 S4
+D7 D9 HT D8
+S9 S3 S2 SA
+H3 C4 HQ HJ
+SJ S7 ST S5
+CA C7 C8 H5
+H7 C9 C2 H9
+C5 CT C3 H8
+D2 CJ S6 DA
+C6 CK CQ H6
+[DealId "1047742134.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:02"]
+[Board "1"]
+[West "tbr"]
+[North "GiB"]
+[East "demon1971"]
+[South "fayelinnH"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "N"]
+[Contract "2C"]
+[Result "9"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Play "E"]
+S2 S5 SK S3
+S6 S4 S9 SQ
+C3 H4 CA CJ
+HA H5 H2 HK
+ST SA SJ S7
+D6 D5 D2 DK
+C2 H6 C5 CK
+CQ D4 C6 C9
+D3 D8 DT DQ
+C8 H8 H3 CT
+S8 DA D7 D9
+HT H9 H7 C7
+HQ HJ DJ C4
+[DealId "1047742135.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:03"]
+[Board "1"]
+[West "almavj26"]
+[North "GiB"]
+[East "GiB"]
+[South "just4DH"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "2H"]
+[Result "8"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 2H =4= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:Responder rebid -- 2- !C; 6+ !H; 6-10 total points"]
+[Play "W"]
+S9 S7 S2 SA
+D2 DK D3 D4
+D7 DQ D6 D5
+DT D9 C8 DA
+DJ HK HA D8
+SK S3 ST S4
+SJ SQ S8 S5
+C5 C9 CQ H4
+H2 C4 HQ HJ
+C6 C7 C3 H9
+H3 CT HT H8
+H7 CJ S6 H5
+CA CK C2 H6
+[DealId "1047742144.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:03"]
+[Board "1"]
+[West "johnque"]
+[North "GiB"]
+[East "GiB"]
+[South "njtaylor"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "2H"]
+[Result "8"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 2H =4= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:Responder rebid -- 2- !C; 6+ !H; 6-10 total points"]
+[Play "W"]
+DJ D9 D6 DA
+H2 HK HA H4
+D2 DQ D3 D4
+C5 C4 C3 H5
+H3 C7 HQ HJ
+S9 S3 S6 SA
+H7 C9 HT H8
+SK S7 S2 S4
+D7 DK C2 D5
+SJ SQ ST S5
+C6 CT CQ H6
+DT CJ C8 D8
+CA CK S8 H9
+[DealId "1047742139.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:04"]
+[Board "1"]
+[West "MCYou"]
+[North "GiB"]
+[East "GiB"]
+[South "cswgroup"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "2H"]
+[Result "8"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 2H =4= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:Responder rebid -- 2- !C; 6+ !H; 6-10 total points"]
+[Play "W"]
+D7 D9 D6 DA
+D2 DK D3 D4
+DT DQ HT D5
+S9 S3 S6 SA
+DJ HK HA D8
+C5 C4 C2 H8
+SK S7 S2 S4
+SJ SQ ST S5
+C6 CT C3 H4
+H2 C7 HQ H9
+H7 C9 S8 H5
+CA CJ CQ H6
+H3 CK C8 HJ
+[DealId "1047742133.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:04"]
+[Board "1"]
+[West "JAMSTARR1"]
+[North "GiB"]
+[East "GiB"]
+[South "chad28"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "2H"]
+[Result "8"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 2H =4= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:Responder rebid -- 2- !C; 6+ !H; 6-10 total points"]
+[Play "W"]
+D2 D9 D6 DA
+H2 HK HA H4
+D7 DQ D3 D4
+DT DK HT D5
+SK S3 S8 S4
+DJ C4 C8 D8
+S9 S7 S2 SA
+H3 C7 HQ HJ
+C5 C9 C2 H9
+H7 CT C3 H8
+SJ CJ ST H6
+C6 CK S6 H5
+CA SQ CQ S5
+[DealId "1047742155.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:04"]
+[Board "1"]
+[West "Lyn31"]
+[North "GiB"]
+[East "GiB"]
+[South "emmharde"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "2H"]
+[Result "8"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 2H =4= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:Responder rebid -- 2- !C; 6+ !H; 6-10 total points"]
+[Play "W"]
+D2 DK D6 D4
+C5 CJ CQ H4
+D7 DQ D3 D5
+C6 CT C2 D8
+CA C9 C3 S4
+DT D9 HT DA
+H2 HK HA H5
+S9 S3 S2 SA
+H3 C4 HQ H9
+SK S7 S6 S5
+DJ C7 C8 H6
+H7 SQ ST HJ
+SJ CK S8 H8
+[DealId "1047742147.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:04"]
+[Board "1"]
+[West "movinup"]
+[North "GiB"]
+[East "GiB"]
+[South "normaj8881"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "2H"]
+[Result "8"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 2H =4= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:Responder rebid -- 2- !C; 6+ !H; 6-10 total points"]
+[Play "W"]
+D2 DK D6 D4
+H2 HK HA H4
+DT DQ D3 D5
+C5 CK C8 H5
+H3 C4 HQ HJ
+SK S3 ST S4
+S9 S7 S2 SA
+H7 C7 HT H9
+C6 C9 C3 H6
+SJ SQ S8 S5
+D7 D9 C2 DA
+DJ CT S6 D8
+CA CJ CQ H8
+[DealId "1047742153.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:02"]
+[Board "1"]
+[West "KPaster"]
+[North "GiB"]
+[East "GiB"]
+[South "Ferrest"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "N"]
+[Contract "2C"]
+[Result "8"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Play "E"]
+D6 D8 DT DK
+C3 H8 CA CK
+HA H4 H2 HK
+D3 D5 DJ DQ
+CQ H5 C5 CJ
+S2 S5 SK S3
+C2 D4 D2 D9
+S8 S4 SJ SQ
+C8 H6 C6 C9
+S6 SA S9 S7
+HT DA D7 CT
+ST HJ H3 C7
+HQ H9 H7 C4
+[DealId "1047742154.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:02"]
+[Board "1"]
+[West "daddyc"]
+[North "GiB"]
+[East "GiB"]
+[South "Cookie1944"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "N"]
+[Contract "3C"]
+[Result "8"]
+[Auction "N"]
+1C =1= Pass 2H =2= Pass
+3C =3= Pass Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:Soloway jump shift -- rebiddable !H; 17+ total points"]
+[Note "3:6+ !C; 11-21 HCP; 12-22 total points "]
+[Play "E"]
+D6 D8 DT DK
+CQ H4 C5 CJ
+D3 D5 DJ DQ
+C2 H5 CA CK
+C3 DA D7 D9
+S6 S4 SK S3
+C8 D4 D2 HK
+HA H6 H3 C4
+S2 H8 C6 C9
+S8 SA S9 S7
+HT H9 H2 CT
+ST S5 H7 C7
+HQ HJ SJ SQ
+[DealId "1047742156.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:02"]
+[Board "1"]
+[West "katelior"]
+[North "GiB"]
+[East "GiB"]
+[South "mamadee"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "2H"]
+[Result "7"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 2H =4= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:Responder rebid -- 2- !C; 6+ !H; 6-10 total points"]
+[Play "W"]
+DJ DK D6 D4
+SK SQ S6 S4
+H2 HK HA H4
+D2 D9 D3 DA
+H3 C4 HQ HJ
+S9 S3 S8 SA
+H7 C7 HT H9
+SJ S7 ST S5
+D7 DQ C8 D5
+C5 CJ CQ H5
+C6 C9 C2 H8
+CA CT C3 H6
+DT CK S2 D8
+[DealId "1047742148.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:03"]
+[Board "1"]
+[West "cleann"]
+[North "GiB"]
+[East "fredsgirl"]
+[South "cas1103"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "N"]
+[Contract "3NT"]
+[Result "8"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 2D =4= Pass
+2NT =5= Pass 3NT =6= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:New suit -- 3+ !D; 4+ !H; 12+ total points; forcing to 3N"]
+[Note "5:2- !H; 3- !S; 11-14 HCP; twice rebiddable !C; 12+ total points; likely stop in !S; forcing to 3N "]
+[Note "6:3+ !D; 4+ !H; 12-17 HCP"]
+[Play "E"]
+S2 S5 SK S3
+S6 S4 S9 SQ
+D3 D4 D2 DK
+D6 D5 D7 DQ
+S8 DA DT D9
+ST SA SJ S7
+C2 D8 DJ C4
+C3 H4 CA C7
+HA H5 H2 HK
+HQ H6 H3 C9
+CQ H8 C5 CK
+C8 H9 C6 CJ
+HT HJ H7 CT
+[DealId "1047742132.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:04"]
+[Board "1"]
+[West "icespot"]
+[North "GiB"]
+[East "GiB"]
+[South "bmarkba"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "3H"]
+[Result "8"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 3H =4= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:Invitational jump rebid -- 6+ !H; 11-12 total points"]
+[Play "W"]
+S9 S3 S2 SA
+H2 HK HA H4
+DT DK D6 D4
+C5 CK C8 H5
+D2 DQ D3 D5
+C6 CJ C3 H6
+D7 D9 HT DA
+CA C4 C2 H8
+SK S7 ST S5
+DJ C7 S8 D8
+SJ SQ S6 S4
+H3 CT CQ HJ
+H7 C9 HQ H9
+[DealId "1047742130.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:04"]
+[Board "1"]
+[West "3ntlarry"]
+[North "GiB"]
+[East "JuliusC2"]
+[South "coolken"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "4H"]
+[Result "9"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 4H =4= Pass
+Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:12+ HCP; strong rebiddable !H; 13-16 total points"]
+[Play "W"]
+D2 DK D6 D4
+H2 HK HA H4
+D7 D9 D3 DA
+H3 C4 HT H9
+SK S3 S8 S4
+DJ DQ HQ D5
+C6 C7 C3 H5
+H7 C9 C2 HJ
+C5 CT C8 H8
+CA CJ CQ H6
+S9 S7 S2 SA
+SJ SQ S6 S5
+DT CK ST D8
+[DealId "1047742131.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:04"]
+[Board "1"]
+[West "DG 7NT"]
+[North "snackbarge"]
+[East "GJ4CLUBS"]
+[South "BcycleRidr"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "N"]
+[Contract "3NT"]
+[Result "7"]
+[Auction "N"]
+1C Pass 1H Pass
+2C Pass 2D Pass
+3NT Pass Pass Pass
+[Play "E"]
+S2 S4 SK S3
+S6 S5 SJ SQ
+D3 D4 D2 DK
+C2 H4 C5 CK
+C3 H5 CA C9
+S8 SA S9 S7
+HA H6 H2 HK
+ST D5 H3 C4
+D6 DA D7 D9
+HT D8 DT DQ
+CQ H8 C6 CT
+HQ H9 H7 C7
+C8 HJ DJ CJ
+[DealId "1047742129.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:05"]
+[Board "1"]
+[West "Trueto1"]
+[North "Royal T"]
+[East "GiB"]
+[South "Janice Tuc"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "N"]
+[Contract "2NT"]
+[Result "6"]
+[Auction "N"]
+1C Pass 1H Pass
+2C Pass 2H Pass
+2NT Pass Pass Pass
+[Play "E"]
+S2 S4 SJ SQ
+C3 H4 C5 CT
+CQ H5 C6 C9
+S8 S5 SK S3
+S6 SA S9 S7
+D3 D4 D2 DK
+C2 H6 CA CJ
+HA H8 H2 HK
+ST H9 H3 C4
+HQ HJ H7 C7
+HT D5 D7 D9
+D6 D8 DT DQ
+C8 DA DJ CK
+[DealId "1047742143.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:05"]
+[Board "1"]
+[West "yuko81"]
+[North "QUEENIDA"]
+[East "GiB"]
+[South "Mazique"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "3NT"]
+[Result "7"]
+[Auction "N"]
+1C Pass 1H Pass
+2C Pass 2H Pass
+3C Pass 3NT Pass
+Pass Pass
+[Play "W"]
+D2 D9 D3 D4
+H2 HK HA H4
+SK S3 S8 S4
+SJ SQ S2 S5
+D7 DQ D6 D5
+DT DK C3 D8
+S9 S7 S6 SA
+DJ C4 C8 DA
+H3 C7 HT H5
+H7 C9 ST H6
+C5 CT HQ H8
+CA CJ C2 H9
+C6 CK CQ HJ
+[DealId "1047742151.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:05"]
+[Board "1"]
+[West "Dia Mond22"]
+[North "Edbolzan"]
+[East "Easy Mixer"]
+[South "gigiavant"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "4H"]
+[Result "8"]
+[Auction "N"]
+1C Pass 1H Pass
+2C Pass 2H Pass
+2NT Pass 3H Pass
+4H Pass Pass Pass
+[Play "W"]
+DJ DK D3 D4
+H2 HK HA H4
+SK S3 ST S4
+S9 S7 S2 SA
+SJ SQ S6 S5
+D2 DQ D6 D5
+D7 D9 HT D8
+H7 C4 S8 H5
+DT C7 C2 DA
+H3 C9 HQ H9
+C5 CT C3 H6
+C6 CJ C8 HJ
+CA CK CQ H8
+[DealId "1047742150.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:03"]
+[Board "1"]
+[West "atoyn"]
+[North "GiB"]
+[East "GiB"]
+[South "kirky2"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "3NT"]
+[Result "6"]
+[Auction "N"]
+1C =1= Pass 1H =2= Pass
+2C =3= Pass 2NT =4= Pass
+3NT =5= Pass Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:One over one -- 4+ !H; 6+ total points"]
+[Note "3:Opener rebids his C -- 3- !H; 3- !S; 11-15 HCP; twice rebiddable !C; 12-16 total points "]
+[Note "4:Balanced invite -- 4-5 !H; 11-12 HCP"]
+[Note "5:3- !H; 3- !S; 14-15 HCP; twice rebiddable !C; 16- total points; partial stop in !D; partial stop in !S "]
+[Play "W"]
+D7 DQ D3 D4
+S9 S7 S6 S4
+DT D9 D6 DA
+SK S3 ST S5
+D2 DK C3 D5
+CA C9 C8 H5
+DJ C4 S8 D8
+H3 HK HA H4
+SJ SQ S2 SA
+H2 C7 HT H9
+H7 CT HQ H6
+C5 CJ C2 H8
+C6 CK CQ HJ
+[DealId "1047742152.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:05"]
+[Board "1"]
+[West "creecree"]
+[North "GiB"]
+[East "GiB"]
+[South "MS RC"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:Q73.K.KQ9.KJT974 T862.AQT.63.Q832 A54.J98654.A854. KJ9.732.JT72.A65"]
+[Declarer "S"]
+[Contract "6NT"]
+[Result "7"]
+[Auction "N"]
+1C =1= Pass 2H =2= Pass
+3C =3= Pass 3NT =4= Pass
+6NT =5= Pass Pass Pass
+[Note "1:Minor suit opening -- 3+ !C; 11-21 HCP; 12-22 total points "]
+[Note "2:Soloway jump shift -- rebiddable !H; 17+ total points"]
+[Note "3:6+ !C; 11-21 HCP; 12-22 total points "]
+[Note "4:Strong H; semi-balanced hand -- 18-19 HCP; rebiddable !H"]
+[Note "5:6+ !C; 15-17 HCP "]
+[Play "W"]
+DJ DK D6 D4
+D2 DQ D3 D5
+D7 D9 C8 DA
+DT C4 S6 D8
+SJ SQ S2 S4
+C5 CJ C3 H4
+C6 CT CQ H5
+CA C7 C2 H6
+S9 S3 S8 S5
+SK S7 ST SA
+H2 HK HA H8
+H3 C9 HT HJ
+H7 CK HQ H9
+[DealId "1047742138.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:49"]
+[Board "9"]
+[West "hmat928"]
+[North "GiB"]
+[East "GiB"]
+[South "chad28"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "6H"]
+[Result "11"]
+[Auction "N"]
+Pass 1S =1= Pass 2H =2=
+Pass 3H =3= Pass 4H =4=
+Pass 4NT =5= Pass 5H =6=
+Pass 6H =7= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- 5+ !H; 12+ HCP; 13+ total points; forcing to "]
+[Note "3:3+ !H; 5+ !S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "4:5+ !H; 12+ HCP; 13-18 total points"]
+[Note "5:Blackwood (H) -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Note "6:Two or five key cards; no queen -- 5+ !H; 12+ HCP; 13-18 total points"]
+[Note "7:3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Play "N"]
+D2 DQ D9 D3
+H5 HA H9 H2
+HT HJ HQ HK
+D4 DA D6 D7
+S2 SA S3 S7
+SK SQ S4 H3
+D8 S5 DT DK
+D5 H6 S6 DJ
+C9 CQ C5 C4
+C3 CT C7 CA
+H8 C2 ST H7
+CJ S8 CK C6
+C8 S9 SJ H4
+[DealId "1047742266.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:51"]
+[Board "9"]
+[West "Dia Mond22"]
+[North "GiB"]
+[East "Easy Mixer"]
+[South "bluechuck7"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "E"]
+[Contract "6H"]
+[Result "11"]
+[Auction "N"]
+Pass 2NT Pass 3D =1=
+Pass 4H Pass 5C
+Pass 5D Pass 6H
+Pass Pass Pass
+[Note "1:trans"]
+[Play "S"]
+S3 S7 SK SA
+H9 HK H5 H6
+HQ H2 HT HJ
+DT D3 D5 DA
+S4 H3 H8 HA
+D6 D7 D8 DQ
+S6 C4 S2 SQ
+CK CA C9 CQ
+D9 DK D4 C2
+ST DJ D2 S5
+C5 H7 C8 S8
+SJ H4 C3 S9
+C7 C6 CJ CT
+[DealId "1047742259.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:55"]
+[Board "9"]
+[West "creecree"]
+[North "GiB"]
+[East "GiB"]
+[South "Baldie117"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "6H"]
+[Result "11"]
+[Auction "N"]
+Pass 1S =1= Pass 2H =2=
+Pass 3H =3= Pass 4H =4=
+Pass 4NT =5= Pass 5H =6=
+Pass 6H =7= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- 5+ !H; 12+ HCP; 13+ total points; forcing to "]
+[Note "3:3+ !H; 5+ !S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "4:5+ !H; 12+ HCP; 13-18 total points"]
+[Note "5:Blackwood (H) -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Note "6:Two or five key cards; no queen -- 5+ !H; 12+ HCP; 13-18 total points"]
+[Note "7:3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Play "N"]
+D2 DA D6 D3
+H5 HJ HQ HK
+H8 HA H9 H2
+HT H6 S3 H3
+D4 DQ D9 D7
+C9 C2 C5 CA
+S2 SQ S4 S7
+SK SA S6 C4
+C3 S9 ST H4
+D8 S5 DT DK
+D5 CT SJ DJ
+CJ S8 C7 H7
+C8 CQ CK C6
+[DealId "1047742248.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:55"]
+[Board "9"]
+[West "cleann"]
+[North "Ticaa21"]
+[East "fredsgirl"]
+[South "Wan69"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "8"]
+[Auction "N"]
+Pass 1S Pass 1NT
+Pass 3NT Pass Pass
+Pass
+[Play "N"]
+C9 CQ CK C4
+C3 C2 C5 CA
+H5 HJ HQ H2
+CJ CT C7 C6
+C8 S5 H9 H3
+HT HA D6 H4
+H8 H6 S3 HK
+D2 DA D9 D3
+D4 DQ DT DK
+D5 S8 S4 DJ
+S2 SQ S6 S7
+SK SA ST H7
+D8 S9 SJ D7
+[DealId "1047742254.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:55"]
+[Board "9"]
+[West "mzstreet"]
+[North "GiB"]
+[East "Bridge1420"]
+[South "cas1103"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "E"]
+[Contract "6H"]
+[Result "11"]
+[Auction "N"]
+Pass 2NT Pass 3D
+Pass 3H Pass 3NT
+Pass 4H Pass 4NT
+Pass 5D Pass 6H
+Pass Pass Pass
+[Play "S"]
+SJ S7 SK SA
+H9 HK H5 H6
+HQ H2 HT HJ
+D6 D3 D5 DA
+S3 H3 H8 HA
+D9 D7 D8 DQ
+S4 C4 S2 SQ
+ST H4 C9 S9
+DT DK D4 C2
+S6 DJ D2 S5
+C5 H7 C8 S8
+C7 CA C3 CT
+CK C6 CJ CQ
+[DealId "1047742243.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 06:03"]
+[Board "9"]
+[West "Jacque2294"]
+[North "GiB"]
+[East "GiB"]
+[South "fayelinnH"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "5H"]
+[Result "10"]
+[Auction "N"]
+Pass 1S =1= Pass 2H =2=
+Pass 3H =3= Pass 4H =4=
+Pass 4NT =5= Pass 5D =6=
+Pass 5H =7= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- 5+ !H; 12+ HCP; 13+ total points; forcing to "]
+[Note "3:3+ !H; 5+ !S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "4:5+ !H; 12+ HCP; 13-18 total points"]
+[Note "5:Blackwood (H) -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Note "6:One or four key cards -- 5+ !H; 12+ HCP; 13-18 total points"]
+[Note "7:Signoff -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Play "N"]
+D2 DQ D6 D3
+H5 HJ H9 HK
+HT H6 HQ H7
+C9 C2 C5 CA
+S2 SQ S3 S7
+SK S5 S4 H4
+D4 DA D9 D7
+H8 SA S6 C4
+C8 CT CK C6
+C3 S8 SJ H2
+D8 S9 DT DK
+D5 HA - H3
+- - - -
+[DealId "1047742247.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:53"]
+[Board "9"]
+[West "endurer"]
+[North "GiB"]
+[East "regulator1"]
+[South "njtaylor"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "E"]
+[Contract "3S"]
+[Result "10"]
+[Auction "N"]
+Pass 1S Pass 1NT
+Pass 3S Pass Pass
+Pass
+[Play "S"]
+C5 C6 CJ CQ
+S3 S7 S2 SA
+D6 D3 D5 DA
+D9 D7 D8 DQ
+C7 CA C3 C2
+H9 HK H5 H6
+DT DJ D4 CT
+CK C4 C8 S8
+HQ H2 HT HA
+S4 H3 H8 HJ
+S6 H4 SK S5
+ST DK D2 S9
+SJ H7 C9 SQ
+[DealId "1047742251.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:47"]
+[Board "9"]
+[West "Trueto1"]
+[North "GiB"]
+[East "GiB"]
+[South "Cookie1944"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "9"]
+[Auction "N"]
+Pass 1S =1= Pass 1NT =2=
+Pass 3NT =3= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing one notrump -- 3- !S; 6+ HCP; 12- total points"]
+[Note "3:Game in notrump -- 2-4 !C; 2-4 !D; 2-4 !H; 5 !S; 19-21 HCP; 22- total points "]
+[Play "N"]
+D2 DA D6 D3
+H5 H6 H9 HK
+HT HJ HQ H2
+D8 DQ D9 D7
+C9 C2 C5 CA
+D4 S5 DT DK
+D5 S8 S3 DJ
+S2 SQ S4 S7
+SK SA S6 H3
+H8 HA C7 H4
+C8 S9 ST C4
+C3 CT SJ C6
+CJ CQ CK H7
+[DealId "1047742267.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:48"]
+[Board "9"]
+[West "KPaster"]
+[North "GiB"]
+[East "GiB"]
+[South "normaj8881"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "9"]
+[Auction "N"]
+Pass 1S =1= Pass 1NT =2=
+Pass 3NT =3= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing one notrump -- 3- !S; 6+ HCP; 12- total points"]
+[Note "3:Game in notrump -- 2-4 !C; 2-4 !D; 2-4 !H; 5 !S; 19-21 HCP; 22- total points "]
+[Play "N"]
+D2 DA D6 D3
+D8 DQ D9 D7
+C9 CQ CK CA
+D4 S5 DT DK
+H8 HA H9 H2
+H5 H6 HQ HK
+D5 S8 S3 DJ
+HT HJ S4 H7
+S2 SA S6 S7
+CJ CT C5 C4
+C8 C2 C7 C6
+C3 S9 ST H3
+SK SQ SJ H4
+[DealId "1047742265.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:54"]
+[Board "9"]
+[West "mrsghill"]
+[North "GiB"]
+[East "mrhill2468"]
+[South "malesorc"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "9"]
+[Auction "N"]
+Pass 1S Pass 1NT
+Pass 3NT Pass Pass
+Pass
+[Play "N"]
+D2 DQ D6 D3
+D8 DA D9 D7
+H5 HJ HQ HK
+D4 S5 DT DK
+D5 S8 S3 DJ
+S2 SQ S4 S7
+CJ CT C5 C4
+C9 CQ CK CA
+C8 C2 C7 C6
+C3 S9 S6 H2
+SK SA ST H3
+HT HA H9 H4
+H8 H6 SJ H7
+[DealId "1047742249.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:57"]
+[Board "9"]
+[West "MCYou"]
+[North "maebegood"]
+[East "GiB"]
+[South "BLKROCKY"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "9"]
+[Auction "N"]
+Pass 1S =1= Pass 1NT =2=
+Pass 3NT =3= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing one notrump -- 3- !S; 6+ HCP; 12- total points"]
+[Note "3:Game in notrump -- 2-4 !C; 2-4 !D; 2-4 !H; 5 !S; 19-21 HCP; 22- total points "]
+[Play "N"]
+C3 CQ CK CA
+D5 DA D6 D3
+D2 DQ D9 D7
+H5 HA H9 H2
+H8 HJ HQ HK
+D4 S5 DT DK
+D8 S8 SJ DJ
+S2 SA S3 S7
+HT H6 C5 H3
+C8 CT C7 C4
+- C2 S4 C6
+- - - -
+- - - -
+[DealId "1047742253.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:53"]
+[Board "9"]
+[West "wphipps1"]
+[North "GiB"]
+[East "GiB"]
+[South "bmarkba"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "10"]
+[Auction "N"]
+Pass 1S =1= Pass 1NT =2=
+Pass 3NT =3= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing one notrump -- 3- !S; 6+ HCP; 12- total points"]
+[Note "3:Game in notrump -- 2-4 !C; 2-4 !D; 2-4 !H; 5 !S; 19-21 HCP; 22- total points "]
+[Play "N"]
+D2 DA D6 D3
+H5 H6 H9 HK
+HT HJ HQ H2
+D8 DQ D9 D7
+H8 HA S3 H3
+C9 C2 C5 CA
+D4 S5 DT DK
+D5 S8 S4 DJ
+C3 S9 S6 H7
+C8 CT ST H4
+S2 SA SJ S7
+CJ CQ CK C4
+SK SQ C7 C6
+[DealId "1047742241.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:48"]
+[Board "9"]
+[West "almavj26"]
+[North "GiB"]
+[East "GiB"]
+[South "kirky2"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "5H"]
+[Result "11"]
+[Auction "N"]
+Pass 1S =1= Pass 2H =2=
+Pass 3H =3= Pass 4H =4=
+Pass 4NT =5= Pass 5C =6=
+Pass 5H =7= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- 5+ !H; 12+ HCP; 13+ total points; forcing to "]
+[Note "3:3+ !H; 5+ !S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "4:5+ !H; 12+ HCP; 13-18 total points"]
+[Note "5:Blackwood (H) -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Note "6:Zero or three key cards -- 5+ !H; 12+ HCP; 13-18 total points"]
+[Note "7:Signoff -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Play "N"]
+D2 DQ D6 D3
+H5 H6 H9 HK
+HT HJ HQ H2
+SK SA S4 S7
+H8 HA D9 H3
+S2 SQ S3 C4
+D8 DA DT D7
+C9 C2 C5 CA
+D4 S5 S6 DK
+D5 S8 ST DJ
+C8 CQ CK C6
+- - SJ -
+- - - -
+[DealId "1047742264.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:48"]
+[Board "9"]
+[West "movinup"]
+[North "GiB"]
+[East "GiB"]
+[South "mamadee"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "5H"]
+[Result "11"]
+[Auction "N"]
+Pass 1S =1= Pass 2H =2=
+Pass 3H =3= Pass 4H =4=
+Pass 4NT =5= Pass 5D =6=
+Pass 5H =7= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- 5+ !H; 12+ HCP; 13+ total points; forcing to "]
+[Note "3:3+ !H; 5+ !S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "4:5+ !H; 12+ HCP; 13-18 total points"]
+[Note "5:Blackwood (H) -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Note "6:One or four key cards -- 5+ !H; 12+ HCP; 13-18 total points"]
+[Note "7:Signoff -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Play "N"]
+D2 DQ D6 D3
+S2 SA S3 S7
+SK S5 S4 H2
+H8 HA H9 H3
+H5 H6 HQ HK
+HT HJ D9 H4
+D8 DA DT D7
+C9 CQ CK CA
+D4 C2 S6 DK
+CJ CT C5 C4
+C8 S8 C7 C6
+D5 S9 ST DJ
+C3 SQ SJ H7
+[DealId "1047742260.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:48"]
+[Board "9"]
+[West "sugalump"]
+[North "GiB"]
+[East "GiB"]
+[South "just4DH"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "5H"]
+[Result "11"]
+[Auction "N"]
+Pass 1S =1= Pass 2H =2=
+Pass 3H =3= Pass 4H =4=
+Pass 4NT =5= Pass 5D =6=
+Pass 5H =7= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- 5+ !H; 12+ HCP; 13+ total points; forcing to "]
+[Note "3:3+ !H; 5+ !S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "4:5+ !H; 12+ HCP; 13-18 total points"]
+[Note "5:Blackwood (H) -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Note "6:One or four key cards -- 5+ !H; 12+ HCP; 13-18 total points"]
+[Note "7:Signoff -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Play "N"]
+D2 DQ D6 D3
+H5 HA H9 H2
+HT H6 HQ HK
+S2 SA S3 S7
+SK S8 S4 H3
+D4 DA D9 D7
+CJ CT C5 C4
+D8 S5 DT DJ
+H8 HJ S6 H4
+C3 SQ ST C6
+C9 S9 SJ DK
+C8 C2 CK CA
+D5 CQ C7 H7
+[DealId "1047742255.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:54"]
+[Board "9"]
+[West "puddin3"]
+[North "GiB"]
+[East "lilgreat"]
+[South "coolken"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "4H"]
+[Result "11"]
+[Auction "N"]
+Pass 1S Pass 2H
+Pass 4H Pass Pass
+Pass
+[Play "N"]
+D2 DQ D6 D3
+H5 H6 H9 HK
+HT HA HQ H2
+H8 HJ D9 H3
+D8 DA DT D7
+C3 CT C5 CA
+S2 SA S3 S7
+SK S9 ST C4
+D5 S5 S4 DJ
+D4 S8 S6 DK
+CJ CQ CK C6
+C8 C2 C7 H4
+C9 SQ SJ H7
+[DealId "1047742245.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:47"]
+[Board "9"]
+[West "yuko81"]
+[North "Royal T"]
+[East "GiB"]
+[South "Janice Tuc"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "11"]
+[Auction "N"]
+Pass 1S =1= Pass 1NT =2=
+Pass 3NT =3= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing one notrump -- 3- !S; 6+ HCP; 12- total points"]
+[Note "3:Game in notrump -- 2-4 !C; 2-4 !D; 2-4 !H; 5 !S; 19-21 HCP; 22- total points "]
+[Play "N"]
+C3 CT CK CA
+D2 DA D6 D3
+D4 DQ D9 D7
+H5 H6 H9 HK
+D5 S5 DT DK
+D8 S8 S3 DJ
+S2 SQ S4 S7
+H8 HA HQ H2
+HT HJ S6 H3
+SK SA ST H4
+C8 S9 SJ H7
+C9 CQ C5 C6
+CJ C2 C7 C4
+[DealId "1047742257.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:53"]
+[Board "9"]
+[West "johnque"]
+[North "GiB"]
+[East "GiB"]
+[South "ArmieJ"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "11"]
+[Auction "N"]
+Pass 1S =1= Pass 1NT =2=
+Pass 3NT =3= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing one notrump -- 3- !S; 6+ HCP; 12- total points"]
+[Note "3:Game in notrump -- 2-4 !C; 2-4 !D; 2-4 !H; 5 !S; 19-21 HCP; 22- total points "]
+[Play "N"]
+D2 DA D6 D3
+D8 DQ D9 D7
+H5 HA H9 H2
+HT HJ HQ HK
+H8 H6 S3 H3
+D4 S5 DT DJ
+C9 CQ CK C4
+C3 C2 C5 CA
+D5 S8 C7 DK
+S2 S9 S4 H7
+C8 CT S6 H4
+SK SA ST S7
+CJ SQ SJ C6
+[DealId "1047742246.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:53"]
+[Board "9"]
+[West "3ntlarry"]
+[North "snackbarge"]
+[East "JuliusC2"]
+[South "BcycleRidr"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "11"]
+[Auction "N"]
+Pass 1S Pass 1NT =1=
+Pass 3NT Pass Pass
+Pass
+[Note "1:frcing"]
+[Play "N"]
+C3 CQ CK CA
+S2 SQ S3 S7
+D2 DA D6 D3
+D4 DQ D9 D7
+H5 HJ HQ H2
+CJ C2 C5 C6
+C9 CT C7 C4
+SK SA S4 H3
+H8 HA H9 H4
+HT H6 S6 HK
+D5 S5 DT DK
+D8 S8 ST DJ
+C8 S9 SJ H7
+[DealId "1047742242.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:47"]
+[Board "9"]
+[West "Lyn31"]
+[North "GiB"]
+[East "GiB"]
+[South "Ferrest"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "5H"]
+[Result "12"]
+[Auction "N"]
+Pass 1S =1= Pass 2H =2=
+Pass 3H =3= Pass 4H =4=
+Pass 4NT =5= Pass 5D =6=
+Pass 5H =7= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- 5+ !H; 12+ HCP; 13+ total points; forcing to "]
+[Note "3:3+ !H; 5+ !S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "4:5+ !H; 12+ HCP; 13-18 total points"]
+[Note "5:Blackwood (H) -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Note "6:One or four key cards -- 5+ !H; 12+ HCP; 13-18 total points"]
+[Note "7:Signoff -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Play "N"]
+D2 DQ D6 D3
+H5 H6 H9 HK
+HT HA HQ H2
+H8 HJ D9 H3
+D8 DA DT D7
+C9 C2 C5 CA
+C8 CT CK C4
+SK SA S4 S7
+S2 SQ S3 DJ
+CJ CQ C7 C6
+D4 S5 S6 H4
+D5 S8 ST DK
+C3 S9 SJ H7
+[DealId "1047742268.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:48"]
+[Board "9"]
+[West "JAMSTARR1"]
+[North "GiB"]
+[East "GiB"]
+[South "Sheldoon"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "5H"]
+[Result "12"]
+[Auction "N"]
+Pass 1S =1= Pass 2H =2=
+Pass 3H =3= Pass 3NT =4=
+Pass 4D =5= Pass 4H =6=
+Pass 4S =7= Pass 4NT =8=
+Pass 5C =9= Pass 5H =10=
+Pass Pass Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- 5+ !H; 12+ HCP; 13+ total points; forcing to "]
+[Note "3:3+ !H; 5+ !S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "4:5-6 !H; 4- !S; 14-21 HCP; partial stop in !C; partial stop in !D"]
+[Note "5:Cue bid -- 1+ !C; 3+ !H; 5+ !S; 21- HCP; no !CA; !DA; 16-22 total points "]
+[Note "6:5-6 !H; 4- !S; 14+ HCP; 17- total points; partial stop in !C; partial"]
+[Note "7:Cue bid -- 1+ !C; 3+ !H; 5+ !S; 21- HCP; no !CA; !DA; !SA; 17-22 total points; forcing "]
+[Note "8:Blackwood (H) -- 5-6 !H; 4- !S; 14+ HCP; 15-17 total points; partial "]
+[Note "9:Zero or three key cards -- 1+ !C; 3+ !H; 5+ !S; 21- HCP; no !CA; !DA; !SA; 17-22 total points "]
+[Note "10:Signoff -- 5-6 !H; 4- !S; 14+ HCP; 15-17 total points; partial stop i"]
+[Play "N"]
+C3 CT CK CA
+H5 H6 H9 HK
+HT HJ HQ H3
+CJ CQ C5 C6
+H8 HA C7 H2
+S2 SA S3 S7
+SK S9 ST H4
+D2 DA D6 D3
+D4 SQ S4 C4
+D8 DQ D9 D7
+C9 S8 SJ H7
+D5 C2 DT DK
+C8 S5 S6 DJ
+[DealId "1047742261.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:51"]
+[Board "9"]
+[West "atoyn"]
+[North "QUEENIDA"]
+[East "GiB"]
+[South "Mazique"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "5H"]
+[Result "12"]
+[Auction "N"]
+Pass 1S =1= Pass 2H =2=
+Pass 3H =3= Pass 4H =4=
+Pass 4S =5= Pass 4NT =6=
+Pass 5C =7= Pass 5H =8=
+Pass Pass Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- 5+ !H; 12+ HCP; 13+ total points; forcing to "]
+[Note "3:3+ !H; 5+ !S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "4:5+ !H; 12+ HCP; 13-18 total points"]
+[Note "5:Cue bid -- 3+ !H; 5+ !S; 21- HCP; !SA; 18-22 total points; forcing "]
+[Note "6:Blackwood (H) -- 5+ !H; 14-18 total points"]
+[Note "7:Zero or three key cards -- 3+ !H; 5+ !S; 21- HCP; !SA; 18-22 total points "]
+[Note "8:Signoff -- 5+ !H; 14-18 total points"]
+[Play "N"]
+D8 DA D6 D3
+H5 HA H9 H2
+H8 H6 HQ HK
+HT HJ D9 H3
+C3 CQ C5 C4
+D2 DQ DT D7
+S2 SA S3 S7
+C8 CT C7 CA
+D4 C2 S4 DK
+D5 S5 S6 DJ
+C9 S8 ST H7
+CJ S9 SJ H4
+SK SQ CK C6
+[DealId "1047742262.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:54"]
+[Board "9"]
+[West "tbr"]
+[North "GiB"]
+[East "demon1971"]
+[South "cswgroup"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "E"]
+[Contract "4H"]
+[Result "12"]
+[Auction "N"]
+Pass 2NT Pass 3D =1=
+Pass 3H Pass 3NT
+Pass 4H Pass Pass
+Pass
+[Note "1:transfer to !h"]
+[Play "S"]
+ST S7 SK SA
+H9 HK H5 H6
+HQ H2 HT HA
+S3 H3 S2 S5
+D6 D3 D5 DA
+D9 D7 D8 DQ
+S4 H4 H8 S8
+DT DK D4 C2
+C5 DJ D2 CT
+C7 CA C3 CQ
+CK C4 CJ HJ
+S6 C6 C8 SQ
+SJ H7 C9 S9
+[DealId "1047742244.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:54"]
+[Board "9"]
+[West "DG 7NT"]
+[North "GiB"]
+[East "GJ4CLUBS"]
+[South "awh1974"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "E"]
+[Contract "3NT"]
+[Result "12"]
+[Auction "N"]
+Pass 1NT Pass 2D
+Pass 2H Pass 3NT
+Pass Pass Pass
+[Play "S"]
+S4 S7 SK SA
+D6 D3 D5 DA
+D9 D7 D8 DQ
+H9 H2 H5 HA
+HQ H3 HT HJ
+S6 C4 S2 S9
+S3 C6 C9 SQ
+C5 HK H8 H6
+DT H7 C8 C2
+ST H4 C3 CT
+C7 CA CJ CQ
+SJ DK D4 S5
+CK DJ D2 S8
+[DealId "1047742250.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:46"]
+[Board "9"]
+[West "daddyc"]
+[North "Edbolzan"]
+[East "GiB"]
+[South "gigiavant"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "E"]
+[Contract "3NT"]
+[Result "13"]
+[Auction "N"]
+Pass 1S =1= Pass 2D =2=
+Pass 3NT =3= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- 13+ HCP; biddable !D; 14+ total points; forci"]
+[Note "3:2-3 !C; 2-3 !D; 2-3 !H; 5 !S; 17-20 HCP; 22- total points; partial stop in !C; partial stop in !H "]
+[Play "S"]
+C5 C4 CJ CQ
+D6 D3 D2 DQ
+D9 D7 D4 DA
+H9 HK H5 H6
+DT DK D5 S5
+S3 DJ D8 S8
+HQ H7 H8 HA
+S4 H2 HT HJ
+C7 CA C3 C2
+S6 H4 C8 S9
+CK H3 C9 CT
+ST C6 S2 SQ
+SJ S7 SK SA
+[DealId "1047742263.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:49"]
+[Board "9"]
+[West "katelior"]
+[North "GiB"]
+[East "GiB"]
+[South "Reillys mo"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "6H"]
+[Result "12"]
+[Auction "N"]
+Pass 1S =1= Pass 2H =2=
+Pass 3H =3= Pass 4H =4=
+Pass 4NT =5= Pass 5H =6=
+Pass 6H =7= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- 5+ !H; 12+ HCP; 13+ total points; forcing to "]
+[Note "3:3+ !H; 5+ !S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "4:5+ !H; 12+ HCP; 13-18 total points"]
+[Note "5:Blackwood (H) -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Note "6:Two or five key cards; no queen -- 5+ !H; 12+ HCP; 13-18 total points"]
+[Note "7:3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Play "N"]
+D2 DA D6 D3
+H5 H6 H9 HK
+HT HA HQ H2
+H8 HJ S3 H3
+D8 DQ D9 D7
+S2 SA S4 S7
+SK S5 ST H4
+D4 S8 DT DK
+D5 S9 C5 DJ
+C3 CT CK C4
+- - C7 -
+- - - -
+- - - -
+[DealId "1047742256.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:50"]
+[Board "9"]
+[West "Scotty48"]
+[North "GiB"]
+[East "GiB"]
+[South "emmharde"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "6H"]
+[Result "12"]
+[Auction "N"]
+Pass 1S =1= Pass 2H =2=
+Pass 3H =3= Pass 4H =4=
+Pass 4NT =5= Pass 5H =6=
+Pass 6H =7= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:Forcing two over one -- 5+ !H; 12+ HCP; 13+ total points; forcing to "]
+[Note "3:3+ !H; 5+ !S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "4:5+ !H; 12+ HCP; 13-18 total points"]
+[Note "5:Blackwood (H) -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Note "6:Two or five key cards; no queen -- 5+ !H; 12+ HCP; 13-18 total points"]
+[Note "7:3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Play "N"]
+D2 DA D6 D3
+H5 HJ HQ HK
+H8 HA H9 H7
+D8 DQ D9 D7
+C9 CQ C5 C6
+HT H6 S3 H2
+D4 CT DT DJ
+C3 C2 C7 CA
+D5 S5 S4 DK
+S2 SQ S6 S7
+SK SA ST C4
+CJ S8 SJ H3
+C8 S9 CK H4
+[DealId "1047742258.lin"]
+
+[Event "17901-1617418791"]
+[Date "2021-04-03 05:55"]
+[Board "9"]
+[West "icespot"]
+[North "GiB"]
+[East "GiB"]
+[South "MS RC"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:K2.T85.8542.J983 AQ985.AJ6.AQ.QT2 JT643.Q9.T96.K75 7.K7432.KJ73.A64"]
+[Declarer "W"]
+[Contract "6H"]
+[Result "12"]
+[Auction "N"]
+Pass 1S =1= Pass 2H
+Pass 3H =2= Pass 4H
+Pass 4NT =3= Pass 5H
+Pass 6H =4= Pass Pass
+Pass
+[Note "1:Major suit opening -- 5+ !S; 11-21 HCP; 12-22 total points "]
+[Note "2:3+ !H; 5+ !S; 11-21 HCP; 12-22 total points; forcing to 3N "]
+[Note "3:Blackwood (H) -- 3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Note "4:3+ !H; 5+ !S; 21- HCP; 19-22 total points "]
+[Play "N"]
+D2 DQ D6 D3
+C9 CQ C5 C4
+H5 HJ H9 H2
+HT HA HQ H3
+H8 H6 S3 HK
+S2 SQ S4 S7
+SK SA S6 C6
+CJ CT C7 CA
+D4 DA DT DJ
+C8 C2 CK H4
+D5 S5 D9 DK
+D8 S8 SJ D7
+C3 S9 ST H7
+[DealId "1047742252.lin"]
+
