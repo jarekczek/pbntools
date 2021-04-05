@@ -89,11 +89,11 @@ public class PbnTools {
 
   public static String getProp(String propertyName)
   {
-    String prop1 = m_props.getProperty(propertyName);
-    if (prop1 == null) {
-      return System.getProperty(propertyName);
+    String propFromSystem = System.getProperty(propertyName);
+    if (propFromSystem == null) {
+      return m_props.getProperty(propertyName);
     } else {
-      return prop1;
+      return propFromSystem;
     }
   }
 
