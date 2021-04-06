@@ -94,7 +94,15 @@ public class BboHandsHistoryLinReader extends BboCommonDownloader
   } //}}}
 
   private void parseUrl(String sUrl) {
-    List<NameValuePair> paramsList = URLEncodedUtils.parse(sUrl, Charset.forName("UTF-8"));
+    List<NameValuePair> paramsList = null;
+    try {
+      URL url = new URL(sUrl);
+      paramsList = URLEncodedUtils.parse(url.toURI(), Charset.forName("UTF-8"));
+    } catch (URISyntaxException e) {
+      return;
+    } catch (MalformedURLException e) {
+      return;
+    }
     String username = getFromNameValueList(paramsList, "username", "unknown_user");
     String from = epochToTimeString(getFromNameValueList(paramsList, "start_time", null));
     String until = epochToTimeString(getFromNameValueList(paramsList, "end_time", null));
