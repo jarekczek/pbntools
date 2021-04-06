@@ -66,7 +66,7 @@ public class DlgPbnToolsAbout extends javax.swing.JDialog {
         setTitle("PbnTools " + PbnTools.m_res.getString("wersja"));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Copyright by jarekczek 2010-2020");
+        jLabel1.setText("Copyright by jarekczek 2010-2021");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
