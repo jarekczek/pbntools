@@ -30,6 +30,20 @@ abstract public class BboCommonDownloader extends HtmlTourDownloader {
   protected int m_cLins;
   private static Logger log = LoggerFactory.getLogger(BboCommonDownloader.class);
 
+  /** Adds <code>&offset=0</code> parameter to php url, which is necessary
+    * because we don't support javascript */
+  public static String addOffset(String sLink)
+  {
+    // only add offset if this is a php link
+    if (!sLink.matches(".*\\.php\\?.*")) return sLink;
+    // must not end with *.htm*
+    if (sLink.matches(".*\\.htm(l?)")) return sLink;
+    // maybe already has offset given?
+    if (sLink.matches(".*[&\\?]offset=.*")) return sLink;
+    // need to add if after all
+    return sLink + "&offset=0";
+  }
+
   public Deal[] readDeals(String sTravellerUrl, boolean bSilent) //{{{
     throws DownloadFailedException
   {

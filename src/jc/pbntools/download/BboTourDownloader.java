@@ -37,19 +37,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Server requires authentication. Sessions are kept in cookie PHPSESSID.
@@ -148,21 +143,6 @@ public class BboTourDownloader extends BboCommonDownloader
         continue;
       }
     }
-  } //}}}
-
-  // addOfset method{{{
-  /** Adds <code>&offset=0</code> parameter to php url, which is necessary
-    * because we don't support javascript */
-  public static String addOffset(String sLink)
-  {
-    // only add offset if this is a php link
-    if (!sLink.matches(".*\\.php\\?.*")) return sLink;
-    // must not end with *.htm*
-    if (sLink.matches(".*\\.htm(l?)")) return sLink;
-    // maybe already has offset given?
-    if (sLink.matches(".*[&\\?]offset=.*")) return sLink;
-    // need to add if after all
-    return sLink + "&offset=0";
   } //}}}
 
   @Override

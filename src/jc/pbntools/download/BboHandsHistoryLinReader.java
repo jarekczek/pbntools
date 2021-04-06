@@ -58,6 +58,7 @@ public class BboHandsHistoryLinReader extends BboCommonDownloader
   @Override
   public boolean verify(String sUrl, boolean bSilent)
   {
+    sUrl = addOffset(sUrl);
     setLink(sUrl);
     m_doc = null;
     parseUrl(sUrl);
