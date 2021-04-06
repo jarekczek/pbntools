@@ -24,6 +24,7 @@ package jc.pbntools.download;
 import jc.HttpProxy;
 import jc.JCException;
 import jc.SoupProxy;
+import jc.f;
 import jc.outputwindow.SimplePrinter;
 import jc.pbntools.Deal;
 import jc.pbntools.PbnTools;
@@ -39,6 +40,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,6 +75,7 @@ public class BboHandsHistoryLinReader extends BboCommonDownloader
       String linUrl = SoupProxy.absUrl(firstAElem, "href");
       LinReader singleLinReader = new LinReader();
       singleLinReader.setOutputWindow(getOutputWindow());
+      delayBetweenDownloads(linUrl);
       Document linDoc = proxy.getDocument(linUrl);
       if (!singleLinReader.verify(linUrl, bSilent)) {
         log.info("Returning false from verify for {}, because linUrl {} returned false.");
@@ -92,6 +97,12 @@ public class BboHandsHistoryLinReader extends BboCommonDownloader
       return false;
     }
   } //}}}
+
+  private void delayBetweenDownloads(String sUrl) {
+    int millis = 1000 * delayForUrl(sUrl);
+    log.debug("Waiting between downloads, " + millis + " ms.");
+    f.sleepNoThrow(millis);
+  }
 
   private void parseUrl(String sUrl) {
     List<NameValuePair> paramsList = null;

@@ -453,7 +453,7 @@ abstract public class HtmlTourDownloader
   protected int delayForUrl(String sUrl)
   {
     int nDelay = PbnTools.m_nDelay;
-    if (m_remoteUrl.toString().indexOf("localhost") >= 0)
+    if (sUrl.toString().indexOf("localhost") >= 0)
       nDelay = 0;
     return nDelay;
   } //}}}
