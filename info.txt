@@ -5,6 +5,7 @@ RELEASE
 - Give links to previous version in help (help_common.tex),
   binaries and source.
 - Changes list in pl i en, last modified.
+- Inspect libraries source code links, may be outdated
 - gradlew clean doc (sometimes 2 attempts needed).
   Sometimes en does not run, then gradlew clean doc helps,
   because only the English version is then rebuilt
