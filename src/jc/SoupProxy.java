@@ -115,6 +115,7 @@ public class SoupProxy implements HttpProxy
       con.userAgent(
         System.getProperty("jc.soupproxy.useragent", "JSoup"));
       con.ignoreContentType(true);
+      con.timeout(20000);
       con.cookies(getCookies(url));
       doc = con.get();
       setCookies(url, con.response().cookies());
