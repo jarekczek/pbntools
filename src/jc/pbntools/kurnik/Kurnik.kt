@@ -8,6 +8,7 @@ import java.io.File
 import java.lang.RuntimeException
 import java.net.URI
 import java.net.URL
+import java.util.regex.Pattern
 
 object Kurnik {
   val cacheDir = "cache"
@@ -15,7 +16,7 @@ object Kurnik {
   val knownDeals = HashSet<String>()
   var dealAverageResults = mutableListOf<Double>()
   val processedPlayers = HashSet<String>()
-  val maxProcessedDeals = 900
+  val maxProcessedDeals = 1000
   val sleepSeconds = 2
 
   @JvmStatic
@@ -44,12 +45,7 @@ object Kurnik {
       }
       val dealId = dealId(dealRow, playerHistoryUrl)
       processDeal(dealId)
-      val playersText = dealRow.select("td").get(1).text()
-      val players = playersText.split(" ", "-")
-      players.forEach { playerName ->
-        //println("found player: $playerName")
-        newPlayers.add(playerName)
-      }
+      newPlayers.addAll(getPlayerNames(dealRow))
     }
 
     val recurse = dealAverageResults.size < maxProcessedDeals
@@ -63,6 +59,17 @@ object Kurnik {
         }
       }
     }
+  }
+
+  private fun getPlayerNames(dealRow: Element): List<String> {
+    val players = mutableListOf<String>()
+    dealRow.select("td").get(1).select("a").forEach { a ->
+      val playerLink = a.attr("href")
+      val matcher = Pattern.compile("\\?u=(.+)&").matcher(playerLink)
+      matcher.find()
+      players.add(matcher.group(1))
+    }
+    return players
   }
 
   private fun dealIsNotFinished(dealRow: Element): Boolean {
