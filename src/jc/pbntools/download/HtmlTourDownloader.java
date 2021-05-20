@@ -467,7 +467,8 @@ abstract public class HtmlTourDownloader
   {
     int nDelay = delayForUrl(m_remoteUrl.toString());
     String sCmdLine = "wget -p -k -nH -nd -nc -E -e "
-      + "robots=off --restrict-file-names=windows";
+      + "robots=off --restrict-file-names=windows "
+      + "--retry-on-http-error=503";
     if (System.getProperty("jc.soupproxy.useragent") != null)
       sCmdLine += " --user-agent="
                   + System.getProperty("jc.soupproxy.useragent");
