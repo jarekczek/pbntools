@@ -7,7 +7,7 @@ RELEASE
 - Changes list in pl i en, last modified.
 - Inspect libraries source code links, may be outdated
 - Any new command line options? Add them to doc.
-- gradlew clean doc (sometimes 2 attempts needed).
+- gradlew clean doc (necessary after version bump, sometimes 2 attempts needed).
   Sometimes en does not run, then gradlew clean doc helps,
   because only the English version is then rebuilt
   and Polish intermediate files may corrupt this process.
