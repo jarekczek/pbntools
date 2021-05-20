@@ -16,8 +16,8 @@ object Kurnik {
   val knownDeals = HashSet<String>()
   var dealAverageResults = mutableListOf<Double>()
   val processedPlayers = HashSet<String>()
-  val maxProcessedDeals = 1000
-  val sleepSeconds = 2
+  val maxProcessedDeals = 1200
+  val sleepSeconds = 5
 
   @JvmStatic
   fun main(args: Array<String>) {

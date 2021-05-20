@@ -186,7 +186,7 @@ public class BboHandsHistoryLinReader extends BboCommonDownloader
 
   @Override
   public String getName() {
-    return null;
+    return "Bbo Hand records";
   }
 
   @Override

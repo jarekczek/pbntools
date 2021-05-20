@@ -78,21 +78,14 @@
     function watchChat() {
         //console.log("players:")
         //console.log(players)
-        gatherPlayersFromChat()
-        document.querySelectorAll(".mb1s.bsbb .tind").forEach(e => {
-            var chatText = e.innerText
-            for (const playerName in players) {
-                //console.log("testing " + playerName + " against " + chatText)
-                if (chatText.indexOf(playerName) >= 0) {
-                    //console.log("chat with player " + playerName + ": " + chatText)
-                }
-            }
-        })
+        var allChats = Array.from(document.querySelectorAll(".mb1s.bsbb .tind"))
+        gatherPlayersFromChat(allChats)
+        markDealNumbers(allChats)
     }
 
-    function gatherPlayersFromChat() {
+    function gatherPlayersFromChat(allChats) {
         // Chat typu: + przychodzi 01paula [-0.75]
-        document.querySelectorAll(".mb1s.bsbb .tind").forEach(e => {
+        allChats.forEach(e => {
             var chatText = e.innerText
             if (chatText.indexOf("+ przychodzi") >= 0) {
                 var matcher = /\+ przychodzi ([^ ]+)( \[([^\]]+)\])?/.exec(chatText)
@@ -108,11 +101,28 @@
         })
 
         // Ktoś coś mówi, to jest w boldzie.
-        document.querySelectorAll(".mb1s.bsbb .tind b").forEach(e => {
+        allChats.flatMap(chat => Array.from(chat.querySelectorAll("b"))).forEach(e => {
             var playerName = e.innerText
             //console.log("player from chat: " + playerName)
             addPlayerMaybe(playerName)
             attachPlayerInfo(e, players[playerName])
+        })
+    }
+
+    function markDealNumbers(allChats) {
+        var dealNumber = 0
+        allChats.forEach(e => {
+            if (e.innerText.indexOf("operator wyzerował") >= 0) {
+                dealNumber = 0
+            }
+            if (e.innerText.indexOf("+ para ") >= 0) {
+                //console.log("chat wynikowy: " + e.innerText)
+                dealNumber += 1
+                var dealNumberText = ", nr " + dealNumber
+                if (e.innerText.indexOf(dealNumberText) < 0) {
+                    e.innerText += dealNumberText
+                }
+            }
         })
     }
 

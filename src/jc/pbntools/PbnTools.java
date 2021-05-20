@@ -37,6 +37,7 @@ import jc.pbntools.download.LinReader;
 import jc.pbntools.download.ParyTourDownloader;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
@@ -71,7 +72,8 @@ public class PbnTools {
   private static boolean m_bVerbose;
   static boolean m_bRunMainDialog;
   private static PbnTools INSTANCE;
-  
+  private static Logger log = LoggerFactory.getLogger(PbnTools.class);
+
   static {
     try { m_sCurDir = f.basePath(Class.forName("jc.pbntools.PbnTools")); }
     catch (ClassNotFoundException e) { throw new RuntimeException(e); }
@@ -213,7 +215,8 @@ public class PbnTools {
     return new HtmlTourDownloader[] {
       new KopsTourDownloader(),
       new ParyTourDownloader(),
-      new BboTourDownloader()
+      new BboTourDownloader(),
+      new BboHandsHistoryLinReader()
     };
   }
   
@@ -564,6 +567,7 @@ public class PbnTools {
     public void run() {
       HtmlTourDownloader dloader = null;
       if (m_dloaders.length == 1) {
+        log.debug("using single downloader " + m_dloaders[0]);
         dloader = m_dloaders[0];
         dloader.setOutputWindow(m_ow);
         if (!dloader.verify(m_sLink, false)) {
