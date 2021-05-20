@@ -113,13 +113,12 @@ Windows version uses also:
 \begin{description}
 
 \item[wget]
-  \htmladdnormallink{wget for windows}{http://gnuwin32.sourceforge.net/packages/wget.htm},
-  belonging to \htmladdnormallink{GnuWin32}{http://gnuwin32.sourceforge.net/},
+  \htmladdnormallink{wget for windows}{https://packages.msys2.org/package/mingw-w64-i686-wget?repo=mingw32},
+  belonging to \htmladdnormallink{Msys2}{https://www.msys2.org/},
   is a tool for recursive download of web pages, together with all needed files.
-  License file: wget\_COPYING.txt.
-  \htmladdnormallink{binaries}{http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-bin.zip},
-  \htmladdnormallink{dependencies}{http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-dep.zip}
-  
+  License files: wget\_COPYING.txt, wget\_README.txt.
+  \htmladdnormallink{binaries and dependencies}{https://packages.msys2.org/package/mingw-w64-i686-wget?repo=mingw32},
+
 \end{description}
 
 This html document was generated using the
@@ -172,13 +171,6 @@ information.
 
 Download process doesn't overload the server much, just like viewing
 all travellers.
-
-\subsubsection{wget OpenSSL problem}
-Currently wget is unable to connect to Bbo server.
-The version I provide is too old.
-You may try using some other version, for example from here:
-\htmladdnormallink{Eternally Bored}{https://eternallybored.org/misc/wget/} .
-Replace the one in \verb!PbnTools\bin\wget! directory.
 
 %}}}
 
@@ -328,7 +320,8 @@ Old binaries:
   \end{itemize}
 
 \item
-  \htmladdnormallink{wget for windows}{http://jarek.katowice.pl/jcwww/pbntools/wget-1.11.4-1-src.zip}
+  wget sources available as other sources distributed with msys
+  \htmladdnormallink{wget package for msys}{https://packages.msys2.org/package/mingw-w64-i686-wget?repo=mingw32}
 
 \end{itemize}
 
@@ -404,9 +397,10 @@ in source code archive, see: Download, \ref{download}.
 %{{{ history
 \section{Version history}
 \begin{description}
-\item[1.3.1, 19.05.2021]
+\item[1.3.2, 20.05.2021]
   \begin{itemize}
-  \item Only documentation changes (wget openssl problem)
+  \item Fixed problem with downloading Bbo hand records
+  \item Upgraded wget to 1.20.3-2 by msys
   \end{itemize}
 \item[1.3.0, 06.04.2021]
   \begin{itemize}

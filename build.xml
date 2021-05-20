@@ -450,6 +450,7 @@
   <antcall target="checkLib"><param name="lib" value="zbarcam.exe" /></antcall>
   <antcall target="checkLib"><param name="lib" value="zbar_LICENSE.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="wget_COPYING.txt" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="wget_README.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="wget" /></antcall>
   <antcall target="checkFile"><param name="lib" value="zbarcam.html" />
                               <param name="dir" value="doc" /></antcall>

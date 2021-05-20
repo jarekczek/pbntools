@@ -133,13 +133,12 @@ Wersja Windows korzysta tak¿e z:
 \begin{description}
 
 \item[wget]
-  \htmladdnormallink{wget for windows}{http://gnuwin32.sourceforge.net/packages/wget.htm},
-  z serii \htmladdnormallink{GnuWin32}{http://gnuwin32.sourceforge.net/},
+  \htmladdnormallink{wget for windows}{https://packages.msys2.org/package/mingw-w64-i686-wget?repo=mingw32},
+  z dystrybucji \htmladdnormallink{Msys2}{https://www.msys2.org/},
   to narzêdzie do rekursywnego ¶ci±gania stron www, wraz ze wszystkimi potrzebnymi plikami.
-  Plik z licencj±: wget\_COPYING.txt.
-  \htmladdnormallink{binaries}{http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-bin.zip},
-  \htmladdnormallink{dependencies}{http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-dep.zip}
-  
+  Pliki z licencj±: wget\_COPYING.txt, wget\_README.txt.
+  \htmladdnormallink{binaries and dependencies}{https://packages.msys2.org/package/mingw-w64-i686-wget?repo=mingw32},
+
 \end{description}
 
 Ten dokument html zosta³ wygenerowany przy u¿yciu translatora
@@ -277,13 +276,6 @@ mo¿na potem wygodnie analizowaæ rozdania tu¿ po ich rozegraniu.
   \item \verb!link.html! - zawiera link do orygina³u turnieju, u³atwiaj±cy analizê porozdaniow±
   \end{itemize}
 
-\subsubsection{Problem z wget OpenSSL}
-W tej chwili po³±czenie wget z serwerem Bbo nie dzia³a.
-Wersja, któr± za³±czam, jest za stara.
-Mo¿na spróbowaæ zast±piæ j± jak±¶ inn± wersj±, np. pobran± st±d:
-\htmladdnormallink{Eternally Bored}{https://eternallybored.org/misc/wget/} .
-Nale¿y podmieniæ j± w katalogu \verb!PbnTools\bin\wget! .
-  
 %}}}
 
 %{{{ rozdaj
@@ -490,6 +482,10 @@ Poprzednie wersje:
 \item
   \htmladdnormallink{wget for windows}{http://jarek.katowice.pl/jcwww/pbntools/wget-1.11.4-1-src.zip}
 
+\item
+  wget - ¼ród³a dostêpne poprzez dystrybutora, msys
+  \htmladdnormallink{wget package for msys}{https://packages.msys2.org/package/mingw-w64-i686-wget?repo=mingw32}
+
 \end{itemize}
 
 ¬ród³a bibliotek Apache HttpClient, Kotlin mo¿na pobraæ z repozytorium mavena.
@@ -573,9 +569,10 @@ w archiwum kodu ¼ród³owego, patrz: Pobieranie, \ref{download}.
 %{{{ historia
 \section{Historia wersji programu}
 \begin{description}
-\item[1.3.1, 19.05.2021]
+\item[1.3.2, 20.05.2021]
   \begin{itemize}
-  \item Tylko zmiany w dokumentacji (opis problemu wget openssl)
+  \item Poprawka do pobierania historii r±k Bbo
+  \item Upgrade wget do wersji 1.20.3-2 msys
   \end{itemize}
 \item[1.3.0, 06.04.2021]
   \begin{itemize}
