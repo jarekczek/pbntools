@@ -99,6 +99,9 @@ private static PrintStream origOut;
 
 @Test public void pobierzBboWwwTest11()
 {
+  System.out.println("This tests fails with internet connection, so disconnect it first. Tournament gets different title.");
+  PbnTools.m_props.setProperty("bbo.user", "u");
+  PbnTools.m_props.setProperty("bbo.pass", "u");
   PbnToolsTests.pobierzTestHelper(
     new BboTourDownloader(),
     "http://localhost:15863/bbo/myhands/hands.php?tourney=17901-1617418791-",
