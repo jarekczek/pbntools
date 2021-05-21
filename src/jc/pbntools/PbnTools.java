@@ -501,6 +501,9 @@ public class PbnTools {
         m_ow.addLine(getStr("msg.converting", m_sLink, sOutFile));
       boolean bRightReader = false;
       for (DealReader dr: getDealReaders()) {
+        if (Thread.currentThread().isInterrupted()) {
+          break;
+        }
         if (f.isDebugMode())
           m_ow.addLine("Trying reader: " + dr.getClass().getName()); 
         dr.setOutputWindow(m_ow);

@@ -126,6 +126,7 @@ task 'junit-www' (type: Test, dependsOn: ['startWwwServerMaybe']) {
   //TODO <junitpreset timeout="20000" >
   filter {
     includeTestsMatching 'jc.pbntools.PbnToolsWwwTests'
+    includeTestsMatching 'jc.SoupProxyWwwTests'
   }
   doLast {
     "cmd /c gradlew --no-daemon startWwwServerAndWait".execute()
@@ -143,6 +144,7 @@ task startWwwServerAndWait (type: JavaExec) {
 }
 
 task startWwwServerMaybe (dependsOn: 'compileTestKotlin') {
+  group 'Pbntools'
   doFirst {
     def url = "http://localhost:15863"
     println "Is server working? (gradlew startWwwServerAndWait)"
@@ -159,6 +161,7 @@ task startWwwServerMaybe (dependsOn: 'compileTestKotlin') {
 }
 
 task stopWwwServer (type: JavaExec) {
+  group 'Pbntools'
   doFirst {
     println "Stopping www server and waiting..."
   }

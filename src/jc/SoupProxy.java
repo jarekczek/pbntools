@@ -22,6 +22,7 @@
 package jc;
 
 import org.jsoup.Connection;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -108,23 +109,52 @@ public class SoupProxy implements HttpProxy
   public Document getDocumentFromHttp(URL url)
     throws SoupProxy.Exception
   {
-    log.debug("getDocumentFromHttp " + url);
     Document doc = null;
-    try {
-      Connection con = Jsoup.connect(""+url);
-      con.userAgent(
-        System.getProperty("jc.soupproxy.useragent", "JSoup"));
-      con.ignoreContentType(true);
-      con.timeout(20000);
-      con.cookies(getCookies(url));
-      doc = con.get();
-      setCookies(url, con.response().cookies());
-      if (jsoupLogFolder != null)
-        saveDocumentToTempFile(doc, jsoupLogFolder);
+    boolean retry = true;
+    int retries = 1;
+    long delay = 1000;
+    while (retry) {
+      retry = false;
+      try {
+        doc = getDocumentFromHttpNoRetry(url);
+      } catch (java.lang.Exception e) {
+        if (e instanceof HttpStatusException) {
+          HttpStatusException httpStatusException = (HttpStatusException) e;
+          if (httpStatusException.getStatusCode() == 503 && retries < 5 ) {
+            retry = true;
+            retries++;
+            f.sleepNoThrow(delay);
+            if (Thread.currentThread().isInterrupted()) {
+              retry = false;
+            } else {
+              delay *= 2;
+              log.info("trying again, number: " + retries);
+            }
+          }
+        }
+        if (!retry) {
+          throw new SoupProxy.Exception(e);
+        }
+      }
     }
-    catch (java.lang.Exception e) {
-      throw new SoupProxy.Exception(e);
-    }
+    return doc;
+  }
+
+  public Document getDocumentFromHttpNoRetry(URL url)
+    throws java.lang.Exception
+  {
+    log.debug("getDocumentFromHttpNoRetry " + url);
+    Document doc = null;
+    Connection con = Jsoup.connect(""+url);
+    con.userAgent(
+      System.getProperty("jc.soupproxy.useragent", "JSoup"));
+    con.ignoreContentType(true);
+    con.timeout(20000);
+    con.cookies(getCookies(url));
+    doc = con.get();
+    setCookies(url, con.response().cookies());
+    if (jsoupLogFolder != null)
+      saveDocumentToTempFile(doc, jsoupLogFolder);
     return doc;
   }
 
@@ -380,6 +410,16 @@ public class SoupProxy implements HttpProxy
   public static class Exception extends JCException
   {
     Exception(Throwable t) { super(t); }
+
+    Integer getStatus() {
+      Throwable cause = this.getCause();
+      if (cause instanceof HttpStatusException) {
+        HttpStatusException httpStatusException = (HttpStatusException) cause;
+        return httpStatusException.getStatusCode();
+      } else {
+        return null;
+      }
+    }
   }
   
   //{{{ cache support

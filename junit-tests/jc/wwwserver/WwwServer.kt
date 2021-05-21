@@ -28,6 +28,7 @@ import java.util.logging.Logger
 class WwwServer(val port: Int, val staticDir: String) {
   val log = Logger.getLogger("jarek")
   val sessions = Collections.synchronizedMap(HashMap<String, WwwSession>())
+  val busyCounters = HashMap<String, Int>()
 
   companion object {
     val sessionKey = AttributeKey<WwwSession>("session")
@@ -66,6 +67,9 @@ class WwwServer(val port: Int, val staticDir: String) {
 
       get("/") {
         mainPage()
+      }
+      get("/busy") {
+        busyPage()
       }
       get("/pbntools/{...}") {
         if (context.request.path().toLowerCase().contains("test_6_bbo"))
@@ -134,8 +138,22 @@ class WwwServer(val port: Int, val staticDir: String) {
               text("turniej pary 1")
             } }
             li { a { href = "/bbo"; text("BBO") } }
+            li { a { href = "/busy"; text("busy") } }
             li { a { href = "/stop"; text("stop") } }
           }
+        }
+      }
+    }
+  }
+
+  private suspend fun PipelineContext<Unit, ApplicationCall>.busyPage() {
+    val cnt = busyCounters.compute(call.url(), { key: String, value: Int? -> (value ?: 0) + 1 })!!
+    val busy = cnt.rem(3) != 0
+    val statusCode = if (busy) HttpStatusCode.ServiceUnavailable else HttpStatusCode.OK
+    call.respondText(ContentType.Text.Html, statusCode) {
+      createHTML().html {
+        body {
+          p { text(if (busy) "server is busy" else "server was able to respond") }
         }
       }
     }

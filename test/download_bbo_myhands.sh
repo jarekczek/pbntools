@@ -23,8 +23,8 @@ mkdir -p bbo_myhands_temp
 cd bbo_myhands_temp
 wgetOpts="-p -k -nc -E --restrict-file-names=windows --wait=1"
 wgetOpts="--html-extension --keep-session-cookies --restrict-file-names=windows --wait=1"
-wget $wgetOpts "http://www.bridgebase.com/myhands/index.php" --save-cookies=cookies.txt
+wget $wgetOpts "https://www.bridgebase.com/myhands/index.php" --save-cookies=cookies.txt
 sleep 1
-wget $wgetOpts "http://www.bridgebase.com/myhands/myhands_login.php?t=%2Fmyhands%2Findex.php%3F" --load-cookies=cookies.txt --save-cookies=cookies2.txt --post-file=..\\bbo_post_data.txt
+wget $wgetOpts "https://www.bridgebase.com/myhands/myhands_login.php?t=%2Fmyhands%2Findex.php%3F" --load-cookies=cookies.txt --save-cookies=cookies2.txt --post-file=..\\bbo_post_data.txt
 sleep 1
-wget $wgetOpts "http://www.bridgebase.com/myhands/hands.php?tourney=5236-1523471493-&offset=0" --load-cookies=cookies.txt
+wget $wgetOpts "https://www.bridgebase.com/myhands/hands.php?tourney=5236-1523471493-&offset=0" --load-cookies=cookies.txt
