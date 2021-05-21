@@ -466,8 +466,8 @@ abstract public class HtmlTourDownloader
     throws DownloadFailedException
   {
     int nDelay = delayForUrl(m_remoteUrl.toString());
-    String sCmdLine = "wget -p -k -nH -nd -nc -E -e "
-      + "robots=off --restrict-file-names=windows "
+    String sCmdLine = "wget --page-requisites --convert-links --no-host-directories "
+      + "--no-directories --adjust-extension -e robots=off --restrict-file-names=windows "
       + "--retry-on-http-error=503";
     if (System.getProperty("jc.soupproxy.useragent") != null)
       sCmdLine += " --user-agent="
