@@ -112,7 +112,7 @@ public class SoupProxy implements HttpProxy
     Document doc = null;
     boolean retry = true;
     int retries = 1;
-    long delay = 1000;
+    long delay = 2000;
     while (retry) {
       retry = false;
       try {
