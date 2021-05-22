@@ -156,21 +156,33 @@ format can be found on page
 
 %{{{ download Bbo
 \subsection{Download Bbo} \label{pobBbo}
-The link that should be pasted into {\em Download hands} dialog
-should be obtained from \bbolonglink, then {\em Hand Records}, 
-{\em results of recent tournaments}, {\em Pairs}.
-The right link is under {\em Show boards} label.
 
-Instead of a tournament link, a hands history link may be used, eg.
-\begin{verbatim}
-https://www.bridgebase.com/myhands/hands.php?username=playersnick&start_time=1617573600&end_time=1617746400
-\end{verbatim}
+Tournaments or hand records may be downloaded.
 
 The PBN file obtained with this download contains also bidding and play
 information.
 
 Download process doesn't overload the server much, just like viewing
 all travellers.
+
+\subsubsection{Tournament download}
+
+Use option {\em Download hands} / {\em Hands type: Bbo}.
+
+The link that should be pasted into {\em Download hands} dialog
+should be obtained from \bbolonglink, then {\em Hand Records},
+{\em results of recent tournaments}, {\em Pairs}.
+The right link is under {\em Show boards} label.
+
+\subsubsection{Hands history download}
+
+Use option {\em Download hands} / {\em Hands type: Bbo Hand records}.
+
+Hands history link should be used, obtained from {\em Hand records} screen by {\em Get hands} button.
+Example link:
+\begin{verbatim}
+https://www.bridgebase.com/myhands/hands.php?username=playersnick&start_time=1617573600&end_time=1617746400
+\end{verbatim}
 
 %}}}
 
@@ -404,7 +416,7 @@ in source code archive, see: Download, \ref{download}.
 \item[1.3.2, 20.05.2021]
   \begin{itemize}
   \item Fixed problem with downloading Bbo hand records
-  \item Upgraded wget to 1.20.3-2 by msys
+  \item Upgraded wget for windows to 1.20.3-2 by msys
   \end{itemize}
 \item[1.3.0, 06.04.2021]
   \begin{itemize}

@@ -249,7 +249,14 @@ mo¿na potem wygodnie analizowaæ rozdania tu¿ po ich rozegraniu.
   rozegrania turnieju z Kopsa, ¿e w pliku PBN bêdziemy mieæ tak¿e
   licytacjê i rozgrywkê ze wszystkich sto³ów. Tak dok³adnej informacji
   Kops nam nie dawa³.
-  
+
+  Obci±¿enie serwera Bbo przy zastosowaniu ¶ci±gania przez PbnTools jest
+  niewielkie. Tyle, co by¶my kliknêli po kolei w ka¿dego {\em travellera}.
+
+  \subsubsection{Pobieranie turnieju}
+
+  U¿yj opcji {\em Pobierz rozdania} / {\em Typ rozdañ}: {\em Bbo}.
+
   Który dok³adnie link wkleiæ do PbnTools? Na stronie Bbo wchodzimy
   w {\em Hand Records}, nastêpnie {\em results of recent tournaments}.
   Dalej np. {\em Pairs}. W³a¶ciwym linkiem jest {\em boards}.
@@ -258,14 +265,6 @@ mo¿na potem wygodnie analizowaæ rozdania tu¿ po ich rozegraniu.
   https://www.bridgebase.com/myhands/hands.php?tourney=1234-1234567890-
   \end{verbatim}
 
-  Zamiast linku do turnieju mo¿na równie¿ podawaæ linki z historii r±k, np.
-  \begin{verbatim}
-  https://www.bridgebase.com/myhands/hands.php?username=playersnick&start_time=1617573600&end_time=1617746400
-  \end{verbatim}
-
-  Obci±¿enie serwera Bbo przy zastosowaniu ¶ci±gania przez PbnTools jest
-  niewielkie. Tyle, co by¶my kliknêli po kolei w ka¿dego {\em travellera}.
-  
   Efektem dzia³ania tej opcji programu s± m.in. nastêpuj±ce pliki,
   umieszczane w katalogu zgodnym z nazw± turnieju, pod katalogiem roboczym:
   \begin{itemize}
@@ -275,6 +274,16 @@ mo¿na potem wygodnie analizowaæ rozdania tu¿ po ich rozegraniu.
   \item \verb!*.lin! - pliki lin (format Bbo), jeden na rozdanie
   \item \verb!link.html! - zawiera link do orygina³u turnieju, u³atwiaj±cy analizê porozdaniow±
   \end{itemize}
+
+  \subsubsection{Pobieranie historii r±k}
+
+  U¿yj opcji {\em Pobierz rozdania} / {\em Typ rozdañ}: {\em Bbo Hand records}.
+
+  Link do historii r±k uzyskujemy po naci¶niêciu {\em Get hands} na ekranie {\em Hand records}.
+  Przyk³adowy link:
+  \begin{verbatim}
+  https://www.bridgebase.com/myhands/hands.php?username=playersnick&start_time=1617573600&end_time=1617746400
+  \end{verbatim}
 
 %}}}
 
@@ -576,7 +585,7 @@ w archiwum kodu ¼ród³owego, patrz: Pobieranie, \ref{download}.
 \item[1.3.2, 20.05.2021]
   \begin{itemize}
   \item Poprawka do pobierania historii r±k Bbo
-  \item Upgrade wget do wersji 1.20.3-2 msys
+  \item Upgrade wget na windows do wersji 1.20.3-2 msys
   \end{itemize}
 \item[1.3.0, 06.04.2021]
   \begin{itemize}
