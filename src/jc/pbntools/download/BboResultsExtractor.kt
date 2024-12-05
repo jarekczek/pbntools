@@ -29,7 +29,7 @@ class BboResultsExtractor(val der: BboTourDownloader) {
         { getMsg("oneFileExpected", "tview*.html", tviewFiles.size) })
       val soup = SoupProxy()
       val doc = soup.getDocumentFromFile(tviewFiles.first().absolutePath)
-      extractResultsCsv(doc, m_sLocalDir)
+      extractResultsCsv(doc)
     } catch (e: Exception) {
       val silent = m_bSilent && !f.isDebugMode() && PbnTools.getVerbos() == 0
       if (outputWindow != null && !silent)
@@ -41,11 +41,10 @@ class BboResultsExtractor(val der: BboTourDownloader) {
    * May throw exceptions.
    */
   private fun BboTourDownloader.extractResultsCsv(
-    doc: Document, outDir: String)
+    doc: Document)
   {
     val rows = ArrayList<UserResult>()
     doc.select("div.sectionbreak").forEach {
-      val sectionName = it.text()
       val sectionElem = it.nextElementSibling()
       require(sectionElem.className().equals("onesection"),
         { getMsg("expectedClass", "onesection", sectionElem.className()) })
@@ -67,7 +66,7 @@ class BboResultsExtractor(val der: BboTourDownloader) {
     val pr = PrintWriter(OutputStreamWriter(outFile.outputStream(),
       Charset.forName("UTF-8")))
     pr.println(listOf("No.", "User", "Result").joinToString(sep))
-    rows.sortedBy { it.name.toLowerCase() }
+    rows.sortedBy { it.name.lowercase() }
       .forEachIndexed { i: Int, row: UserResult ->
         with(row) {
           pr.println(listOf("${i+1}", name, points).joinToString(sep))

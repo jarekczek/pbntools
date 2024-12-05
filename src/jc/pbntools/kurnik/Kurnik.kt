@@ -54,8 +54,8 @@ object Kurnik {
         if (!processedPlayers.contains(newPlayerName)) {
           println("found new player: $newPlayerName")
           processedPlayers.add(newPlayerName)
-          val playerHistoryUrl = "https://www.kurnik.pl/stat.phtml?u=$newPlayerName&g=br&sk=2"
-          processPlayerHistoryUrl(playerHistoryUrl)
+          val playerHistoryUrl2 = "https://www.kurnik.pl/stat.phtml?u=$newPlayerName&g=br&sk=2"
+          processPlayerHistoryUrl(playerHistoryUrl2)
         }
       }
     }
