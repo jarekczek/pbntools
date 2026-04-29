@@ -5,13 +5,14 @@ import io.ktor.content.*
 import io.ktor.features.CallLogging
 import io.ktor.features.StatusPages
 import io.ktor.http.*
-import io.ktor.pipeline.PipelineContext
+import io.ktor.http.content.LocalFileContent
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.util.AttributeKey
+import io.ktor.util.pipeline.PipelineContext
 import io.ktor.util.url
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
@@ -72,7 +73,7 @@ class WwwServer(val port: Int, val staticDir: String) {
         busyPage()
       }
       get("/pbntools/{...}") {
-        if (context.request.path().toLowerCase().contains("test_6_bbo"))
+        if (context.request.path().lowercase().contains("test_6_bbo"))
           requireAuthExt()
         log.debug("serving pbntools/* from file " + context.request.uri)
         call.respond(staticContents(context.request.uri))
@@ -147,7 +148,7 @@ class WwwServer(val port: Int, val staticDir: String) {
   }
 
   private suspend fun PipelineContext<Unit, ApplicationCall>.busyPage() {
-    val cnt = busyCounters.compute(call.url(), { key: String, value: Int? -> (value ?: 0) + 1 })!!
+    val cnt = busyCounters.compute(call.url(), { _: String, value: Int? -> (value ?: 0) + 1 })!!
     val busy = cnt.rem(3) != 0
     val statusCode = if (busy) HttpStatusCode.ServiceUnavailable else HttpStatusCode.OK
     call.respondText(ContentType.Text.Html, statusCode) {

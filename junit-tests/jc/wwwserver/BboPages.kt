@@ -2,15 +2,15 @@ package jc.wwwserver
 
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
-import io.ktor.content.OutgoingContent
 import io.ktor.content.TextContent
 import io.ktor.http.ContentType
-import io.ktor.pipeline.PipelineContext
+import io.ktor.http.content.OutgoingContent
 import io.ktor.request.receiveParameters
 import io.ktor.response.*
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.post
+import io.ktor.util.pipeline.PipelineContext
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
 import java.io.File

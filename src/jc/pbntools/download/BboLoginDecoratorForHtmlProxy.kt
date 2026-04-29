@@ -53,7 +53,7 @@ class BboLoginDecoratorForHtmlProxy(val proxy: HttpProxy, val outputWindow: Simp
       throw RuntimeException(e2)
     }
     saveDocumentAsFile(doc, "bbo_login_result.html")
-    val mainText = SoupProxy.getSelectText(doc, "div.bbo_content").toLowerCase()
+    val mainText = SoupProxy.getSelectText(doc, "div.bbo_content").lowercase()
     if (mainText.contains("username or password incorrect")) {
       throw DownloadFailedException(PbnTools.getStr("tourDown.msg.authFailed"), outputWindow, true)
     }
