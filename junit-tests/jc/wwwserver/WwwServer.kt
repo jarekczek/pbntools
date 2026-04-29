@@ -1,11 +1,11 @@
 package jc.wwwserver
 
 import io.ktor.application.*
-import io.ktor.client.content.LocalFileContent
 import io.ktor.content.*
 import io.ktor.features.CallLogging
 import io.ktor.features.StatusPages
 import io.ktor.http.*
+import io.ktor.http.content.LocalFileContent
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
