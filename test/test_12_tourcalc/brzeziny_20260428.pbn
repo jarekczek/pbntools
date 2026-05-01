@@ -1,0 +1,24 @@
+[Event "Turniej Brzeziny ?l?skie 28.04.2026 r."]
+[Board "1"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:.Q2.KT98432.KQ85 KQJ82.J654.6.AT7 T764.AKT987.7.J6 A953.3.AQJ5.9432"]
+
+[Event "Turniej Brzeziny ?l?skie 28.04.2026 r."]
+[Board "2"]
+[Dealer "E"]
+[Vulnerable "NS"]
+[Deal "E:K97.752.AQT2.KJ2 AT86.AT9.K753.T5 542.QJ63.6.AQ974 QJ3.K84.J984.863"]
+
+[Event "Turniej Brzeziny ?l?skie 28.04.2026 r."]
+[Board "3"]
+[Dealer "S"]
+[Vulnerable "EW"]
+[Deal "S:AJT5.AKQ42.T95.A 832.J86.K863.875 974.753.Q72.QT62 KQ6.T9.AJ4.KJ943"]
+
+[Event "Turniej Brzeziny ?l?skie 28.04.2026 r."]
+[Board "4"]
+[Dealer "W"]
+[Vulnerable "All"]
+[Deal "W:AJT6.Q764.852.Q2 42.KT53.3.AT7654 K9853.J.KQJ7.J83 Q7.A982.AT964.K9"]
+

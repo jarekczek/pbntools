@@ -1,0 +1,4 @@
+curl https://slzbs.pl/wp-content/uploads/protokoly/brzeziny/26/260428br/ -o index.html
+curl https://slzbs.pl/wp-content/uploads/protokoly/brzeziny/26/260428br/settings.json -o settings.json
+curl https://slzbs.pl/wp-content/uploads/protokoly/brzeziny/26/260428br/results.json -o results.json
+curl https://slzbs.pl/wp-content/uploads/protokoly/brzeziny/26/260428br/p5.json -o p5.json

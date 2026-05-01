@@ -1,0 +1,199 @@
+{
+    "AllStages": [
+        {
+            "_exampleBoardNumber": 0,
+            "_id": -1,
+            "_linkToRoundResults": false,
+            "_name": "Nieprzypisane sesje",
+            "_roundNumberIfSingle": null,
+            "_sessionNumberIfSingle": null
+        }
+    ],
+    "AvailableIndividualClassificationSegments": [
+    ],
+    "AvailablePrivateScores": [
+        8,
+        9,
+        1,
+        4,
+        2,
+        3,
+        7,
+        10,
+        12,
+        6,
+        11,
+        5
+    ],
+    "AvailableRoundResults": [
+        {
+            "Live": false,
+            "Round": 1,
+            "Session": 1
+        },
+        {
+            "Live": false,
+            "Round": 2,
+            "Session": 1
+        },
+        {
+            "Live": false,
+            "Round": 3,
+            "Session": 1
+        },
+        {
+            "Live": false,
+            "Round": 4,
+            "Session": 1
+        },
+        {
+            "Live": false,
+            "Round": 5,
+            "Session": 1
+        },
+        {
+            "Live": false,
+            "Round": 6,
+            "Session": 1
+        },
+        {
+            "Live": false,
+            "Round": 7,
+            "Session": 1
+        },
+        {
+            "Live": false,
+            "Round": 8,
+            "Session": 1
+        },
+        {
+            "Live": false,
+            "Round": 9,
+            "Session": 1
+        }
+    ],
+    "AvailableSegmentsTables": [
+    ],
+    "BoardsNumbers": [
+        1,
+        2,
+        3,4
+    ],
+    "BoardsNumbersAsPlayed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+    ],
+    "DefaultLanguage": "pl",
+    "FullName": "Turniej Brzeziny Śląskie 28.04.2026 r.",
+    "GenericDistributionImage": true,
+    "HtmlHeader": "<h2 align=\"center\">Turniej Brzeziny Śląskie 28.04.2026 r.</h2>",
+    "HtmlMobileHeader": "<h3 align=\"center\">Turniej Brzeziny Śląskie 28.04.2026 r.</h3>",
+    "IncludeDatumInPrivateScores": false,
+    "IncludeDistributionsInPrivateScores": false,
+    "JavaScriptToRun": "",
+    "LastFinishedRound": 9,
+    "LastFinishedRoundSession": 1,
+    "LastPlayedRound": 9,
+    "LastPlayedRoundSession": 1,
+    "LinkToRoundResultsInCrossTable": false,
+    "LiveResults": false,
+    "OnlyOneSessionInStage": true,
+    "ParticipantNumers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+    ],
+    "PeopleDbLink": "https://msc.com.pl/cezar/?p=21&pid=",
+    "ProgramVersion": "1.10.37.35263",
+    "RefreshEverySeconds": 30,
+    "ResultsPresentationPrecision": 2,
+    "ResultsShouldSumTo1": 0,
+    "ResultsShouldSumTo2": 0,
+    "ShowAdjustments": false,
+    "ShowBboUsername": false,
+    "ShowBboUsernameOnMobile": false,
+    "ShowBoardAverage": false,
+    "ShowButler": false,
+    "ShowCarryOver": false,
+    "ShowCarryOverInIndividualClassification": false,
+    "ShowCarryOverInRoundResults": false,
+    "ShowClassificationPoints": true,
+    "ShowClubs": true,
+    "ShowCongressPoints": true,
+    "ShowContractsNotTricks": false,
+    "ShowCrossTable": false,
+    "ShowCurrentRoundResultInPrivateScores": false,
+    "ShowDistricts": true,
+    "ShowDistrictsOnMobile": false,
+    "ShowFirstAndLastName": true,
+    "ShowHcpInHands": true,
+    "ShowInfo": true,
+    "ShowInfoOnMobile": false,
+    "ShowLeads": true,
+    "ShowNextPositionOnPrivateScore": 0,
+    "ShowNote": false,
+    "ShowNoteOnMobile": false,
+    "ShowNoteTeamPlayers": true,
+    "ShowOnlyResults": false,
+    "ShowRank": true,
+    "ShowRankOnMobile": true,
+    "ShowRewards": false,
+    "ShowRewardsDescriptions": false,
+    "ShowRoundResults": false,
+    "ShowRoundsPlayedUpToOrCurrentlyPlayed": false,
+    "ShowRoundsStartTimes": false,
+    "ShowSegmentsStartTimes": false,
+    "ShowTwoResults": false,
+    "ShowVpTable": false,
+    "Stage": {
+        "_exampleBoardNumber": 0,
+        "_id": -1,
+        "_linkToRoundResults": false,
+        "_name": "Nieprzypisane sesje",
+        "_roundNumberIfSingle": null,
+        "_sessionNumberIfSingle": null
+    },
+    "TdEmail": "k.tomsia@poczta.fm",
+    "TdFirstName": "Krzysztof",
+    "TdId": "03554",
+    "TdLastName": "Tomsia",
+    "TdMale": true,
+    "TeamsShowNames": false,
+    "TeamsShowSum": false,
+    "TimeCreated": "28-04-2026 20:51:59",
+    "TournamentType": 0
+}
