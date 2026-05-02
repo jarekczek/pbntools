@@ -1,6 +1,6 @@
 /* *****************************************************************************
 
-    Copyright (C) 2012-13 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
+    Copyright (C) 2012-26 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ import jc.pbntools.download.BboTourDownloader;
 import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
 import jc.pbntools.download.ParyTourDownloader;
+import jc.pbntools.download.TourCalcTourDownloader;
 import junit.framework.AssertionFailedError;
 import junitx.framework.FileAssert;
 import org.junit.*;
@@ -143,5 +144,15 @@ private static PrintStream origOut;
     pr);
   String lastLine = pr.getLines().get(pr.getLines().size() - 1);
 }
+
+@Test public void pobierzTourCalcTest()
+  throws java.io.FileNotFoundException, java.io.IOException
+  {
+    PbnToolsTests.pobierzTestHelper(
+      new TourCalcTourDownloader(),
+      "http://localhost:15863/pbntools/test_12_tourcalc/brzeziny_20260428/",
+      "test/test_12_tourcalc/brzeziny_20260428.pbn",
+      "brzeziny_20260428/brzeziny_20260428.pbn");
+  }
 
 }

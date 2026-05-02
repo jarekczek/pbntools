@@ -1,6 +1,6 @@
 /* *****************************************************************************
 
-    Copyright (C) 2012 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
+    Copyright (C) 2012-26 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@ import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
 import jc.pbntools.download.LinReader;
 import jc.pbntools.download.ParyTourDownloader;
+import jc.pbntools.download.TourCalcTourDownloader;
 import junitx.framework.FileAssert;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -168,6 +169,16 @@ static void pobierzTestHelper(HtmlTourDownloader der,
     "test/test_8_bbo_wronie_20130824" +
       "/wronie_9533_pairs_2720_przyjaciele_wronia.pbn",
     "9533-1377369061/9533-1377369061.pbn");
+}
+
+@Test public void pobierzTourCalcTest()
+  throws java.io.FileNotFoundException, java.io.IOException
+{
+  pobierzTestHelper(
+    new TourCalcTourDownloader(),
+    "test/test_12_tourcalc/brzeziny_20260428/index.html",
+    "test/test_12_tourcalc/brzeziny_20260428.pbn",
+    "brzeziny_20260428/brzeziny_20260428.pbn");
 }
 
 @Test

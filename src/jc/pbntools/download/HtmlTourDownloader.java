@@ -2,7 +2,7 @@
 
     jedit options: :folding=explicit:tabSize=2:noTabs=true:collapseFolds=1:
 
-    Copyright (C) 2011 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
+    Copyright (C) 2011-2026 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -623,18 +623,19 @@ abstract public class HtmlTourDownloader
   protected String getLocalFile(String sRemoteLink)
   {
     assert(sRemoteLink != null && sRemoteLink.length() > 0);
-    if (sRemoteLink.endsWith("/"))
-      throw new IllegalArgumentException("file link: " + sRemoteLink);
-    String sRemoteFile = sRemoteLink.replaceFirst("^.*[/\\\\]([^/\\\\]+)$", "$1");
+    String sRemoteFile = sRemoteLink.replaceFirst("^.*[/\\\\]([^/\\\\]*)$", "$1");
+    if (sRemoteFile.isEmpty()) {
+      sRemoteFile = "index.html";
+    }
     String sLocalFile = m_sSourceDir + "/" + sRemoteFile;
     if (f.isDebugMode()) {
       System.out.println("getLocalFile(" + sRemoteLink + ") = " + sLocalFile);
       System.out.println("m_sSourceDir:" + m_sSourceDir);
       System.out.println("sRemoteFile:" + sRemoteFile);
     }
-    // local files come from wget with -k switch (add html extension)
-    // so we must add this extension if absent
-    if (!sLocalFile.matches(".*\\.htm(l?)"))
+    // Local files usually come from wget with -k switch (add html extension),
+    // so we must add this extension if absent. With some exceptions.
+    if (!sLocalFile.matches(".*\\.htm(l?)") && !sLocalFile.endsWith(".json"))
       sLocalFile += ".html";
     // wget is run with --restrict-file-names=windows and it is
     // documented that : -> +, ? -> @

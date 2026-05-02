@@ -1,3 +1,22 @@
+/* *****************************************************************************
+
+    Copyright (C) 2018-26 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   *****************************************************************************
+*/
+
 package jc.wwwserver
 
 import io.ktor.application.*
@@ -43,6 +62,7 @@ class WwwServer(val port: Int, val staticDir: String) {
 
   val server = embeddedServer(Netty, port) {
     install(CallLogging) { level = Level.INFO }
+    install(IgnoreTrailingSlash)
     install(StatusPages) {
       exception<Throwable> {
         call.respondText(status = HttpStatusCode.InternalServerError) {
@@ -181,11 +201,12 @@ class WwwServer(val port: Int, val staticDir: String) {
   }
 
   private fun localFileContentWithCorrectCharset(file: File): LocalFileContent {
+    val charset = if (file.path.contains("tourcalc")) "utf-8" else "iso-8859-2"
     val fc1 = LocalFileContent(file)
     val contentType = ContentType(
       fc1.contentType.contentType,
       fc1.contentType.contentSubtype
-    ).withCharset(Charset.forName("iso-8859-2"))
+    ).withCharset(Charset.forName(charset))
     return LocalFileContent(file, contentType)
   }
 

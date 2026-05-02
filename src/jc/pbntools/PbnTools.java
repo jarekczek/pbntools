@@ -1,6 +1,6 @@
 /* *****************************************************************************
 
-    Copyright (C) 2011-13 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
+    Copyright (C) 2011-26 Jaroslaw Czekalski - jarekczek@poczta.onet.pl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
 import jc.pbntools.download.LinReader;
 import jc.pbntools.download.ParyTourDownloader;
+import jc.pbntools.download.TourCalcTourDownloader;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
@@ -213,6 +214,7 @@ public class PbnTools {
   public static HtmlTourDownloader[] getTourDownloaders()
   {
     return new HtmlTourDownloader[] {
+      new TourCalcTourDownloader(),
       new KopsTourDownloader(),
       new ParyTourDownloader(),
       new BboTourDownloader(),
@@ -371,6 +373,11 @@ public class PbnTools {
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
         downTour(args[i], new ParyTourDownloader(), false);
+      } else if (args[i].equals("-dttc")) {
+        m_bRunMainDialog = false;
+        ++i;
+        if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
+        downTour(args[i], new TourCalcTourDownloader(), false);
       } else if (args[i].startsWith("-")) {
         m_bRunMainDialog = false;
         System.err.println(getStr("error.invSwitch", args[i]));

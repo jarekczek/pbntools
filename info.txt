@@ -4,7 +4,7 @@ RELEASE
 - Bump year src\jc\pbntools\DlgPbnToolsAbout.java and build.gradle
 - Give links to previous version in help (help_common.tex),
   binaries and source.
-- Changes list in pl i en, last modified.
+- Changes list in doc/help_??.tex pl i en, last modified.
 - Inspect libraries source code links, may be outdated
 - Any new command line options? Add them to doc.
 - gradlew clean doc (necessary after version bump, sometimes 2 attempts needed).

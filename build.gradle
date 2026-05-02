@@ -39,13 +39,13 @@ dependencies {
   implementation 'ch.qos.logback:logback-classic:1.2.3'
   implementation 'ch.qos.logback:logback-core:1.2.3'
   implementation 'org.apache.httpcomponents:httpclient:4.5.12'
+  implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
   testImplementation 'junit:junit-dep:4.11'
   testImplementation 'junit-addons:junit-addons:1.4'
   testImplementation 'org.assertj:assertj-core:3.7.0'
   testImplementation 'io.ktor:ktor-server-core:1.6.8'
   testImplementation 'io.ktor:ktor-server-netty:1.6.8'
   testImplementation 'io.ktor:ktor-html-builder:1.6.8'
-  testImplementation 'org.slf4j:slf4j-jdk14:1.7.25'
   //testImplementation 'org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.7'
 }
 
@@ -174,7 +174,7 @@ task stopWwwServer (type: JavaExec) {
 
 task 'junit-single' (type: Test) {
   filter {
-    includeTestsMatching '*.pobierzBboTest6'
+    includeTestsMatching 'jc.pbntools.PbnToolsTests.pobierzTourCalcTest'
   }
 }
 
@@ -222,7 +222,7 @@ def launcherConfigurationClosure = {
   version = ant.properties['wersja'] + '.' + ant.properties['build.number']
   textVersion = version
   fileDescription = "PbnTools - a bridge player's toolkit"
-  copyright = 'Copyright (C) 2010-2021 jarekczek'
+  copyright = 'Copyright (C) 2010-2026 jarekczek'
   productName = 'PbnTools'
   companyName = 'jarekczek'
   internalName = 'PbnTools'
