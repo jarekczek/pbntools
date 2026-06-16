@@ -699,8 +699,8 @@ public class Deal implements Cloneable {
 
   class FiltrTekstuRozd extends RunProcess.FiltrTekstu { //{{{
     int m_nOstPoz;
-    static final String KLUCZ = "PCard:";
-    static final int KLUCZ_LEN = 6;
+    static final String KEY1 = "PCard:";
+    static final String KEY2 = "PCard2:";
 
     FiltrTekstuRozd() {
       }
@@ -729,20 +729,28 @@ public class Deal implements Cloneable {
       grajDzwiek("" + (nPerson+1));
       }
 
-    void filtruj(StringBuffer sb) { //{{{
+    void filtruj(StringBuffer sb) {
+      int curPoz = m_nOstPoz;
+      filtruj(sb, KEY1);
+      m_nOstPoz = curPoz;
+      filtruj(sb, KEY2);
+    }
+
+    private void filtruj(StringBuffer sb, String key) { //{{{
       int nPoz;
       int nNewOstPoz = -1;
+      int keyLen = key.length();
       char chPrev;
       nPoz = m_nOstPoz;
       do {
-        nPoz = sb.indexOf(KLUCZ, nPoz);
+        nPoz = sb.indexOf(key, nPoz);
         if (nPoz>=0) {
           chPrev = (nPoz>0) ? sb.charAt(nPoz-1) : 0;
           if (chPrev=='\n' || chPrev=='\r' || chPrev==0) {
             // trzeba sprawdzic poprzedni znak, bo nas interesuje tylko KLUCZ na poczatku linii lub pliku
             // pozostale trafienia pomijamy
-            if (nPoz+KLUCZ_LEN+2 < sb.length()) {
-              String sCard = sb.substring(nPoz+KLUCZ_LEN, nPoz+KLUCZ_LEN+2);
+            if (nPoz + keyLen + 2 < sb.length()) {
+              String sCard = sb.substring(nPoz + keyLen, nPoz + keyLen + 2);
               if (sCard.equals("**")) {
                 grajDzwiek("joker");
                 }
@@ -754,7 +762,7 @@ public class Deal implements Cloneable {
                 else {
                   int nPerson = m_anCards[nKodKarty];
                   //System.out.println(sKarta + " -> " + nPerson);
-                  sb.replace(nPoz+KLUCZ_LEN, nPoz+KLUCZ_LEN+2, "*"+personChar(nPerson));
+                  sb.replace(nPoz + keyLen, nPoz + keyLen + 2, "*"+personChar(nPerson));
                   grajDzwiek(nPerson);
                   }
                 }
@@ -775,7 +783,7 @@ public class Deal implements Cloneable {
       if (nNewOstPoz<0) {
         // nie zatrzymalismy sie na granicy bufora, ale moze widac fragment napisu PCARD: ?
         // w takim razie zatrzymajmy sie o pare znakow przed koncem obecnego bufora
-        nNewOstPoz = sb.length() - KLUCZ_LEN;
+        nNewOstPoz = sb.length() - keyLen;
         }
       m_nOstPoz = nNewOstPoz;
       } //}}}
@@ -787,7 +795,7 @@ public class Deal implements Cloneable {
   public void rozdaj() { //{{{
     String sZbarcam = PbnTools.m_sBinDir + f.sDirSep + "zbarcam";
     String sOpts = PbnTools.m_props.getProperty("zbarcamOpts");
-    sOpts = "-q --nodisplay -Spcard.enable " + sOpts;
+    sOpts = "-q -Spcard.enable -Spcard2.enable " + sOpts;
     if (PbnTools.bLinux) {
       RunProcess.runCmd(null, sZbarcam + " " + sOpts, new FiltrTekstuRozd());
     }
