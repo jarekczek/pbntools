@@ -301,6 +301,7 @@
   <delete dir="${zbarDir}" />
   <delete file="${basedir}/doc/zbarcam.html" />
   <delete file="${basedir}/lib/zbarcam.exe" />
+  <delete file="${basedir}/lib/zbar.dll" />
   <delete file="${basedir}/lib/zbarcam" />
 </target>
 
@@ -448,6 +449,7 @@
   <antcall target="checkLib"><param name="lib" value="jsoup_LICENSE.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="zbarcam" /></antcall>
   <antcall target="checkLib"><param name="lib" value="zbarcam.exe" /></antcall>
+  <antcall target="checkLib"><param name="lib" value="zbar.dll" /></antcall>
   <antcall target="checkLib"><param name="lib" value="zbar_LICENSE.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="wget_COPYING.txt" /></antcall>
   <antcall target="checkLib"><param name="lib" value="wget_README.txt" /></antcall>
