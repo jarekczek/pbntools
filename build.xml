@@ -495,7 +495,7 @@
     <zipfileset refid="fs.release.common.7" />
     <zipfileset refid="fs.release.common.8" />
     <zipfileset refid="fs.release.common.9" />
-    <zipfileset dir="${basedir}/lib" includes="zbarcam.exe wget/**/*" prefix="bin" />
+    <zipfileset dir="${basedir}/lib" includes="zbarcam.exe zbar.dll wget/**/*" prefix="bin" />
     <zipfileset dir="${basedir}/build/launch4j" includes="PbnTools.exe" prefix="" />
   </zip>
 </target>
