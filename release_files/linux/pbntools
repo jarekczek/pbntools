@@ -1,2 +1,3 @@
 #!/bin/bash
+# sudo apt-get install libjpeg62-turbo-dev default-jre
 exec java -Dlogback.configurationFile=`dirname $0`/logback.xml -jar `dirname $0`/PbnTools.jar "$@"
