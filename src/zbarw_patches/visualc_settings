@@ -1,0 +1,60 @@
+# HG changeset patch
+# Parent  5736929a65b560e9684920cb3182e5e0d4eef248
+
+diff -r 5736929a65b5 visualc/zbarw.props
+--- a/visualc/zbarw.props	Wed Jun 24 22:40:37 2026 +0200
++++ b/visualc/zbarw.props	Wed Jun 24 22:40:46 2026 +0200
+@@ -21,6 +21,7 @@
+       <PreprocessorDefinitions Condition="'$(ENABLE_I25)'!='false'">ENABLE_I25=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions Condition="'$(ENABLE_PDF417)'!='false'">ENABLE_PDF417=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions Condition="'$(ENABLE_QRCODE)'!='false'">ENABLE_QRCODE=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>ENABLE_PCARD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\include;$(SolutionDir)..\zbar;$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <PrecompiledHeader>Use</PrecompiledHeader>
+       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+diff -r 5736929a65b5 visualc/zbarw.vcxproj
+--- a/visualc/zbarw.vcxproj	Wed Jun 24 22:40:37 2026 +0200
++++ b/visualc/zbarw.vcxproj	Wed Jun 24 22:40:46 2026 +0200
+@@ -100,6 +100,8 @@
+     <ClInclude Include="..\zbar\decoder\databar.h" />
+     <ClInclude Include="..\zbar\decoder\ean.h" />
+     <ClInclude Include="..\zbar\decoder\i25.h" />
++    <ClInclude Include="..\zbar\decoder\pcard.h" />
++    <ClInclude Include="..\zbar\decoder\pcard_defs.h" />
+     <ClInclude Include="..\zbar\decoder\pdf417.h" />
+     <ClInclude Include="..\zbar\decoder\pdf417_hash.h" />
+     <ClInclude Include="..\zbar\decoder\qr_finder.h" />
+@@ -156,6 +158,7 @@
+     <ClCompile Include="..\zbar\decoder\i25.c">
+       <ExcludedFromBuild Condition="'$(ENABLE_I25)'=='false'">true</ExcludedFromBuild>
+     </ClCompile>
++    <ClCompile Include="..\zbar\decoder\pcard.c" />
+     <ClCompile Include="..\zbar\decoder\pdf417.c">
+       <ExcludedFromBuild Condition="'$(ENABLE_PDF417)'=='false'">true</ExcludedFromBuild>
+     </ClCompile>
+diff -r 5736929a65b5 visualc/zbarw.vcxproj.filters
+--- a/visualc/zbarw.vcxproj.filters	Wed Jun 24 22:40:37 2026 +0200
++++ b/visualc/zbarw.vcxproj.filters	Wed Jun 24 22:40:46 2026 +0200
+@@ -171,6 +171,12 @@
+     <ClInclude Include="stdafx.h">
+       <Filter>Header Files\visualc</Filter>
+     </ClInclude>
++    <ClInclude Include="..\zbar\decoder\pcard.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\zbar\decoder\pcard_defs.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
+   </ItemGroup>
+   <ItemGroup>
+     <ClCompile Include="..\zbar\config.c">
+@@ -323,6 +329,9 @@
+     <ClCompile Include="stdafx.c">
+       <Filter>Source Files\visualc</Filter>
+     </ClCompile>
++    <ClCompile Include="..\zbar\decoder\pcard.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
+   </ItemGroup>
+   <ItemGroup>
+     <ResourceCompile Include="..\zbar\libzbar-rc.rc">

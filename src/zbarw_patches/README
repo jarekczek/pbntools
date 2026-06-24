@@ -1,0 +1,21 @@
+# How to use the patches?
+
+It's not easy to apply patches using a patch utility, as it may be unable
+to handle properly windows line endings. So this probably won't work:
+
+Just apply them one by one, with the order specified in series file:
+
+```
+patch -p1 <zbar_patches/pcard
+patch -p1 <zbar_patches/test_decode_pcard
+...
+```
+
+Another possibility is to use mq extension of Mercurial hg. Then:
+1. Copy them to .hg/patches directory.
+1. Activate the extension by putting into .hg/hgrc:
+   ```
+   [extensions]
+   mq=
+   ```
+1. `hg qpush -a`
