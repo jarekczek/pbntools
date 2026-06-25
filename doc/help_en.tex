@@ -212,10 +212,25 @@ respectively for {\em N, E, S, W}. %'
 \begin{description}
 \item[Internet video camera]
   The best in this case are cameras with manual focus adjustment (with a knob).
+  Autofocus cameras also work, including those built in laptops.
   
-\item[Karty z kodami paskowymi]
-  Cards licensed by \htmladdnormallink{Jannersten}{http://www.jannersten.se/}
-  should be used, format \htmladdnormallink{WIN}{http://www.jannersten.se/html/win.html}.
+\item[Barcoded cards]
+  Two formats of barcodes are recognized:
+  
+  \begin{description}
+  
+  \item[PCard]
+  Also known as WIN. You can recognize it by black narrow stripes
+  surrounding the code. The number of stripes varies, but it's always more than 3.
+  
+  \item[PCard2]
+  Currently, that is in 2026, it's the only standard possible to obtain.
+  Every code consists of 4 stripes of width 1 or 2.
+  You can buy it in \bridgepollink.
+  
+  \end{description}
+  
+  
 \end{description}
 % }}} deal cards
 
@@ -235,6 +250,12 @@ interface.
   Additional options passed to zbarcam.
   A video device may be specified this way as e.g. \verb!/dev/video1!.
   Default (first) device has number 0.
+
+  
+  To select which cards to use, you should disable the ones you don't have.
+  Initially both PCard and PCard2 is enabled. 
+  You can add for example \verb!-Spcard.disable!, then only PCard2 will be active.
+  
   Full options list is available in file {\em zbarcam.html}.
 \item[User agent]
   User agent parameter for www requests. An empty string is equivalent of
@@ -333,13 +354,8 @@ Old binaries:
   ZBar
   \begin{itemize}
   \item
-    \htmladdnormallink{zbar original}{http://jarek.katowice.pl/jcwww/pbntools/%
-    zbar\_src\_orig.tgz}
-    \zbarOldOrigSourceLinks
-  \item
-    \htmladdnormallink{zbar modified}{http://jarek.katowice.pl/jcwww/pbntools/%
-    zbar\_src\_pbntools.tgz}
-    \zbarOldSourceLinks
+    \htmladdnormallink{zbarw modified}{http://jarek.katowice.pl/jcwww/pbntools/%
+    zbarw\_src\_modified.zip}
   \item
     A patch set available with PbnTools source code.
   \end{itemize}
@@ -525,7 +541,7 @@ in source code archive, see: Download, \ref{download}.
 I am open for suggestions. I will be grateful for informations about incorrect operation of the program or a web-page.
 
 {\setlength{\parindent}{0pt}\small\htmladdnormallink{Jarek Czekalski}{mailto:jarekczek@poczta.onet.pl}
-, last modification May 1 2026}
+, last modification June 25 2026}
 %}}}
 
 

@@ -327,27 +327,34 @@ to znaczy gracz N to "jeden", E to "dwa" itd.
   spoza PbnTools nale¿y dostosowaæ
   ostro¶æ kamery tak, aby pó¼niej w ciemno wiedzieæ, w jakiej odleg³o¶ci
   nale¿y umie¶ciæ kartê, by kamera najszybciej j± rozpozna³a.
-  
-  Nie wiem, czy sprawdz± siê kamery ze sta³ym focusem. Kamery z autofocusem
-  mog± wymagaæ dalszego dostosowania programu zbarcam, który obecnie nie ma
-  opcji w³±czania / wy³±czania autofocusa na ¿±danie. Móg³bym siê tym zaj±æ,
-  gdybym mia³ kamerê z autofocusem do testów.
+
+  Kamery z autofocusem, np. wbudowane w laptop, te¿ dzia³aj¹.
   
 \item[Karty z kodami paskowymi]
-  Spotka³em siê z 2 sposobami oznaczania kart kodami paskowymi. Oba opatentowane
-  s± przez firmê \htmladdnormallink{Jannersten}{http://www.jannersten.se/}.
+  Spotka³em siê z 3 sposobami oznaczania kart kodami paskowymi. 
+  
+  \begin{description}
+  
+  \item[DOS]
   Starszy format to DOS, który sk³ada siê z 3 czarnych pasków ró¿nych grubo¶ci.
-  Nowszy to WIN. Poznaæ go po cienkich czarnych paskach ograniczaj±cych kod
+  Nie jest obs³ugiwany.
+  
+  \item[PCard]
+  Inaczej zwany WIN. Poznaæ go po cienkich czarnych paskach ograniczaj±cych kod
   z obu stron. Liczba pasków jest ró¿na, ale zawsze wiêksza ni¿ 3.
-  PbnTools obs³uguje tylko standard WIN. Karty okodowane w ten sposób mo¿na
-  dostaæ w ka¿dym specjalistycznym sklepie bryd¿owym, w cenie od 6 z³.
-  Wystarczy wpisaæ w google {\em sklep bryd¿owy}.
-  Karty wygl±daj± \htmladdnormallink{tak}{http://www.jannersten.se/html/win.html}.
+  PbnTools obs³uguje ten standard pod nazw± PCard.
 
   Podczas testów z moimi kartami wpad³em w interesuj±c± pu³apkê.
   Mianowicie nagle ni st±d, ni zow±d, program rozpoznawa³ kartê król karo.
   Okaza³o siê, ¿e król kier ma króla karo we w³osach, a dok³adniej jego kod. 
   Trzeba wiêc by³o w³oski trochê przemalowaæ, mazakiem. I odt±d ju¿ by³o dobrze.
+  
+  \item[PCard2]
+  Obecnie, czyli w 2026, s± to jedyne karty do dostania.
+  Ka¿dy kod to 4 paski o grubo¶ci 1 lub 2.
+  Do dostania w sklepie \bridgepollink.
+  
+  \end{description}
   
 \end{description} %}}}
 
@@ -369,6 +376,11 @@ lub z linii poleceñ.
   Dodatkowe opcje przekazywane do programu zbarcam.
   Dziêki temu mo¿na wskazaæ urz±dzenie video, je¿eli jest ich w systemie wiêcej, np.:
   \verb!/dev/video1!. Domy¶lnym urz±dzeniem jest urz±dzenie nr 0, czyli pierwsze.
+  
+  W celu wybrania wersji kodów paskowych, nale¿y wy³±czyæ kody, których nie posiadamy.
+  Domy¶lnie aktywne s± PCard oraz PCard2.
+  Mo¿na wiêc dodaæ np. opcjê \verb!-Spcard.disable!, wtedy tylko PCard2 bêdzie aktywne.
+  
   Pe³na lista opcji dla zbarcam dostêpna jest w pliku {\em zbarcam.html}.
 \item[User agent]
   {\em User agent} to tekst, którym przedstawia siê przegl±darka internetowa
@@ -500,13 +512,8 @@ Poprzednie wersje:
   ZBar
   \begin{itemize}
   \item
-    \htmladdnormallink{zbar oryginalny}{http://jarek.katowice.pl/jcwww/pbntools/%
-    zbar\_src\_orig.tgz}
-    \zbarOldOrigSourceLinks
-  \item
-    \htmladdnormallink{zbar zmodyfikowany}{http://jarek.katowice.pl/jcwww/pbntools/%
-    zbar\_src\_pbntools.tgz}
-    \zbarOldSourceLinks
+    \htmladdnormallink{zbarw zmodyfikowany}{http://jarek.katowice.pl/jcwww/pbntools/%
+    zbarw\_src\_modified.zip}
   \item
     Zestaw patchy do zbara dostêpny jest wraz z kodem ¼ród³owym PbnTools.
   \end{itemize}
@@ -707,7 +714,7 @@ w archiwum kodu ¼ród³owego, patrz: Pobieranie, \ref{download}.
 Jestem otwarty na sugestie. Bêdê wdziêczny za informacje o nieprawid³owym dzia³aniu strony lub programu.
 
 {\setlength{\parindent}{0pt}\small\htmladdnormallink{Jarek Czekalski}{mailto:jarekczek@poczta.onet.pl},
-ostatnia modyfikacja 01.05.2026}
+ostatnia modyfikacja 25.06.2026}
 %}}}
 
 \end{document}

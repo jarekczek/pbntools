@@ -1,11 +1,7 @@
 RELEASE
 
-- Verify you have library files from the previous release, which are not in git:
-  - lib/zbarcam
-  - lib/zbar.dll
-  - lib/zbarcam.exe
 - Bump version in resource\jc\pbntools\PbnTools.properties.
-- Bump year src\jc\pbntools\DlgPbnToolsAbout.java and build.gradle
+- Bump year src\jc\pbntools\DlgPbnToolsAbout.java and build.gradle (copyright)
 - Give links to previous version in help (help_common.tex),
   binaries and source.
 - Changes list in doc/help_??.tex pl i en, last modified.
