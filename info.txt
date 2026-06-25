@@ -24,7 +24,7 @@ RELEASE
   toc
 - Upload dependencies (help up to date?)
 - Upload to sourceforge.
-- Set default versions at sourceforge (linux for linux, bsd, solaris).
+- Set default versions at sourceforge (linux for linux, src for bsd, solaris, others).
 
 BUILDING ZBAR
 
