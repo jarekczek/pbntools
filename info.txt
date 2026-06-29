@@ -40,8 +40,6 @@ sudo apt-get install mercurial autoconf gettext build-essential autoconf automak
   libmagickwand-dev libgraphicsmagick1-dev tmux libgtk2.0-dev xmlto libxext-dev libjpeg62-turbo-dev -y
 hg clone http://hg.code.sf.net/p/zbarw/code zbarw-code
 cd zbarw-code
-AM_PROG_AR in configure.ac
-automake werror
 autoreconf --install
 CFLAGS="-Wno-logical-not-parentheses" \
   ./configure --without-python --without-qt --without-imagemagick --without-gtk --disable-shared
