@@ -18,4 +18,4 @@ Another possibility is to use mq extension of Mercurial hg. Then:
    [extensions]
    mq=
    ```
-1. `hg qpush -a`
+1. `hg qpush --config patch.eol=auto -a`
