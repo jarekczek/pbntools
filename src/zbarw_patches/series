@@ -3,3 +3,4 @@ test_decode_pcard
 visualc_settings
 pcard2
 decrease_uncertainty
+quality_threshold
