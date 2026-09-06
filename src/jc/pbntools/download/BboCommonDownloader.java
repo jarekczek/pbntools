@@ -62,7 +62,7 @@ abstract public class BboCommonDownloader extends HtmlTourDownloader {
       for (Element num: nums) {
         Element tr = num.parent();
         Element aLin = getOneTagEx(tr, "a:matches(Lin)", m_bSilent);
-        String sFile = SoupProxy.absUrl(aLin, "href");
+        String sFile = aLin.absUrl("href");
         if (f.isDebugMode())
           m_ow.addLine("reading lin: " + sFile);
         String sLin = f.readFile(sFile);

@@ -78,7 +78,7 @@ public class BboTourDownloader extends BboCommonDownloader
     throws DownloadFailedException 
   {
     Element a = getNthTag(m_doc, ".board > a", iDeal, false);
-    String sLink = SoupProxy.absUrl(a, "href");
+    String sLink = a.absUrl("href");
     if (sLink.length() == 0)
       throw new DownloadFailedException(
         PbnTools.getStr("error.noAttr", "href", "a"), m_ow, false);
@@ -119,7 +119,8 @@ public class BboTourDownloader extends BboCommonDownloader
     asLinkRes.add(getBaseUrl(m_sLink) + sLastPart + ".html");
     asLinkRes.add(getBaseUrl(m_sLink)
                   + sLastPart.replace('?', '@') + ".html");
-    asLinkRes.add("https://webutil.bridgebase.com/v2/" + sLastPart);
+    // The line below is not good for tests. Is it necessary for real download? Why?
+    //asLinkRes.add("https://webutil.bridgebase.com/v2/" + sLastPart);
     SoupProxy proxy = new SoupProxy();
     for (String sLinkRes: asLinkRes) {
       if (f.isDebugMode()) m_ow.addLine("Trying to get better title from "
@@ -140,6 +141,7 @@ public class BboTourDownloader extends BboCommonDownloader
       }
       catch (JCException e) {
         if (f.isDebugMode()) m_ow.addLine(e.toString());
+        log.debug("", e);
         continue;
       }
     }

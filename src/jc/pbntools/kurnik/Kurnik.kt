@@ -34,7 +34,7 @@ object Kurnik {
     println("processing history $playerHistoryUrl, averages count: " + dealAverageResults.size)
     val doc = loadPage(playerHistoryUrl)
     val results = doc.select(".ktb").get(0)
-    val dealRows = results.select("tr").filter { it.attr("class") != "kbl" }
+    val dealRows = results.select("tr:not(.kbl)")
     if (dealRows.size == 0) {
       throw RuntimeException("no deal rows")
     }
@@ -93,7 +93,7 @@ object Kurnik {
       val dealUrl = "https://www.kurnik.pl/rozd.phtml?hid=$dealId"
       val dealPage = loadPage(dealUrl)
       println("loaded deal $dealUrl")
-      val dealResultsRows = dealPage.select(".ktb").select("tr").filter { it.attr("class") != "kbl" }
+      val dealResultsRows = dealPage.select(".ktb tr:not(.kbl)")
       val nsResults = dealResultsRows.map { dealResultRow ->
         val nsResultStr = dealResultRow.select("td").get(3).text()
         val nsResult = java.lang.Double.valueOf(nsResultStr)
@@ -109,7 +109,7 @@ object Kurnik {
       throw RuntimeException("brak elementow a dla " + dealRow.toString())
     }
     //dealRow.select("a").forEach { println("a contents: " + it.text()) }
-    val porownania = dealRow.select("a").filter { it.text().equals("porównanie") }
+    val porownania = dealRow.select("a:containsOwn(porównanie)")
     if (porownania.size == 0) {
       throw RuntimeException("brak elementow porownania dla " + dealRow.toString() + ", link: $currentLink")
     }

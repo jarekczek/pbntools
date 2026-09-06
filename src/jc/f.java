@@ -341,8 +341,11 @@ public class f {
   public static String readFile(String sFile)
     throws java.io.FileNotFoundException, java.io.IOException
   {
+    File inputFile = sFile.startsWith("file:")
+      ? new File(URI.create(sFile))
+      : new File(sFile);
     BufferedReader br = new BufferedReader(
-      new InputStreamReader(new FileInputStream(sFile), "ISO-8859-1"));
+      new InputStreamReader(new FileInputStream(inputFile), "ISO-8859-1"));
     int ch;
     StringBuilder sb = new StringBuilder();
     while ((ch = br.read()) >= 0)

@@ -65,10 +65,8 @@ private static PrintStream origOut;
              throws java.io.IOException, jc.SoupProxy.Exception
   {
     String sCurrentVer = PbnTools.m_res.getString("wersja");
-    // when taking PbnTools classes directly from classes dir,
-    // we get path work/comp/jc here, so 3 times .. is needed
     File pbntoolsDir = new File(f.basePath(this.getClass()));
-    while (!pbntoolsDir.getName().endsWith("build"))
+    while (!pbntoolsDir.getName().endsWith("build") && !pbntoolsDir.getName().endsWith("out"))
       pbntoolsDir = pbntoolsDir.getParentFile();
     pbntoolsDir = pbntoolsDir.getParentFile();
     System.out.println("pbntoolsDir: " + pbntoolsDir.getAbsolutePath());
@@ -318,11 +316,11 @@ protected void LinToPbnConvertTestForDir(String sDirIn, String sDirOut)
   Document mainDoc = proxy.getDocument(tourneyHtmlFile.toString());
   Elements ele = mainDoc.select("a:contains(Board)");
   for (Element e: ele) {
-    File travFile = new File(f.decodeUrlRes(SoupProxy.absUrl(e, "href")));
+    File travFile = new File(f.decodeUrlRes(e.absUrl("href")));
     Document travDoc = proxy.getDocument(travFile.toString());
     Elements ele2 = travDoc.select("a:matches(Lin)");
     for (Element e2: ele2) {
-      String sLinFile = SoupProxy.absUrl(e2, "href");
+      String sLinFile = e2.absUrl("href");
       assert(dr.verify(sLinFile, !f.isDebugMode()));
       Deal[] deals = dr.readDeals(sLinFile, false); // bSilent
       pbnFile.addDeals(deals);

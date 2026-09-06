@@ -88,7 +88,7 @@ public class PbnTools {
     bWindows = System.getProperty("os.name").startsWith("Windows");
     m_bVerbose = false;
     INSTANCE = new PbnTools();
-    }
+  }
 
   public static String getProp(String propertyName)
   {

@@ -23,34 +23,25 @@ package jc.pbntools.download;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.regex.Pattern;
-import java.util.StringTokenizer;
-import javax.swing.JDialog;
 
 import jc.f;
 import jc.JCException;
-import jc.outputwindow.OutputWindow;
 import jc.outputwindow.SimplePrinter;
 import jc.SoupProxy;
-import jc.pbntools.Card;
 import jc.pbntools.Deal;
-import jc.pbntools.PbnFile;
 import jc.pbntools.PbnTools;
-import jc.pbntools.RunProcess;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ParyTourDownloader extends HtmlTourDownloader
 {
+  private static Logger log = LoggerFactory.getLogger(ParyTourDownloader.class);
 
   /** each deal is in file m_sDealPrefix + "nnn.html" */
   private String m_sDealPrefix = "";
@@ -159,21 +150,34 @@ public class ParyTourDownloader extends HtmlTourDownloader
       doc = proxy.getDocument(m_sLink);
       m_doc = doc;
       m_remoteUrl = proxy.getUrl();
+      if (!bSilent)
+        println(PbnTools.m_res.getString("msg.documentLoaded"));
+
+      if (!checkGenerator(doc, "JFR 2005", bSilent)) return false;
+
+      if (doc.body() != null) {
+        Element nextPart;
+        // only W- link has body
+        // direct link has frames which should be read instead
+        if (doc.select("frame").size() > 0) {
+          Element frameRef = getOneTag(doc, "frame[name=lewa]", bSilent);
+          String frameSrc = frameRef.absUrl("src");
+          if (!bSilent) {
+            println(PbnTools.getStr("tourDown.msg.willLoadFrame", frameSrc));
+          }
+          nextPart = proxy.getDocument(frameSrc);
+        } else {
+          nextPart = doc.body();
+        }
+        if (!checkTagText(nextPart, "p.f", "^\\s*Pary\\..*$", bSilent)) {
+          return false;
+        }
+      }
     }
     catch (JCException e) {
       m_ow.addLine(e.getMessage());
+      log.debug("", e);
       return false;
-    }
-    if (!bSilent)
-      println(PbnTools.m_res.getString("msg.documentLoaded"));
-
-    if (!checkGenerator(doc, "JFR 2005", bSilent)) return false;
-    if (doc.body() != null) {
-      // only W- link has body
-      // direct link has frames which should be read instead
-      if (!checkTagText(doc.body(), "p.f", "^\\sPary\\..*$", bSilent)) {
-        return false;
-      }
     }
 
     return true;

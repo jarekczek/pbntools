@@ -73,7 +73,7 @@ public class BboHandsHistoryLinReader extends BboCommonDownloader
       }
       // Examine only the first link, not to overload the server.
       Element firstAElem = aElems.get(0);
-      String linUrl = SoupProxy.absUrl(firstAElem, "href");
+      String linUrl = firstAElem.absUrl("href");
       LinReader singleLinReader = new LinReader();
       singleLinReader.setOutputWindow(getOutputWindow());
       delayBetweenDownloads(linUrl);

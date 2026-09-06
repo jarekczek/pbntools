@@ -32,7 +32,7 @@ configurations.create('ivy') // old configuration used by ant
 dependencies {
   ivy 'junit:junit-dep:4.11'
   ivy 'junit-addons:junit-addons:1.4'
-  implementation 'org.jsoup:jsoup:1.7.3'
+  implementation 'org.jsoup:jsoup:1.23.2'
   implementation 'javazoom:jlayer:1.0.1'
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
   implementation 'org.slf4j:slf4j-api:1.7.30'

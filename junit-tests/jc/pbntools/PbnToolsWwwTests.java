@@ -19,32 +19,25 @@
 
 package jc.pbntools;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.PrintStream;
-import java.io.Writer;
-import jc.f;
-import jc.outputwindow.SimplePrinter;
+import java.util.Locale;
+
 import jc.outputwindow.TestPrinter;
 import jc.pbntools.download.BboTourDownloader;
-import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
 import jc.pbntools.download.ParyTourDownloader;
 import jc.pbntools.download.TourCalcTourDownloader;
 import junit.framework.AssertionFailedError;
-import junitx.framework.FileAssert;
 import org.junit.*;
-import static org.junit.Assert.*;
 
 public class PbnToolsWwwTests
 {
 
 private static PrintStream origOut;
 
-@Before public void setUp()
-{
+@Before public void setUp() {
   System.setProperty("jc.soupproxy.useragent", "PbnToolsTest");
+  Locale.setDefault(Locale.ENGLISH);
 }
 
 @Test public void pobierzKopsWwwTest4()

@@ -13,7 +13,8 @@ RELEASE
   and Polish intermediate files may corrupt this process.
   maybe gradlew clean-doc doc
 - Compare help html files with previous release.
-- gradlew junit
+- gradlew junit-www (strange dependencies here, junit-www downloads to work/junit-tmp, which is needed for junit-local)
+- gradlew junit-local (so instead of gradlew junit, which includes both, we call 2 separately)
 - git commit and push
 - verify all is commited
 - gradlew release

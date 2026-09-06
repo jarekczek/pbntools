@@ -23,22 +23,13 @@ import java.io.File;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.junit.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import static org.junit.Assert.*;
 
 public class SoupProxyTests
 {
-
-@Test public void absUrlFileTest()
-  throws java.io.IOException, JCException
-{
-  File fOut = File.createTempFile("soupProxy", ".html");
-  String sHtml = "<a href=\"test.html\">test</a>";
-  f.writeToFile(sHtml, fOut);
-  SoupProxy proxy = new SoupProxy();
-  Document doc = proxy.getDocumentFromFile(fOut.toString());
-  Element e = doc.select("a").get(0);
-  String sRefFile = new File(fOut.getParentFile(), "test.html").toString();
-  assertEquals("testing abs url in files", sRefFile, proxy.absUrl(e, "href"));
-}
+private static Logger log = LoggerFactory.getLogger(SoupProxyTests.class);
 
 }

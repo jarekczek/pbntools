@@ -19,8 +19,11 @@
 
 package jc;
 
-import jc.f;
 import org.junit.*;
+
+import java.io.File;
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class fTests
@@ -65,4 +68,14 @@ public class fTests
   assertEquals(f.str2Int("a", 1), 1);
 }
 
+@Test public void readFileByName() throws IOException {
+  String text = f.readFile("test/f/file1.txt");
+  assertEquals("nothing", text);
+}
+
+@Test public void readFileByAbsoluteUrl() throws IOException {
+  String uri = new File("test/f/file1.txt").toURI().toString();
+  String text = f.readFile(uri);
+  assertEquals("nothing", text);
+}
 }

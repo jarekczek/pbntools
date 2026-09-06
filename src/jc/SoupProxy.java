@@ -97,9 +97,12 @@ public class SoupProxy implements HttpProxy
     log.debug("getDocumentFromFile " + sFile);
     Document doc;
     try {
-      doc = Jsoup.parse(new File(sFile), null);
+      File file = new File(sFile);
+      doc = Jsoup.parse(file, /* charset */ null, file.toURI().toString());
     }
-    catch (java.io.IOException e) {
+    // Adding IllegalArgumentException here, because sometimes the path
+    // is illegal for the file system, for instance + on Windows.
+    catch (java.io.IOException | IllegalArgumentException e) {
       throw new SoupProxy.Exception(e);
     }
     return doc;
@@ -268,20 +271,8 @@ public class SoupProxy implements HttpProxy
         return doc;
       }
     }
-    
-    try {
-      m_url = new URL(sUrl);
-    }
-    catch (java.net.MalformedURLException eUrl) {
-      // Not an url? Let's try to get the file
-      try {
-        m_url = new URL("file:" + sUrl);
-      }
-      catch (java.net.MalformedURLException eUrl2) {
-        throw new SoupProxy.Exception(eUrl);
-      }
-    }
-      
+
+    m_url = stringToUrl(sUrl);
     if (m_url.getProtocol().equals("file")) {
       doc = getDocumentFromFile(m_url.getFile());
     } else {
@@ -294,7 +285,24 @@ public class SoupProxy implements HttpProxy
 
     return doc;
   }
-  
+
+  private URL stringToUrl(String sUrl) throws Exception {
+    URL url;
+    try {
+      url = new URL(sUrl);
+    }
+    catch (java.net.MalformedURLException eUrl) {
+      // Not an url? Let's try to get the file
+      try {
+        url = new URL("file:" + sUrl);
+      }
+      catch (java.net.MalformedURLException eUrl2) {
+        throw new SoupProxy.Exception(eUrl);
+      }
+    }
+    return url;
+  }
+
   public static String htmlToText(String sHtml)
   {
     Document doc = Jsoup.parse(sHtml);
@@ -380,33 +388,6 @@ public class SoupProxy implements HttpProxy
     return sUrl;
   } //}}}
 
-  // absUrl method {{{
-  /*
-   * A wrapper for <code>Node.absUrl</code> which fails for local
-   * files (uris without a protocol).
-   */
-  public static String absUrl(Node node, String sAttrName)
-  {
-    String sRelativeLink = node.attr(sAttrName);
-    if (sRelativeLink.length() == 0)
-      return "";
-    String sLink = node.absUrl(sAttrName);
-    assert(sLink != null);
-    if (sLink.length() == 0) {
-      String sBaseUri = node.baseUri();
-      
-      // In case of a file this uri is not base, but it's a complete
-      // filename.
-      Matcher m = Pattern.compile("(.*)([\\\\/])[^\\\\/]+\\.html?")
-        .matcher(sBaseUri);
-      if (m.matches())
-        sBaseUri = m.group(1) + m.group(2);
-      
-      sLink = sBaseUri + sRelativeLink;
-    }
-    return sLink;
-  } //}}}
-  
   public static class Exception extends JCException
   {
     Exception(Throwable t) { super(t); }

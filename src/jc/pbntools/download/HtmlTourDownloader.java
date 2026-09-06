@@ -739,7 +739,7 @@ abstract public class HtmlTourDownloader
           }
         }
 
-        String sDoubles = contrElem.text().substring(nDoublePos);
+        String sDoubles = contrElem.text().substring(nDoublePos).trim();
         int nDouble = 0;
         for (int i=0; i<2; i++) {
           if (sDoubles.startsWith("×") || sDoubles.startsWith("x")) {
@@ -772,9 +772,10 @@ abstract public class HtmlTourDownloader
    * A contract must be valid.
    * @param sResult Valid values: <code>"", "+n", "-n", "="</code>
    */
-  public void processResult(Deal d, String sResult)
+  public void processResult(Deal d, String sResultIn)
     throws DownloadFailedException
   {
+    String sResult = sResultIn.replaceAll("\u00A0", "").trim();
     assert(d.getContractHeight() >= 0);
     boolean bBad = false;
     if (sResult == null) {
@@ -782,7 +783,7 @@ abstract public class HtmlTourDownloader
       bBad = true;
     } else if (d.getContractHeight() == 0) {
       // passed out deal
-      if (sResult.equals("\u00A0")) {
+      if (sResult.isEmpty()) {
         // ok, nothing to do
       } else {
         bBad = true;
