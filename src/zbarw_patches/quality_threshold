@@ -1,0 +1,62 @@
+# HG changeset patch
+# Parent  4d71413a97920d728d04880c0e16acf771358455
+
+diff -r 4d71413a9792 -r 82626e9a91bf zbar/img_scanner.c
+--- a/zbar/img_scanner.c	Sun Jul 26 10:49:09 2026 +0200
++++ b/zbar/img_scanner.c	Mon Jul 27 19:02:10 2026 +0200
+@@ -78,6 +78,9 @@
+ 
+ #define RECYCLE_BUCKETS     5
+ 
++// This must be above 1, as we check it only when incrementing the quality.
++#define SYMBOL_QUALITY_THRESHOLD 4
++
+ typedef struct recycle_bucket_s {
+     int nsyms;
+     zbar_symbol_t *head;
+@@ -242,7 +245,7 @@
+     sym->quality = 1;
+     sym->npts = 0;
+     sym->orient = ZBAR_ORIENT_UNKNOWN;
+-    sym->cache_count = 0;
++    sym->cache_count = -999;
+     sym->time = iscn->time;
+     assert(!sym->syms);
+ 
+@@ -331,7 +334,6 @@
+                                  zbar_symbol_t *sym)
+ {
+     zbar_symbol_set_t *syms;
+-    cache_sym(iscn, sym);
+ 
+     syms = iscn->syms;
+     if(sym->cache_count || !syms->tail) {
+@@ -437,6 +439,10 @@
+            sym->datalen == datalen &&
+            !memcmp(sym->data, data, datalen)) {
+             sym->quality++;
++            if (sym->quality == SYMBOL_QUALITY_THRESHOLD) {
++                cache_sym(iscn, sym);
++                iscn->syms->nsyms++;
++            }
+             zprintf(224, "dup symbol @(%d,%d): dup %s: %.20s\n",
+                     x, y, zbar_get_symbol_name(type), data);
+             if(TEST_CFG(iscn, ZBAR_CFG_POSITION))
+diff -r 4d71413a9792 -r 82626e9a91bf zbar/processor.c
+--- a/zbar/processor.c	Sun Jul 26 10:49:09 2026 +0200
++++ b/zbar/processor.c	Mon Jul 27 19:02:10 2026 +0200
+@@ -98,12 +98,13 @@
+             while(sym) {
+                 zbar_symbol_type_t type = zbar_symbol_get_type(sym);
+                 int count = zbar_symbol_get_count(sym);
+-                zprintf(8, "%s: %s (%d pts) (dir=%d) (q=%d) (%s)\n",
++                zprintf(8, "%s: %s (%d pts) (dir=%d) (q=%d) (cnt=%d) (%s)\n",
+                         zbar_get_symbol_name(type),
+                         zbar_symbol_get_data(sym),
+                         zbar_symbol_get_loc_size(sym),
+                         zbar_symbol_get_orientation(sym),
+                         zbar_symbol_get_quality(sym),
++                        count,
+                         (count < 0) ? "uncertain" :
+                         (count > 0) ? "duplicate" : "new");
+                 sym = zbar_symbol_next(sym);
