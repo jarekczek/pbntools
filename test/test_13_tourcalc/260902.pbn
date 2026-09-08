@@ -1,0 +1,24 @@
+[Event "Turniej Par 2026-09-02"]
+[Board "1"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:J8632.6.KT765.53 AK.AK.AJ43.T9764 T54.7432.9.AKQ82 Q97.QJT985.Q82.J"]
+
+[Event "Turniej Par 2026-09-02"]
+[Board "2"]
+[Dealer "E"]
+[Vulnerable "NS"]
+[Deal "E:A53.T8.KJ963.A53 942.AK94.82.QJT4 KQJT8.32.A5.K962 76.QJ765.QT74.87"]
+
+[Event "Turniej Par 2026-09-02"]
+[Board "3"]
+[Dealer "S"]
+[Vulnerable "EW"]
+[Deal "S:KT83.Q962.T87.63 J9642.K.K94.Q984 A.AJT84.AQ32.AJ2 Q75.753.J65.KT75"]
+
+[Event "Turniej Par 2026-09-02"]
+[Board "4"]
+[Dealer "W"]
+[Vulnerable "All"]
+[Deal "W:AK62.K54.A642.A2 T54.T2.J83.KJ753 987.98763.QT95.9 QJ3.AQJ.K7.QT864"]
+

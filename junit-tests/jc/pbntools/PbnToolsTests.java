@@ -26,14 +26,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Writer;
-import java.net.URI;
 
 import jc.SoupProxy;
 import jc.JCException;
 import jc.f;
 import jc.outputwindow.SimplePrinter;
 import jc.outputwindow.StandardSimplePrinter;
-import jc.outputwindow.TestPrinter;
 import jc.pbntools.download.BboHandsHistoryLinReader;
 import jc.pbntools.download.BboTourDownloader;
 import jc.pbntools.download.DealReader;
@@ -42,7 +40,8 @@ import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
 import jc.pbntools.download.LinReader;
 import jc.pbntools.download.ParyTourDownloader;
-import jc.pbntools.download.TourCalcTourDownloader;
+import jc.pbntools.download.TourCalcTourDownloaderV1;
+import jc.pbntools.download.TourCalcTourDownloaderV2;
 import junitx.framework.FileAssert;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -173,7 +172,7 @@ static void pobierzTestHelper(HtmlTourDownloader der,
   throws java.io.FileNotFoundException, java.io.IOException
 {
   pobierzTestHelper(
-    new TourCalcTourDownloader(),
+    new TourCalcTourDownloaderV1(),
     "test/test_12_tourcalc/brzeziny_20260428/index.html",
     "test/test_12_tourcalc/brzeziny_20260428.pbn",
     "brzeziny_20260428/brzeziny_20260428.pbn");

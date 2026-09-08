@@ -635,7 +635,8 @@ abstract public class HtmlTourDownloader
     }
     // Local files usually come from wget with -k switch (add html extension),
     // so we must add this extension if absent. With some exceptions.
-    if (!sLocalFile.matches(".*\\.htm(l?)") && !sLocalFile.endsWith(".json"))
+    if (!sLocalFile.matches(".*\\.htm(l?)") && !sLocalFile.endsWith(".json")
+        && !sLocalFile.endsWith(".gz"))
       sLocalFile += ".html";
     // wget is run with --restrict-file-names=windows and it is
     // documented that : -> +, ? -> @

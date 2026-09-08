@@ -35,7 +35,8 @@ import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
 import jc.pbntools.download.LinReader;
 import jc.pbntools.download.ParyTourDownloader;
-import jc.pbntools.download.TourCalcTourDownloader;
+import jc.pbntools.download.TourCalcTourDownloaderV1;
+import jc.pbntools.download.TourCalcTourDownloaderV2;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
@@ -214,7 +215,8 @@ public class PbnTools {
   public static HtmlTourDownloader[] getTourDownloaders()
   {
     return new HtmlTourDownloader[] {
-      new TourCalcTourDownloader(),
+      new TourCalcTourDownloaderV1(),
+      new TourCalcTourDownloaderV2(),
       new KopsTourDownloader(),
       new ParyTourDownloader(),
       new BboTourDownloader(),
@@ -373,11 +375,16 @@ public class PbnTools {
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
         downTour(args[i], new ParyTourDownloader(), false);
-      } else if (args[i].equals("-dttc")) {
+      } else if (args[i].equals("-dttc1")) {
         m_bRunMainDialog = false;
         ++i;
         if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
-        downTour(args[i], new TourCalcTourDownloader(), false);
+        downTour(args[i], new TourCalcTourDownloaderV1(), false);
+      } else if (args[i].equals("-dttc2")) {
+        m_bRunMainDialog = false;
+        ++i;
+        if (i >= args.length) { System.err.println(getStr("error.missingArg")); System.exit(1); }
+        downTour(args[i], new TourCalcTourDownloaderV2(), false);
       } else if (args[i].startsWith("-")) {
         m_bRunMainDialog = false;
         System.err.println(getStr("error.invSwitch", args[i]));
@@ -581,6 +588,7 @@ public class PbnTools {
         dloader = m_dloaders[0];
         dloader.setOutputWindow(m_ow);
         if (!dloader.verify(m_sLink, false)) {
+          log.debug("Verification failed for " + dloader);
           return;
         }
       }

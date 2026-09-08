@@ -26,7 +26,8 @@ import jc.outputwindow.TestPrinter;
 import jc.pbntools.download.BboTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
 import jc.pbntools.download.ParyTourDownloader;
-import jc.pbntools.download.TourCalcTourDownloader;
+import jc.pbntools.download.TourCalcTourDownloaderV1;
+import jc.pbntools.download.TourCalcTourDownloaderV2;
 import junit.framework.AssertionFailedError;
 import org.junit.*;
 
@@ -138,14 +139,24 @@ private static PrintStream origOut;
   String lastLine = pr.getLines().get(pr.getLines().size() - 1);
 }
 
-@Test public void pobierzTourCalcTest()
-  throws java.io.FileNotFoundException, java.io.IOException
+  @Test public void pobierzTourCalcTest()
+    throws java.io.FileNotFoundException, java.io.IOException
   {
     PbnToolsTests.pobierzTestHelper(
-      new TourCalcTourDownloader(),
+      new TourCalcTourDownloaderV1(),
       "http://localhost:15863/pbntools/test_12_tourcalc/brzeziny_20260428/",
       "test/test_12_tourcalc/brzeziny_20260428.pbn",
       "brzeziny_20260428/brzeziny_20260428.pbn");
+  }
+
+  @Test public void pobierzTourCalc13()
+    throws java.io.FileNotFoundException, java.io.IOException
+  {
+    PbnToolsTests.pobierzTestHelper(
+      new TourCalcTourDownloaderV2(),
+      "http://localhost:15863/pbntools/test_13_tourcalc/260902/",
+      "test/test_13_tourcalc/260902.pbn",
+      "260902/260902.pbn");
   }
 
 }
