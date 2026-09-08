@@ -30,4 +30,22 @@ public class SoupProxyWwwTests {
     //Assertions.assertThat(httpStatus).isEqualTo(503);
   }
 
+  @Test
+  public void canReadTextUrl() throws SoupProxy.Exception {
+    SoupProxy proxy = new SoupProxy();
+    String url = "http://localhost:15863/pbntools/jsoup/file.txt";
+    Document doc = proxy.getDocument(url);
+    log.info("response: " + doc.text());
+    Assertions.assertThat(doc.text()).isEqualTo("hello");
+  }
+
+  @Test
+  public void canReadGzipUrl() throws SoupProxy.Exception {
+    SoupProxy proxy = new SoupProxy();
+    String url = "http://localhost:15863/pbntools/jsoup/file2.txt.gz";
+    Document doc = proxy.getDocument(url);
+    log.info("response: " + doc.text());
+    Assertions.assertThat(doc.text()).isEqualTo("hello from gzip");
+  }
+
 }

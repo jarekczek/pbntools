@@ -26,7 +26,6 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,14 +33,15 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.zip.GZIPInputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * <code>SoupProxy</code> class retrieves an html page through
@@ -75,6 +75,7 @@ public class SoupProxy implements HttpProxy
     log = LoggerFactory.getLogger(this.getClass().toString());
     log.debug("SoupProxy constructor.");
 
+    log.debug("jsoup.log.folder: " + System.getProperty("jsoup.log.folder"));
     if (System.getProperty("jsoup.log.folder") != null) {
       jsoupLogFolder = new File(System.getProperty("jsoup.log.folder"));
       if (!jsoupLogFolder.exists()) {
@@ -148,13 +149,17 @@ public class SoupProxy implements HttpProxy
   {
     log.debug("getDocumentFromHttpNoRetry " + url);
     Document doc = null;
-    Connection con = Jsoup.connect(""+url);
+    Connection con = Jsoup.connect(url.toString());
     con.userAgent(
       System.getProperty("jc.soupproxy.useragent", "JSoup"));
     con.ignoreContentType(true);
     con.timeout(20000);
     con.cookies(getCookies(url));
-    doc = con.get();
+    Connection.Response rsp = con.execute();
+    InputStream inputStream = url.toString().endsWith(".gz")
+      ? new GZIPInputStream(rsp.bodyStream())
+      : rsp.bodyStream();
+    doc = Jsoup.parse(inputStream, rsp.charset(), rsp.url().toString());
     setCookies(url, con.response().cookies());
     if (jsoupLogFolder != null)
       saveDocumentToTempFile(doc, jsoupLogFolder);

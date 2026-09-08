@@ -20,16 +20,35 @@
 package jc;
 
 import java.io.File;
+
+import org.assertj.core.api.Assertions;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.junit.Assert.*;
-
 public class SoupProxyTests
 {
 private static Logger log = LoggerFactory.getLogger(SoupProxyTests.class);
+
+  @Test
+  public void canReadTextFile() throws SoupProxy.Exception {
+    SoupProxy proxy = new SoupProxy();
+    File inputFile = new File("test/jsoup/file.txt");
+    log.info("will read file: " + inputFile.getAbsolutePath());
+    Document doc = proxy.getDocument(inputFile.getAbsolutePath());
+    log.info("response: " + doc.text());
+    Assertions.assertThat(doc.text()).isEqualTo("hello");
+  }
+
+  @Test
+  public void canReadGzipFile() throws SoupProxy.Exception {
+    SoupProxy proxy = new SoupProxy();
+    File inputFile = new File("test/jsoup/file2.txt.gz");
+    log.info("will read file: " + inputFile.getAbsolutePath());
+    Document doc = proxy.getDocument(inputFile.getAbsolutePath());
+    log.info("response: " + doc.text());
+    Assertions.assertThat(doc.text()).isEqualTo("hello from gzip");
+  }
 
 }
