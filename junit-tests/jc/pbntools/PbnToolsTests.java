@@ -38,6 +38,7 @@ import jc.pbntools.download.DealReader;
 import jc.pbntools.download.DownloadFailedException;
 import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
+import jc.pbntools.download.LinLinkReader;
 import jc.pbntools.download.LinReader;
 import jc.pbntools.download.ParyTourDownloader;
 import jc.pbntools.download.TourCalcTourDownloaderV1;
@@ -122,7 +123,29 @@ static void pobierzTestHelper(HtmlTourDownloader der,
   pobierzTestHelper(der, sHtmlFile, sPbnFileTemplate, sPbnFileTest, null);
 }
 
-@Test public void pobierzParyTest1()
+  static void convertHelper(String sLink, String sPbnFileTemplate, String sPbnFileTest) throws DownloadFailedException {
+    convertHelper(sLink, sPbnFileTemplate, sPbnFileTest, null);
+  }
+
+  static void convertHelper(String sLink, String sPbnFileTemplate, String sPbnFileTest,
+                            SimplePrinter pr) throws DownloadFailedException {
+    File fTempDir = new File("work/junit-tmp").getAbsoluteFile();
+    fTempDir.mkdir();
+    assertTrue("fTempDir (" + fTempDir.getAbsolutePath()
+      + ") should already be a directory", fTempDir.isDirectory());
+    String pbnFileTestPath = new File(fTempDir, sPbnFileTest).getAbsolutePath();
+    System.setProperty("jc.debug", "0");
+    PbnTools.m_props.setProperty("workDir", fTempDir.getAbsolutePath());
+    PbnTools.convert(sLink, pbnFileTestPath, /* bGui */ false);
+    String sDesc = "Resulting pbn files differ:\n";
+    sDesc += "  " + sPbnFileTemplate + "\n";
+    sDesc += "  " + pbnFileTestPath + "\n";
+    FileAssert.assertEquals(sDesc,
+      new File(sPbnFileTemplate),
+      new File(fTempDir, sPbnFileTest));
+  }
+
+  @Test public void pobierzParyTest1()
   throws java.io.FileNotFoundException, java.io.IOException
 {
   pobierzTestHelper(
@@ -185,9 +208,16 @@ public void downloadBboLinsFromHistory() throws DownloadFailedException, IOExcep
   String sUrl = "test/test_bbo_history_with_lins/history_page.html";
   assert(dr.verify(sUrl, false));
   Deal[] deals = dr.readDeals(sUrl, false);
+  assertDealsHaveNoErrors(deals);
   String expectedFilename = "test/test_bbo_history_with_lins/history_expected.pbn";
   assertDealsEqualFile(expectedFilename, deals);
 }
+
+  private void assertDealsHaveNoErrors(Deal[] deals) {
+    for (Deal d: deals) {
+      assert(d.getErrors() == null || d.getErrors().length == 0);
+    }
+  }
 
 private void assertDealsEqualFile(String expectedFilename, Deal[] deals) throws IOException {
   String actualFilename = "work/junit-tmp/history_actual.pbn";
@@ -322,6 +352,7 @@ protected void LinToPbnConvertTestForDir(String sDirIn, String sDirOut)
       String sLinFile = e2.absUrl("href");
       assert(dr.verify(sLinFile, !f.isDebugMode()));
       Deal[] deals = dr.readDeals(sLinFile, false); // bSilent
+      assertDealsHaveNoErrors(deals);
       pbnFile.addDeals(deals);
     }
   }
@@ -355,6 +386,27 @@ protected void LinToPbnConvertTestForDir(String sDirIn, String sDirOut)
   LinToPbnConvertTestForDir("test/test_8_bbo_wronie_20130824" +
     "/Wronie_9533_Pairs_2720_PRZYJACIELE_WRONIA",
     "work/junit-tmp/lin_to_pbn");
+}
+
+@Test public void linLinkReaderTest() throws DownloadFailedException, IOException {
+  String inDir = "test/lin_link/";
+  String link = f.readFile(inDir + "deal1.txt");
+  String outDir = "work/junit-tmp/lin_link_to_pbn";
+  new File(outDir).mkdir();
+  PbnTools.m_props.setProperty("workDir", outDir);
+  DealReader dr = new LinLinkReader();
+  dr.setOutputWindow(new StandardSimplePrinter());
+
+  assert(dr.verify(link, !f.isDebugMode()));
+  Deal[] deals = dr.readDeals(link, /* bSilent */ false);
+  assertDealsHaveNoErrors(deals);
+  PbnFile pbnFile = new PbnFile();
+  pbnFile.addDeals(deals);
+  String sNewPbnFile = outDir + "/" + "deal1.pbn";
+  pbnFile.save(sNewPbnFile);
+
+  String sDesc = "lin link to pbn";
+  FileAssert.assertEquals(sDesc, new File(inDir + "deal1.pbn"), new File(sNewPbnFile));
 }
 
 }

@@ -1,0 +1,28 @@
+[Board "2"]
+[West "player1"]
+[North "~~M30744jn"]
+[East "player2"]
+[South "~~M11740c6"]
+[Dealer "E"]
+[Vulnerable "NS"]
+[Deal "E:J.QT53.K.KJT9843 AK53.A976.87.Q76 T76.8.AJT9643.A2 Q9842.KJ42.Q52.5"]
+[Declarer "E"]
+[Contract "2C"]
+[Result "7"]
+[Auction "E"]
+2C Pass Pass Pass
+[Play "S"]
+SK S6 S2 SJ
+D7 D3 D2 DK
+C6 C2 C5 CK
+C7 CA S4 C3
+D8 D9 DQ C4
+CQ D4 H4 C8
+SA S7 S9 C9
+H9 H8 H2 H5
+S5 ST SQ CT
+H6 D6 HK HQ
+H7 DT HJ H3
+S3 DJ S8 CJ
+HA DA D5 HT
+

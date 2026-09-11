@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import jc.outputwindow.TestPrinter;
 import jc.pbntools.download.BboTourDownloader;
+import jc.pbntools.download.DownloadFailedException;
 import jc.pbntools.download.KopsTourDownloader;
 import jc.pbntools.download.ParyTourDownloader;
 import jc.pbntools.download.TourCalcTourDownloaderV1;
@@ -157,6 +158,14 @@ private static PrintStream origOut;
       "http://localhost:15863/pbntools/test_13_tourcalc/260902/",
       "test/test_13_tourcalc/260902.pbn",
       "260902/260902.pbn");
+  }
+
+  @Test public void convertLinLink() throws DownloadFailedException {
+    PbnToolsTests.convertHelper(
+      "http://localhost:15863/tinyurl/",
+      "test/lin_link/tiny_url_deal1.pbn",
+      "lin_link_tiny_url_deal1.pbn"
+    );
   }
 
 }

@@ -154,7 +154,7 @@ public class Deal implements Cloneable {
     }
     m_aBids = new ArrayList<Bid>();
     clearPlays();
-    m_asErrors = null;
+    m_asErrors = new ArrayList<String>();
     m_bEof = true;
     m_bEmpty = true;
     m_bOk = false;

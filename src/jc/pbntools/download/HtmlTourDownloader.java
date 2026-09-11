@@ -52,6 +52,8 @@ import jc.SoupProxy;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class's methods are called from {@link TourDownloaderThread#run}.
@@ -64,6 +66,8 @@ import org.jsoup.select.Elements;
 abstract public class HtmlTourDownloader
   implements DealReader
 {
+  private static Logger log = LoggerFactory.getLogger(HtmlTourDownloader.class);
+
   public static final String HTML_SPACE_REG = "[ \u00A0]";
   public static final String HTML_SPACE = " \u00A0";
   
@@ -622,26 +626,7 @@ abstract public class HtmlTourDownloader
     */
   protected String getLocalFile(String sRemoteLink)
   {
-    assert(sRemoteLink != null && sRemoteLink.length() > 0);
-    String sRemoteFile = sRemoteLink.replaceFirst("^.*[/\\\\]([^/\\\\]*)$", "$1");
-    if (sRemoteFile.isEmpty()) {
-      sRemoteFile = "index.html";
-    }
-    String sLocalFile = m_sSourceDir + "/" + sRemoteFile;
-    if (f.isDebugMode()) {
-      System.out.println("getLocalFile(" + sRemoteLink + ") = " + sLocalFile);
-      System.out.println("m_sSourceDir:" + m_sSourceDir);
-      System.out.println("sRemoteFile:" + sRemoteFile);
-    }
-    // Local files usually come from wget with -k switch (add html extension),
-    // so we must add this extension if absent. With some exceptions.
-    if (!sLocalFile.matches(".*\\.htm(l?)") && !sLocalFile.endsWith(".json")
-        && !sLocalFile.endsWith(".gz"))
-      sLocalFile += ".html";
-    // wget is run with --restrict-file-names=windows and it is
-    // documented that : -> +, ? -> @
-    sLocalFile = sLocalFile.replaceAll("\\?", "@");
-    return sLocalFile;
+    return f.getLocalFile(sRemoteLink, m_sSourceDir);
   }
   
   /** Changes the local file in m_sLocalDir resembling <code>sRemoteLink</code>.

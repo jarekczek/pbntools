@@ -21,8 +21,6 @@
 
 package jc.pbntools.download;
 
-import java.io.FileWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,10 +28,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import jc.f;
 import jc.JCException;
@@ -200,6 +195,7 @@ public class LinReader implements DealReader
     sArg = sArg.replaceFirst("!$", "");
     sArg = sArg.replaceFirst("N$", "NT");
     Map<String, String> m = new HashMap<String, String>();
+    m.put("P", "Pass");
     m.put("p", "Pass");
     m.put("d", "X");
     m.put("d!", "X");
@@ -346,7 +342,14 @@ public class LinReader implements DealReader
     // when no result, don't show the contract either
     if (d.getResult() < 0)
       d.setContractHeight(-1);
-    
+
+    if (d.getErrors() != null && d.getErrors().length > 0) {
+      m_sp.addLine(PbnTools.getStr("lin.error.other"));
+      for (String sMsg: d.getErrors())
+        m_sp.addLine("  " + sMsg);
+    }
+
+
     return new Deal[] { d };
   } //}}}
   

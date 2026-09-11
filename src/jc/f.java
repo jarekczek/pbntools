@@ -29,6 +29,9 @@ SOFTWARE.
 
 package jc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.File;
@@ -49,6 +52,7 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 public class f {
+  private static Logger log = LoggerFactory.getLogger(f.class);
   public static String sLf;
   public static String sDirSep;
   public static int nDebugLevel = 0;
@@ -396,6 +400,35 @@ public class f {
     }
     copyStream(is, os);
   } //}}}
+
+  public static String getLocalFile(String sRemoteLink, String sLocalDir)
+  {
+    String sRemoteFile = getLocalFileName(sRemoteLink);
+    String sLocalFile = sLocalDir + "/" + sRemoteFile;
+    log.debug("getLocalFile(" + sRemoteLink + ") = " + sLocalFile);
+    log.debug("m_sSourceDir:" + sLocalDir);
+
+    // Local files usually come from wget with -k switch (add html extension),
+    // so we must add this extension if absent. With some exceptions.
+    if (!sLocalFile.matches(".*\\.htm(l?)") && !sLocalFile.endsWith(".json")
+      && !sLocalFile.endsWith(".gz"))
+      sLocalFile += ".html";
+    // wget is run with --restrict-file-names=windows and it is
+    // documented that : -> +, ? -> @
+    sLocalFile = sLocalFile.replaceAll("\\?", "@");
+    return sLocalFile;
+  }
+
+  public static String getLocalFileName(String sRemoteLink) {
+    assert(sRemoteLink != null && sRemoteLink.length() > 0);
+    String sRemoteFile = sRemoteLink.replaceFirst("[&].*$", "");
+    sRemoteFile = sRemoteFile.replaceFirst("^.*[/\\\\]([^/\\\\]*)$", "$1");
+    if (sRemoteFile.isEmpty()) {
+      sRemoteFile = "index.html";
+    }
+    log.debug("sRemoteFile:" + sRemoteFile);
+    return sRemoteFile;
+  }
 
   // writeToFile method //{{{
   public static void writeToFile(String sWhat, File file)

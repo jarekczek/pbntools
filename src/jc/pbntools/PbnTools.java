@@ -33,6 +33,7 @@ import jc.pbntools.download.DealReader;
 import jc.pbntools.download.DownloadFailedException;
 import jc.pbntools.download.HtmlTourDownloader;
 import jc.pbntools.download.KopsTourDownloader;
+import jc.pbntools.download.LinLinkReader;
 import jc.pbntools.download.LinReader;
 import jc.pbntools.download.ParyTourDownloader;
 import jc.pbntools.download.TourCalcTourDownloaderV1;
@@ -228,7 +229,8 @@ public class PbnTools {
   public static DealReader[] getDealReaders()
   {
     return new DealReader[] {
-      new LinReader()
+      new LinReader(),
+      new LinLinkReader()
     };
   }
   
@@ -506,9 +508,9 @@ public class PbnTools {
     public void run() {
       String sOutFile = m_sOutFile0;
       if (sOutFile == null) {
-        String sFile = f.getFileNameNoExt(m_sLink);
+        String sFile = f.getLocalFileName(m_sLink);
         sOutFile = new File(getWorkDir(false),
-                            f.getFileNameNoExt(m_sLink) + ".pbn").toString();
+                            f.getFileNameNoExt(sFile) + ".pbn").toString();
       }
 
       if (getVerbos() > 0)
@@ -518,8 +520,7 @@ public class PbnTools {
         if (Thread.currentThread().isInterrupted()) {
           break;
         }
-        if (f.isDebugMode())
-          m_ow.addLine("Trying reader: " + dr.getClass().getName()); 
+        log.info("Trying reader: " + dr.getClass().getName());
         dr.setOutputWindow(m_ow);
         if (dr.verify(m_sLink, !f.isDebugMode())) {
           bRightReader = true;
