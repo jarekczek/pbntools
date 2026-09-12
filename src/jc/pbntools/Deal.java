@@ -795,7 +795,7 @@ public class Deal implements Cloneable {
   public void rozdaj() { //{{{
     String sZbarcam = PbnTools.m_sBinDir + f.sDirSep + "zbarcam";
     String sOpts = PbnTools.m_props.getProperty("zbarcamOpts");
-    sOpts = "-q -Spcard.enable -Spcard2.enable " + sOpts;
+    sOpts = "-q -Spcard.disable -Spcard2.enable " + sOpts;
     if (PbnTools.bLinux) {
       RunProcess.runCmd(null, sZbarcam + " " + sOpts, new FiltrTekstuRozd());
     }

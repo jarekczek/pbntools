@@ -231,6 +231,40 @@ respectively for {\em N, E, S, W}. %'
   
   \end{description}
   
+\item[Zbarcam parameters]
+
+  Zbarcam parameters consist of built-in program defaults and user-configured
+  options. They are visible in the dealing process in the textual window.
+
+  PCard and PCard2 modes are mutually exclusive; reading both at once may
+  lead to false detections. By default only one standard is active; you can
+  override that using your configuration.
+
+  Default parameters are not always optimal. Scanning may be slow or produce
+  false reads. You can speed up scanning using \verb!prescale! and reduce false
+  positives using \verb!uncertainty!.
+
+  \begin{description}
+
+    \item[enable/disable]
+
+    Enable or disable a barcode standard. Last occurrence wins.
+    Example: \verb!-Spcard2.disable! will disable PCard2 standard.
+
+    \item[prescale]
+
+    Camera often produces high resolution images which are unnecessary and
+    slow scanning. You may rescale the image, e.g. \verb!--prescale=640x480!.
+    Provided dimensions must be supported by the camera as one of its modes.
+
+    \item[uncertainty]
+
+    Number of consecutive camera frames on which the barcode must appear.
+    Higher value increases certainty but takes proportionally longer.
+    Minimum value is 1. Default is 2.
+    Example: \verb!-Spcard2.uncertainty=3!
+
+  \end{description}
   
 \end{description}
 % }}} deal cards
@@ -439,6 +473,12 @@ in source code archive, see: Download, \ref{download}.
 %{{{ history
 \section{Version history}
 \begin{description}
+\item[1.6.0, 12.09.2026]
+  \begin{itemize}
+  \item Converting BBO (lin) tiny urls to PBN.
+  \item New zbarcam with scanning improvements (quality threshold, uncertainty).
+  \item New version of Tournament Calculator, which supports gz files.
+  \end{itemize}
 \item[1.5.0, 25.06.2026]
   \begin{itemize}
   \item Dealing cards with barcodes PCard2.

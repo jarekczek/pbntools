@@ -300,6 +300,10 @@ mo¿na potem wygodnie analizowaæ rozdania tu¿ po ich rozegraniu.
   Do pobrania u¿ywamy g³ównego linku z wyników,
   czyli np. \htmladdnormallink{260330}{https://mzbs.pl/files/2021/wyniki/zs/260330/}.
   
+  U¿ycie PbnTools do turniejów publikowanych z u¿yciem Tournament Calculatora straci³o sens
+  pod koniec sierpnia 2026. Od tego czasu pobranie plików PBN dostêpne jest bezpo¶rednio
+  ze strony turnieju, po wej¶ciu w historiê pary. Jest tam przycisk {\em PBN}.
+  
   Efektem dzia³ania tej opcji programu s± nastêpuj±ce pliki:
   \begin{itemize}
   \item \verb!XXX.pbn! - plik z rozdaniami i wynikami
@@ -322,13 +326,13 @@ to znaczy gracz N to "jeden", E to "dwa" itd.
 \begin{description}
 \item[Kamera internetowa]
   Najlepsza jest kamera z rêczn± regulacj± ostro¶ci, czyli ,,z kó³kiem".
-  Koszt oko³o 40 z³.
-  Poprzez uruchomienie programu zbarcam (katalog {\em bin})
+  Koszt oko³o 110 z³ (na przyk³ad \htmladdnormallink{Nano RS680 FullHD 1080P}{https://rozetka.pl/377056476/p377056476/}).
+  Poprzez uruchomienie programu \verb!zbarcam! (katalog \verb!bin!)
   spoza PbnTools nale¿y dostosowaæ
   ostro¶æ kamery tak, aby pó¼niej w ciemno wiedzieæ, w jakiej odleg³o¶ci
   nale¿y umie¶ciæ kartê, by kamera najszybciej j± rozpozna³a.
 
-  Kamery z autofocusem, np. wbudowane w laptop, te¿ dzia³aj¹.
+  Kamery z autofocusem, np. wbudowane w laptop, te¿ dzia³aj±.
   
 \item[Karty z kodami paskowymi]
   Spotka³em siê z 3 sposobami oznaczania kart kodami paskowymi. 
@@ -353,6 +357,43 @@ to znaczy gracz N to "jeden", E to "dwa" itd.
   Obecnie, czyli w 2026, s± to jedyne karty do dostania.
   Ka¿dy kod to 4 paski o grubo¶ci 1 lub 2.
   Do dostania w sklepie \bridgepollink.
+  
+  \end{description}
+  
+\item[Parametry zbarcam]
+
+  Parametry zbarcam sk³adaj± siê z czê¶ci wbudowanej w program i czê¶ci konfigurowanej przez u¿ytkownika.
+  Wszystko razem widoczne jest po uruchomnieniu procesu rozdawania, w okienku tekstowym.
+
+  Kody paskowe PCard i PCard2 wykluczaj± siê nawzajem, nie mo¿na uruchomiæ zbarcam i czytaæ
+  oba standardy jednocze¶nie. Powodowa³oby to fa³szywe odczyty. Dlatego domy¶lna konfiguracja
+  czyta tylko jeden standard, co mo¿na nadpisaæ swoj± konfiguracj±.
+  
+  Domy¶lne parametry nie s± optymalne. Skanowanie mo¿e byæ zbyt powolne lub dawaæ fa³szywe odczyty.
+  Przy¶pieszyæ skanowanie mo¿na stosuj±c parametr \verb!prescale!,
+  zapobiegaæ fa³szywym odczytom dziêki \verb!uncertainty!.
+  
+  \begin{description}
+  
+    \item[enable/disable]
+    
+    W³±czenie lub wy³±czenie standardu kodu paskowego. Ostatni wpis wygrywa.
+    Na przyk³ad \verb!-Spcard2.disable! wy³±czy standard PCard2.
+    
+    \item[prescale]
+    
+    Kamerka daje czêsto obraz w wysokiej rozdzielczo¶ci. Nie jest nam to potrzebne, spowalnia skanowanie.
+    Mo¿emy przeskalowaæ obraz, np. \verb!--prescale=640x480!. Podane wymiary musz± byæ wspierane przez kamerê,
+    byæ jednym z jej trybów.
+    
+    \item[uncertainty]
+    
+    Liczba kolejnych klatek kamery, na których musi wyst±piæ kod paskowy. Im wy¿sza, tym wiêksza pewno¶æ,
+    ¿e zeskanowany kod jest prawdziwy. Trwa to przy tym proporcjonalnie d³u¿ej. Minimalna warto¶æ to 1.
+    Domy¶lna warto¶æ to 2 i da³a ona podczas testów pe³n± skuteczno¶æ.
+    Warto¶æ ustalana oddzielnie dla ka¿dego standardu.
+    
+    Przyk³ad: \verb!-Spcard2.uncertainty=3!
   
   \end{description}
   
@@ -608,6 +649,12 @@ w archiwum kodu ¼ród³owego, patrz: Pobieranie, \ref{download}.
 %{{{ historia
 \section{Historia wersji programu}
 \begin{description}
+\item[1.6.0, 12.09.2026]
+  \begin{itemize}
+  \item Konwersja tiny url z BBO (lin) na PBN.
+  \item Nowa wersja zbarcam, ulepszone skanowanie (quality threshold, uncertainty).
+  \item Nowa wersja Tournament Calculator, wspiera pliki gz.
+  \end{itemize}
 \item[1.5.0, 25.06.2026]
   \begin{itemize}
   \item Rozdawanie kart w formacie kodów paskowych PCard2.
