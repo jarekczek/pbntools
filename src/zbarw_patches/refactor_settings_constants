@@ -1,0 +1,207 @@
+# HG changeset patch
+# Parent  ac320a8a729e1efe45d9a7c182713a30f40e887e
+
+diff -r ac320a8a729e include/zbar.h
+--- a/include/zbar.h	Tue Nov 24 21:06:10 2026 +0100
++++ b/include/zbar.h	Tue Nov 24 21:06:35 2026 +0100
+@@ -161,22 +161,32 @@
+  * @since 0.4
+  */
+ typedef enum zbar_config_e {
+-    ZBAR_CFG_ENABLE = 0,        /**< enable symbology/feature */
++    ZBAR_CFG_DEC_BOOL_START = 0,
++    ZBAR_CFG_ENABLE = ZBAR_CFG_DEC_BOOL_START, /**< enable symbology/feature */
+     ZBAR_CFG_ADD_CHECK,         /**< enable check digit when optional */
+     ZBAR_CFG_EMIT_CHECK,        /**< return check digit when present */
+     ZBAR_CFG_ASCII,             /**< enable full ASCII character set */
+     ZBAR_CFG_NUM,               /**< number of boolean decoder configs */
++    ZBAR_CFG_DEC_BOOL_END = ZBAR_CFG_NUM,
+ 
+-    ZBAR_CFG_MIN_LEN = 0x20,    /**< minimum data length for valid decode */
++    ZBAR_CFG_DEC_INT_START = 0x20,
++    ZBAR_CFG_MIN_LEN = ZBAR_CFG_DEC_INT_START, /**< minimum data length for valid decode */
+     ZBAR_CFG_MAX_LEN,           /**< maximum data length for valid decode */
++    ZBAR_CFG_DEC_INT_END,
+ 
+-    ZBAR_CFG_UNCERTAINTY = 0x40,/**< required video consistency frames */
++    ZBAR_CFG_SYM_INT_START = 0x40,
++    ZBAR_CFG_UNCERTAINTY = ZBAR_CFG_SYM_INT_START, /**< required video consistency frames */
+     ZBAR_CFG_QUALITY_THRESHOLD, /**< required scan lines for valid symbol (>= 2) */
+-
+-    ZBAR_CFG_POSITION = 0x80,   /**< enable scanner to collect position data */
++    ZBAR_CFG_SYM_INT_END,
+ 
+-    ZBAR_CFG_X_DENSITY = 0x100, /**< image scanner vertical scan density */
++    ZBAR_CFG_SCN_BOOL_START = 0x80,
++    ZBAR_CFG_POSITION = ZBAR_CFG_SCN_BOOL_START, /**< enable scanner to collect position data */
++    ZBAR_CFG_SCN_BOOL_END,
++
++    ZBAR_CFG_SCN_INT_START = 0x100,
++    ZBAR_CFG_X_DENSITY = ZBAR_CFG_SCN_INT_START, /**< image scanner vertical scan density */
+     ZBAR_CFG_Y_DENSITY,         /**< image scanner horizontal scan density */
++    ZBAR_CFG_SCN_INT_END
+ } zbar_config_t;
+ 
+ /** decoder symbology modifier flags.
+diff -r ac320a8a729e zbar/decoder.c
+--- a/zbar/decoder.c	Tue Nov 24 21:06:10 2026 +0100
++++ b/zbar/decoder.c	Tue Nov 24 21:06:35 2026 +0100
+@@ -457,13 +457,15 @@
+                                            int val)
+ {
+     unsigned *config = (void*)decoder_get_configp(dcode, sym);
+-    if(!config || cfg >= ZBAR_CFG_NUM)
++    int bit;
++    if(!config || cfg >= ZBAR_CFG_DEC_BOOL_END)
+         return(1);
+ 
++    bit = cfg - ZBAR_CFG_DEC_BOOL_START;
+     if(!val)
+-        *config &= ~(1 << cfg);
++        *config &= ~(1u << bit);
+     else if(val == 1)
+-        *config |= (1 << cfg);
++        *config |= (1u << bit);
+     else
+         return(1);
+ 
+@@ -555,9 +557,9 @@
+         return(0);
+     }
+ 
+-    if(cfg >= 0 && cfg < ZBAR_CFG_NUM)
++    if(cfg >= ZBAR_CFG_DEC_BOOL_START && cfg < ZBAR_CFG_DEC_BOOL_END)
+         return(decoder_set_config_bool(dcode, sym, cfg, val));
+-    else if(cfg >= ZBAR_CFG_MIN_LEN && cfg <= ZBAR_CFG_MAX_LEN)
++    else if(cfg >= ZBAR_CFG_DEC_INT_START && cfg < ZBAR_CFG_DEC_INT_END)
+         return(decoder_set_config_int(dcode, sym, cfg, val));
+     else
+         return(1);
+diff -r ac320a8a729e zbar/decoder.h
+--- a/zbar/decoder.h	Tue Nov 24 21:06:10 2026 +0100
++++ b/zbar/decoder.h	Tue Nov 24 21:06:35 2026 +0100
+@@ -31,7 +31,7 @@
+ 
+ #include "debug.h"
+ 
+-#define NUM_CFGS (ZBAR_CFG_MAX_LEN - ZBAR_CFG_MIN_LEN + 1)
++#define NUM_CFGS (ZBAR_CFG_DEC_INT_END - ZBAR_CFG_DEC_INT_START)
+ 
+ #ifdef ENABLE_EAN
+ # include "decoder/ean.h"
+@@ -89,8 +89,8 @@
+ # define BUFFER_INCR  0x10
+ #endif
+ 
+-#define CFG(dcode, cfg) ((dcode).configs[(cfg) - ZBAR_CFG_MIN_LEN])
+-#define TEST_CFG(config, cfg) (((config) >> (cfg)) & 1)
++#define CFG(dcode, cfg) ((dcode).configs[(cfg) - ZBAR_CFG_DEC_INT_START])
++#define TEST_CFG(config, cfg) (((config) >> ((cfg) - ZBAR_CFG_DEC_BOOL_START)) & 1)
+ #define MOD(mod) (1 << (mod))
+ 
+ /* symbology independent decoder state */
+diff -r ac320a8a729e zbar/img_scanner.c
+--- a/zbar/img_scanner.c	Tue Nov 24 21:06:10 2026 +0100
++++ b/zbar/img_scanner.c	Tue Nov 24 21:06:35 2026 +0100
+@@ -64,11 +64,12 @@
+  */
+ #define CACHE_TIMEOUT     (CACHE_HYSTERESIS * 2) /* ms */
+ 
+-#define NUM_SCN_CFGS (ZBAR_CFG_Y_DENSITY - ZBAR_CFG_X_DENSITY + 1)
+-#define NUM_SYM_CFGS (ZBAR_CFG_QUALITY_THRESHOLD - ZBAR_CFG_UNCERTAINTY + 1)
++#define NUM_SCN_CFGS (ZBAR_CFG_SCN_INT_END - ZBAR_CFG_SCN_INT_START)
++#define NUM_SYM_CFGS (ZBAR_CFG_SYM_INT_END - ZBAR_CFG_SYM_INT_START)
+ 
+-#define CFG(iscn, cfg) ((iscn)->configs[(cfg) - ZBAR_CFG_X_DENSITY])
+-#define TEST_CFG(iscn, cfg) (((iscn)->config >> ((cfg) - ZBAR_CFG_POSITION)) & 1)
++#define CFG(iscn, cfg) ((iscn)->configs[(cfg) - ZBAR_CFG_SCN_INT_START])
++#define SYM_CFG(iscn, cfg, sym) ((iscn)->sym_configs[(cfg) - ZBAR_CFG_SYM_INT_START][sym])
++#define TEST_CFG(iscn, cfg) (((iscn)->config >> ((cfg) - ZBAR_CFG_SCN_BOOL_START)) & 1)
+ 
+ #ifndef NO_STATS
+ # define STAT(x) iscn->stat_##x++
+@@ -320,7 +321,7 @@
+         if((!dup && !near_thresh) || far_thresh) {
+             int type = sym->type;
+             int h = _zbar_get_symbol_hash(type);
+-            entry->cache_count = -iscn->sym_configs[0][h];
++            entry->cache_count = -SYM_CFG(iscn, ZBAR_CFG_UNCERTAINTY, h);
+         }
+         else if(dup || near_thresh)
+             entry->cache_count++;
+@@ -442,8 +443,8 @@
+             int h = _zbar_get_symbol_hash(type);
+             sym->quality++;
+             zprintf(12, "current quality: %d, threshold: %d\n", sym->quality,
+-				iscn->sym_configs[ZBAR_CFG_QUALITY_THRESHOLD - ZBAR_CFG_UNCERTAINTY][h]);
+-            if (sym->quality == iscn->sym_configs[ZBAR_CFG_QUALITY_THRESHOLD - ZBAR_CFG_UNCERTAINTY][h]) {
++                    SYM_CFG(iscn, ZBAR_CFG_QUALITY_THRESHOLD, h));
++            if (sym->quality == SYM_CFG(iscn, ZBAR_CFG_QUALITY_THRESHOLD, h)) {
+                 cache_sym(iscn, sym);
+                 iscn->syms->nsyms++;
+             }
+@@ -587,46 +588,43 @@
+             return(0);
+     }
+ 
+-    if(cfg < ZBAR_CFG_UNCERTAINTY)
++    if(cfg < ZBAR_CFG_SYM_INT_START)
+         return(zbar_decoder_set_config(iscn->dcode, sym, cfg, val));
+ 
+-    if(cfg < ZBAR_CFG_POSITION) {
+-        int c, i;
+-        if(cfg > ZBAR_CFG_QUALITY_THRESHOLD)
+-            return(1);
++    if(cfg >= ZBAR_CFG_SYM_INT_START && cfg < ZBAR_CFG_SYM_INT_END) {
++        int i;
+         if(cfg == ZBAR_CFG_QUALITY_THRESHOLD && val < 2)
+             return(1);
+-        c = cfg - ZBAR_CFG_UNCERTAINTY;
+         if(sym > ZBAR_PARTIAL) {
+             i = _zbar_get_symbol_hash(sym);
+-            iscn->sym_configs[c][i] = val;
++            SYM_CFG(iscn, cfg, i) = val;
+         }
+         else
+             for(i = 0; i < NUM_SYMS; i++)
+-                iscn->sym_configs[c][i] = val;
++                SYM_CFG(iscn, cfg, i) = val;
+         return(0);
+     }
+ 
+     if(sym > ZBAR_PARTIAL)
+         return(1);
+ 
+-    if(cfg >= ZBAR_CFG_X_DENSITY && cfg <= ZBAR_CFG_Y_DENSITY) {
++    if(cfg >= ZBAR_CFG_SCN_BOOL_START && cfg < ZBAR_CFG_SCN_BOOL_END) {
++        int bit = cfg - ZBAR_CFG_SCN_BOOL_START;
++        if(!val)
++            iscn->config &= ~(1u << bit);
++        else if(val == 1)
++            iscn->config |= (1u << bit);
++        else
++            return(1);
++        return(0);
++    }
++
++    if(cfg >= ZBAR_CFG_SCN_INT_START && cfg < ZBAR_CFG_SCN_INT_END) {
+         CFG(iscn, cfg) = val;
+         return(0);
+     }
+ 
+-    if(cfg > ZBAR_CFG_POSITION)
+-        return(1);
+-    cfg -= ZBAR_CFG_POSITION;
+-
+-    if(!val)
+-        iscn->config &= ~(1 << cfg);
+-    else if(val == 1)
+-        iscn->config |= (1 << cfg);
+-    else
+-        return(1);
+-
+-    return(0);
++    return(1);
+ }
+ 
+ void zbar_image_scanner_enable_cache (zbar_image_scanner_t *iscn,

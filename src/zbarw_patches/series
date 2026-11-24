@@ -4,3 +4,6 @@ visualc_settings
 pcard2
 decrease_uncertainty
 quality_threshold
+dynamic_quality
+refactor_settings_constants
+agentsmd

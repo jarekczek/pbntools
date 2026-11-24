@@ -1,0 +1,197 @@
+# HG changeset patch
+# Parent  8dfd783a255ce7b42002aaa83cf1bef21bc9823c
+
+diff -r 8dfd783a255c AGENTS.md
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/AGENTS.md	Tue Nov 24 21:08:41 2026 +0100
+@@ -0,0 +1,190 @@
++# AGENTS.md
++
++This repository is the ZBar barcode reader project. The part most relevant to day-to-day development is the video scanner path, centered on the `zbarcam` command-line application and the library code it uses.
++
++We don't apply TDD here.
++
++The project is built using Visual Studio (see visualc directory), so don't try to build automatically at all.
++
++It uses hg as the Version control system and mq patches over it. So the following should be ignored:
++- .hg directory
++- .hg.* files
++- *.orig files
++- *.rej files
++
++## High-level architecture
++
++`zbarcam` is deliberately thin. It does not implement scanning logic itself. Instead, it creates a `zbar_processor_t` from the core library and configures it to:
++
++- open a video device (for example `/dev/video0` or a Windows webcam device)
++- create a display window when enabled
++- read frames from the video backend
++- decode barcodes via the image scanner pipeline
++- emit decoded results to stdout or XML
++- optionally beep when a result is found
++
++The path is roughly:
++
++1. `zbarcam/zbarcam.c` parses arguments and sets options and  config values.
++2. `zbar_processor_create()` and `zbar_processor_init()` in `zbar/processor.c` prepare the processor.
++3. The processor uses the video subsystem in `zbar/video/` to open the device and pull frames.
++4. The frame data is fed into the scanner pipeline in `zbar/img_scanner.c`, `zbar/scanner.c`, and the decoder modules under `zbar/decoder/`.
++5. Decoded symbols are sent back through the callback registered by `zbar_processor_set_data_handler()`.
++6. The callback in `zbarcam.c` prints the symbol data and optionally emits XML.
++
++## Most relevant files
++
++### Entry point and user-facing behavior
++
++- `zbarcam/zbarcam.c` — main program entry point; CLI parsing; output formatting; main event loop
++- `zbarcam/Makefile.am.inc` — build wiring for the `zbarcam` binary; links `zbarcam/zbarcam` against `zbar/libzbar.la`
++
++### Core library and processor orchestration
++
++- `zbar/processor.c` — core `zbar_processor_t` implementation; startup, shutdown, handlers, format negotiation, input thread coordination
++- `zbar/processor.h` — processor structures and API declarations
++- `zbar/processor/posix.c` and `zbar/processor/win.c` — platform-specific processor internals
++- `zbar/video.c` and `zbar/video.h` — abstract video interface used by the processor
++- `zbar/window.c` and `zbar/window.h` — window/display support when display mode is enabled
++
++### Video backends
++
++- `zbar/video/v4l.c`, `zbar/video/v4l1.c`, `zbar/video/v4l2.c` — Linux V4L/V4L2 capture support
++- `zbar/video/null.c` — no-video fallback
++- `zbar/video/dshow.c` and related files under `zbar/video/` — Windows DirectShow path
++- `zbar/video/vfw.c` — older Windows video path
++
++These are the files that determine how frames enter the system and what device formats are supported.
++
++### Scanner and decoder pipeline
++
++- `zbar/img_scanner.c` and `zbar/img_scanner.h` — top-level image scanner used by the processor
++- `zbar/scanner.c` — low-level scan machinery and symbol extraction
++- `zbar/decoder/` — barcode decoders (EAN, Code 128, QR, etc.)
++- `zbar/symbol.c` and `zbar/symbol.h` — symbol metadata and output representation
++- `zbar/image.c` and `zbar/image.h` — image object handling and conversion
++
++### Specialized symbologies: PCard and PCard2
++
++These are not generic barcode families like EAN or QR. They are specialized playing-card barcodes used in card-dealing equipment, and they are relevant because `zbarcam` supports them as optional symbol decoders.
++
++- `zbar/decoder/pcard.c` — PCard decoder. Looks for border-bar layouts and fixed-width bar groups, then matches a 53-card code space (52 cards + joker). The implementation explains the detector in its file header: it searches for silent zones, estimates unit width, validates border widths, and emits symbols in the form `PCard:XY`.
++- `zbar/decoder/pcard2.c` — PCard2 decoder. A second playing-card format with different bar geometry: narrower, 4-bar pattern logic, no border bars, and verification of summed widths and black-bar widths before accepting a match. It emits symbols in the form `PCard2:XY`.
++- `zbar/decoder/pcard_defs.h` and `zbar/decoder/pcard2_defs.h` — canonical card-code tables and per-symbol matching data used by each decoder.
++- `zbar/decoder/pcard.c` and `zbar/decoder/pcard2.c` both emphasize that these decoders are intentionally conservative: they reject ambiguous scans and rely on uncertainty/quality thresholds to reduce false positives in webcam input.
++
++In practice, if you are debugging `zbarcam` on card-like video input, these are the places to inspect alongside the generic processor pipeline. The CLI help explicitly exposes the config hook used to enable them: `-S pcard.enable=1` and related settings, which are parsed by `zbar_processor_parse_config()` from `zbarcam/zbarcam.c`.
++
++### Public API and project integration
++
++- `include/zbar.h` — public C API used across tools and bindings
++- `include/zbar/Processor.h` — C++ wrapper around the processor API
++- `Makefile.am` — top-level build integration; includes `zbarcam/Makefile.am.inc` when video support is enabled
++- `configure.ac` — project configuration and feature toggles like `HAVE_VIDEO`, `HAVE_X`, etc.
++
++## Why this matters for zbarcam
++
++The most important fact is that `zbarcam` is not a custom webcam decoder. It is a thin application around the shared `libzbar` processor subsystem. If you are debugging webcam issues or frame-processing behavior, start from the following chain:
++
++- `zbarcam/zbarcam.c` for CLI and callback behavior
++- `zbar/processor.c` for `zbar_processor_init()` and thread lifecycle
++- `zbar/video/*` for device open/init and format negotiation
++- `zbar/img_scanner.c` for actual barcode scanning of frames
++
++## Build and feature toggles
++
++The repo is built with autotools. Relevant configuration knobs include:
++
++- `HAVE_VIDEO` — enables video capture support and the zbarcam target
++- `HAVE_X` / `HAVE_XV` — display/window support
++- `HAVE_JPEG` and image-loading features
++- `ENABLE_PCARD` / `ENABLE_PCARD2` — optional playing-card symbologies that are compiled into the core library
++- decoder feature flags in `configure.ac` and the source tree under `zbar/decoder/`
++
++The top-level build logic in `Makefile.am` adds the zbarcam binary only when video support is enabled:
++
++- `if HAVE_VIDEO`
++- `include $(srcdir)/zbarcam/Makefile.am.inc`
++
++## Typical debugging workflow
++
++When working on `zbarcam` issues, the best first read order is:
++
++1. [zbarcam/zbarcam.c](zbarcam/zbarcam.c)
++2. [zbar/processor.c](zbar/processor.c)
++3. [zbar/video.c](zbar/video.c)
++4. [zbar/img_scanner.c](zbar/img_scanner.c)
++5. the relevant backend under [zbar/video](zbar/video)
++
++This keeps the investigation focused on the actual runtime path from webcam -> frame -> decode -> output without chasing unrelated bindings or GUI code.
++
++## Folder map
++
++- `zbarcam/` — command-line video scanner application
++- `zbar/` — core scanning and processing library
++- `zbar/video/` — video capture backends
++- `zbar/window/` — display/window rendering
++- `zbar/processor/` — platform-specific processor support
++- `zbar/decoder/` — barcode decoders
++- `include/` — public headers
++- `test/` — project tests and sample apps
++- `examples/` — sample usage code
++- `python/`, `qt/`, `gtk/`, `java/`, `perl/` — bindings and wrappers; usually not needed when debugging zbarcam itself
++
++## Practical guidance for agents
++
++If a task is about zbarcam, prefer edits and validation in the path above. Do not start in the language bindings or GUI wrappers unless the issue is specifically about a binding. The core of the behavior lives in the processor and video layers, with `zbarcam` acting as a small orchestration front-end.
++
++## Guide: Introducing a new configuration option
++
++`zbarcam` accepts scanner and decoder configs via `-S<CONFIG>[=<VALUE>]` and `--set <CONFIG>[=<VALUE>]` (syntax: `[<symbology>.][no-]<config>[=<value>]`). These flow from `zbarcam/zbarcam.c` through `zbar_processor_parse_config()` -> `zbar_parse_config()` (`zbar/config.c`) -> `zbar_processor_set_config()` (`zbar/processor.c`) -> `zbar_image_scanner_set_config()` (`zbar/img_scanner.c`) -> `zbar_decoder_set_config()` (`zbar/decoder.c`).
++
++Note on naming: `TEST_CFG` in `zbar/decoder.h` and `zbar/img_scanner.c` is a bitmask-check macro (`((config >> cfg) & 1)`) for reading boolean configuration flags at runtime — it does **not** relate to unit testing or testing the code.
++
++### 1. Choose a category and add the enum value (`include/zbar.h`)
++
++`zbar_config_t` is partitioned into numeric ranges bounded by `ZBAR_CFG_*_START` / `ZBAR_CFG_*_END` delimiters that determine routing, array sizing, and indexing:
++
++| Category | Enum Range | Scope | Storage |
++|---|---|---|---|
++| Decoder boolean | `ZBAR_CFG_DEC_BOOL_START` (`0x00`) .. `ZBAR_CFG_DEC_BOOL_END` (`ZBAR_CFG_NUM`) | Per-symbology (or all) | Bit in decoder's `unsigned config` |
++| Decoder integer | `ZBAR_CFG_DEC_INT_START` (`0x20`) .. `ZBAR_CFG_DEC_INT_END` | Per-symbology (or all) | `int configs[NUM_CFGS]` in decoder |
++| Image-scanner per-symbology int | `ZBAR_CFG_SYM_INT_START` (`0x40`) .. `ZBAR_CFG_SYM_INT_END` | Per-symbology (or all) | `iscn->sym_configs[NUM_SYM_CFGS][NUM_SYMS]` |
++| Image-scanner global boolean | `ZBAR_CFG_SCN_BOOL_START` (`0x80`) .. `ZBAR_CFG_SCN_BOOL_END` | Scanner-wide (`sym <= ZBAR_PARTIAL`) | Bit in `iscn->config` |
++| Image-scanner global integer | `ZBAR_CFG_SCN_INT_START` (`0x100`) .. `ZBAR_CFG_SCN_INT_END` | Scanner-wide (`sym <= ZBAR_PARTIAL`) | `iscn->configs[NUM_SCN_CFGS]` |
++
++Add the new `ZBAR_CFG_*` constant to `enum zbar_config_e` right before the matching `*_END` delimiter (for decoder booleans, before `ZBAR_CFG_NUM`). Array sizes and range checks update automatically.
++
++### 2. Parse the config name (`zbar/config.c`)
++
++In `zbar_parse_config()`, add a `strncmp` branch mapping the CLI name to the new `ZBAR_CFG_*` value:
++
++- Matching is prefix-based and grouped by minimum unambiguous length (`len < 1`, `len < 2`, `len < 3`, ...); place the new check in the appropriate group so it neither shadows nor is shadowed by existing names.
++- `no-` negation and `=<value>` parsing (defaulting to `1` when omitted) are handled automatically.
++
++### 3. Store, validate, default, and read the setting
++
++- **Decoder boolean (`[ZBAR_CFG_DEC_BOOL_START, ZBAR_CFG_DEC_BOOL_END)`)**:
++  - Storage and validation (`0` or `1`) are handled automatically by `decoder_set_config_bool()` in `zbar/decoder.c`.
++  - Set non-zero defaults via `1 << ZBAR_CFG_...` in `zbar_decoder_create()` (`zbar/decoder.c`).
++  - Read with `TEST_CFG(dcode->mydec.config, ZBAR_CFG_...)` (the bitmask macro in `zbar/decoder.h`).
++- **Decoder integer (`[ZBAR_CFG_DEC_INT_START, ZBAR_CFG_DEC_INT_END)`)**:
++  - `NUM_CFGS` (`zbar/decoder.h`) and the range check in `zbar_decoder_set_config()` (`zbar/decoder.c`) update automatically from the enum delimiters.
++  - `decoder_set_config_int()` assigns `CFG(dcode->foo, cfg) = val;` for supported decoders.
++  - Set defaults in `zbar_decoder_create()` and read with `CFG(dcode->foo, ZBAR_CFG_...)`.
++- **Image-scanner per-symbology int (`[ZBAR_CFG_SYM_INT_START, ZBAR_CFG_SYM_INT_END)`)**:
++  - `NUM_SYM_CFGS` and the range check in `zbar_image_scanner_set_config()` (`zbar/img_scanner.c`) update automatically from the enum delimiters.
++  - Add any value validation in `zbar_image_scanner_set_config()`, set defaults in `zbar_image_scanner_create()`, and read via `SYM_CFG(iscn, ZBAR_CFG_..., h)`.
++- **Image-scanner global boolean (`[ZBAR_CFG_SCN_BOOL_START, ZBAR_CFG_SCN_BOOL_END)`)**:
++  - The range check in `zbar_image_scanner_set_config()` updates automatically from the enum delimiters.
++  - Set defaults in `zbar_image_scanner_create()` and read via `TEST_CFG(iscn, ZBAR_CFG_...)` (the bitmask macro in `zbar/img_scanner.c`).
++- **Image-scanner global integer (`[ZBAR_CFG_SCN_INT_START, ZBAR_CFG_SCN_INT_END)`)**:
++  - `NUM_SCN_CFGS` and the range check in `zbar_image_scanner_set_config()` (`zbar/img_scanner.c`) update automatically from the enum delimiters.
++  - Set defaults in `zbar_image_scanner_create()` and read via `CFG(iscn, ZBAR_CFG_...)`.
++
++### 4. Notes and pitfalls
++
++- No changes are required in `zbarcam/zbarcam.c` or `zbar/processor.c` for `-S` / `--set` forwarding (optionally update `note_usage` in `zbarcam/zbarcam.c` if the option should be documented in CLI help).
++- Keep each category's `*_END` strictly below the next category's `*_START` so ranges do not overlap.
++- `zbar_image_scanner_set_config()` rejects any `cfg >= ZBAR_CFG_SYM_INT_END` (scanner-global configs) when a specific symbology (`sym > ZBAR_PARTIAL`) is given.
++- `zbar_decoder_reset()` preserves decoder config fields across frames; ensure custom fields tied to a config are not cleared in `*_reset()` or `*_new_scan()`.

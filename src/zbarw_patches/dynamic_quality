@@ -1,0 +1,126 @@
+# HG changeset patch
+# Parent  847605f80ccfa1ad64e4ebe1bc24e661d1cc49ca
+
+diff -r 847605f80ccf include/zbar.h
+--- a/include/zbar.h	Tue Nov 24 20:15:13 2026 +0100
++++ b/include/zbar.h	Tue Nov 24 20:48:19 2026 +0100
+@@ -171,6 +171,7 @@
+     ZBAR_CFG_MAX_LEN,           /**< maximum data length for valid decode */
+ 
+     ZBAR_CFG_UNCERTAINTY = 0x40,/**< required video consistency frames */
++    ZBAR_CFG_QUALITY_THRESHOLD, /**< required scan lines for valid symbol (>= 2) */
+ 
+     ZBAR_CFG_POSITION = 0x80,   /**< enable scanner to collect position data */
+ 
+diff -r 847605f80ccf zbar/config.c
+--- a/zbar/config.c	Tue Nov 24 20:15:13 2026 +0100
++++ b/zbar/config.c	Tue Nov 24 20:48:19 2026 +0100
+@@ -153,6 +153,8 @@
+         *cfg = ZBAR_CFG_UNCERTAINTY;
+     else if(!strncmp(cfgstr, "position", len))
+         *cfg = ZBAR_CFG_POSITION;
++    else if(!strncmp(cfgstr, "quality", len))
++        *cfg = ZBAR_CFG_QUALITY_THRESHOLD;
+     else 
+         return(1);
+ 
+diff -r 847605f80ccf zbar/img_scanner.c
+--- a/zbar/img_scanner.c	Tue Nov 24 20:15:13 2026 +0100
++++ b/zbar/img_scanner.c	Tue Nov 24 20:48:19 2026 +0100
+@@ -65,6 +65,7 @@
+ #define CACHE_TIMEOUT     (CACHE_HYSTERESIS * 2) /* ms */
+ 
+ #define NUM_SCN_CFGS (ZBAR_CFG_Y_DENSITY - ZBAR_CFG_X_DENSITY + 1)
++#define NUM_SYM_CFGS (ZBAR_CFG_QUALITY_THRESHOLD - ZBAR_CFG_UNCERTAINTY + 1)
+ 
+ #define CFG(iscn, cfg) ((iscn)->configs[(cfg) - ZBAR_CFG_X_DENSITY])
+ #define TEST_CFG(iscn, cfg) (((iscn)->config >> ((cfg) - ZBAR_CFG_POSITION)) & 1)
+@@ -79,7 +80,7 @@
+ #define RECYCLE_BUCKETS     5
+ 
+ // This must be above 1, as we check it only when incrementing the quality.
+-#define SYMBOL_QUALITY_THRESHOLD 4
++#define DEFAULT_SYMBOL_QUALITY_THRESHOLD 4
+ 
+ typedef struct recycle_bucket_s {
+     int nsyms;
+@@ -112,7 +113,7 @@
+     unsigned config;            /* config flags */
+     unsigned ean_config;
+     int configs[NUM_SCN_CFGS];  /* int valued configurations */
+-    int sym_configs[1][NUM_SYMS]; /* per-symbology configurations */
++    int sym_configs[NUM_SYM_CFGS][NUM_SYMS]; /* per-symbology configurations */
+ 
+ #ifndef NO_STATS
+     int stat_syms_new;
+@@ -438,8 +439,11 @@
+         if(sym->type == type &&
+            sym->datalen == datalen &&
+            !memcmp(sym->data, data, datalen)) {
++            int h = _zbar_get_symbol_hash(type);
+             sym->quality++;
+-            if (sym->quality == SYMBOL_QUALITY_THRESHOLD) {
++            zprintf(12, "current quality: %d, threshold: %d\n", sym->quality,
++				iscn->sym_configs[ZBAR_CFG_QUALITY_THRESHOLD - ZBAR_CFG_UNCERTAINTY][h]);
++            if (sym->quality == iscn->sym_configs[ZBAR_CFG_QUALITY_THRESHOLD - ZBAR_CFG_UNCERTAINTY][h]) {
+                 cache_sym(iscn, sym);
+                 iscn->syms->nsyms++;
+             }
+@@ -507,6 +511,8 @@
+     zbar_image_scanner_set_config(iscn, ZBAR_PCARD2, ZBAR_CFG_UNCERTAINTY, 2);
+     zbar_image_scanner_set_config(iscn, ZBAR_CODABAR, ZBAR_CFG_UNCERTAINTY, 1);
+     zbar_image_scanner_set_config(iscn, ZBAR_COMPOSITE, ZBAR_CFG_UNCERTAINTY, 0);
++    zbar_image_scanner_set_config(iscn, 0, ZBAR_CFG_QUALITY_THRESHOLD,
++                                  DEFAULT_SYMBOL_QUALITY_THRESHOLD);
+     return(iscn);
+ }
+ 
+@@ -586,7 +592,9 @@
+ 
+     if(cfg < ZBAR_CFG_POSITION) {
+         int c, i;
+-        if(cfg > ZBAR_CFG_UNCERTAINTY)
++        if(cfg > ZBAR_CFG_QUALITY_THRESHOLD)
++            return(1);
++        if(cfg == ZBAR_CFG_QUALITY_THRESHOLD && val < 2)
+             return(1);
+         c = cfg - ZBAR_CFG_UNCERTAINTY;
+         if(sym > ZBAR_PARTIAL) {
+diff -r 847605f80ccf zbar/symbol.c
+--- a/zbar/symbol.c	Tue Nov 24 20:15:13 2026 +0100
++++ b/zbar/symbol.c	Tue Nov 24 20:48:19 2026 +0100
+@@ -71,6 +71,7 @@
+     case ZBAR_CFG_MIN_LEN: return("MIN_LEN");
+     case ZBAR_CFG_MAX_LEN: return("MAX_LEN");
+     case ZBAR_CFG_UNCERTAINTY: return("UNCERTAINTY");
++    case ZBAR_CFG_QUALITY_THRESHOLD: return("QUALITY_THRESHOLD");
+     case ZBAR_CFG_POSITION: return("POSITION");
+     case ZBAR_CFG_X_DENSITY: return("X_DENSITY");
+     case ZBAR_CFG_Y_DENSITY: return("Y_DENSITY");
+diff -r 847605f80ccf zbar/symbol.h
+--- a/zbar/symbol.h	Tue Nov 24 20:15:13 2026 +0100
++++ b/zbar/symbol.h	Tue Nov 24 20:48:19 2026 +0100
+@@ -27,7 +27,10 @@
+ #include <zbar.h>
+ #include "refcnt.h"
+ 
+-#define NUM_SYMS  20
++/* _zbar_get_symbol_hash() masks results with 0x1f (range 0..31);
++ * ZBAR_PCARD (hash 29) and ZBAR_PCARD2 (hash 23) exceed the original 20 slots
++ */
++#define NUM_SYMS  32
+ 
+ typedef struct point_s {
+     int x, y;
+diff -r 847605f80ccf zbarcam/zbarcam.c
+--- a/zbarcam/zbarcam.c	Tue Nov 24 20:15:13 2026 +0100
++++ b/zbarcam/zbarcam.c	Tue Nov 24 20:48:19 2026 +0100
+@@ -56,6 +56,8 @@
+     "\n"
+     "                    For example, -S pcard.enable=1 enables PCard scanning.\n"
+     "                    PCard scanning is disabled by default.\n"
++    "                    -S [symbology.]quality=<N> sets the symbol quality\n"
++    "                    threshold (integer >= 2, default 4).\n"
+     /* FIXME overlay level */
+     "\n";
+ 
