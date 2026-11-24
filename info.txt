@@ -18,6 +18,7 @@ RELEASE
 - git commit and push
 - verify all is commited
 - gradlew release
+- verify it works
 - Rename release files, remove commit ref.
 - Upload to home page (3 release files, 2 help files).
 - Test help online:

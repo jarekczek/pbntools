@@ -43,7 +43,7 @@
 <property name="git" value="git" />
 <property name="doxygen" value="doxygen" />
 <property name="latex2html" value="latex2html" />
-<property name="jsoupVersion" value="1.7.3" />
+<property name="jsoupVersion" value="1.23.2" />
 
 <property name="compDir" location="${basedir}/work/comp" />
 <property name="compDirTest" location="${basedir}/work/comp-test" />
